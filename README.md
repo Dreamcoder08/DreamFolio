@@ -28,8 +28,8 @@ A high-performance portfolio built with Astro, React, and Tailwind CSS, optimize
 
 ```bash
 # Clone the repository
-git clone https://github.com/dreamcoder08/dreamfolio-astro.git
-cd dreamfolio-astro
+git clone https://github.com/dreamcoder08/DreamFolio.git
+cd DreamFolio
 
 # Install dependencies
 pnpm install
