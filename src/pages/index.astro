@@ -1,55 +1,101 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EnhancedNavigation from '../components/EnhancedNavigation.tsx';
+import { Navbar } from '../components/ui/Navbar';
 import EnhancedHeroSection from '../components/sections/EnhancedHero.tsx';
-import FeaturedProjectsSection from '../components/sections/FeaturedProjectsSection.astro';
+import { EvidenceEngine } from '../components/interactive/EvidenceEngine.tsx';
 import TrinitySection from '../components/sections/TrinitySection.astro';
+import FeaturedProjectsSection from '../components/sections/FeaturedProjectsSection.astro';
 import CollaborationSection from '../components/sections/CollaborationSection.tsx';
 import ContactSection from '../components/sections/ContactSection.tsx';
 ---
 
 <BaseLayout
-  title="DreamFolio | Dreamcoder08 - Builder de IA e infraestructura"
-  description="Builder independiente enfocado en productos financieros confiables, resiliencia operativa y auditabilidad por diseno."
+  title="DreamFolio | Systems Architect - Audit-First AI Infrastructure"
+  description="I build high-integrity AI infrastructure for domains where trust is expensive and software must explain itself."
 >
-  <!-- Enhanced Navigation -->
-  <EnhancedNavigation client:idle />
+  <!-- System Dock Navigation -->
+  <Navbar client:load />
 
-  <!-- Hero Section -->
-  <section id="hero">
-    <EnhancedHeroSection client:visible />
-  </section>
+  <main>
+    <!-- Section 01: Hero -->
+    <section id="hero">
+      <EnhancedHeroSection client:load />
+    </section>
 
-  <!-- Trinity Section -->
-  <TrinitySection />
-
-  <!-- Projects Section -->
-  <section id="projects">
-    <FeaturedProjectsSection />
-  </section>
-
-  <!-- Collaboration Section -->
-  <section id="collaboration">
-    <CollaborationSection client:visible />
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <ContactSection client:visible />
-  </section>
-
-  <!-- Footer -->
-  <footer class="border-t border-white/6 py-12 bg-black/40 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div className="flex justify-center mb-6">
-        <div className="h-px w-12 bg-primary/40" />
+    <!-- Section 02: Interactive Logic -->
+    <section class="layout-grid">
+      <div class="col-span-12">
+        <EvidenceEngine client:visible />
       </div>
-      <p class="text-sm font-display font-medium text-zinc-300 tracking-wide uppercase">
-        Infraestructura confiable, diseno claro.
-      </p>
-      <p class="mt-4 text-[11px] font-code text-zinc-500 uppercase tracking-[0.2em]">
-        © 2026 DreamFolio — Diseno de infraestructura
-      </p>
+    </section>
+
+    <!-- Section 03: Operating Thesis & Principles -->
+    <TrinitySection />
+
+    <!-- Section 04: Public Systems Archive -->
+    <section id="systems" class="py-24">
+      <div class="layout-grid mb-12">
+        <div class="col-span-12">
+          <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.5em] mb-4">Section 03 // Selected Systems</p>
+          <h2 class="text-4xl md:text-6xl font-display font-black text-foreground italic tracking-tighter">Unit Catalog.</h2>
+        </div>
+      </div>
+      <FeaturedProjectsSection />
+    </section>
+
+    <!-- Section 05: Technical Collaboration -->
+    <section id="collaboration">
+      <CollaborationSection client:visible />
+    </section>
+
+    <!-- Section 06: Technical Intake -->
+    <section id="contact">
+      <ContactSection client:visible />
+    </section>
+  </main>
+
+  <!-- System Metadata Footer -->
+  <footer class="bg-background-deep border-t border-white/5 py-24 overflow-hidden">
+    <div class="layout-grid">
+      <div class="col-span-4 md:col-span-6 lg:col-span-6 space-y-8">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-full bg-background-soft border border-white/10 flex items-center justify-center shadow-clay">
+            <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+          </div>
+          <span class="text-xl font-display font-black text-foreground tracking-tighter italic">DreamFolio <span class="text-muted-text/30">v2.5.0</span></span>
+        </div>
+        <p class="max-w-xs text-sm text-muted-text leading-relaxed font-medium">
+          An editorial systems archive designed for auditability and high-stakes technical signal.
+        </p>
+      </div>
+
+      <div class="col-span-4 md:col-span-2 lg:col-span-3 space-y-6 mt-12 md:mt-0">
+        <h5 class="font-mono text-[9px] font-black text-foreground/40 uppercase tracking-[0.3em]">Navigation Metadata</h5>
+        <ul class="space-y-3">
+          {['Systems', 'Principles', 'Intake'].map((item) => (
+            <li>
+              <a href={`#${item.toLowerCase()}`} class="text-xs font-black uppercase tracking-widest text-muted-text hover:text-primary transition-colors">
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col-span-4 md:col-span-4 lg:col-span-3 space-y-6 mt-12 lg:mt-0">
+        <h5 class="font-mono text-[9px] font-black text-foreground/40 uppercase tracking-[0.3em]">Environment</h5>
+        <div class="space-y-2 font-mono text-[10px] text-muted-text/50 uppercase font-bold tracking-widest">
+          <p>Location: <span class="text-foreground">LATAM // Global</span></p>
+          <p>Uptime: <span class="text-sage">99.98% Portfolio Integrity</span></p>
+          <p>Stack: <span class="text-accent/60">Astro + Soft Clay Engine</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-24 border-t border-white/5 pt-12 text-center px-6">
+      <span class="font-mono text-[9px] text-muted-text/20 uppercase tracking-[1em] block truncate">
+        Audit-First Infrastructure © 2026 // Distributed Decision Engine
+      </span>
     </div>
   </footer>
 </BaseLayout>

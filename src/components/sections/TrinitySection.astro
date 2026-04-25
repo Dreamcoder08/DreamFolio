@@ -1,98 +1,64 @@
 ---
-import { ArrowUpRight, BrainCircuit, Cpu, ShieldCheck } from 'lucide-react'
+import { ShieldCheck, BrainCircuit, Cpu, ArrowRight } from 'lucide-react'
 
-const focusAreas = [
+const principles = [
   {
-    title: 'Resiliencia',
-    summary:
-      'Diseno arquitectura defensiva para entornos reales con riesgo operativo.',
-    icon: ShieldCheck,
-    points: ['Reduccion de superficie de ataque', 'Comunicacion Zero Trust', 'Modelado de amenazas'],
+    title: "Deterministic Traceability",
+    desc: "Every state transition must be auditable. We don't trust logs; we trust immutable evidence trails.",
+    metric: "100% Audit Coverage",
+    accent: "text-primary"
   },
   {
-    title: 'Arquitectura',
-    summary:
-      'Construyo dominios claros y arquitectura desacoplada para FinTech y GovTech.',
-    icon: BrainCircuit,
-    points: ['Hexagonal / Onion', 'Orquestacion por eventos', 'Modelado de dominio'],
+    title: "Constraint-First Architecture",
+    desc: "Systems are defined by what they CANNOT do. Limits are the primary defense against operational entropy.",
+    metric: "Strict Invariants",
+    accent: "text-sage"
   },
   {
-    title: 'Claridad',
-    summary:
-      'Priorizo interfaces claras para toma de decisiones en contextos exigentes.',
-    icon: Cpu,
-    points: ['Render estatico primero', 'Jerarquia de informacion', 'Accesibilidad consistente'],
-  },
-]
+    title: "Resilience over Uptime",
+    desc: "Uptime is vanity. Resilience—the ability to degrade gracefully and recover autonomously—is sanity.",
+    metric: "Self-Healing Cycles",
+    accent: "text-lavender"
+  }
+];
 ---
 
-<section id="trinity" class="relative overflow-hidden bg-black/45 py-16 sm:py-20 lg:py-24">
-  <div
-    class="absolute inset-0 opacity-60"
-    style="background:
-      radial-gradient(circle at 20% 18%, rgba(255,255,255,0.045), transparent 18%),
-      radial-gradient(circle at 78% 24%, rgba(255,255,255,0.04), transparent 20%);"
-    aria-hidden="true"
-  >
-  </div>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl">
-      <p class="font-code text-[11px] uppercase tracking-[0.2em] text-zinc-500">
-        Enfoque de trabajo
+<section id="trinity" class="relative overflow-hidden bg-background-deep py-32 sm:py-40">
+  <div class="layout-grid">
+    
+    <div class="col-span-4 md:col-span-8 lg:col-span-12 mb-20 text-center lg:text-left">
+      <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.5em] mb-8">
+        Section 02 // Architectural Invariants
       </p>
-      <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white tracking-[-0.03em]">
-        Tres pilares,
-        <span class="gradient-text-cyber"> una direccion tecnica</span>
+      <h2 class="text-[var(--text-fluid-display)] font-display font-black text-foreground tracking-tighter leading-[0.95] italic max-w-5xl">
+        "Software is a <span class="text-muted-text/20 not-italic">liability</span> unless it can provide <span class="text-primary underline underline-offset-[12px] decoration-white/10">deterministic evidence</span> of its intent."
       </h2>
-      <p class="mt-5 text-base leading-8 text-zinc-300">
-        Seguridad, arquitectura y claridad de interfaz para construir productos confiables.
-      </p>
     </div>
 
-    <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {
-        focusAreas.map((area, index) => {
-          const Icon = area.icon
-
-          return (
-            <article
-              class:list={[
-                'rounded-[1.8rem] border border-white/8 bg-white/[0.02] p-5 sm:p-7 backdrop-blur-sm',
-                'transition-all duration-300 hover:border-white/14 hover:bg-white/[0.03] hover:-translate-y-1',
-                index === 0 && 'lg:row-span-2',
-              ]}
-            >
-              <div class="flex items-center justify-between">
-                <div class="rounded-2xl border border-white/8 bg-white/[0.025] p-3 text-zinc-100">
-                  <Icon class="h-6 w-6" strokeWidth={1.5} />
-                </div>
-                <span class="font-code text-[10px] uppercase tracking-[0.18em] text-zinc-500">
-                  core
-                </span>
-              </div>
-
-              <h3 class="mt-6 text-2xl font-display font-semibold text-white">
-                {area.title}
+    <div class="col-span-4 md:col-span-8 lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {principles.map((p, i) => (
+        <div class="group">
+          <div class="glass-clay p-8 md:p-12 h-full flex flex-col justify-between border-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-primary/20">
+            <div class="space-y-6">
+              <span class="font-mono text-[10px] text-muted-text/30 font-black">SYSTEM_PRINCIPLE_0{i + 1}</span>
+              <h3 class="text-3xl md:text-4xl font-display font-black text-foreground tracking-tighter leading-tight italic">
+                {p.title}
               </h3>
-              <p class="mt-4 text-sm leading-7 text-zinc-400">
-                {area.summary}
+              <p class="text-base text-muted-text leading-relaxed font-medium">
+                {p.desc}
               </p>
-
-              <div class="mt-6 space-y-3">
-                {
-                  area.points.map((point) => (
-                    <div class="flex items-center justify-between rounded-2xl border border-white/6 bg-black/20 px-4 py-3">
-                      <span class="text-sm text-zinc-300">{point}</span>
-                      <ArrowUpRight class="h-4 w-4 text-zinc-500" strokeWidth={1.4} />
-                    </div>
-                  ))
-                }
-              </div>
-            </article>
-          )
-        })
-      }
+            </div>
+            
+            <div class="pt-8 mt-8 border-t border-white/5 flex justify-between items-center">
+              <span class:list={["font-mono text-[10px] font-black uppercase tracking-widest", p.accent]}>
+                {p.metric}
+              </span>
+              <ArrowRight class="w-4 h-4 text-muted-text/20 group-hover:text-primary transition-colors" />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
+
   </div>
 </section>

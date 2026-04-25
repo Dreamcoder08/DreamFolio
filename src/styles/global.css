@@ -1,213 +1,81 @@
 @import "tailwindcss";
 
 @theme {
-  /* Cocoa Glass / Soft Clay Palette - High Contrast Edition */
-  --color-background: #120d09; /* Deeper for better contrast */
+  /* Cocoa Glass / Soft Clay Palette 2026 */
+  --color-background: #120d09;
   --color-background-soft: #1c140e;
   --color-background-deep: #080604;
-  --color-foreground: #f7f0eb; /* Brighter cream for AA/AAA contrast */
-
-  --color-primary: #ffc285; /* Brighter Caramel */
-  --color-primary-foreground: #120d09;
-  --color-secondary: #e9d5c3; /* Brighter Beige */
-  --color-secondary-foreground: #120d09;
-  --color-accent: #f7d692; /* Brighter Lucuma */
-  --color-accent-foreground: #120d09;
-
-  --color-card: rgba(36, 25, 17, 0.85); /* More opaque */
-  --color-card-foreground: #f7f0eb;
-  --color-popover: rgba(28, 20, 14, 0.96);
-  --color-popover-foreground: #f7f0eb;
-
-  --color-muted: #2a1e15;
-  --color-muted-foreground: #cbb8a9; /* Higher contrast for secondary info */
-  --color-border: rgba(233, 213, 195, 0.22); /* More defined */
-  --color-input: rgba(233, 213, 195, 0.12);
-  --color-ring: #ffc285;
-
-  --color-destructive: #ffb4ab; /* Melon */
-  --color-destructive-foreground: #120d09;
-
-  /* Refined Accents */
+  --color-foreground: #f7f0eb;
+  
+  --color-primary: #ffc285; /* Caramel */
+  --color-accent: #f7d692;  /* Lucuma */
+  
   --color-sage: #b3d4b4;
   --color-lavender: #b8b4d4;
-  --color-cyan: #b4d3d4;
-  --color-mauve: #d4b4d4;
+  --color-cyan-soft: #b4d3d4;
+  --color-muted-text: #cbb8a9;
 
-  /* Shape Tokens - Large & Smooth */
-  --radius-xl: 2.25rem; /* 36px */
-  --radius-lg: 1.75rem; /* 28px */
-  --radius-md: 1.125rem; /* 18px */
-  --radius-sm: 0.75rem; /* 12px */
+  /* Typography Scales */
+  --text-fluid-hero: clamp(3rem, 10vw + 1rem, 10rem);
+  --text-fluid-display: clamp(2.5rem, 8vw + 1rem, 7rem);
+  --text-fluid-body: clamp(1rem, 0.5vw + 0.8rem, 1.35rem);
 
-  --font-body: "Inter", "IBM Plex Sans", system-ui, sans-serif;
-  --font-headline: "Instrument Sans", "Manrope", system-ui, sans-serif;
-  --font-code: "JetBrains Mono", "IBM Plex Mono", monospace;
-  --font-tech: "Space Grotesk", system-ui, sans-serif;
-  --font-display: "Instrument Sans", "Manrope", system-ui, sans-serif;
-}
+  --font-display: "Instrument Sans", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
-:root {
-  --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.45);
+  /* Soft Clay Shadows */
+  --shadow-clay: 0 20px 50px rgba(0, 0, 0, 0.5), 
+                 inset 0 1px 0 rgba(247, 240, 235, 0.15),
+                 inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  
   --shadow-elevated: 0 35px 90px rgba(0, 0, 0, 0.65);
-  --shadow-hairline: inset 0 1px 0 rgba(247, 240, 235, 0.15);
-  
-  --glow-caramel: 0 0 0 1px rgba(255, 194, 133, 0.12), 0 20px 70px rgba(255, 194, 133, 0.08);
-  --glow-lucuma: 0 0 0 1px rgba(247, 214, 146, 0.12), 0 20px 70px rgba(247, 214, 146, 0.08);
-  
-  --panel-gradient:
-    linear-gradient(135deg, rgba(247, 240, 235, 0.12) 0%, rgba(233, 213, 195, 0.05) 100%),
-    rgba(18, 13, 9, 0.85);
+}
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-background overflow-x-hidden;
+    min-height: 100dvh;
+    text-rendering: optimizeLegibility;
+    font-family: var(--font-body);
     
-  --text-gradient-caramel: linear-gradient(135deg, #f7f0eb 0%, #ffc285 45%, #f7d692 100%);
-}
+    background-image: 
+      radial-gradient(circle at 5% 5%, rgba(255, 194, 133, 0.05), transparent 30%),
+      radial-gradient(circle at 95% 95%, rgba(179, 212, 180, 0.05), transparent 30%);
+  }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  border-color: var(--color-border);
-}
-
-html {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(233, 213, 195, 0.3) #120d09;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: var(--font-body);
-  line-height: 1.625;
-  letter-spacing: -0.011em;
-  color: var(--color-foreground);
-  background:
-    radial-gradient(circle at 18% 12%, rgba(255, 194, 133, 0.12), transparent 30%),
-    radial-gradient(circle at 82% 18%, rgba(212, 180, 212, 0.08), transparent 26%),
-    radial-gradient(circle at 72% 80%, rgba(179, 212, 180, 0.08), transparent 28%),
-    linear-gradient(135deg, #120d09 0%, #1c140e 45%, #2a1e15 100%);
-  position: relative;
-}
-
-/* Noise Layer Overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(rgba(251, 185, 116, 0.32) 1px, transparent 1px),
-    radial-gradient(rgba(238, 224, 213, 0.18) 1px, transparent 1px);
-  background-size: 34px 34px, 89px 89px;
-  opacity: 0.12;
-  pointer-events: none;
-  z-index: 1;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-input,
-textarea {
-  font: inherit;
-}
-
-::selection {
-  color: #120d09;
-  background: #ffc285;
-}
-
-:focus-visible {
-  outline: 2px solid rgba(255, 194, 133, 0.85);
-  outline-offset: 4px;
+  /* Animated Noise Overlay */
+  body::before {
+    content: "";
+    @apply fixed inset-0 pointer-events-none z-[5000] opacity-[0.035];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 }
 
 @layer utilities {
-  .glass {
-    background: var(--panel-gradient);
-    backdrop-filter: blur(32px) saturate(120%);
-    border: 1px solid rgba(233, 213, 195, 0.22);
-    box-shadow: var(--shadow-soft), var(--shadow-hairline);
-    border-radius: var(--radius-lg);
-  }
-
-  .glass-card {
-    background:
-      linear-gradient(145deg, rgba(247, 240, 235, 0.12), rgba(255, 194, 133, 0.05)),
-      rgba(28, 20, 14, 0.88);
-    backdrop-filter: blur(28px) saturate(115%);
-    border: 1px solid rgba(233, 213, 195, 0.18);
-    box-shadow: var(--shadow-soft), var(--shadow-hairline);
-    border-radius: var(--radius-lg);
-  }
-
-  .glass-button {
-    background:
-      linear-gradient(180deg, rgba(247, 240, 235, 0.12), rgba(233, 213, 195, 0.05));
-    border: 1px solid rgba(233, 213, 195, 0.25);
-    box-shadow: var(--shadow-hairline);
-    border-radius: 999px;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  .glass-clay {
+    @apply backdrop-blur-3xl bg-background-soft/70 border border-white/10 shadow-clay rounded-[2.5rem];
   }
   
-  .glass-button:hover {
-    background: rgba(255, 194, 133, 0.16);
-    border-color: rgba(255, 194, 133, 0.35);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-soft);
-  }
-
-  .bg-grid-pattern {
-    background-image:
-      radial-gradient(rgba(233, 213, 195, 0.12) 1px, transparent 1px);
-    background-size: 32px 32px;
+  .layout-grid {
+    @apply grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-x-6 md:gap-x-10 px-6 md:px-12 max-w-[1700px] mx-auto;
   }
 
   .gradient-text-primary {
-    background: var(--text-gradient-caramel);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: #ffc285;
+    @apply bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent;
   }
-
-  .text-shadow-glow {
-    text-shadow: 0 10px 35px rgba(255, 194, 133, 0.2);
-  }
-
-  .hover-soft {
-    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .hover-soft:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 194, 133, 0.32);
-    background-color: rgba(255, 194, 133, 0.06);
-    box-shadow: var(--shadow-elevated);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  
+  .touch-target {
+    @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
   }
 }
