@@ -4,9 +4,11 @@ import { Navbar } from '../components/ui/Navbar';
 import EnhancedHeroSection from '../components/sections/EnhancedHero.tsx';
 import { EvidenceEngine } from '../components/interactive/EvidenceEngine.tsx';
 import TrinitySection from '../components/sections/TrinitySection.astro';
-import FeaturedProjectsSection from '../components/sections/FeaturedProjectsSection.astro';
+import TechnicalDepth from '../components/sections/TechnicalDepth.astro';
+import { SystemUnit } from '../components/sections/SystemUnit.tsx';
+import { TechnicalIntake } from '../components/sections/TechnicalIntake.tsx';
 import CollaborationSection from '../components/sections/CollaborationSection.tsx';
-import ContactSection from '../components/sections/ContactSection.tsx';
+import { mainSystems } from '../data/systems';
 ---
 
 <BaseLayout
@@ -22,7 +24,7 @@ import ContactSection from '../components/sections/ContactSection.tsx';
       <EnhancedHeroSection client:load />
     </section>
 
-    <!-- Section 02: Interactive Logic -->
+    <!-- Section 02: Evidence Pipeline Visualizer -->
     <section class="layout-grid">
       <div class="col-span-12">
         <EvidenceEngine client:visible />
@@ -32,49 +34,72 @@ import ContactSection from '../components/sections/ContactSection.tsx';
     <!-- Section 03: Operating Thesis & Principles -->
     <TrinitySection />
 
-    <!-- Section 04: Public Systems Archive -->
-    <section id="systems" class="py-24">
-      <div class="layout-grid mb-12">
-        <div class="col-span-12">
-          <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.5em] mb-4">Section 03 // Selected Systems</p>
-          <h2 class="text-4xl md:text-6xl font-display font-black text-foreground italic tracking-tighter">Unit Catalog.</h2>
+    <!-- Section 04: Public Systems Unit Catalog -->
+    <section id="systems" class="py-32 bg-background-deep relative">
+      <div class="layout-grid mb-20">
+        <div class="col-span-4 md:col-span-8 lg:col-span-12">
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div class="space-y-4">
+              <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">Section 03 // Selected Systems</p>
+              <h2 class="text-5xl md:text-7xl font-display font-black text-foreground italic tracking-tighter leading-none">
+                Unit Catalog.
+              </h2>
+            </div>
+            <p class="max-w-md text-lg text-muted-text font-medium leading-relaxed">
+              Desglose tecnico de infraestructuras publicas, laboratorios de investigacion y sistemas de mision critica.
+            </p>
+          </div>
         </div>
       </div>
-      <FeaturedProjectsSection />
+
+      <div class="layout-grid gap-y-12 md:gap-y-16">
+        {mainSystems.map((sys) => (
+          <div class="col-span-4 md:col-span-8 lg:col-span-12">
+            <SystemUnit client:visible system={sys} />
+          </div>
+        ))}
+      </div>
     </section>
 
-    <!-- Section 05: Technical Collaboration -->
+    <!-- Section 05: Architectural Layers -->
+    <TechnicalDepth />
+
+    <!-- Section 06: Open Source & Infrastructure -->
     <section id="collaboration">
       <CollaborationSection client:visible />
     </section>
 
-    <!-- Section 06: Technical Intake -->
-    <section id="contact">
-      <ContactSection client:visible />
-    </section>
+    <!-- Section 07: Intake Handshake -->
+    <TechnicalIntake client:visible />
   </main>
 
   <!-- System Metadata Footer -->
-  <footer class="bg-background-deep border-t border-white/5 py-24 overflow-hidden">
+  <footer class="bg-background-deep border-t border-white/5 py-32 overflow-hidden">
     <div class="layout-grid">
-      <div class="col-span-4 md:col-span-6 lg:col-span-6 space-y-8">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-background-soft border border-white/10 flex items-center justify-center shadow-clay">
-            <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+      <div class="col-span-4 md:col-span-6 lg:col-span-6 space-y-10">
+        <div class="flex items-center gap-5">
+          <div class="w-12 h-12 rounded-full bg-background-soft border border-white/10 flex items-center justify-center shadow-clay">
+            <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></div>
           </div>
-          <span class="text-xl font-display font-black text-foreground tracking-tighter italic">DreamFolio <span class="text-muted-text/30">v2.5.0</span></span>
+          <span class="text-2xl font-display font-black text-foreground tracking-tighter italic uppercase">
+            DreamFolio <span class="text-muted-text/30 ml-2">v2.5.0</span>
+          </span>
         </div>
-        <p class="max-w-xs text-sm text-muted-text leading-relaxed font-medium">
-          An editorial systems archive designed for auditability and high-stakes technical signal.
+        <p class="max-w-sm text-base text-muted-text leading-relaxed font-medium">
+          An editorial systems archive designed for auditability and high-stakes technical signal. Built for domains where reliability is non-negotiable.
         </p>
       </div>
 
-      <div class="col-span-4 md:col-span-2 lg:col-span-3 space-y-6 mt-12 md:mt-0">
-        <h5 class="font-mono text-[9px] font-black text-foreground/40 uppercase tracking-[0.3em]">Navigation Metadata</h5>
-        <ul class="space-y-3">
-          {['Systems', 'Principles', 'Intake'].map((item) => (
-            <li>
-              <a href={`#${item.toLowerCase()}`} class="text-xs font-black uppercase tracking-widest text-muted-text hover:text-primary transition-colors">
+      <div class="col-span-4 md:col-span-2 lg:col-span-3 space-y-8 mt-16 md:mt-0">
+        <h5 class="font-mono text-[10px] font-black text-foreground/40 uppercase tracking-[0.3em]">Navigation Metadata</h5>
+        <ul class="space-y-4">
+          {['Systems', 'Audit', 'Handshake', 'Profile'].map((item) => (
+            <li key={item}>
+              <a 
+                href={item === 'Profile' ? 'https://github.com/dreamcoder08' : `#${item.toLowerCase() === 'handshake' ? 'contact' : item.toLowerCase()}`} 
+                class="text-sm font-black uppercase tracking-widest text-muted-text hover:text-primary transition-all flex items-center group"
+              >
+                <span class="w-0 h-px bg-primary mr-0 group-hover:w-4 group-hover:mr-2 transition-all"></span>
                 {item}
               </a>
             </li>
@@ -82,18 +107,19 @@ import ContactSection from '../components/sections/ContactSection.tsx';
         </ul>
       </div>
 
-      <div class="col-span-4 md:col-span-4 lg:col-span-3 space-y-6 mt-12 lg:mt-0">
-        <h5 class="font-mono text-[9px] font-black text-foreground/40 uppercase tracking-[0.3em]">Environment</h5>
-        <div class="space-y-2 font-mono text-[10px] text-muted-text/50 uppercase font-bold tracking-widest">
-          <p>Location: <span class="text-foreground">LATAM // Global</span></p>
-          <p>Uptime: <span class="text-sage">99.98% Portfolio Integrity</span></p>
-          <p>Stack: <span class="text-accent/60">Astro + Soft Clay Engine</span></p>
+      <div class="col-span-4 md:col-span-4 lg:col-span-3 space-y-8 mt-16 lg:mt-0">
+        <h5 class="font-mono text-[10px] font-black text-foreground/40 uppercase tracking-[0.3em]">System Environment</h5>
+        <div class="space-y-3 font-mono text-[11px] text-muted-text/50 uppercase font-bold tracking-widest">
+          <p>Location: <span class="text-foreground">LATAM Node // Global Execution</span></p>
+          <p>Uptime: <span class="text-sage">99.99% Portfolio Integrity</span></p>
+          <p>Hash: <span class="text-primary/40 break-all">0x8F2A7E...E41D9C</span></p>
+          <p class="pt-6 text-accent/60 italic">— Built with Astro + Soft Clay Engine</p>
         </div>
       </div>
     </div>
 
-    <div class="mt-24 border-t border-white/5 pt-12 text-center px-6">
-      <span class="font-mono text-[9px] text-muted-text/20 uppercase tracking-[1em] block truncate">
+    <div class="mt-32 border-t border-white/5 pt-12 text-center px-6">
+      <span class="font-mono text-[10px] text-muted-text/20 uppercase tracking-[1.2em] block truncate leading-none">
         Audit-First Infrastructure © 2026 // Distributed Decision Engine
       </span>
     </div>

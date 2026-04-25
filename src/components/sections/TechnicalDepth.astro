@@ -1,0 +1,89 @@
+---
+import { Box, Code2, ShieldAlert, Zap } from 'lucide-react';
+
+const layers = [
+  {
+    id: "01",
+    title: "Architecture",
+    subtitle: "Hexagonal & Event-Driven",
+    desc: "Decoupling business logic from infrastructure ensures that core rules are testable, immutable, and independent of external failure or framework churn.",
+    icon: Box,
+    accent: "text-primary"
+  },
+  {
+    id: "02",
+    title: "Testing",
+    subtitle: "Strict Property-Based Coverage",
+    desc: "Beyond traditional unit tests. I leverage property-based testing to verify architectural invariants across thousands of automatically generated edge-case scenarios.",
+    icon: Code2,
+    accent: "text-sage"
+  },
+  {
+    id: "03",
+    title: "Security",
+    subtitle: "Audit-First & Zero Trust",
+    desc: "Zero-trust by default. Every system mutation and administrative decision is cryptographically signed and stored for forensic, human-readable review.",
+    icon: ShieldAlert,
+    accent: "text-lavender"
+  },
+  {
+    id: "04",
+    title: "Performance",
+    subtitle: "Deterministic Runtimes",
+    desc: "Utilizing memory-safe runtimes (Rust, Go) for mission-critical paths to ensure sub-millisecond latency and predictable resource utilization under heavy load.",
+    icon: Zap,
+    accent: "text-accent"
+  }
+];
+---
+
+<section id="audit" class="py-32 md:py-48 bg-background relative overflow-hidden">
+  <div class="layout-grid">
+    
+    <div class="col-span-4 md:col-span-8 lg:col-span-5 space-y-10">
+      <div class="space-y-4">
+        <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">Section 04 // Technical Depth</p>
+        <h2 class="text-5xl lg:text-7xl font-display font-black tracking-tighter text-foreground italic leading-[0.95]">
+          The Depth of the <span class="text-accent">Audit.</span>
+        </h2>
+      </div>
+      
+      <p class="text-lg md:text-xl text-muted-text leading-relaxed font-medium max-w-md">
+        Architecture is the art of managing risk. My systems are built on four non-negotiable layers of technical integrity and operational clarity.
+      </p>
+      
+      <div class="pt-8 space-y-6">
+         <div class="flex items-center gap-4 text-[10px] font-mono font-black text-primary uppercase tracking-widest bg-primary/5 w-fit px-4 py-2 rounded-full border border-primary/10">
+           <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+           System Status: Optimal
+         </div>
+         <div class="flex items-center gap-4 text-[10px] font-mono font-black text-sage uppercase tracking-widest bg-sage/5 w-fit px-4 py-2 rounded-full border border-sage/10">
+           <span class="w-2 h-2 rounded-full bg-sage"></span>
+           Integrity: Verified
+         </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 md:col-span-8 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 lg:mt-0">
+      {layers.map((layer) => (
+        <div class="glass-clay p-8 md:p-10 border-white/5 hover:border-primary/30 transition-all duration-500 group">
+          <div class="flex justify-between items-start mb-8">
+            <span class="font-mono text-[10px] font-black text-muted-text/30">LAYER_{layer.id}</span>
+            <layer.icon class:list={["w-6 h-6 transition-transform group-hover:scale-110", layer.accent]} strokeWidth={1.5} />
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <h4 class:list={["font-mono text-[10px] font-black uppercase tracking-[0.2em] mb-2", layer.accent]}>{layer.title}</h4>
+              <p class="text-xl font-display font-black text-foreground tracking-tight leading-none italic">{layer.subtitle}</p>
+            </div>
+            <p class="text-sm text-muted-text leading-relaxed font-medium">
+              {layer.desc}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
