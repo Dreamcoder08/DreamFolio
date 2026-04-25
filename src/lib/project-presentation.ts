@@ -48,23 +48,23 @@ export function getProjectTone(domain: string, bucket: string): ProjectTone {
 export function getProjectCoverClasses(tone: ProjectTone): string {
   const toneClasses: Record<ProjectTone, string> = {
     arkonyx:
-      'from-white/[0.14] via-zinc-300/[0.08] to-transparent',
+      'from-primary/20 via-primary/5 to-transparent',
     govtech:
-      'from-zinc-100/[0.12] via-white/[0.05] to-transparent',
+      'from-cyan/20 via-cyan/5 to-transparent',
     agritech:
-      'from-zinc-200/[0.11] via-zinc-400/[0.05] to-transparent',
+      'from-sage/20 via-sage/5 to-transparent',
     legaltech:
-      'from-zinc-100/[0.1] via-zinc-500/[0.05] to-transparent',
+      'from-lavender/20 via-lavender/5 to-transparent',
     media:
-      'from-zinc-300/[0.1] via-zinc-100/[0.04] to-transparent',
+      'from-mauve/20 via-mauve/5 to-transparent',
     systems:
-      'from-white/[0.08] via-zinc-500/[0.04] to-transparent',
+      'from-secondary/20 via-secondary/5 to-transparent',
     design:
-      'from-zinc-100/[0.1] via-zinc-300/[0.05] to-transparent',
+      'from-mauve/15 via-mauve/5 to-transparent',
     archive:
-      'from-zinc-400/[0.08] via-zinc-600/[0.04] to-transparent',
+      'from-muted/20 via-muted/5 to-transparent',
     lab:
-      'from-white/[0.07] via-zinc-500/[0.03] to-transparent',
+      'from-accent/20 via-accent/5 to-transparent',
   };
 
   return toneClasses[tone];

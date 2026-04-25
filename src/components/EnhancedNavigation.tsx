@@ -38,7 +38,7 @@ const navigationItems = [
 ];
 
 const socialLinks = [
-  { name: "GitHub", href: "https://github.com/Albert-fer02", icon: Github, color: "text-zinc-400 hover:text-primary" },
+  { name: "GitHub", href: "https://github.com/dreamcoder08", icon: Github, color: "text-zinc-400 hover:text-primary" },
 ];
 
 const EnhancedNavigation: React.FC = () => {

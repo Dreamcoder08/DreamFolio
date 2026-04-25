@@ -13,32 +13,32 @@ interface PublicRepoItem {
 const featuredPublicRepos: PublicRepoItem[] = [
   {
     name: 'Digital_Public_peru',
-    href: 'https://github.com/Albert-fer02/Digital_Public_peru',
+    href: 'https://github.com/dreamcoder08/Digital_Public_peru',
     description: 'Infraestructura digital civica y arquitectura para servicios publicos.',
   },
   {
     name: 'Dreamcoder_dots',
-    href: 'https://github.com/Albert-fer02/Dreamcoder_dots',
+    href: 'https://github.com/dreamcoder08/Dreamcoder_dots',
     description: 'Workstation Arch Linux y stack de ingenieria para terminal.',
   },
   {
     name: 'landyng-page-Electoral-Peru',
-    href: 'https://github.com/Albert-fer02/landyng-page-Electoral-Peru',
+    href: 'https://github.com/dreamcoder08/landyng-page-Electoral-Peru',
     description: 'Landing electoral e interfaz publica de informacion.',
   },
   {
     name: 'CleanSweep',
-    href: 'https://github.com/Albert-fer02/CleanSweep',
+    href: 'https://github.com/dreamcoder08/CleanSweep',
     description: 'Gestor de dotfiles AI-first construido en Rust.',
   },
   {
     name: 'Administracion',
-    href: 'https://github.com/Albert-fer02/Administracion',
+    href: 'https://github.com/dreamcoder08/Administracion',
     description: 'Flujos administrativos y herramientas operativas.',
   },
   {
     name: 'pseint-web',
-    href: 'https://github.com/Albert-fer02/pseint-web',
+    href: 'https://github.com/dreamcoder08/pseint-web',
     description: 'Exploracion de producto web educativo.',
   },
 ];
@@ -46,37 +46,37 @@ const featuredPublicRepos: PublicRepoItem[] = [
 const additionalPublicRepos: PublicRepoItem[] = [
   {
     name: 'EdgeTraz-Agro',
-    href: 'https://github.com/Albert-fer02/EdgeTraz-Agro',
+    href: 'https://github.com/dreamcoder08/EdgeTraz-Agro',
     description: 'Trazabilidad offline-first para entorno agroindustrial.',
   },
   {
     name: 'DreamFolio',
-    href: 'https://github.com/Albert-fer02/DreamFolio',
+    href: 'https://github.com/dreamcoder08/DreamFolio',
     description: 'Portafolio tecnico en Astro + React.',
   },
   {
     name: 'Dream_Arch_Wiki',
-    href: 'https://github.com/Albert-fer02/Dream_Arch_Wiki',
+    href: 'https://github.com/dreamcoder08/Dream_Arch_Wiki',
     description: 'Documentacion y guias sobre entorno Arch.',
   },
   {
     name: 'elect-validate',
-    href: 'https://github.com/Albert-fer02/elect-validate',
+    href: 'https://github.com/dreamcoder08/elect-validate',
     description: 'Validacion electoral con backend y UI.',
   },
   {
     name: 'Ecomerce_Relojs',
-    href: 'https://github.com/Albert-fer02/Ecomerce_Relojs',
+    href: 'https://github.com/dreamcoder08/Ecomerce_Relojs',
     description: 'E-commerce y experiencia de compra.',
   },
   {
     name: 'v0-Portfolio',
-    href: 'https://github.com/Albert-fer02/v0-Portfolio',
+    href: 'https://github.com/dreamcoder08/v0-Portfolio',
     description: 'Iteracion previa de portafolio.',
   },
   {
-    name: 'Albert-fer02',
-    href: 'https://github.com/Albert-fer02/Albert-fer02',
+    name: 'dreamcoder08',
+    href: 'https://github.com/dreamcoder08/dreamcoder08',
     description: 'Repositorio de perfil.',
   },
 ];
@@ -208,7 +208,7 @@ const CollaborationSection: React.FC = () => {
                 Contactar
               </a>
               <a
-                href="https://github.com/Albert-fer02"
+                href="https://github.com/dreamcoder08"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.03] px-5 py-3 text-[11px] font-code uppercase tracking-[0.18em] text-zinc-200 transition-colors hover:border-white/30 hover:bg-white/[0.08] hover:text-white"

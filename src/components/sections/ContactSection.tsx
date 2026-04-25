@@ -22,7 +22,7 @@ const ContactSection: React.FC = () => {
   };
 
   const socialLinks = [
-    { href: 'https://github.com/Albert-fer02', icon: Github, label: 'Perfil de GitHub' },
+    { href: 'https://github.com/dreamcoder08', icon: Github, label: 'Perfil de GitHub' },
     { href: `mailto:${CONTACT_EMAIL}`, icon: Mail, label: 'Enviar correo a Dreamcoder08' },
   ];
 

@@ -12,8 +12,8 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', children, ...props }, ref) => {
     const variants = {
-      default: "rounded-3xl border border-white/8 bg-zinc-950/80 shadow-[0_18px_44px_rgba(0,0,0,0.3)]",
-      glass: "glass rounded-[1.75rem]",
+      default: "rounded-[28px] border border-border/40 bg-background-soft/80 shadow-soft backdrop-blur-md",
+      glass: "glass rounded-[32px]",
     };
 
     return (
@@ -35,7 +35,7 @@ Card.displayName = 'Card';
  */
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("px-4 pt-4 sm:px-6 sm:pt-6", className)} {...props} />
+    <div ref={ref} className={cn("px-6 pt-6 sm:px-8 sm:pt-8", className)} {...props} />
   )
 );
 CardHeader.displayName = 'CardHeader';
@@ -45,7 +45,7 @@ CardHeader.displayName = 'CardHeader';
  */
 const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("p-4 sm:p-6", className)} {...props} />
+    <div ref={ref} className={cn("p-6 sm:p-8", className)} {...props} />
   )
 );
 CardBody.displayName = 'CardBody';
@@ -55,7 +55,7 @@ CardBody.displayName = 'CardBody';
  */
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("px-4 pb-4 sm:px-6 sm:pb-6", className)} {...props} />
+    <div ref={ref} className={cn("px-6 pb-6 sm:px-8 sm:pb-8", className)} {...props} />
   )
 );
 CardFooter.displayName = 'CardFooter';

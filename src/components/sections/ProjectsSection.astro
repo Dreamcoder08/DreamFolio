@@ -16,24 +16,24 @@ const bucketMeta: Record<
   { title: string; description: string; accent: string }
 > = {
   primary: {
-    title: 'Primary Projects',
-    description: 'Current product lines and direct repos that define the active body of work.',
+    title: 'Primary Systems',
+    description: 'Core product lines and infrastructure that define my active technical narrative.',
     accent: 'from-primary/20 to-primary/5',
   },
   workspace: {
     title: 'Workspaces',
-    description: 'Containers that group related subprojects, product branches, or specialized workstreams.',
+    description: 'Containers for specialized workstreams, product branches, and multi-repo architectures.',
     accent: 'from-secondary/20 to-secondary/5',
   },
   archived: {
-    title: 'Archived Variants',
-    description: 'Earlier iterations that still matter as proof of range, branching, and product evolution.',
+    title: 'Legacy Variants',
+    description: 'Earlier technical signals that provide context on product evolution and range.',
     accent: 'from-accent/20 to-accent/5',
   },
   lab: {
-    title: 'Labs',
-    description: 'Research tracks, security exploration, and interface experiments outside the main product line.',
-    accent: 'from-white/[0.06] to-white/[0.02]',
+    title: 'Research Labs',
+    description: 'Explorations in AI auditability, interface security, and civic-tech prototypes.',
+    accent: 'from-sage/20 to-sage/5',
   },
 };
 
@@ -86,65 +86,63 @@ const itemList = {
 
 <section
   id="projects"
-  class="py-20 sm:py-24 bg-gradient-to-br from-background via-muted/5 to-background relative overflow-hidden"
+  class="py-24 sm:py-32 bg-transparent relative overflow-hidden"
   aria-labelledby="projects-heading"
 >
-  <div class="absolute inset-0 bg-grid-pattern opacity-5" aria-hidden="true"></div>
-
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <header class="max-w-4xl mx-auto text-center mb-14">
-      <p class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">
-        Project Catalog
+    <header class="max-w-4xl mx-auto text-center mb-20">
+      <p class="inline-flex items-center rounded-full border border-primary/40 bg-primary/15 px-6 py-2 text-[10px] font-black uppercase tracking-[0.25em] text-primary shadow-soft">
+        Project Signals
       </p>
-      <h2 id="projects-heading" class="mt-5 text-4xl md:text-5xl font-display font-bold">
-        <span class="gradient-text-cyber">All Projects</span>
-        <span class="text-foreground">, organized for clarity</span>
+      <h2 id="projects-heading" class="mt-6 text-4xl md:text-5xl lg:text-7xl font-display font-black tracking-tighter text-foreground">
+        <span class="gradient-text-primary text-shadow-glow">Public Systems</span>
+        <span>, curated for auditability.</span>
       </h2>
-      <p class="mt-5 text-lg text-muted-foreground font-tech leading-relaxed">
-        This catalog is driven by typed project data inside Astro and now focuses on active work,
-        workspaces, and research tracks instead of older branch history.
+      <p class="mt-6 text-lg md:text-xl text-foreground/80 leading-relaxed max-w-2xl mx-auto font-medium">
+        Selected signals from my technical work. Organized by primary systems, 
+        active workspaces, and research tracks.
       </p>
     </header>
 
-    <div class="grid gap-4 md:grid-cols-3 mb-12">
-      <div class="rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur">
-        <p class="text-sm uppercase tracking-[0.18em] text-muted-foreground">Total</p>
-        <p class="mt-2 text-3xl font-display font-bold text-foreground">{totalProjects}</p>
-        <p class="mt-2 text-sm text-muted-foreground">Visible projects across active work, workspaces, and labs.</p>
+    <div class="grid gap-6 md:grid-cols-3 mb-24">
+      <div class="glass-card p-8 border-border/30">
+        <p class="font-code text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-bold">Total Signals</p>
+        <p class="mt-2 text-5xl font-display font-black text-foreground tracking-tight">{totalProjects}</p>
+        <p class="mt-4 text-sm text-foreground/70 leading-relaxed font-medium">Visible technical signals across active lines and research labs.</p>
       </div>
-      <div class="rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur">
-        <p class="text-sm uppercase tracking-[0.18em] text-muted-foreground">Active</p>
-        <p class="mt-2 text-3xl font-display font-bold text-primary">{activeProjects}</p>
-        <p class="mt-2 text-sm text-muted-foreground">Current lines that represent the live body of work.</p>
+      <div class="glass-card p-8 border-primary/20">
+        <p class="font-code text-[10px] uppercase tracking-[0.22em] text-primary font-bold">Active Systems</p>
+        <p class="mt-2 text-5xl font-display font-black text-primary tracking-tight">{activeProjects}</p>
+        <p class="mt-4 text-sm text-foreground/70 leading-relaxed font-medium">Infrastructure and products currently in active, high-trust development.</p>
       </div>
-      <div class="rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur">
-        <p class="text-sm uppercase tracking-[0.18em] text-muted-foreground">Featured</p>
-        <p class="mt-2 text-3xl font-display font-bold text-accent">{featuredProjects}</p>
-        <p class="mt-2 text-sm text-muted-foreground">Priority projects that should anchor the narrative first.</p>
+      <div class="glass-card p-8 border-accent/20">
+        <p class="font-code text-[10px] uppercase tracking-[0.22em] text-accent font-bold">Featured Tracks</p>
+        <p class="mt-2 text-5xl font-display font-black text-accent tracking-tight">{featuredProjects}</p>
+        <p class="mt-4 text-sm text-foreground/70 leading-relaxed font-medium">Anchor projects that define the core technical and audit narrative.</p>
       </div>
     </div>
 
-    <div class="space-y-12">
+    <div class="space-y-32">
       {
         groupedProjects.map(({ bucket, meta, items }) => (
           <section aria-labelledby={`${bucket}-heading`}>
-            <div class={`rounded-3xl border border-border/60 bg-gradient-to-r ${meta.accent} p-6 sm:p-7`}>
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div class={`rounded-[40px] border border-border/40 bg-gradient-to-r ${meta.accent} p-10 sm:p-12 shadow-elevated`}>
+              <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h3 id={`${bucket}-heading`} class="text-2xl sm:text-3xl font-display font-bold">
+                  <h3 id={`${bucket}-heading`} class="text-4xl sm:text-5xl font-display font-black text-foreground tracking-tighter">
                     {meta.title}
                   </h3>
-                  <p class="mt-2 max-w-3xl text-sm sm:text-base text-muted-foreground">
+                  <p class="mt-4 max-w-3xl text-lg sm:text-xl text-foreground/90 leading-relaxed font-medium">
                     {meta.description}
                   </p>
                 </div>
-                <p class="text-sm font-tech uppercase tracking-[0.18em] text-muted-foreground">
-                  {items.length} items
+                <p class="font-code text-[11px] uppercase tracking-[0.25em] text-foreground/60 bg-white/10 px-6 py-3 rounded-full border border-white/10 font-bold">
+                  {items.length} units
                 </p>
               </div>
             </div>
 
-            <div class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div class="mt-12 grid gap-10 md:grid-cols-2 xl:grid-cols-3">
               {
                 items.map((project) => {
                   const tone = getProjectTone(project.domain, project.bucket);
@@ -154,68 +152,65 @@ const itemList = {
                   return (
                     <a
                       href={withBase(`/projects/${getProjectSlug(project.title)}/`)}
-                      class="group block rounded-2xl border border-border/60 bg-card/75 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_22px_60px_rgba(143,175,209,0.12)]"
+                      class="group block rounded-[32px] border border-border/30 bg-card/60 shadow-soft backdrop-blur-2xl transition-all duration-500 hover:-translate-y-3 hover:border-primary/50 hover:shadow-elevated overflow-hidden"
                     >
-                      <div class={`relative overflow-hidden rounded-t-2xl border-b border-white/8 bg-gradient-to-br ${coverTone} p-5 ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/20`}>
+                      <div class={`relative overflow-hidden border-b border-border/30 bg-gradient-to-br ${coverTone} p-8 ring-1 ring-white/5 transition-all duration-500 group-hover:ring-primary/40`}>
                         <div class="absolute inset-0 bg-grid-pattern opacity-[0.12]" aria-hidden="true"></div>
-                        <div class="relative z-10 min-h-[150px]">
-                          <p class="font-code text-[10px] uppercase tracking-[0.18em] text-zinc-400">
-                            {toneLabel}
-                          </p>
-                          <div class="mt-6 max-w-[16rem]">
-                            <p class="text-2xl font-display font-bold leading-tight text-white">
-                              {project.title}
+                        <div class="relative z-10 min-h-[180px] flex flex-col justify-between">
+                          <div>
+                            <p class="font-code text-[10px] uppercase tracking-[0.22em] text-foreground/70 font-black">
+                              {toneLabel}
                             </p>
-                            <p class="mt-2 text-sm text-zinc-300">
-                              {project.domain}
-                            </p>
+                            <div class="mt-8">
+                              <p class="text-3xl font-display font-black leading-[1.1] text-white tracking-tighter group-hover:text-primary transition-colors">
+                                {project.title}
+                              </p>
+                              <p class="mt-3 text-sm text-foreground/90 font-bold uppercase tracking-widest">
+                                {project.domain}
+                              </p>
+                            </div>
                           </div>
-                          <div class="mt-8 flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-zinc-500">
-                            <span>{project.lifecycle}</span>
-                            <span class="text-primary transition-colors duration-300 group-hover:text-white">open project</span>
+                          <div class="mt-10 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.25em] text-foreground/50">
+                            <span class="bg-black/40 px-4 py-1.5 rounded-full border border-white/10">{project.lifecycle}</span>
+                            <span class="text-primary group-hover:text-white transition-colors">inspect system</span>
                           </div>
                         </div>
                       </div>
 
-                      <article class="p-5">
-                        <div class="flex flex-wrap items-center gap-2">
-                          <span class="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                      <article class="p-8">
+                        <div class="flex flex-wrap items-center gap-3">
+                          <span class="rounded-full bg-primary/20 border border-primary/30 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-primary">
                             {project.domain}
                           </span>
-                          <span class="rounded-full bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                            updated {project.updatedYear}
+                          <span class="rounded-full bg-muted/70 border border-border/30 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/80">
+                            v. {project.updatedYear}
                           </span>
-                          {project.featured && (
-                            <span class="rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-                              featured
-                            </span>
-                          )}
                         </div>
 
-                        <p class="mt-4 text-sm leading-7 text-muted-foreground">
+                        <p class="mt-6 text-base leading-[1.8] text-foreground/80 font-medium line-clamp-3">
                           {project.summary}
                         </p>
 
-                        <div class="mt-4 flex flex-wrap gap-2">
-                          {project.stack.map((tag) => (
-                            <span class="rounded-full border border-border/70 px-3 py-1 text-xs text-foreground/80">
+                        <div class="mt-8 flex flex-wrap gap-2.5">
+                          {project.stack.slice(0, 4).map((tag) => (
+                            <span class="rounded-full border border-border/30 bg-white/10 px-4 py-1.5 text-[11px] font-bold text-foreground/90">
                               {tag}
                             </span>
                           ))}
                         </div>
 
-                        <div class="mt-5 border-t border-border/60 pt-4">
-                          <div class="flex items-center justify-between gap-3">
-                            <div>
-                              <p class="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                                Source path
+                        <div class="mt-8 border-t border-border/20 pt-8">
+                          <div class="flex items-center justify-between gap-6">
+                            <div class="overflow-hidden">
+                              <p class="text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-black">
+                                Traceability
                               </p>
-                              <p class="mt-2 font-code text-xs sm:text-sm text-foreground/80 break-all">
+                              <p class="mt-2 font-code text-[11px] text-foreground/80 font-bold truncate">
                                 {project.path}
                               </p>
                             </div>
-                            <div class="shrink-0 rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary transition-colors duration-300 group-hover:border-primary/30 group-hover:bg-primary/[0.12]">
-                              view
+                            <div class="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-background group-hover:border-primary group-hover:shadow-glow">
+                              Details
                             </div>
                           </div>
                         </div>

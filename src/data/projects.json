@@ -24,7 +24,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["TypeScript", "Bun", "Docker"],
-    "githubUrl": "https://github.com/Albert-fer02/EdgeTraz-Agro",
+    "githubUrl": "https://github.com/dreamcoder08/EdgeTraz-Agro",
     "coverImage": "/images/projects/edgetraz-agro-hero.png",
     "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
   },
@@ -39,7 +39,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["Node.js", "Rust"],
-    "githubUrl": "https://github.com/Albert-fer02/Digital_Public_peru",
+    "githubUrl": "https://github.com/dreamcoder08/Digital_Public_peru",
     "coverImage": "/images/projects/digital-public-peru-desktop.png",
     "coverImageAlt": "Digital Public Peru — civic interface desktop view",
     "coverImageMobile": "/images/projects/digital-public-peru-mobile.png"
@@ -91,7 +91,7 @@
     "updatedYear": 2026,
     "featured": false,
     "stack": ["Node.js", "Bun"],
-    "githubUrl": "https://github.com/Albert-fer02/Administracion"
+    "githubUrl": "https://github.com/dreamcoder08/Administracion"
   },
   {
     "id": "arch-dream-machine",
@@ -152,7 +152,7 @@
     "updatedYear": 2025,
     "featured": false,
     "stack": ["Node.js", "Documentation"],
-    "githubUrl": "https://github.com/Albert-fer02/Dream_Arch_Wiki"
+    "githubUrl": "https://github.com/dreamcoder08/Dream_Arch_Wiki"
   },
   {
     "id": "dreamcoder-dots",
@@ -165,7 +165,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["Arch Linux", "Shell", "GLSL", "Lua"],
-    "githubUrl": "https://github.com/Albert-fer02/Dreamcoder_dots",
+    "githubUrl": "https://github.com/dreamcoder08/Dreamcoder_dots",
     "coverImage": "/images/projects/dreamcoder-dots.webp",
     "coverImageAlt": "DreamcoderDots - custom Arch Linux terminal and workstation setup"
   },

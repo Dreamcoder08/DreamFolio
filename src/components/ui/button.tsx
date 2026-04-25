@@ -13,17 +13,17 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'md', loading, disabled, children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center gap-2 min-h-[44px] font-semibold tracking-[0.01em] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/[0.55] focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseStyles = "inline-flex items-center justify-center gap-2 min-h-[44px] font-semibold tracking-[0.01em] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/[0.55] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
-      default: "rounded-full border border-primary/[0.35] bg-primary text-black shadow-[0_18px_45px_rgba(143,175,209,0.16)] hover:bg-[#a5bdd6] hover:shadow-[0_20px_50px_rgba(143,175,209,0.22)]",
-      outline: "rounded-full border border-primary/[0.18] bg-primary/[0.04] text-white hover:border-primary/[0.3] hover:bg-primary/[0.08]",
-      ghost: "rounded-full text-zinc-300 hover:bg-primary/[0.08] hover:text-primary",
-      link: "text-zinc-300 underline-offset-4 hover:text-primary hover:underline",
+      default: "rounded-full border border-primary/40 bg-primary text-background shadow-soft hover:bg-accent hover:border-accent hover:shadow-elevated hover:-translate-y-0.5",
+      outline: "rounded-full border border-primary/20 bg-primary/5 text-foreground hover:border-primary/40 hover:bg-primary/10",
+      ghost: "rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary",
+      link: "text-muted-foreground underline-offset-4 hover:text-primary hover:underline",
     };
 
     const sizes = {
-      sm: "px-4 py-2.5 text-sm",
+      sm: "px-4 py-2 text-sm",
       md: "px-6 py-3 text-base",
       lg: "px-8 py-4 text-lg",
     };

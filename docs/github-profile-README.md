@@ -18,7 +18,7 @@ A fiscal operating system engineered for the evolving SUNAT landscape.
 
 ---
 
-### [EdgeTraz Agro](https://github.com/Albert-fer02/EdgeTraz-Agro) — Edge & IoT Resilience
+### [EdgeTraz Agro](https://github.com/dreamcoder08/EdgeTraz-Agro) — Edge & IoT Resilience
 Offline-first traceability infrastructure for industrial environments.
 
 - Rust async runtimes for constrained edge hardware
