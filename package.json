@@ -20,7 +20,7 @@
     "clean": "rm -rf dist node_modules/.astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.1.0",
+    "@astrojs/react": "^5.0.4",
     "@hookform/resolvers": "^4.1.3",
 "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
