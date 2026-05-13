@@ -33,7 +33,7 @@
     "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.0",
-    "zod": "^3.25.76"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
