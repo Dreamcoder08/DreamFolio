@@ -1,19 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  /* Cocoa Glass / Soft Clay Palette 2026 */
+  /* Cocoa Terminal / Visual Operating System Palette 2026 */
   --color-background: #120d09;
   --color-background-soft: #1c140e;
   --color-background-deep: #080604;
-  --color-foreground: #f7f0eb;
+  --color-surface: #211810;
+  --color-elevated: #2a1f16;
+  --color-border: #402c18;
   
-  --color-primary: #ffc285; /* Caramel */
-  --color-accent: #f7d692;  /* Lucuma */
+  --color-foreground: #eee0d5;
+  --color-muted-text: #b8a89a;
   
-  --color-sage: #b3d4b4;
-  --color-lavender: #b8b4d4;
-  --color-cyan-soft: #b4d3d4;
-  --color-muted-text: #cbb8a9;
+  --color-primary: #fbb974; /* Caramel Accent */
+  --color-accent: #e6a05d;  /* Deep Copper */
+  --color-lucuma: #f7d692;
+  
+  --color-cyan: #9ec3c4;
+  --color-sage: #9ec49f;
+  --color-danger: #ffb4ab;
 
   /* Typography Scales */
   --text-fluid-hero: clamp(3rem, 10vw + 1rem, 10rem);
@@ -21,14 +26,14 @@
   --text-fluid-body: clamp(1rem, 0.5vw + 0.8rem, 1.35rem);
 
   --font-display: "Instrument Sans", "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
 
-  /* Soft Clay Shadows */
-  --shadow-clay: 0 20px 50px rgba(0, 0, 0, 0.5), 
-                 inset 0 1px 0 rgba(247, 240, 235, 0.15),
-                 inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  /* System Operating Shadows */
+  --shadow-clay: 0 20px 50px rgba(0, 0, 0, 0.6), 
+                 inset 0 1px 0 rgba(238, 224, 213, 0.05),
+                 inset 0 -1px 2px rgba(0, 0, 0, 0.4);
   
-  --shadow-elevated: 0 35px 90px rgba(0, 0, 0, 0.65);
+  --shadow-elevated: 0 35px 90px rgba(0, 0, 0, 0.8);
 }
 
 @layer base {
@@ -47,35 +52,35 @@
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-background overflow-x-hidden;
     min-height: 100dvh;
     text-rendering: optimizeLegibility;
-    font-family: var(--font-body);
+    font-family: var(--font-display);
     
     background-image: 
-      radial-gradient(circle at 5% 5%, rgba(255, 194, 133, 0.05), transparent 30%),
-      radial-gradient(circle at 95% 95%, rgba(179, 212, 180, 0.05), transparent 30%);
+      radial-gradient(circle at 5% 5%, rgba(251, 185, 116, 0.03), transparent 30%),
+      radial-gradient(circle at 95% 95%, rgba(158, 196, 159, 0.03), transparent 30%);
   }
 
-  /* Animated Noise Overlay */
+  /* Animated Noise Overlay (Visual OS Grain) */
   body::before {
     content: "";
-    @apply fixed inset-0 pointer-events-none z-[5000] opacity-[0.035];
+    @apply fixed inset-0 pointer-events-none z-[5000] opacity-[0.025];
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
 @layer utilities {
-  .glass-clay {
-    @apply backdrop-blur-3xl bg-background-soft/70 border border-white/10 shadow-clay rounded-[2.5rem];
+  .glass-panel {
+    @apply backdrop-blur-3xl bg-surface/80 border border-border shadow-clay rounded-3xl;
   }
   
   .layout-grid {
     @apply grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-x-6 md:gap-x-10 px-6 md:px-12 max-w-[1700px] mx-auto;
   }
 
+  .terminal-text {
+    @apply font-mono uppercase tracking-[0.2em] text-[10px];
+  }
+
   .gradient-text-primary {
     @apply bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent;
-  }
-  
-  .touch-target {
-    @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
   }
 }

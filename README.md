@@ -71,7 +71,7 @@ GOOGLE_AI_API_KEY=your_google_ai_api_key
 1. **Connect Repository**:
    ```bash
    # Install Vercel CLI
-   npm i -g vercel
+   pnpm add -g vercel
 
    # Deploy
    vercel --prod
@@ -151,10 +151,10 @@ dreamfolio-astro/
 ### Manual Monitoring
 ```bash
 # Bundle analysis
-pnpm build && npx @next/bundle-analyzer dist/
+pnpm build && pnpm dlx @next/bundle-analyzer dist/
 
 # Lighthouse audit
-npx lighthouse http://localhost:4321 --output html
+pnpm dlx lighthouse http://localhost:4321 --output html
 ```
 
 ## 🤝 Contributing

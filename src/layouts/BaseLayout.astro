@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import { toAbsoluteSiteUrl, withBaseAsset } from '../lib/site';
+import { SystemMonitor, CustomCursor } from '../components/ui';
 
 export interface Props {
   title: string
@@ -10,11 +11,11 @@ export interface Props {
 
 const {
   title,
-  description = 'Builder independiente enfocado en IA aplicada, infraestructura financiera y automatizacion auditable.',
+  description = 'Architecting high-integrity AI infrastructure for domains where trust is expensive and evidence matters.',
   image = '/og-image.jpg',
 } = Astro.props
 
-const siteOrigin = Astro.site?.toString() ?? 'https://albert-fer02.github.io';
+const siteOrigin = Astro.site?.toString() ?? 'https://dreamcoder08.github.io';
 
 const canonical = new URL(
   Astro.url.pathname,
@@ -77,10 +78,12 @@ const imageUrl = /^https?:\/\//.test(image)
     <meta name="author" content="Dreamcoder08" />
     <meta
       name="keywords"
-      content="systems architect, audit-first ia, infraestructura financiera, arquitectura fintech, dreamcoder08, editorial design"
+      content="systems architect, audit-first ia, fiscal infrastructure, arkonyx, evidence-driven design, dreamcoder08, visual operating system"
     />
   </head>
   <body class="min-h-screen antialiased">
+    <CustomCursor client:load />
+    <SystemMonitor client:load />
     <slot />
   </body>
 </html>

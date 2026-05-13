@@ -7,6 +7,7 @@ import TrinitySection from '../components/sections/TrinitySection.astro';
 import TechnicalDepth from '../components/sections/TechnicalDepth.astro';
 import { SystemUnit } from '../components/sections/SystemUnit.tsx';
 import { TechnicalIntake } from '../components/sections/TechnicalIntake.tsx';
+import { VisualLab } from '../components/sections/VisualLab.tsx';
 import CollaborationSection from '../components/sections/CollaborationSection.tsx';
 import { mainSystems } from '../data/systems';
 ---
@@ -61,7 +62,10 @@ import { mainSystems } from '../data/systems';
       </div>
     </section>
 
-    <!-- Section 05: Architectural Layers -->
+    <!-- Section 05: Visual Systems Laboratory -->
+    <VisualLab client:visible />
+
+    <!-- Section 06: Architectural Layers -->
     <TechnicalDepth />
 
     <!-- Section 06: Open Source & Infrastructure -->

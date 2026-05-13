@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Shield, Palette, Mail, Github, Sparkles, Users, Terminal } from 'lucide-react';
+import { Shield, Mail, Github, Terminal, Database, Activity, Menu, X, ChevronRight } from 'lucide-react';
 import { withBase } from '../../lib/site';
 
 const navigationItems = [
-  { name: "Systems", href: "#systems", icon: Shield },
-  { name: "Principles", href: "#trinity", icon: Sparkles },
+  { name: "Systems", href: "#systems", icon: Database },
+  { name: "Laboratory", href: "#lab", icon: Activity },
   { name: "Intake", href: "#contact", icon: Mail },
 ];
 
@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
     setIsOpen(false);
     const element = document.querySelector(href);
     if (element) {
-      const headerHeight = 80;
+      const headerHeight = 100;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - headerHeight;
       window.scrollTo({ top: elementPosition, behavior: "smooth" });
     }
@@ -31,113 +31,144 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-[1000] p-4 md:p-6 pointer-events-none">
+      <nav 
+        className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-500 p-4 md:p-8 ${
+          scrolled ? 'py-4 md:py-6' : 'py-6 md:py-10'
+        }`}
+      >
         <div className="layout-grid items-center">
           
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-3">
-            <a 
-              href={withBase('/')} 
-              className="glass-clay px-5 py-3 pointer-events-auto flex items-center gap-3 w-fit border-white/5 active:scale-95 transition-all group"
+          {/* Command Dock Main Panel */}
+          <div className="col-span-12">
+            <motion.div 
+              className={`glass-panel p-1 transition-all duration-500 ${
+                scrolled ? 'bg-surface/90 backdrop-blur-3xl' : 'bg-surface/40'
+              }`}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
             >
-              <Terminal className="w-4 h-4 text-primary group-hover:rotate-12 transition-transform" />
-              <span className="font-display font-black text-xs uppercase tracking-[0.3em]">
-                DreamFolio <span className="text-muted-text/30 ml-1 hidden sm:inline">v2.5</span>
-              </span>
-            </a>
-          </div>
-
-          {/* Desktop Links */}
-          <div className="hidden lg:flex col-span-6 justify-center">
-            <div className="glass-clay p-1.5 flex gap-1 pointer-events-auto border-white/5">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  className="px-6 py-2 rounded-full text-[10px] font-mono font-black uppercase tracking-widest text-muted-text hover:text-primary hover:bg-white/5 transition-all"
+              <div className="flex items-center justify-between px-4 py-2 md:px-6 md:py-3 bg-background-deep/50 rounded-[1.4rem]">
+                
+                {/* System Node / Brand */}
+                <a 
+                  href={withBase('/')} 
+                  className="flex items-center gap-3 group"
                 >
-                  {item.name}
-                </button>
-              ))}
-            </div>
-          </div>
+                  <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center shadow-clay">
+                    <Terminal className="w-4 h-4 text-primary group-hover:rotate-12 transition-transform" />
+                  </div>
+                  <div className="hidden sm:block">
+                    <p className="terminal-text text-foreground leading-none">DreamFolio</p>
+                    <p className="terminal-text text-[8px] text-muted-text/40 italic">Node: LATAM</p>
+                  </div>
+                </a>
 
-          {/* Controls */}
-          <div className="col-span-2 md:col-span-5 lg:col-span-3 flex justify-end gap-3">
-            <a 
-              href="https://github.com/dreamcoder08" 
-              target="_blank" 
-              className="hidden md:flex glass-clay touch-target px-4 pointer-events-auto border-white/5 hover:text-primary transition-colors"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <button 
-              onClick={() => setIsOpen(true)}
-              className="glass-clay touch-target px-6 pointer-events-auto border-white/5 active:scale-90 transition-all group"
-            >
-              <div className="flex flex-col gap-1.5 items-end">
-                <div className="w-6 h-0.5 bg-primary group-hover:w-4 transition-all" />
-                <div className="w-4 h-0.5 bg-accent group-hover:w-6 transition-all" />
+                {/* Desktop Navigation */}
+                <div className="hidden lg:flex items-center gap-1">
+                  {navigationItems.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => handleNavClick(item.href)}
+                      className="flex items-center gap-2 px-5 py-2 rounded-full terminal-text text-muted-text hover:text-primary hover:bg-white/5 transition-all"
+                    >
+                      <item.icon className="w-3 h-3" />
+                      <span>{item.name}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Controls */}
+                <div className="flex items-center gap-2 md:gap-4">
+                  <a 
+                    href="https://github.com/dreamcoder08" 
+                    target="_blank" 
+                    className="hidden md:flex w-10 h-10 rounded-full border border-border bg-surface items-center justify-center text-muted-text hover:text-primary transition-colors"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  
+                  <button 
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-10 h-10 md:w-auto md:px-5 rounded-full border border-border bg-surface flex items-center justify-center gap-2 terminal-text text-primary hover:bg-primary/5 transition-all active:scale-95"
+                  >
+                    <AnimatePresence mode="wait">
+                      {isOpen ? (
+                        <motion.div key="close" initial={{ rotate: -90 }} animate={{ rotate: 0 }} exit={{ rotate: 90 }}>
+                          <X className="w-4 h-4" />
+                        </motion.div>
+                      ) : (
+                        <motion.div key="menu" initial={{ rotate: 90 }} animate={{ rotate: 0 }} exit={{ rotate: -90 }}>
+                          <Menu className="w-4 h-4" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <span className="hidden md:inline">{isOpen ? 'Close' : 'Menu'}</span>
+                  </button>
+                </div>
+
               </div>
-            </button>
+            </motion.div>
           </div>
-
         </div>
       </nav>
 
-      {/* Full-Screen System Menu */}
+      {/* Inspection Menu Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: "-100%" }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[2000] bg-background/95 backdrop-blur-3xl p-6 md:p-12 flex flex-col justify-between overflow-hidden"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }} 
+            animate={{ opacity: 1, y: 0, scale: 1 }} 
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed top-28 md:top-36 right-4 md:right-8 z-[900] w-[calc(100%-2rem)] md:w-96"
           >
-            {/* Noise overlay inside menu */}
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+            <div className="glass-panel p-1">
+              <div className="bg-background-deep rounded-[1.4rem] overflow-hidden">
+                <div className="p-8 space-y-8">
+                  <div className="space-y-4">
+                    <p className="terminal-text text-primary text-[8px]">Inspection Menu // Node Control</p>
+                    <div className="space-y-2">
+                      {navigationItems.map((item, i) => (
+                        <motion.button
+                          key={item.name}
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: i * 0.05 }}
+                          onClick={() => handleNavClick(item.href)}
+                          className="w-full flex items-center justify-between group p-4 rounded-2xl bg-surface/50 border border-border/50 hover:border-primary/30 hover:bg-surface transition-all"
+                        >
+                          <div className="flex items-center gap-4">
+                            <item.icon className="w-5 h-5 text-muted-text group-hover:text-primary transition-colors" />
+                            <span className="text-xl font-display font-black italic tracking-tight text-foreground">{item.name}</span>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-muted-text/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
 
-            <div className="flex justify-between items-start relative z-10">
-              <span className="font-mono text-[10px] font-black text-primary uppercase tracking-[0.5em]">System Handshake // Active</span>
-              <button 
-                onClick={() => setIsOpen(false)} 
-                className="glass-clay touch-target px-8 border-white/10 active:scale-90 transition-all font-mono text-[10px] font-black hover:text-primary"
-              >
-                TERMINATE [X]
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-6 relative z-10">
-              {navigationItems.map((item, i) => (
-                <motion.button
-                  key={item.name}
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.1 + 0.3 }}
-                  onClick={() => handleNavClick(item.href)}
-                  className="text-[var(--text-fluid-display)] font-display font-black text-foreground italic hover:text-primary transition-all text-left leading-none tracking-tighter"
-                >
-                  {item.name}
-                </motion.button>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-10 border-t border-white/10 relative z-10">
-              <div className="space-y-4">
-                <span className="font-mono text-[9px] text-muted-text/30 uppercase tracking-[0.3em]">Status</span>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-sage animate-pulse" />
-                  <span className="text-[10px] font-mono text-foreground uppercase font-bold tracking-widest">Integrity: Optimal</span>
+                  <div className="pt-6 border-t border-border grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <p className="terminal-text text-[8px] text-muted-text/30">System Status</p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-sage" />
+                        <span className="terminal-text text-[9px] text-foreground">Verified</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="terminal-text text-[8px] text-muted-text/30">Integrity</p>
+                      <span className="terminal-text text-[9px] text-foreground">Optimal</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-4">
-                <span className="font-mono text-[9px] text-muted-text/30 uppercase tracking-[0.3em]">Coordinates</span>
-                <span className="text-[10px] font-mono text-foreground uppercase block font-bold tracking-widest">LATAM Node // Global Execution</span>
-              </div>
-              <div className="space-y-4">
-                <span className="font-mono text-[9px] text-muted-text/30 uppercase tracking-[0.3em]">Security</span>
-                <span className="text-[10px] font-mono text-accent uppercase block font-bold tracking-widest">Encrypted Handshake Enabled</span>
+                
+                <a 
+                  href="https://github.com/dreamcoder08" 
+                  target="_blank"
+                  className="bg-surface p-4 flex items-center justify-center gap-3 terminal-text text-muted-text hover:text-primary transition-all border-t border-border"
+                >
+                  <Github className="w-4 h-4" />
+                  <span>Inspect Source</span>
+                </a>
               </div>
             </div>
           </motion.div>

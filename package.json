@@ -2,17 +2,21 @@
   "name": "dreamfolio-astro",
   "type": "module",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": []
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy:pages": "npm run build",
+    "deploy:pages": "pnpm run build",
     "deploy": "vercel --prod",
     "deploy:staging": "vercel",
-    "analyze": "npx @next/bundle-analyzer dist/",
-    "lighthouse": "npx lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html",
-    "performance": "npm run build && npm run preview",
+    "analyze": "pnpm dlx @next/bundle-analyzer dist/",
+    "lighthouse": "pnpm dlx lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html",
+    "performance": "pnpm run build && pnpm run preview",
     "clean": "rm -rf dist node_modules/.astro"
   },
   "dependencies": {

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Navbar } from '../../components/ui/Navbar';
 import {
   getProjectCoverClasses,
   getProjectSlug,
@@ -9,6 +10,7 @@ import {
 } from '../../lib/project-presentation';
 import { getProjectCaseStudy } from '../../lib/project-case-studies';
 import { withBase } from '../../lib/site';
+import { ArrowLeft, ArrowUpRight, ShieldCheck, Target, Activity, Zap } from 'lucide-react';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -29,220 +31,193 @@ const caseStudy = getProjectCaseStudy(project.id);
 ---
 
 <BaseLayout
-  title={`${project.title} | DreamFolio`}
+  title={`${project.title} | Technical Audit Record`}
   description={project.summary}
 >
-  <main class="min-h-screen bg-background">
-    <section class="relative overflow-hidden border-b border-white/6 pt-28 pb-16">
-      <div class={`absolute inset-0 bg-gradient-to-br ${coverTone} opacity-100`} aria-hidden="true"></div>
-      <div class="absolute inset-0 bg-grid-pattern opacity-[0.14]" aria-hidden="true"></div>
+  <Navbar client:load />
 
-      <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <a
-          href={withBase('/#projects')}
-          class="inline-flex items-center rounded-full border border-primary/20 bg-primary/[0.05] px-4 py-2 text-[11px] font-code uppercase tracking-[0.18em] text-primary transition-colors hover:border-primary/30 hover:bg-primary/[0.1] hover:text-white"
-        >
-          back to catalog
-        </a>
+  <main class="min-h-screen bg-background pb-32">
+    {/* Header Audit Hero */}
+    <section class="relative overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32 border-b border-white/5">
+      <div class={`absolute inset-0 bg-gradient-to-br ${coverTone} opacity-[0.15]`} aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-grid-pattern opacity-[0.08]" aria-hidden="true"></div>
 
-        <div class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end">
-          <div>
-            <p class="font-code text-[11px] uppercase tracking-[0.2em] text-zinc-400">
-              {toneLabel}
-            </p>
-            <h1 class="mt-4 max-w-4xl text-5xl font-display font-extrabold tracking-[-0.04em] text-white sm:text-6xl">
+      <div class="layout-grid relative z-10">
+        <div class="col-span-4 md:col-span-8 lg:col-span-12">
+          <a
+            href={withBase('/#projects')}
+            class="group inline-flex items-center gap-2 mb-12 text-[10px] font-mono font-black uppercase tracking-[0.3em] text-muted-text hover:text-primary transition-colors"
+          >
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            Return to Systems Archive
+          </a>
+
+          <div class="space-y-6">
+            <div class="flex items-center gap-3">
+              <div class="w-1.5 h-1.5 rounded-full bg-primary shadow-glow" />
+              <span class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">
+                {toneLabel} // ID: {project.id.toUpperCase()}
+              </span>
+            </div>
+            
+            <h1 class="text-[var(--text-fluid-display)] font-display font-black text-foreground tracking-tighter leading-[0.85] italic max-w-5xl">
               {project.title}
             </h1>
-            <p class="mt-6 max-w-3xl text-base leading-8 text-zinc-200 sm:text-lg">
+            
+            <p class="max-w-3xl text-[var(--text-fluid-body)] text-muted-text font-medium leading-relaxed">
               {project.summary}
             </p>
 
-            <div class="mt-8 flex flex-wrap gap-3">
-              <span class="rounded-full border border-primary/[0.16] bg-primary/[0.05] px-4 py-2 text-[11px] font-code uppercase tracking-[0.16em] text-primary">
-                {project.domain}
+            <div class="pt-8 flex flex-wrap gap-3">
+              <span class="px-5 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-[10px] text-foreground/80 font-bold uppercase tracking-widest">
+                Domain: {project.domain}
               </span>
-              <span class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[11px] font-code uppercase tracking-[0.16em] text-zinc-200">
-                {project.lifecycle}
+              <span class="px-5 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-[10px] text-sage font-bold uppercase tracking-widest">
+                Status: {project.lifecycle}
               </span>
-              <span class="rounded-full border border-accent/[0.18] bg-accent/[0.05] px-4 py-2 text-[11px] font-code uppercase tracking-[0.16em] text-accent">
-                updated {project.updatedYear}
+              <span class="px-5 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-[10px] text-accent font-bold uppercase tracking-widest">
+                Last Audit: {project.updatedYear}
               </span>
             </div>
           </div>
-
-          {project.coverImage ? (
-            project.coverImageMobile ? (
-              <div class="grid gap-3 grid-cols-[1fr_auto] items-start">
-                <div class="overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
-                  <img
-                    src={withBase(project.coverImage)}
-                    alt={project.coverImageAlt ?? `${project.title} — desktop`}
-                    class="w-full object-cover object-top"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-                <div class="overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.5)] w-28">
-                  <img
-                    src={withBase(project.coverImageMobile!)}
-                    alt={`${project.title} — mobile`}
-                    class="w-full object-cover object-top"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div class="overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
-                <img
-                  src={withBase(project.coverImage)}
-                  alt={project.coverImageAlt ?? project.title}
-                  class="w-full object-cover object-top max-h-[400px]"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
-            )
-          ) : (
-            <div class={`relative overflow-hidden rounded-2xl border border-white/8 bg-gradient-to-br ${coverTone} p-6`}>
-              <div class="absolute inset-0 bg-grid-pattern opacity-[0.14]" aria-hidden="true"></div>
-              <div class="relative z-10 min-h-[220px] flex flex-col justify-between">
-                <p class="font-code text-[10px] uppercase tracking-[0.18em] text-zinc-400">{project.path}</p>
-                <p class="mt-4 text-2xl font-display font-bold leading-tight text-white">{project.title}</p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>
 
-    <section class="py-16">
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:px-8">
-        <article class="rounded-[2rem] border border-white/8 bg-white/[0.02] p-8 backdrop-blur-sm">
-          <p class="font-code text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-            {caseStudy?.eyebrow ?? 'Why it matters'}
-          </p>
+    {/* Content Architecture */}
+    <section class="py-24">
+      <div class="layout-grid items-start gap-y-16">
+        
+        {/* Main Narrative */}
+        <div class="col-span-4 md:col-span-8 lg:col-span-7 space-y-12">
+          <div class="glass-clay p-10 md:p-16 border-white/5">
+            <span class="font-mono text-[10px] font-black text-muted-text/30 uppercase tracking-[0.4em] mb-10 block">Narrative Analysis</span>
+            
+            {caseStudy ? (
+              <div class="space-y-16">
+                <div class="space-y-4">
+                  <div class="flex items-center gap-2 text-foreground/40">
+                    <Target size={14} strokeWidth={2.5} />
+                    <h4 className="font-mono text-[10px] font-black uppercase tracking-widest">The Core Challenge</h4>
+                  </div>
+                  <p class="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium">
+                    {caseStudy.challenge}
+                  </p>
+                </div>
 
-          {caseStudy ? (
-            <div class="mt-5 space-y-8">
-              <div>
-                <p class="text-[11px] font-code uppercase tracking-[0.16em] text-zinc-500">Challenge</p>
-                <p class="mt-3 text-base leading-8 text-zinc-300">{caseStudy.challenge}</p>
-              </div>
+                <div class="space-y-4">
+                  <div class="flex items-center gap-2 text-foreground/40">
+                    <Activity size={14} strokeWidth={2.5} />
+                    <h4 className="font-mono text-[10px] font-black uppercase tracking-widest">Architectural Approach</h4>
+                  </div>
+                  <p class="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium">
+                    {caseStudy.approach}
+                  </p>
+                </div>
 
-              <div>
-                <p class="text-[11px] font-code uppercase tracking-[0.16em] text-zinc-500">Approach</p>
-                <p class="mt-3 text-base leading-8 text-zinc-300">{caseStudy.approach}</p>
-              </div>
+                <div class="space-y-4">
+                  <div class="flex items-center gap-2 text-sage">
+                    <ShieldCheck size={14} strokeWidth={2.5} />
+                    <h4 className="font-mono text-[10px] font-black uppercase tracking-widest">System Outcome</h4>
+                  </div>
+                  <p class="text-xl md:text-2xl text-foreground font-black tracking-tight leading-snug italic">
+                    {caseStudy.outcome}
+                  </p>
+                </div>
 
-              <div>
-                <p class="text-[11px] font-code uppercase tracking-[0.16em] text-zinc-500">Outcome</p>
-                <p class="mt-3 text-base leading-8 text-zinc-300">{caseStudy.outcome}</p>
-              </div>
-
-              <div>
-                <p class="text-[11px] font-code uppercase tracking-[0.16em] text-zinc-500">Technical Milestones</p>
-                <div class="mt-4 space-y-3">
-                  {caseStudy.evidence.map((item) => (
-                    <div class="group flex items-start gap-4 rounded-2xl border border-white/6 bg-white/[0.01] px-4 py-4 transition-colors hover:border-primary/20 hover:bg-white/[0.02]">
-                      <div class="mt-2.5 h-1.5 w-1.5 rounded-full bg-primary/40 shadow-[0_0_8px_rgba(0,102,255,0.4)] group-hover:bg-primary transition-colors" />
-                      <p class="text-sm leading-7 text-zinc-300">{item}</p>
-                    </div>
-                  ))}
+                <div class="pt-10 border-t border-white/5">
+                   <h4 className="font-mono text-[10px] font-black text-muted-text/30 uppercase tracking-widest mb-8">Technical Milestones</h4>
+                   <div class="space-y-4">
+                      {caseStudy.evidence.map((item) => (
+                        <div class="group flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all">
+                          <Zap size={14} className="mt-1 text-primary animate-pulse" />
+                          <p class="text-base text-muted-text font-medium leading-relaxed">{item}</p>
+                        </div>
+                      ))}
+                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div class="mt-5 space-y-5 text-base leading-8 text-zinc-300">
-              <p>
-                This project is part of your wider systems portfolio, which means it should communicate
-                product judgment, architecture discipline, and implementation quality in one scan.
+            ) : (
+              <p class="text-lg text-muted-text leading-relaxed font-medium italic">
+                Detailed audit logs for this system are currently being processed. This unit represents a verified signal within the technical catalog.
               </p>
-              <p>
-                The portfolio now treats this as a real project entry instead of a passive label inside a grid.
-                That makes it easier for recruiters, clients, and collaborators to understand what it is and why it belongs here.
-              </p>
-            </div>
-          )}
-
-          <div class="mt-8">
-            <p class="font-code text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-              Stack
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              {project.stack.map((tag: string) => (
-                <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-zinc-200">
-                  {tag}
-                </span>
-              ))}
-            </div>
+            )}
           </div>
-        </article>
+        </div>
 
-        <aside class="space-y-6">
-          <div class="rounded-[2rem] border border-white/8 bg-white/[0.02] p-6 backdrop-blur-sm">
-            <p class="font-code text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-              Portfolio metadata
-            </p>
-            <dl class="mt-5 space-y-4">
+        {/* Sidebar Metadata */}
+        <aside class="col-span-4 md:col-span-8 lg:col-span-5 space-y-8 lg:pl-10">
+          
+          {/* Cover Visualization */}
+          <div class="glass-clay overflow-hidden border-white/5 shadow-elevated mb-12">
+            {project.coverImage ? (
+               <img
+                  src={withBase(project.coverImage)}
+                  alt={project.title}
+                  class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700"
+               />
+            ) : (
+              <div class={`aspect-video bg-gradient-to-br ${coverTone} opacity-40 flex items-center justify-center p-12`}>
+                <span class="font-display font-black text-4xl italic text-foreground/20">{project.title}</span>
+              </div>
+            )}
+          </div>
+
+          <div class="glass-clay p-8 border-white/5 space-y-8">
+            <span class="font-mono text-[10px] font-black text-muted-text/30 uppercase tracking-[0.4em] block">System Metadata</span>
+            
+            <dl class="space-y-6">
               <div>
-                <dt class="text-xs uppercase tracking-[0.16em] text-zinc-500">Catalog path</dt>
-                <dd class="mt-1 font-code text-sm text-zinc-200 break-all">{project.path}</dd>
+                <dt class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-muted-text/40 mb-2">Catalog Integrity Path</dt>
+                <dd class="font-mono text-xs text-foreground font-bold break-all bg-background-deep/50 p-3 rounded-lg border border-white/5">{project.path}</dd>
               </div>
               <div>
-                <dt class="text-xs uppercase tracking-[0.16em] text-zinc-500">Bucket</dt>
-                <dd class="mt-1 text-sm text-zinc-200">{project.bucket}</dd>
+                <dt class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-muted-text/40 mb-1">Architecture Stack</dt>
+                <dd class="flex flex-wrap gap-2 pt-2">
+                  {project.stack.map(s => (
+                    <span class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full font-mono text-[9px] text-primary font-black uppercase tracking-widest">{s}</span>
+                  ))}
+                </dd>
               </div>
-              <div>
-                <dt class="text-xs uppercase tracking-[0.16em] text-zinc-500">Featured</dt>
-                <dd class="mt-1 text-sm text-zinc-200">{project.featured ? 'Yes' : 'No'}</dd>
-              </div>
+              {caseStudy && (
+                <div>
+                  <dt class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-muted-text/40 mb-4">Performance Metrics</dt>
+                  <dd class="space-y-3">
+                    {caseStudy.metrics.map(m => (
+                      <div class="flex justify-between items-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                        <span class="text-[10px] font-mono text-muted-text uppercase">{m.label}</span>
+                        <span class="text-xs font-mono font-black text-foreground uppercase tracking-widest">{m.value}</span>
+                      </div>
+                    ))}
+                  </dd>
+                </div>
+              )}
             </dl>
+
+            {outboundUrl && (
+              <div class="pt-6">
+                <a
+                  href={outboundUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full flex items-center justify-center gap-3 py-4 bg-foreground text-background rounded-full font-black uppercase text-[10px] tracking-[0.3em] hover:bg-primary transition-all shadow-clay"
+                >
+                  {project.liveUrl ? 'Access Live System' : 'Review Source Node'}
+                  <ArrowUpRight size={14} />
+                </a>
+              </div>
+            )}
           </div>
 
           {caseStudy && (
-            <div class="rounded-[2rem] border border-white/8 bg-white/[0.02] p-6 backdrop-blur-sm">
-              <p class="font-code text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                System Health Metrics
-              </p>
-
-              <div class="mt-5 grid gap-3">
-                {caseStudy.metrics.map((metric) => (
-                  <div class="rounded-2xl border border-white/6 bg-black/20 px-4 py-4 transition-all hover:border-primary/10">
-                    <p class="text-[10px] font-code uppercase tracking-[0.16em] text-zinc-500">
-                      {metric.label}
-                    </p>
-                    <p class="mt-2 text-sm font-semibold text-white tracking-tight">{metric.value}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div class="mt-5 flex flex-wrap gap-2">
-                {caseStudy.signals.map((signal) => (
-                  <span class="rounded-full border border-primary/20 bg-primary/[0.04] px-3 py-2 text-[11px] font-code uppercase tracking-[0.16em] text-primary/80">
-                    {signal}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {outboundUrl && (
-            <div class="rounded-[2rem] border border-white/8 bg-white/[0.02] p-6 backdrop-blur-sm">
-              <p class="font-code text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                External link
-              </p>
-              <a
-                href={outboundUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-4 inline-flex rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-2 text-[11px] font-code uppercase tracking-[0.16em] text-primary transition-colors hover:border-primary/30 hover:bg-primary/[0.1] hover:text-white"
-              >
-                {project.liveUrl ? 'open project' : 'open public github'}
-              </a>
+            <div class="flex flex-wrap gap-2 opacity-40 hover:opacity-100 transition-opacity">
+               {caseStudy.signals.map(s => (
+                 <span class="text-[8px] font-mono font-black text-muted-text uppercase tracking-widest border border-white/10 px-2 py-1 rounded">#{s.replace(/\s+/g, '_')}</span>
+               ))}
             </div>
           )}
         </aside>
+
       </div>
     </section>
   </main>

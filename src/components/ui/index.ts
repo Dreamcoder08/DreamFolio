@@ -20,3 +20,5 @@ export { LinkButton } from './link-button';
 export type { LinkButtonProps } from './link-button';
 
 export { Navbar } from './Navbar';
+export { SystemMonitor } from './SystemMonitor';
+export { CustomCursor } from './CustomCursor';
