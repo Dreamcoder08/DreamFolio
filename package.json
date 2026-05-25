@@ -17,7 +17,7 @@
     "lighthouse": "pnpm dlx lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html",
     "performance": "pnpm run build && pnpm run preview",
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('node_modules/.astro',{recursive:true,force:true})\"",
-    "check": "tsc --noEmit",
+    "check": "astro sync && tsc --noEmit",
     "verify": "pnpm run build && pnpm run check"
   },
   "dependencies": {
