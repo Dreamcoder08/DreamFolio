@@ -1,17 +1,24 @@
 [
   {
-    "id": "arkonyx",
-    "title": "Arkonyx",
-    "summary": "I architected this autonomous fiscal infrastructure for high-integrity operations. My focus was on auditability, resilience, and long-horizon execution in decentralized finance.",
-    "domain": "fintech-platform",
+    "id": "arkelythex",
+    "title": "Arkelythex",
+    "summary": "Fiscal-operational intelligence for Peru and LATAM: evidence graph, deterministic fiscal rules, governed agents, and approval-gated workflows.",
+    "domain": "fiscal-infrastructure",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "arkonyx-system",
+    "path": "../arkelythex",
     "updatedYear": 2026,
     "featured": true,
-    "stack": ["TypeScript", "Monorepo", "Docker"],
-    "coverImage": "/images/projects/arkonyx-interfaz.jpg",
-    "coverImageAlt": "Arkonyx - fiscal and compliance interface"
+    "stack": [
+      "Bun",
+      "React 19",
+      "Elysia",
+      "PostgreSQL",
+      "NATS"
+    ],
+    "githubUrl": "https://github.com/dreamcoder08/arkelythex",
+    "coverImage": "/images/projects/arkelythex-interface.jpg",
+    "coverImageAlt": "Arkelythex fiscal command center interface"
   },
   {
     "id": "edge-traz-agro",
@@ -23,7 +30,11 @@
     "path": "edge-traz-agro",
     "updatedYear": 2026,
     "featured": true,
-    "stack": ["TypeScript", "Bun", "Docker"],
+    "stack": [
+      "TypeScript",
+      "Bun",
+      "Docker"
+    ],
     "githubUrl": "https://github.com/dreamcoder08/EdgeTraz-Agro",
     "coverImage": "/images/projects/edgetraz-agro-hero.png",
     "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
@@ -38,7 +49,10 @@
     "path": "digital-public-peru",
     "updatedYear": 2026,
     "featured": true,
-    "stack": ["Node.js", "Rust"],
+    "stack": [
+      "Node.js",
+      "Rust"
+    ],
     "githubUrl": "https://github.com/dreamcoder08/Digital_Public_peru",
     "coverImage": "/images/projects/digital-public-peru-desktop.png",
     "coverImageAlt": "Digital Public Peru — civic interface desktop view",
@@ -53,8 +67,13 @@
     "bucket": "primary",
     "path": "legal-os-01",
     "updatedYear": 2026,
-    "featured": true,
-    "stack": ["Bun", "Turbo", "Rust", "Python"]
+    "featured": false,
+    "stack": [
+      "Bun",
+      "Turbo",
+      "Rust",
+      "Python"
+    ]
   },
   {
     "id": "portfolio-web",
@@ -66,7 +85,11 @@
     "path": "portfolio-web",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Astro", "React", "Tailwind"]
+    "stack": [
+      "Astro",
+      "React",
+      "Tailwind"
+    ]
   },
   {
     "id": "video-downloader",
@@ -78,7 +101,11 @@
     "path": "video-downloader",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Node.js", "React", "Microservices"]
+    "stack": [
+      "Node.js",
+      "React",
+      "Microservices"
+    ]
   },
   {
     "id": "administracion",
@@ -90,7 +117,10 @@
     "path": "operations-admin-lab",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Node.js", "Bun"],
+    "stack": [
+      "Node.js",
+      "Bun"
+    ],
     "githubUrl": "https://github.com/dreamcoder08/Administracion"
   },
   {
@@ -103,7 +133,10 @@
     "path": "arch-dream-machine",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Linux", "Shell"]
+    "stack": [
+      "Linux",
+      "Shell"
+    ]
   },
   {
     "id": "archetype",
@@ -115,7 +148,11 @@
     "path": "archetype",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Node.js", "Bun", "Docker"]
+    "stack": [
+      "Node.js",
+      "Bun",
+      "Docker"
+    ]
   },
   {
     "id": "design-developer-ai",
@@ -127,7 +164,11 @@
     "path": "design-developer-ai",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["React", "Vite", "TypeScript"]
+    "stack": [
+      "React",
+      "Vite",
+      "TypeScript"
+    ]
   },
   {
     "id": "dotfiles-archive",
@@ -139,7 +180,10 @@
     "path": "dotfiles-archive",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Shell", "Config"]
+    "stack": [
+      "Shell",
+      "Config"
+    ]
   },
   {
     "id": "dream-arch-wiki",
@@ -151,7 +195,10 @@
     "path": "dream-arch-wiki",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Node.js", "Documentation"],
+    "stack": [
+      "Node.js",
+      "Documentation"
+    ],
     "githubUrl": "https://github.com/dreamcoder08/Dream_Arch_Wiki"
   },
   {
@@ -164,7 +211,12 @@
     "path": "dreamcoder-dots",
     "updatedYear": 2026,
     "featured": true,
-    "stack": ["Arch Linux", "Shell", "GLSL", "Lua"],
+    "stack": [
+      "Arch Linux",
+      "Shell",
+      "GLSL",
+      "Lua"
+    ],
     "githubUrl": "https://github.com/dreamcoder08/Dreamcoder_dots",
     "coverImage": "/images/projects/dreamcoder-dots.webp",
     "coverImageAlt": "DreamcoderDots - custom Arch Linux terminal and workstation setup"
@@ -179,7 +231,10 @@
     "path": "dreamcoder-web",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Node.js", "Frontend"]
+    "stack": [
+      "Node.js",
+      "Frontend"
+    ]
   },
   {
     "id": "gobierno-peruano",
@@ -191,7 +246,11 @@
     "path": "civic-systems-lab",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Node.js", "Bun", "Frontend"]
+    "stack": [
+      "Node.js",
+      "Bun",
+      "Frontend"
+    ]
   },
   {
     "id": "spotify-albert-02",
@@ -203,7 +262,11 @@
     "path": "audio-stream-ux",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["React", "Vite", "Docker"]
+    "stack": [
+      "React",
+      "Vite",
+      "Docker"
+    ]
   },
   {
     "id": "start-up",
@@ -215,7 +278,11 @@
     "path": "startup-ops-lab",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Python", "Docker", "Microservices"]
+    "stack": [
+      "Python",
+      "Docker",
+      "Microservices"
+    ]
   },
   {
     "id": "v0-liquid-interface-design",
@@ -227,7 +294,11 @@
     "path": "liquid-ui-design",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["React", "Vite", "Design"]
+    "stack": [
+      "React",
+      "Vite",
+      "Design"
+    ]
   },
   {
     "id": "web-ai",
@@ -239,7 +310,10 @@
     "path": "web-ai",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Astro", "Content"]
+    "stack": [
+      "Astro",
+      "Content"
+    ]
   },
   {
     "id": "design-ui-ux",
@@ -251,7 +325,10 @@
     "path": "workspaces-2026-02-28/ui-ux-systems",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Next.js", "Design System"]
+    "stack": [
+      "Next.js",
+      "Design System"
+    ]
   },
   {
     "id": "developer-ai",
@@ -263,7 +340,10 @@
     "path": "workspaces-2026-02-28/developer-intelligence",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Astro", "Knowledge Base"]
+    "stack": [
+      "Astro",
+      "Knowledge Base"
+    ]
   },
   {
     "id": "ecomerce-relogs",
@@ -275,7 +355,10 @@
     "path": "workspaces-2026-02-28/watch-commerce",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Node.js", "Commerce"]
+    "stack": [
+      "Node.js",
+      "Commerce"
+    ]
   },
   {
     "id": "saas-bodega",
@@ -287,7 +370,10 @@
     "path": "workspaces-2026-02-28/operational-saas",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Next.js", "SaaS"]
+    "stack": [
+      "Next.js",
+      "SaaS"
+    ]
   },
   {
     "id": "sistema-gestion-hotelera",
@@ -299,7 +385,10 @@
     "path": "workspaces-2026-02-28/hospitality-pms",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Next.js", "PMS"]
+    "stack": [
+      "Next.js",
+      "PMS"
+    ]
   },
   {
     "id": "architect-portfolio",
@@ -311,7 +400,10 @@
     "path": "archive-2026-02-28/secondary-projects/architect-portfolio",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["React", "Portfolio"]
+    "stack": [
+      "React",
+      "Portfolio"
+    ]
   },
   {
     "id": "softwart-legal-v1",
@@ -323,7 +415,10 @@
     "path": "archive-2026-02-28/secondary-projects/legal-variants/legal-systems-v1",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["React", "Vite"]
+    "stack": [
+      "React",
+      "Vite"
+    ]
   },
   {
     "id": "softwart-legal-v2",
@@ -335,7 +430,11 @@
     "path": "archive-2026-02-28/secondary-projects/legal-variants/legal-systems-v2",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Bun", "React", "Server"]
+    "stack": [
+      "Bun",
+      "React",
+      "Server"
+    ]
   },
   {
     "id": "portfolio-classic",
@@ -347,7 +446,10 @@
     "path": "archive-2026-02-28/secondary-projects/portfolio-classic",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Next.js", "Landing Page"]
+    "stack": [
+      "Next.js",
+      "Landing Page"
+    ]
   },
   {
     "id": "dreamfolio-nextjs",
@@ -359,7 +461,10 @@
     "path": "archive-2026-02-28/secondary-projects/portfolio-variants/dreamfolio-nextjs",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Next.js", "React"]
+    "stack": [
+      "Next.js",
+      "React"
+    ]
   },
   {
     "id": "landyn-page",
@@ -371,7 +476,10 @@
     "path": "archive-2026-02-28/secondary-projects/portfolio-variants/landyn-page",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["React", "Landing Page"]
+    "stack": [
+      "React",
+      "Landing Page"
+    ]
   },
   {
     "id": "video-downloader-ultimate",
@@ -383,7 +491,11 @@
     "path": "archive-2026-02-28/secondary-projects/video-downloader-ultimate",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["React", "NestJS", "Full Stack"]
+    "stack": [
+      "React",
+      "NestJS",
+      "Full Stack"
+    ]
   },
   {
     "id": "video-downloader-nextjs",
@@ -395,7 +507,10 @@
     "path": "archive-2026-02-28/secondary-projects/video-variants/video-downloader-nextjs",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Next.js", "React"]
+    "stack": [
+      "Next.js",
+      "React"
+    ]
   },
   {
     "id": "video-downloader-web",
@@ -407,7 +522,10 @@
     "path": "archive-2026-02-28/secondary-projects/video-variants/video-downloader-web",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Vite", "Frontend"]
+    "stack": [
+      "Vite",
+      "Frontend"
+    ]
   },
   {
     "id": "pentesting",
@@ -419,7 +537,11 @@
     "path": "labs-2026-02-28/security-research",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["Shell", "Python", "Research"]
+    "stack": [
+      "Shell",
+      "Python",
+      "Research"
+    ]
   },
   {
     "id": "terminal-ai",
@@ -431,6 +553,9 @@
     "path": "labs-2026-02-28/interaction-design",
     "updatedYear": 2025,
     "featured": false,
-    "stack": ["UI Experiments", "CLI"]
+    "stack": [
+      "UI Experiments",
+      "CLI"
+    ]
   }
 ]

@@ -1,103 +1,16 @@
-# 📦 Índice de Utilidades
+# Library Helpers
 
-> Documentación de servicios, helpers y utilidades compartidas del proyecto.
+DreamFolio keeps shared logic small and presentation-oriented. There is no active analytics client or database client in the public portfolio.
 
----
+## Active helpers
 
-## 📋 Resumen
+| File | Purpose |
+|------|---------|
+| `src/lib/site.ts` | Base path and absolute URL helpers for GitHub Pages/Vercel compatibility. |
+| `src/lib/project-presentation.ts` | Project tone, cover classes, labels, and slug generation. |
+| `src/lib/project-case-studies.ts` | Curated case-study copy for selected projects. |
+| `src/lib/utils.ts` | Small class-name utility helpers. |
 
-| Utilidad | Archivo | Propósito |
-|----------|---------|-----------|
-| **MonitoringService** | `lib/monitoring.ts` | Core Web Vitals + Analytics |
-| **Supabase Client** | `lib/supabase/client.ts` | Cliente de base de datos |
+## Rule
 
----
-
-## 🏗️ Arquitectura de Utilidades
-
-```mermaid
-graph TD
-    subgraph "lib/"
-        M[monitoring.ts]
-        S[supabase/client.ts]
-    end
-    
-    subgraph "Componentes que consumen"
-        Nav[EnhancedNavigation]
-        Hero[EnhancedHero]
-        Contact[ContactSection]
-    end
-    
-    subgraph "APIs Externas"
-        WV[Web Vitals API]
-        SB[(Supabase)]
-    end
-    
-    M --> WV
-    S --> SB
-    
-    Nav --> M
-    Hero --> M
-    Contact --> S
-    Contact --> M
-    
-    style M fill:#22c55e,color:#fff
-    style S fill:#3ecf8e,color:#fff
-```
-
----
-
-## 📖 Documentación Detallada
-
-| Utilidad | Descripción | Documentación |
-|----------|-------------|---------------|
-| **MonitoringService** | Servicio singleton para tracking de Core Web Vitals (FCP, LCP, CLS, FID, TTFB), eventos de usuario y errores | [📖 monitoring.md](./monitoring.md) |
-| **Supabase Client** | Cliente Supabase con mock para build time y configuración de auth | [📖 supabase.md](./supabase.md) |
-
----
-
-## 🔧 Patrones Utilizados
-
-### Singleton Pattern (MonitoringService)
-
-```typescript
-// Instancia única exportada
-export const monitoring = new MonitoringService();
-
-// Uso en componentes
-import { monitoring, trackButtonClick } from '../lib/monitoring';
-
-trackButtonClick('cta-contact');
-```
-
-### Factory Pattern (Supabase Client)
-
-```typescript
-// Factory que decide si crear cliente real o mock
-const createSupabaseClient = () => {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return mockClient;
-  }
-  return createClient(supabaseUrl, supabaseAnonKey, options);
-};
-
-export const supabase = createSupabaseClient();
-```
-
----
-
-## ✅ Edge Cases Globales
-
-| Edge Case | Utilidad | Solución |
-|-----------|----------|----------|
-| **SSR sin window** | MonitoringService | Guard `typeof window !== 'undefined'` |
-| **Build sin env vars** | Supabase Client | Mock client que retorna promesas vacías |
-| **PerformanceObserver no soportado** | MonitoringService | Try-catch con fallback graceful |
-| **Supabase RLS** | Supabase Client | Políticas configuradas en Supabase dashboard |
-
----
-
-## 📚 Guías Relacionadas
-
-- [Mejores Prácticas 2025](../guides/best-practices.md)
-- [Inicio Rápido](../guides/getting-started.md)
+Do not add service abstractions unless they are used by production code. Public portfolio architecture should stay inspectable and boring where possible.

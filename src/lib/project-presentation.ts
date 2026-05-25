@@ -1,5 +1,5 @@
 export type ProjectTone =
-  | 'arkonyx'
+  | 'arkelythex'
   | 'govtech'
   | 'agritech'
   | 'legaltech'
@@ -10,7 +10,8 @@ export type ProjectTone =
   | 'lab';
 
 const toneMap: Record<string, ProjectTone> = {
-  'fintech-platform': 'arkonyx',
+  'fintech-platform': 'arkelythex',
+  'fiscal-infrastructure': 'arkelythex',
   govtech: 'govtech',
   agritech: 'agritech',
   legaltech: 'legaltech',
@@ -47,22 +48,22 @@ export function getProjectTone(domain: string, bucket: string): ProjectTone {
 
 export function getProjectCoverClasses(tone: ProjectTone): string {
   const toneClasses: Record<ProjectTone, string> = {
-    arkonyx:
+    arkelythex:
       'from-primary/20 via-primary/5 to-transparent',
     govtech:
       'from-cyan/20 via-cyan/5 to-transparent',
     agritech:
       'from-sage/20 via-sage/5 to-transparent',
     legaltech:
-      'from-lavender/20 via-lavender/5 to-transparent',
+      'from-cyan/20 via-cyan/5 to-transparent',
     media:
-      'from-mauve/20 via-mauve/5 to-transparent',
+      'from-accent/20 via-accent/5 to-transparent',
     systems:
-      'from-secondary/20 via-secondary/5 to-transparent',
+      'from-sage/20 via-sage/5 to-transparent',
     design:
-      'from-mauve/15 via-mauve/5 to-transparent',
+      'from-primary/15 via-primary/5 to-transparent',
     archive:
-      'from-muted/20 via-muted/5 to-transparent',
+      'from-muted-text/20 via-muted-text/5 to-transparent',
     lab:
       'from-accent/20 via-accent/5 to-transparent',
   };
@@ -72,7 +73,7 @@ export function getProjectCoverClasses(tone: ProjectTone): string {
 
 export function getProjectToneLabel(tone: ProjectTone): string {
   const labels: Record<ProjectTone, string> = {
-    arkonyx: 'Core System',
+    arkelythex: 'Fiscal Intelligence',
     govtech: 'Public Infrastructure',
     agritech: 'Edge Traceability',
     legaltech: 'Legal Intelligence',

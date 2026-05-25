@@ -1,18 +1,18 @@
 # Dreamcoder | Systems Architect
 
 Designing systems that compound over time.
-Focused on high-integrity infrastructure, autonomous execution, and long-horizon architectures.
+Focused on fiscal-operational intelligence, auditability, and systems that stay inspectable under pressure.
 
 ---
 
 ## ⚙️ Active Systems
 
-### ARKONYX — Autonomous Fiscal Infrastructure
-A fiscal operating system engineered for the evolving SUNAT landscape.
+### Arkelythex — Fiscal-Operational Intelligence
+Fiscal infrastructure for Peru and LATAM: evidence graph, deterministic rules, governed agents, and approval-gated workflows.
 
-- Rust FFI core for deterministic XML and cryptographic processing
-- Autonomous agent orchestration for real-time auditing
-- High-integrity pipelines designed for adversarial environments
+- Drenyra command center for fiscal operations
+- Evidence-first workflows for SUNAT, SIRE, CPE, and close review
+- Governed agents that prepare and explain work without bypassing approval
 
 → Architecture, benchmarks, and deep dives will be published alongside release.
 
@@ -65,7 +65,7 @@ Advanced system configuration optimized for high-load systems development.
 ---
 
 ## 🧭 Current Trajectory
-Building autonomous infrastructures that remain operable under scale, latency pressure, and imperfect conditions.
+Building fiscal and civic systems that stay traceable under scale, latency pressure, and imperfect conditions.
 
 All major systems are undergoing final hardening before public release.
 

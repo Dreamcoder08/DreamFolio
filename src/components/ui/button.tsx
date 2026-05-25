@@ -18,8 +18,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variants = {
       default: "rounded-full border border-primary/40 bg-primary text-background shadow-soft hover:bg-accent hover:border-accent hover:shadow-elevated hover:-translate-y-0.5",
       outline: "rounded-full border border-primary/20 bg-primary/5 text-foreground hover:border-primary/40 hover:bg-primary/10",
-      ghost: "rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary",
-      link: "text-muted-foreground underline-offset-4 hover:text-primary hover:underline",
+      ghost: "rounded-full text-muted-text hover:bg-primary/10 hover:text-primary",
+      link: "text-muted-text underline-offset-4 hover:text-primary hover:underline",
     };
 
     const sizes = {

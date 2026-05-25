@@ -19,7 +19,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label
             htmlFor={textareaId}
-            className="block text-[11px] font-code uppercase tracking-[0.18em] text-zinc-500"
+            className="block text-[11px] font-code uppercase tracking-[0.18em] text-muted-text"
           >
             {label}
           </label>
@@ -30,9 +30,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           aria-invalid={!!error}
           aria-describedby={error ? `${textareaId}-error` : undefined}
           className={cn(
-            "w-full rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3.5 text-base text-white resize-none",
-            "focus:border-white/18 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/50",
-            "transition-colors duration-300 placeholder-zinc-600",
+            "w-full rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3.5 text-base text-foreground resize-none",
+            "focus:border-primary/45 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary/50",
+            "transition-colors duration-300 placeholder:text-muted-text/35",
             error && "border-red-500",
             className
           )}

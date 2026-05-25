@@ -19,8 +19,8 @@
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/dreamcoder08/dreamfolio-astro.git
-cd dreamfolio-astro
+git clone https://github.com/dreamcoder08/DreamFolio.git
+cd DreamFolio
 ```
 
 ### 2. Instalar Dependencias
@@ -32,22 +32,10 @@ pnpm install
 ### 3. Configurar Variables de Entorno
 
 ```bash
-# Copiar template
-cp .env.example .env
-
-# Editar con tus credenciales
-nano .env
+# No required environment variables for the public portfolio.
 ```
 
-**Variables requeridas:**
-
-```bash
-# Supabase (opcional para desarrollo)
-PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-> 💡 **Nota:** El proyecto funciona sin Supabase configurado (usa mock client).
+> 💡 **Nota:** `TechnicalIntake` genera un borrador `mailto:` local; no hay backend público ni credenciales requeridas.
 
 ### 4. Iniciar Servidor de Desarrollo
 
@@ -62,7 +50,7 @@ Abre [http://localhost:4321](http://localhost:4321) en tu navegador.
 ## 📂 Estructura del Proyecto
 
 ```text
-dreamfolio-astro/
+DreamFolio/
 ├── docs/                 # 📚 Documentación (estás aquí)
 ├── public/               # 📁 Assets estáticos
 ├── src/
@@ -134,11 +122,11 @@ const { title } = Astro.props;
 ### Nuevo Componente React (Island)
 
 ```tsx
-// src/components/sections/InteractiveSection.tsx
+// src/components/sections/TechnicalIntake.tsx
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 
-export default function InteractiveSection() {
+export default function TechnicalIntake() {
   const [count, setCount] = useState(0);
   
   return (
@@ -158,11 +146,11 @@ export default function InteractiveSection() {
 
 ```astro
 ---
-import InteractiveSection from '../components/sections/InteractiveSection';
+import TechnicalIntake from '../components/sections/TechnicalIntake';
 ---
 
 <!-- Solo carga JS cuando es visible -->
-<InteractiveSection client:visible />
+<TechnicalIntake client:visible />
 ```
 
 ---
@@ -190,23 +178,18 @@ Abre DevTools (F12) y observa los logs de performance en la consola durante desa
 ### Error: Cannot find module
 
 ```bash
-# Limpiar y reinstalar
+# Limpiar artefactos de build
 pnpm clean
-rm -rf node_modules
 pnpm install
 ```
 
-### Error: Supabase not configured
+### El formulario no envía a un backend
 
-El proyecto usa un mock client automáticamente. Para funcionalidad completa:
-
-1. Crea proyecto en [supabase.com](https://supabase.com)
-2. Copia URL y anon key al `.env`
-3. Reinicia el servidor de desarrollo
+Es intencional. `TechnicalIntake` valida localmente y abre un borrador `mailto:` para evitar credenciales públicas y backend innecesario.
 
 ### Build falla en Vercel
 
-Verifica que las variables de entorno estén configuradas en el dashboard de Vercel.
+Verifica que Vercel use `pnpm install` y `pnpm build`, como está definido en `vercel.json`.
 
 ---
 

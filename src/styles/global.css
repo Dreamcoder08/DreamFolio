@@ -8,6 +8,11 @@
   --color-surface: #211810;
   --color-elevated: #2a1f16;
   --color-border: #402c18;
+  --color-card: #211810;
+  --color-muted: #2a1f16;
+  --color-muted-foreground: #b8a89a;
+  --color-secondary: #9ec49f;
+  --color-destructive: #ffb4ab;
   
   --color-foreground: #eee0d5;
   --color-muted-text: #b8a89a;
@@ -65,6 +70,11 @@
     @apply fixed inset-0 pointer-events-none z-[5000] opacity-[0.025];
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  :is(a, button, input, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
 }
 
 @layer utilities {
@@ -82,5 +92,60 @@
 
   .gradient-text-primary {
     @apply bg-gradient-to-br from-foreground via-primary to-accent bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-3xl bg-surface/80 border border-border shadow-clay;
+  }
+
+  .glass-clay {
+    @apply backdrop-blur-3xl bg-surface/80 border border-border shadow-clay rounded-3xl;
+  }
+
+  .font-code {
+    font-family: var(--font-mono);
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(rgba(251, 185, 116, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(251, 185, 116, 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 28px rgba(251, 185, 116, 0.24);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 30px rgba(251, 185, 116, 0.18);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+  }
+
+  .glass-card {
+    @apply backdrop-blur-3xl bg-surface/70 border border-border shadow-clay rounded-3xl;
+  }
+
+  .font-tech {
+    font-family: var(--font-display);
+  }
+
+  .gradient-text-cyber {
+    @apply bg-gradient-to-br from-foreground via-primary to-cyan bg-clip-text text-transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

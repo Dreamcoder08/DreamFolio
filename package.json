@@ -1,5 +1,5 @@
 {
-  "name": "dreamfolio-astro",
+  "name": "dreamfolio",
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@10.33.0",
@@ -14,15 +14,15 @@
     "deploy:pages": "pnpm run build",
     "deploy": "vercel --prod",
     "deploy:staging": "vercel",
-    "analyze": "pnpm dlx @next/bundle-analyzer dist/",
     "lighthouse": "pnpm dlx lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html",
     "performance": "pnpm run build && pnpm run preview",
-    "clean": "rm -rf dist node_modules/.astro"
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('node_modules/.astro',{recursive:true,force:true})\"",
+    "check": "tsc --noEmit",
+    "verify": "pnpm run build && pnpm run check"
   },
   "dependencies": {
     "@astrojs/react": "^4.1.0",
-    "@hookform/resolvers": "^4.1.3",
-"@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.18.0",
     "clsx": "^2.1.1",
@@ -30,10 +30,8 @@
     "motion": "^12.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.4.0",
-    "tailwindcss": "^4.1.0",
-    "zod": "^3.25.76"
+    "tailwindcss": "^4.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

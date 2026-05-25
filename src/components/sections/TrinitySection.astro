@@ -4,21 +4,21 @@ import { ShieldCheck, BrainCircuit, Cpu, ArrowRight } from 'lucide-react'
 const principles = [
   {
     title: "Deterministic Traceability",
-    desc: "Every state transition must be auditable. We don't trust logs; we trust immutable evidence trails.",
-    metric: "100% Audit Coverage",
+    desc: "Critical state changes must explain their source, rule, risk, and approval path.",
+    metric: "Inspectable State",
     accent: "text-primary"
   },
   {
     title: "Constraint-First Architecture",
-    desc: "Systems are defined by what they CANNOT do. Limits are the primary defense against operational entropy.",
+    desc: "The safest systems define forbidden actions before adding automation.",
     metric: "Strict Invariants",
     accent: "text-sage"
   },
   {
     title: "Resilience over Uptime",
-    desc: "Uptime is vanity. Resilience—the ability to degrade gracefully and recover autonomously—is sanity.",
-    metric: "Self-Healing Cycles",
-    accent: "text-lavender"
+    desc: "The real test is how the system behaves when data, users, or infrastructure become imperfect.",
+    metric: "Graceful Recovery",
+    accent: "text-cyan"
   }
 ];
 ---
@@ -28,19 +28,19 @@ const principles = [
     
     <div class="col-span-4 md:col-span-8 lg:col-span-12 mb-20 text-center lg:text-left">
       <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.5em] mb-8">
-        Section 02 // Architectural Invariants
+        Section 04 // Architectural Invariants
       </p>
       <h2 class="text-[var(--text-fluid-display)] font-display font-black text-foreground tracking-tighter leading-[0.95] italic max-w-5xl">
-        "Software is a <span class="text-muted-text/20 not-italic">liability</span> unless it can provide <span class="text-primary underline underline-offset-[12px] decoration-white/10">deterministic evidence</span> of its intent."
+        "A system is not trustworthy because it is automated. It is trustworthy because it can be inspected."
       </h2>
     </div>
 
     <div class="col-span-4 md:col-span-8 lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
       {principles.map((p, i) => (
         <div class="group">
-          <div class="glass-clay p-8 md:p-12 h-full flex flex-col justify-between border-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-primary/20">
+          <div class="glass-panel p-8 md:p-12 h-full flex flex-col justify-between border-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-primary/20">
             <div class="space-y-6">
-              <span class="font-mono text-[10px] text-muted-text/30 font-black">SYSTEM_PRINCIPLE_0{i + 1}</span>
+              <span class="font-mono text-[10px] text-muted-text font-black">SYSTEM_PRINCIPLE_0{i + 1}</span>
               <h3 class="text-3xl md:text-4xl font-display font-black text-foreground tracking-tighter leading-tight italic">
                 {p.title}
               </h3>
@@ -53,7 +53,7 @@ const principles = [
               <span class:list={["font-mono text-[10px] font-black uppercase tracking-widest", p.accent]}>
                 {p.metric}
               </span>
-              <ArrowRight class="w-4 h-4 text-muted-text/20 group-hover:text-primary transition-colors" />
+              <ArrowRight class="w-4 h-4 text-muted-text group-hover:text-primary transition-colors" />
             </div>
           </div>
         </div>

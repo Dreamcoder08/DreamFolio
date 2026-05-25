@@ -7,7 +7,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://albert-fer02.github.io',
+  site: 'https://dreamcoder08.github.io',
   base: isDev ? '/' : '/DreamFolio',
   server: {
     host: true,

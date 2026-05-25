@@ -29,7 +29,7 @@ Como Senior Software Engineer, mi enfoque para tomar decisiones técnicas se bas
 | **Tailwind CSS** | v4.1 | Motor nativo Rust/Go, configuración CSS-first con `@theme` |
 | **TypeScript** | v5.9 | Inferencia mejorada para promesas y arrays inmutables |
 | **Motion** | v12.x | ⚠️ Rebrand de Framer Motion, bundle reducido, API simplificada |
-| **Zod** | v3.25+ | Runtime + compile-time type safety |
+| **local validation** | v3.25+ | Runtime + compile-time type safety |
 
 ### ⚠️ Notas de Arquitectura Técnica (Update 2025)
 
@@ -76,13 +76,13 @@ graph TB
     
     subgraph "🔒 Types"
         TS[TypeScript 5.9]
-        Zod[Zod Schemas]
-        TS --> Zod
+        local validation[local validation Schemas]
+        TS --> local validation
     end
     
     Islands --> React
     Islands --> TW
-    CC --> Zod
+    CC --> local validation
     
     style Astro fill:#ff5a03,color:#fff
     style React fill:#61dafb,color:#000
@@ -271,7 +271,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://dreamfolio-astro.vercel.app',
+  site: 'https://dreamcoder08.github.io/DreamFolio/',
   integrations: [sitemap()],
 });
 ```
@@ -283,7 +283,7 @@ export default defineConfig({
 User-agent: *
 Allow: /
 
-Sitemap: https://dreamfolio-astro.vercel.app/sitemap-index.xml
+Sitemap: https://dreamcoder08.github.io/DreamFolio//sitemap-index.xml
 ```
 
 ---
@@ -387,8 +387,8 @@ Sigue el patrón Atomic Design para componentes reutilizables:
 ### Custom Hooks - Separar Lógica de UI
 
 ```typescript
-// hooks/useContactForm.ts
-export function useContactForm() {
+// hooks/inlineContactValidation.ts
+export function inlineContactValidation() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   // ... toda la lógica
@@ -396,8 +396,8 @@ export function useContactForm() {
 }
 
 // El componente solo tiene JSX
-const ContactSection = () => {
-  const { register, errors, isSubmitting, handleFormSubmit } = useContactForm();
+const TechnicalIntake = () => {
+  const { register, errors, isSubmitting, handleFormSubmit } = inlineContactValidation();
   return <form onSubmit={handleFormSubmit}>...</form>;
 };
 ```
@@ -448,7 +448,7 @@ src/
 
 ## 📝 Content Collections (Astro)
 
-Para proyectos y contenido estructurado, usa Content Collections con Zod:
+Para proyectos y contenido estructurado, usa Content Collections con local validation:
 
 ```typescript
 // src/content/config.ts

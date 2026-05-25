@@ -6,15 +6,15 @@ const layers = [
     id: "01",
     title: "Architecture",
     subtitle: "Hexagonal & Event-Driven",
-    desc: "Decoupling business logic from infrastructure ensures that core rules are testable, immutable, and independent of external failure or framework churn.",
+    desc: "Business rules stay isolated from frameworks so fiscal and product logic can be tested without infrastructure noise.",
     icon: Box,
     accent: "text-primary"
   },
   {
     id: "02",
     title: "Testing",
-    subtitle: "Strict Property-Based Coverage",
-    desc: "Beyond traditional unit tests. I leverage property-based testing to verify architectural invariants across thousands of automatically generated edge-case scenarios.",
+    subtitle: "Invariant-Driven Verification",
+    desc: "Tests focus on what must never break: state transitions, validation boundaries, and evidence trails.",
     icon: Code2,
     accent: "text-sage"
   },
@@ -22,15 +22,15 @@ const layers = [
     id: "03",
     title: "Security",
     subtitle: "Audit-First & Zero Trust",
-    desc: "Zero-trust by default. Every system mutation and administrative decision is cryptographically signed and stored for forensic, human-readable review.",
+    desc: "Sensitive operations require explicit boundaries, human-readable traces, and reviewable decisions.",
     icon: ShieldAlert,
-    accent: "text-lavender"
+    accent: "text-cyan"
   },
   {
     id: "04",
     title: "Performance",
     subtitle: "Deterministic Runtimes",
-    desc: "Utilizing memory-safe runtimes (Rust, Go) for mission-critical paths to ensure sub-millisecond latency and predictable resource utilization under heavy load.",
+    desc: "Fast interfaces and predictable backends are part of trust: users should never wonder if the system is thinking or failing.",
     icon: Zap,
     accent: "text-accent"
   }
@@ -42,14 +42,14 @@ const layers = [
     
     <div class="col-span-4 md:col-span-8 lg:col-span-5 space-y-10">
       <div class="space-y-4">
-        <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">Section 04 // Technical Depth</p>
+        <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">Section 07 // Technical Depth</p>
         <h2 class="text-5xl lg:text-7xl font-display font-black tracking-tighter text-foreground italic leading-[0.95]">
           The Depth of the <span class="text-accent">Audit.</span>
         </h2>
       </div>
       
       <p class="text-lg md:text-xl text-muted-text leading-relaxed font-medium max-w-md">
-        Architecture is the art of managing risk. My systems are built on four non-negotiable layers of technical integrity and operational clarity.
+        The standard is simple: rules isolated, behavior tested, operations reviewable, interfaces fast.
       </p>
       
       <div class="pt-8 space-y-6">
@@ -66,15 +66,15 @@ const layers = [
 
     <div class="col-span-4 md:col-span-8 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 lg:mt-0">
       {layers.map((layer) => (
-        <div class="glass-clay p-8 md:p-10 border-white/5 hover:border-primary/30 transition-all duration-500 group">
+        <div class="glass-panel p-8 md:p-10 border-white/5 hover:border-primary/30 transition-all duration-500 group">
           <div class="flex justify-between items-start mb-8">
-            <span class="font-mono text-[10px] font-black text-muted-text/30">LAYER_{layer.id}</span>
+            <span class="font-mono text-[10px] font-black text-muted-text">LAYER_{layer.id}</span>
             <layer.icon class:list={["w-6 h-6 transition-transform group-hover:scale-110", layer.accent]} strokeWidth={1.5} />
           </div>
           
           <div class="space-y-4">
             <div>
-              <h4 class:list={["font-mono text-[10px] font-black uppercase tracking-[0.2em] mb-2", layer.accent]}>{layer.title}</h4>
+              <h3 class:list={["font-mono text-[10px] font-black uppercase tracking-[0.2em] mb-2", layer.accent]}>{layer.title}</h3>
               <p class="text-xl font-display font-black text-foreground tracking-tight leading-none italic">{layer.subtitle}</p>
             </div>
             <p class="text-sm text-muted-text leading-relaxed font-medium">

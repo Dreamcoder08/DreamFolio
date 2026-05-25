@@ -1,18 +1,19 @@
 ---
 import '../styles/global.css'
 import { toAbsoluteSiteUrl, withBaseAsset } from '../lib/site';
-import { SystemMonitor, CustomCursor } from '../components/ui';
 
 export interface Props {
   title: string
   description?: string
   image?: string
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[]
 }
 
 const {
   title,
   description = 'Architecting high-integrity AI infrastructure for domains where trust is expensive and evidence matters.',
-  image = '/og-image.jpg',
+  image = '/images/projects/arkelythex-interface.jpg',
+  jsonLd,
 } = Astro.props
 
 const siteOrigin = Astro.site?.toString() ?? 'https://dreamcoder08.github.io';
@@ -25,6 +26,24 @@ const canonical = new URL(
 const imageUrl = /^https?:\/\//.test(image)
   ? image
   : toAbsoluteSiteUrl(image, siteOrigin);
+
+const defaultJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Dreamcoder08',
+  url: canonical,
+  jobTitle: 'Systems Architect',
+  knowsAbout: [
+    'Audit-first AI infrastructure',
+    'Fiscal infrastructure',
+    'Evidence-driven design',
+    'Systems architecture',
+    'Visual operating systems',
+  ],
+  sameAs: ['https://github.com/dreamcoder08'],
+};
+
+const structuredData = jsonLd ?? defaultJsonLd;
 ---
 
 <!doctype html>
@@ -47,6 +66,8 @@ const imageUrl = /^https?:\/\//.test(image)
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={`${title} preview image`} />
+    <meta property="og:site_name" content="DreamFolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -54,23 +75,18 @@ const imageUrl = /^https?:\/\//.test(image)
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={`${title} preview image`} />
+    <meta name="theme-color" content="#19120C" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700;1,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Security Headers -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
-    <meta
-      http-equiv="Referrer-Policy"
-      content="strict-origin-when-cross-origin"
-    />
+    <!-- Security headers are configured in vercel.json. -->
 
     <!-- SEO -->
     <link rel="canonical" href={canonical} />
@@ -78,12 +94,12 @@ const imageUrl = /^https?:\/\//.test(image)
     <meta name="author" content="Dreamcoder08" />
     <meta
       name="keywords"
-      content="systems architect, audit-first ia, fiscal infrastructure, arkonyx, evidence-driven design, dreamcoder08, visual operating system"
+      content="systems architect, audit-first ai, fiscal infrastructure, arkelythex, evidence-driven design, dreamcoder08, visual operating system"
     />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   </head>
   <body class="min-h-screen antialiased">
-    <CustomCursor client:load />
-    <SystemMonitor client:load />
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[9999] focus:rounded-full focus:border focus:border-primary/40 focus:bg-background-deep focus:px-5 focus:py-3 focus:font-mono focus:text-[10px] focus:font-black focus:uppercase focus:tracking-[0.2em] focus:text-primary">Skip to content</a>
     <slot />
   </body>
 </html>

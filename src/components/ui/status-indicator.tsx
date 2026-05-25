@@ -17,7 +17,7 @@ const StatusIndicator = React.forwardRef<HTMLSpanElement, StatusIndicatorProps>(
       online: "bg-primary",
       offline: "bg-zinc-600",
       busy: "bg-accent",
-      idle: "bg-secondary",
+      idle: "bg-muted-text",
     };
 
     const sizes = {

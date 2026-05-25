@@ -1,0 +1,153 @@
+---
+import { withBase } from '../../lib/site';
+
+interface PublicRepoItem {
+  name: string;
+  href: string;
+  description: string;
+}
+
+const featuredPublicRepos: PublicRepoItem[] = [
+  {
+    name: 'Arkelythex',
+    href: 'https://github.com/dreamcoder08/arkelythex',
+    description: 'Fiscal-operational intelligence for evidence, governed agents, and approval-gated workflows.',
+  },
+  {
+    name: 'Digital_Public_peru',
+    href: 'https://github.com/dreamcoder08/Digital_Public_peru',
+    description: 'Civic digital infrastructure and architecture for public services.',
+  },
+  {
+    name: 'Dreamcoder_dots',
+    href: 'https://github.com/dreamcoder08/Dreamcoder_dots',
+    description: 'Arch Linux workstation and engineering stack for the terminal.',
+  },
+];
+
+const additionalPublicRepos: PublicRepoItem[] = [
+  {
+    name: 'EdgeTraz-Agro',
+    href: 'https://github.com/dreamcoder08/EdgeTraz-Agro',
+    description: 'Offline-first traceability for agro-industrial environments.',
+  },
+  {
+    name: 'operations-admin-lab',
+    href: 'https://github.com/dreamcoder08/Administracion',
+    description: 'Operations workflows and management tooling.',
+  },
+  {
+    name: 'CleanSweep',
+    href: 'https://github.com/dreamcoder08/CleanSweep',
+    description: 'Rust automation for workstation cleanup and dotfiles workflows.',
+  },
+];
+---
+
+<section
+  id="collaboration"
+  class="py-24 sm:py-32 bg-transparent relative overflow-hidden"
+  aria-labelledby="collaboration-heading"
+>
+  <div class="absolute inset-0 bg-grid-pattern opacity-10" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <header class="text-center mb-20">
+      <span class="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 font-code text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+        <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true"></span>
+        SECTION 08 // PUBLIC SIGNAL
+      </span>
+      <h2 id="collaboration-heading" class="text-4xl md:text-5xl lg:text-6xl font-display font-black mb-8 tracking-tighter">
+        <span class="gradient-text-primary text-shadow-glow">Public Systems</span>{' '}
+        <span>Signal</span>
+      </h2>
+      <p class="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto font-medium leading-relaxed">
+        Selected public proof. Flagship platform, civic systems, edge traceability, and workstation craft.
+      </p>
+    </header>
+
+    <div class="mb-14">
+      <p class="text-[10px] font-black uppercase tracking-[0.25em] text-muted-text mb-6 text-center">
+        Priority Signals
+      </p>
+      <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+        {featuredPublicRepos.map((item) => (
+          <article class="group">
+            <div class="glass relative overflow-hidden rounded-[32px] transition-all duration-500 hover:border-primary/40 hover:shadow-elevated hover:-translate-y-2">
+              <div class="p-8">
+                <p class="text-[10px] font-code font-bold uppercase tracking-[0.2em] text-muted-text mb-3">
+                  Inspectable System
+                </p>
+                <h3 class="font-display font-black text-2xl mb-4 group-hover:text-primary transition-colors break-all tracking-tight">
+                  {item.name}
+                </h3>
+
+                <p class="text-foreground/80 text-base leading-[1.7] mb-6 font-medium">
+                  {item.description}
+                </p>
+
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary transition-all hover:text-white group/link"
+                >
+                  Inspect Source
+                  <span class="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <p class="text-[10px] font-black uppercase tracking-[0.25em] text-muted-text mb-6 text-center">
+        Supporting Tracks
+      </p>
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {additionalPublicRepos.map((item) => (
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group rounded-2xl border border-border/30 bg-surface/40 px-6 py-5 backdrop-blur-xl transition-all duration-300 hover:border-primary/40 hover:bg-primary/[0.04] hover:-translate-y-1"
+          >
+            <p class="text-sm font-black text-white break-all group-hover:text-primary transition-colors">{item.name}</p>
+            <p class="mt-2 text-xs text-foreground/70 leading-relaxed font-medium">{item.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="text-center mt-20">
+      <div class="glass relative overflow-hidden rounded-[32px] p-10 sm:p-14 bg-gradient-to-r from-primary/15 via-accent/10 to-primary/15 border-primary/30 shadow-elevated">
+        <h3 class="text-3xl sm:text-4xl font-display font-black mb-6 tracking-tighter text-foreground">
+          Open a technical conversation?
+        </h3>
+        <p class="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+          For fiscal AI systems, compliance workflows, product architecture, and founder/operator collaborations with clear constraints.
+        </p>
+        <div class="flex flex-wrap justify-center gap-5">
+          <a
+            href={withBase('/#contact')}
+            class="inline-flex items-center rounded-full border border-primary/40 bg-primary px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-background transition-all hover:bg-accent hover:border-accent hover:shadow-[0_0_30px_rgba(251,185,116,0.18)] hover:-translate-y-0.5"
+          >
+            <span class="mr-2" aria-hidden="true">✉</span>
+            Open Technical Conversation
+          </a>
+          <a
+            href="https://github.com/dreamcoder08"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-foreground transition-all hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5"
+          >
+            <span class="mr-2" aria-hidden="true">⌘</span>
+            Inspect GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

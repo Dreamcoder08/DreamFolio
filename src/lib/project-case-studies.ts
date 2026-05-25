@@ -3,6 +3,23 @@ export interface ProjectSignalMetric {
   value: string;
 }
 
+export interface ProjectCaseStudySection {
+  title: string;
+  body: string;
+}
+
+export interface ProjectCaseStudyModule {
+  name: string;
+  description: string;
+}
+
+export interface ProjectFlagshipCaseStudy {
+  thesis: string;
+  sections: ProjectCaseStudySection[];
+  modules: ProjectCaseStudyModule[];
+  decisions: string[];
+}
+
 export interface ProjectCaseStudy {
   eyebrow: string;
   challenge: string;
@@ -13,30 +30,76 @@ export interface ProjectCaseStudy {
   metrics: ProjectSignalMetric[];
   cardImpact: string;
   highlightRank: number;
+  flagship?: ProjectFlagshipCaseStudy;
 }
 
 const projectCaseStudies: Record<string, ProjectCaseStudy> = {
-  arkonyx: {
-    eyebrow: 'Mission-Critical Infrastructure',
+  arkelythex: {
+    eyebrow: 'Flagship Fiscal-Operational Intelligence',
     challenge:
-      'My challenge was to design a high-integrity fiscal operating system capable of handling autonomous execution with absolute auditability and zero-fault tolerance.',
+      'Peruvian fiscal operations still depend on scattered files, manual review, and late visibility. The hard problem is not automation; it is making fiscal decisions traceable before they affect the business.',
     approach:
-      'I implemented a domain-driven architecture with strict state isolation and an event-driven core. I focused on minimizing the attack surface by employing a static-first management interface.',
+      'I am building Arkelythex as a fiscal-operational intelligence platform: deterministic rules, governed agents, evidence graph, and human approval gates.',
     outcome:
-      'I delivered a resilient fiscal backbone that anchors the Arkonyx ecosystem, providing verifiable transparency and operational consistency across distributed nodes.',
+      'Arkelythex turns close, review, reconciliation, and compliance work into inspectable workflows for Peru-first teams and LATAM expansion.',
     evidence: [
-      'My stateless execution engine for fiscal logic validation.',
-      'Cryptographically verifiable audit trails I architected for system transitions.',
-      'Automated reconciliation pipelines that materially reduced manual review workload.',
+      'Fiscal validation modeled as deterministic gates before state changes.',
+      'SIRE, CPE, reconciliation, and close workflows designed around visible evidence.',
+      'Governed agents prepare work, but approval and execution stay bounded by traceability.',
     ],
-    signals: ['Domain-Driven Design', 'Fiscal Integrity', 'Event Orchestration'],
+    signals: ['SUNAT', 'SIRE', 'CPE', 'Evidence Graph', 'Governed Agents'],
     metrics: [
-      { label: 'Architecture', value: 'Event-Driven Core' },
-      { label: 'Data Integrity', value: 'Atomic Transitions' },
-      { label: 'Security', value: 'Zero-Trust Surface' },
+      { label: 'Domain', value: 'Peru Fiscal Ops' },
+      { label: 'Trust Model', value: 'Evidence-First' },
+      { label: 'Execution', value: 'Approval-Gated' },
     ],
-    cardImpact: 'Autonomous fiscal infrastructure I architected for high-integrity decentralized operations.',
+    cardImpact:
+      'Fiscal-operational intelligence with deterministic rules, evidence trails, and governed agent workflows.',
     highlightRank: 1,
+    flagship: {
+      thesis:
+        'Arkelythex treats fiscal evidence as the operating layer for accounting, compliance, and agent-assisted work.',
+      sections: [
+        {
+          title: 'Problem Space',
+          body:
+            'Fiscal work breaks when invoices, declarations, accounting context, and review decisions live in disconnected tools.',
+        },
+        {
+          title: 'Architectural Thesis',
+          body:
+            'Domain rules decide what cannot happen. Agents can assist, but only inside inspectable boundaries.',
+        },
+        {
+          title: 'Evidence Model',
+          body:
+            'Every workflow explains what entered, which rules ran, what risk appeared, what evidence was produced, and who approved the next step.',
+        },
+      ],
+      modules: [
+        {
+          name: 'Drenyra Command Center',
+          description: 'Coordinates companies, periods, agents, evidence, risk, and approval.',
+        },
+        {
+          name: 'Fiscal Truth Engine',
+          description: 'Runs deterministic fiscal rules before accounting state changes.',
+        },
+        {
+          name: 'Evidence Graph',
+          description: 'Keeps source trails, mismatches, reviews, and decisions connected.',
+        },
+        {
+          name: 'Governed Agents',
+          description: 'Prepare and explain work without bypassing human approval.',
+        },
+      ],
+      decisions: [
+        'Position Arkelythex as company + platform, not just a single app.',
+        'Keep the narrative short: fiscal evidence, governed agents, human approval.',
+        'Use Drenyra as the flagship command center inside the ecosystem.',
+      ],
+    },
   },
   'legal-os-01': {
     eyebrow: 'Structured Intelligence System',

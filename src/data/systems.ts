@@ -14,15 +14,15 @@ export interface SystemUnit {
 
 export const mainSystems: SystemUnit[] = [
   {
-    id: "arkonyx",
-    title: "ARKONYX",
-    domain: "Fiscal Infrastructure",
-    friction: "Manual compliance, SUNAT complexity, and fragmented accounting evidence in high-volatility environments.",
-    architecture: "Audit-first autonomous engine using Hexagonal Architecture + immutable process traces.",
-    evidence: "UBL validation rules and SIRE-compatible cryptographic execution logs verified by automated state constraints.",
-    role: "Lead Systems Architect. Designed the autonomous fiscal engine and audit-first data layer.",
-    stack: ["TypeScript", "Monorepo", "Rust", "Docker"],
-    outcome: "99.9% deterministic recovery and verified compliance infrastructure for high-integrity operations.",
+    id: "arkelythex",
+    title: "Arkelythex",
+    domain: "Fiscal-Operational Intelligence",
+    friction: "Fiscal teams operate with scattered evidence, manual close cycles, and opaque AI risk.",
+    architecture: "Deterministic fiscal runtime with governed agents, evidence graph, and approval gates.",
+    evidence: "SUNAT, SIRE, CPE, reconciliation, and human-review traces stay inspectable before execution.",
+    role: "Founder and Systems Architect. Building the company, platform, and Drenyra command center.",
+    stack: ["Bun", "React 19", "Elysia", "PostgreSQL", "NATS"],
+    outcome: "Peru-first fiscal operations become traceable, reviewable, and ready for LATAM expansion.",
     updatedYear: 2026,
     featured: true
   },

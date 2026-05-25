@@ -1,0 +1,120 @@
+---
+import type { SystemUnit as SystemUnitType } from '../../data/systems';
+import { withBase } from '../../lib/site';
+
+interface Props {
+  system: SystemUnitType;
+}
+
+const { system } = Astro.props;
+
+const projectRoutes: Record<string, string> = {
+  arkelythex: '/projects/arkelythex',
+  'edge-traz-agro': '/projects/edge-traz-agro',
+  'legal-os': '/projects/legal-os',
+  'dreamcoder-dots': '/projects/dreamcoderdots',
+};
+
+const projectRoute = projectRoutes[system.id] ?? '/projects';
+const inspectionRows = [
+  ['Problem', system.friction],
+  ['Architecture', system.architecture],
+  ['Evidence', system.evidence],
+  ['Outcome', system.outcome],
+] as const;
+---
+
+<article class="glass-panel overflow-hidden group border-border hover:border-primary/30 transition-all duration-700">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+    <div class="lg:col-span-4 bg-background-deep p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-border">
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></div>
+          <span class="terminal-text text-primary">Unit: {system.id}</span>
+        </div>
+        <h3 class="text-4xl md:text-5xl font-display font-black text-foreground italic tracking-tighter uppercase">
+          {system.title}
+        </h3>
+        <p class="terminal-text text-muted-text">{system.domain}</p>
+      </div>
+
+      <div class="pt-10 flex flex-wrap gap-2">
+        {system.stack.map((tech) => (
+          <span class="bg-surface border border-border px-3 py-1 rounded-full terminal-text text-[8px] text-muted-text">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 p-10 space-y-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 terminal-text text-danger">
+            <span aria-hidden="true">●</span> Friction
+          </div>
+          <p class="text-sm text-muted-text font-medium leading-relaxed">
+            {system.friction}
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 terminal-text text-lucuma">
+            <span aria-hidden="true">◆</span> Architecture
+          </div>
+          <p class="text-sm text-muted-text font-medium leading-relaxed">
+            {system.architecture}
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 terminal-text text-sage">
+            <span aria-hidden="true">■</span> Evidence
+          </div>
+          <p class="text-sm text-muted-text font-medium leading-relaxed">
+            {system.evidence}
+          </p>
+        </div>
+      </div>
+
+      <details class="group/details rounded-[1.5rem] border border-primary/15 bg-primary/[0.035] p-6 open:space-y-5">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 terminal-text text-muted-text transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+          <span class="flex items-center gap-2">
+            <span aria-hidden="true">⌕</span>
+            Quick Inspect
+          </span>
+          <span class="text-[8px] text-muted-text transition-transform group-open/details:rotate-90" aria-hidden="true">›</span>
+        </summary>
+
+        <div class="grid gap-4 md:grid-cols-2 pt-5">
+          {inspectionRows.map(([label, value]) => (
+            <div class="rounded-2xl border border-white/5 bg-background-deep/50 p-4">
+              <p class="terminal-text text-[8px] text-muted-text mb-2">{label}</p>
+              <p class="text-sm text-muted-text leading-relaxed font-medium">{value}</p>
+            </div>
+          ))}
+        </div>
+      </details>
+
+      <div class="pt-8 border-t border-border flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-primary" aria-hidden="true">
+            ▣
+          </div>
+          <div>
+            <p class="terminal-text text-foreground text-[10px]">{system.role}</p>
+            <p class="text-xs text-muted-text italic">Outcome: {system.outcome}</p>
+          </div>
+        </div>
+
+        <a
+          href={withBase(projectRoute)}
+          class="flex items-center gap-2 terminal-text text-primary transition-all hover:gap-3"
+        >
+          <span>Inspect Payload</span>
+          <span aria-hidden="true">›</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

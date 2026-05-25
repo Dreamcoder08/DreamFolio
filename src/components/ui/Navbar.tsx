@@ -12,6 +12,7 @@ const navigationItems = [
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuId = React.useId();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -52,6 +53,7 @@ export const Navbar: React.FC = () => {
                 {/* System Node / Brand */}
                 <a 
                   href={withBase('/')} 
+                  aria-label="DreamFolio home"
                   className="flex items-center gap-3 group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center shadow-clay">
@@ -68,6 +70,7 @@ export const Navbar: React.FC = () => {
                   {navigationItems.map((item) => (
                     <button
                       key={item.name}
+                      type="button"
                       onClick={() => handleNavClick(item.href)}
                       className="flex items-center gap-2 px-5 py-2 rounded-full terminal-text text-muted-text hover:text-primary hover:bg-white/5 transition-all"
                     >
@@ -82,13 +85,19 @@ export const Navbar: React.FC = () => {
                   <a 
                     href="https://github.com/dreamcoder08" 
                     target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Open GitHub profile"
                     className="hidden md:flex w-10 h-10 rounded-full border border-border bg-surface items-center justify-center text-muted-text hover:text-primary transition-colors"
                   >
                     <Github className="w-4 h-4" />
                   </a>
                   
                   <button 
+                    type="button"
                     onClick={() => setIsOpen(!isOpen)}
+                    aria-expanded={isOpen}
+                    aria-controls={menuId}
+                    aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
                     className="w-10 h-10 md:w-auto md:px-5 rounded-full border border-border bg-surface flex items-center justify-center gap-2 terminal-text text-primary hover:bg-primary/5 transition-all active:scale-95"
                   >
                     <AnimatePresence mode="wait">
@@ -116,6 +125,7 @@ export const Navbar: React.FC = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
+            id={menuId}
             initial={{ opacity: 0, y: 20, scale: 0.95 }} 
             animate={{ opacity: 1, y: 0, scale: 1 }} 
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -130,6 +140,7 @@ export const Navbar: React.FC = () => {
                       {navigationItems.map((item, i) => (
                         <motion.button
                           key={item.name}
+                          type="button"
                           initial={{ x: -20, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: i * 0.05 }}
@@ -164,6 +175,7 @@ export const Navbar: React.FC = () => {
                 <a 
                   href="https://github.com/dreamcoder08" 
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-surface p-4 flex items-center justify-center gap-3 terminal-text text-muted-text hover:text-primary transition-all border-t border-border"
                 >
                   <Github className="w-4 h-4" />
