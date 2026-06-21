@@ -94,3 +94,14 @@ Keep private:
 ## License
 
 Portfolio source for public inspection and personal brand proof. Reuse responsibly.
+
+---
+
+## 🌐 Dreamcoder Ecosystem
+
+| Project | Description |
+|---------|-------------|
+| [Dreamcoder08](https://github.com/Dreamcoder08) | Software Architect · GDE · MVP — Founder of ARKELYTEX |
+| [Dreamcoder_dots](https://github.com/Dreamcoder08/Dreamcoder_dots) | Arch Linux dotfiles — Zsh, Ghostty, Kitty, Stow |
+| [CleanSweep](https://github.com/Dreamcoder08/CleanSweep) | AI-assisted dotfile manager in Rust |
+| [ARKELYTEX](https://github.com/arkelythex) | Civic, Agri & Legal Tech for Peru |
