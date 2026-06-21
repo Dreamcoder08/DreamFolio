@@ -1,561 +1,104 @@
 [
   {
-    "id": "arkelythex",
-    "title": "Arkelythex",
-    "summary": "Fiscal-operational intelligence for Peru and LATAM: evidence graph, deterministic fiscal rules, governed agents, and approval-gated workflows.",
+    "id": "drenyra",
+    "title": "Drenyra — Fiscal Command Center",
+    "summary": "The flagship of ARKELYTHEX. An agentic fiscal operating system where AI prepares, reviews, and explains accounting work under human supervision — versioned evidence, approval gates, SUNAT compliance built in.",
     "domain": "fiscal-infrastructure",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "../arkelythex",
+    "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Bun",
-      "React 19",
-      "Elysia",
-      "PostgreSQL",
-      "NATS"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/arkelythex",
+    "stack": ["React", "Bun", "TypeScript", "Go", "PostgreSQL"],
+    "githubUrl": "https://github.com/arkelythex",
     "coverImage": "/images/projects/arkelythex-interface.jpg",
-    "coverImageAlt": "Arkelythex fiscal command center interface"
-  },
-  {
-    "id": "edge-traz-agro",
-    "title": "Edge Traz Agro",
-    "summary": "I engineered this supply-chain traceability system for high-stakes agriculture. I prioritized edge resilience, real-time data integrity, and operational transparency.",
-    "domain": "agritech",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "edge-traz-agro",
-    "updatedYear": 2026,
-    "featured": true,
-    "stack": [
-      "TypeScript",
-      "Bun",
-      "Docker"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/EdgeTraz-Agro",
-    "coverImage": "/images/projects/edgetraz-agro-hero.png",
-    "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
+    "coverImageAlt": "ARKELYTHEX — fiscal intelligence interface"
   },
   {
     "id": "digital-public-peru",
     "title": "Digital Public Peru",
-    "summary": "I am modernizing civic digital infrastructure for the public sector. My work focuses on service flows, compliance, and administrative architecture through high-integrity design.",
+    "summary": "Civic tech platform for fiscal transparency and public accountability. Audit-first design with Rust-powered core API and multi-surface frontends.",
     "domain": "govtech",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "digital-public-peru",
+    "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Node.js",
-      "Rust"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/Digital_Public_peru",
+    "stack": ["Rust", "Next.js", "OpenAPI"],
+    "githubUrl": "https://github.com/arkelythex/Digital_Public_peru",
     "coverImage": "/images/projects/digital-public-peru-desktop.png",
-    "coverImageAlt": "Digital Public Peru — civic interface desktop view",
-    "coverImageMobile": "/images/projects/digital-public-peru-mobile.png"
+    "coverImageAlt": "Digital Public Peru — civic transparency interface"
   },
   {
-    "id": "legal-os-01",
-    "title": "Legal OS",
-    "summary": "I designed this structural legal intelligence OS to unify fragmented data and automate high-volume legal operations with deterministic accuracy.",
-    "domain": "legaltech",
+    "id": "elect-validate",
+    "title": "elect-validate",
+    "summary": "High-concurrency electoral act validation suite for Peru's ONPE. Go-powered concurrent processing with CLI and web interfaces.",
+    "domain": "civic-tech",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "legal-os-01",
+    "path": "",
     "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Bun",
-      "Turbo",
-      "Rust",
-      "Python"
-    ]
+    "featured": true,
+    "stack": ["Go", "CLI", "Web"],
+    "githubUrl": "https://github.com/arkelythex/elect-validate",
+    "coverImage": ""
   },
   {
-    "id": "portfolio-web",
-    "title": "Portfolio System",
-    "summary": "Current public-facing portfolio system built with Astro, focused on static-first performance, sharper information hierarchy, and recruiter-ready presentation.",
-    "domain": "portfolio",
+    "id": "edge-traz-agro",
+    "title": "EdgeTraz Agro",
+    "summary": "AI-first agro-industrial traceability with edge-resilient operations. Offline-first sync protocol ensuring data integrity in disconnected rural environments.",
+    "domain": "agritech",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "portfolio-web",
+    "path": "",
     "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Astro",
-      "React",
-      "Tailwind"
-    ]
-  },
-  {
-    "id": "video-downloader",
-    "title": "Video Streaming Unit",
-    "summary": "Primary video-download product line with multiple prior iterations now reduced to a single main branch and optimized streaming architecture.",
-    "domain": "media-tools",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "video-downloader",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "React",
-      "Microservices"
-    ]
-  },
-  {
-    "id": "administracion",
-    "title": "Operations Admin Lab",
-    "summary": "Administrative product space oriented around operations, workflows, and structured management tooling for complex environments.",
-    "domain": "operations",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "operations-admin-lab",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "Bun"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/Administracion"
-  },
-  {
-    "id": "arch-dream-machine",
-    "title": "Arch Dream Machine",
-    "summary": "System and machine setup work connected to Arch-based workflows and local environment automation.",
-    "domain": "systems",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "arch-dream-machine",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Linux",
-      "Shell"
-    ]
-  },
-  {
-    "id": "archetype",
-    "title": "Archetype Platform",
-    "summary": "Product and architecture experimentation around a reusable platform baseline and system structure.",
-    "domain": "platform",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "archetype",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "Bun",
-      "Docker"
-    ]
-  },
-  {
-    "id": "design-developer-ai",
-    "title": "Design Systems AI",
-    "summary": "A polished UI-heavy AI-facing product exploration focused on dashboard and interface quality.",
-    "domain": "design-systems",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "design-developer-ai",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "React",
-      "Vite",
-      "TypeScript"
-    ]
-  },
-  {
-    "id": "dotfiles-archive",
-    "title": "Dotfiles Archive",
-    "summary": "Historical environment configuration and shell setup references kept as a reusable system baseline.",
-    "domain": "developer-experience",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "dotfiles-archive",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Shell",
-      "Config"
-    ]
-  },
-  {
-    "id": "dream-arch-wiki",
-    "title": "Dream Arch Wiki",
-    "summary": "Knowledge base and reference project for system setup, architecture notes, and operational documentation.",
-    "domain": "knowledge-systems",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "dream-arch-wiki",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "Documentation"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/Dream_Arch_Wiki"
+    "featured": true,
+    "stack": ["TypeScript", "Edge", "IoT"],
+    "githubUrl": "https://github.com/arkelythex/EdgeTraz-Agro",
+    "coverImage": "/images/projects/edgetraz-agro-hero.png",
+    "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
   },
   {
     "id": "dreamcoder-dots",
-    "title": "DreamcoderDots",
-    "summary": "Custom Arch Linux environment and terminal stack with shell automation, shader-driven visual polish, and deep system-level customization.",
+    "title": "Dreamcoder Dots",
+    "summary": "Arch Linux dotfiles — a health-first terminal workbench. Cocoa/Lúcuma warmth, adaptive theming, 22 targets from one tokens.json.",
     "domain": "developer-experience",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "dreamcoder-dots",
+    "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Arch Linux",
-      "Shell",
-      "GLSL",
-      "Lua"
-    ],
-    "githubUrl": "https://github.com/dreamcoder08/Dreamcoder_dots",
+    "stack": ["Arch Linux", "Shell", "Lua"],
+    "githubUrl": "https://github.com/Dreamcoder08/Dreamcoder_dots",
     "coverImage": "/images/projects/dreamcoder-dots.webp",
-    "coverImageAlt": "DreamcoderDots - custom Arch Linux terminal and workstation setup"
+    "coverImageAlt": "Dreamcoder Dots — custom terminal environment"
   },
   {
-    "id": "dreamcoder-web",
-    "title": "Dreamcoder Web Platform",
-    "summary": "A web-facing Dreamcoder product line focused on experience design and frontend delivery.",
-    "domain": "web-platform",
+    "id": "cleansweep",
+    "title": "CleanSweep",
+    "summary": "AI-assisted dotfile manager in Rust. Declarative environment setup with stow-native implementation and TUI interface.",
+    "domain": "developer-tools",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "dreamcoder-web",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "Frontend"
-    ]
+    "path": "",
+    "updatedYear": 2026,
+    "featured": true,
+    "stack": ["Rust", "CLI", "TUI"],
+    "githubUrl": "https://github.com/Dreamcoder08/CleanSweep",
+    "coverImage": ""
   },
   {
-    "id": "gobierno-peruano",
-    "title": "Civic Systems Lab",
-    "summary": "Government-domain software work with separate core and frontend layers for public-sector use cases.",
-    "domain": "govtech",
+    "id": "pseint-web",
+    "title": "PSeInt Web Lab",
+    "summary": "Modern pseudocode learning platform for CS education. Browser-based execution with auto-generated Mermaid diagrams.",
+    "domain": "education",
     "lifecycle": "active",
     "bucket": "primary",
-    "path": "civic-systems-lab",
+    "path": "",
     "updatedYear": 2026,
     "featured": false,
-    "stack": [
-      "Node.js",
-      "Bun",
-      "Frontend"
-    ]
-  },
-  {
-    "id": "spotify-albert-02",
-    "title": "Audio Stream UX",
-    "summary": "Audio/product exploration around streaming-inspired interfaces and media-centric UX.",
-    "domain": "audio",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "audio-stream-ux",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "React",
-      "Vite",
-      "Docker"
-    ]
-  },
-  {
-    "id": "start-up",
-    "title": "Startup Ops Lab",
-    "summary": "A startup-oriented product concept with broader service structure and early operational framing.",
-    "domain": "startup-ops",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "startup-ops-lab",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Python",
-      "Docker",
-      "Microservices"
-    ]
-  },
-  {
-    "id": "v0-liquid-interface-design",
-    "title": "Liquid UI Design",
-    "summary": "Visual exploration focused on high-end interface direction, motion, and expressive product presentation.",
-    "domain": "creative-ui",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "liquid-ui-design",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "React",
-      "Vite",
-      "Design"
-    ]
-  },
-  {
-    "id": "web-ai",
-    "title": "Web AI Resilience",
-    "summary": "Astro-oriented web content around AI, resilience, and explanatory public-facing information design.",
-    "domain": "ai-content",
-    "lifecycle": "active",
-    "bucket": "primary",
-    "path": "web-ai",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Astro",
-      "Content"
-    ]
-  },
-  {
-    "id": "design-ui-ux",
-    "title": "UI/UX Systems Workspace",
-    "summary": "Workspace wrapper for a UI and UX-focused product line centered on component quality and presentation.",
-    "domain": "design-systems",
-    "lifecycle": "workspace",
-    "bucket": "workspace",
-    "path": "workspaces-2026-02-28/ui-ux-systems",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "Design System"
-    ]
-  },
-  {
-    "id": "developer-ai",
-    "title": "Developer Intelligence Unit",
-    "summary": "Workspace containing AI-assisted developer notes, redesign work, and technical knowledge tooling.",
-    "domain": "developer-experience",
-    "lifecycle": "workspace",
-    "bucket": "workspace",
-    "path": "workspaces-2026-02-28/developer-intelligence",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Astro",
-      "Knowledge Base"
-    ]
-  },
-  {
-    "id": "ecomerce-relogs",
-    "title": "Watch Commerce Lab",
-    "summary": "Workspace for ecommerce experimentation centered on watch retail, storefront flows, and product presentation.",
-    "domain": "commerce",
-    "lifecycle": "workspace",
-    "bucket": "workspace",
-    "path": "workspaces-2026-02-28/watch-commerce",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Node.js",
-      "Commerce"
-    ]
-  },
-  {
-    "id": "saas-bodega",
-    "title": "Operational SaaS Lab",
-    "summary": "Workspace for inventory and warehouse-oriented SaaS product explorations.",
-    "domain": "saas-operations",
-    "lifecycle": "workspace",
-    "bucket": "workspace",
-    "path": "workspaces-2026-02-28/operational-saas",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "SaaS"
-    ]
-  },
-  {
-    "id": "sistema-gestion-hotelera",
-    "title": "Hospitality Management System",
-    "summary": "Workspace for a hotel management system and operational PMS-style product flow.",
-    "domain": "hospitality",
-    "lifecycle": "workspace",
-    "bucket": "workspace",
-    "path": "workspaces-2026-02-28/hospitality-pms",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "PMS"
-    ]
-  },
-  {
-    "id": "architect-portfolio",
-    "title": "Architect Portfolio V1",
-    "summary": "Archived portfolio variant built around an architecture-focused client profile and presentation style.",
-    "domain": "portfolio",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/architect-portfolio",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "React",
-      "Portfolio"
-    ]
-  },
-  {
-    "id": "softwart-legal-v1",
-    "title": "Legal Systems V1",
-    "summary": "Archived legal product iteration kept as a reference baseline for the legal stack evolution.",
-    "domain": "legaltech",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/legal-variants/legal-systems-v1",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "React",
-      "Vite"
-    ]
-  },
-  {
-    "id": "softwart-legal-v2",
-    "title": "Legal Systems V2",
-    "summary": "Second legal iteration bridging the earlier UI prototype and the current legal operating system direction.",
-    "domain": "legaltech",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/legal-variants/legal-systems-v2",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Bun",
-      "React",
-      "Server"
-    ]
-  },
-  {
-    "id": "portfolio-classic",
-    "title": "Portfolio Classic Unit",
-    "summary": "Archived portfolio variant representing a previous landing-page and conversion-oriented direction.",
-    "domain": "portfolio",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/portfolio-classic",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "Landing Page"
-    ]
-  },
-  {
-    "id": "dreamfolio-nextjs",
-    "title": "DreamFolio React Branch",
-    "summary": "Archived Next.js branch of the portfolio, now superseded by the Astro-first static portfolio direction.",
-    "domain": "portfolio",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/portfolio-variants/dreamfolio-nextjs",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "React"
-    ]
-  },
-  {
-    "id": "landyn-page",
-    "title": "Legacy Landing Unit",
-    "summary": "Archived landing-page variant kept as a reference for earlier messaging and UI direction.",
-    "domain": "portfolio",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/portfolio-variants/landyn-page",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "React",
-      "Landing Page"
-    ]
-  },
-  {
-    "id": "video-downloader-ultimate",
-    "title": "Streaming Engine Ultimate",
-    "summary": "Archived full-stack variant of the video downloader line with separate frontend and backend layers.",
-    "domain": "media-tools",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/video-downloader-ultimate",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "React",
-      "NestJS",
-      "Full Stack"
-    ]
-  },
-  {
-    "id": "video-downloader-nextjs",
-    "title": "Streaming Engine Next.js",
-    "summary": "Archived Next.js branch of the video downloader product line, retained as an earlier experiment.",
-    "domain": "media-tools",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/video-variants/video-downloader-nextjs",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Next.js",
-      "React"
-    ]
-  },
-  {
-    "id": "video-downloader-web",
-    "title": "Streaming Engine Web",
-    "summary": "Archived web-only variant of the video downloader product kept as a UI reference and branch history.",
-    "domain": "media-tools",
-    "lifecycle": "archived",
-    "bucket": "archived",
-    "path": "archive-2026-02-28/secondary-projects/video-variants/video-downloader-web",
-    "updatedYear": 2026,
-    "featured": false,
-    "stack": [
-      "Vite",
-      "Frontend"
-    ]
-  },
-  {
-    "id": "pentesting",
-    "title": "Security Research Lab",
-    "summary": "Security research and offensive testing material grouped as a lab rather than a product line.",
-    "domain": "security",
-    "lifecycle": "lab",
-    "bucket": "lab",
-    "path": "labs-2026-02-28/security-research",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "Shell",
-      "Python",
-      "Research"
-    ]
-  },
-  {
-    "id": "terminal-ai",
-    "title": "Interaction Design Lab",
-    "summary": "Terminal and command interface experiments kept as a research track for interaction design ideas.",
-    "domain": "developer-experience",
-    "lifecycle": "lab",
-    "bucket": "lab",
-    "path": "labs-2026-02-28/interaction-design",
-    "updatedYear": 2025,
-    "featured": false,
-    "stack": [
-      "UI Experiments",
-      "CLI"
-    ]
+    "stack": ["React", "Bun", "TypeScript"],
+    "githubUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
+    "coverImage": ""
   }
 ]
