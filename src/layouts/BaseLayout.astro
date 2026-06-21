@@ -47,7 +47,7 @@ const structuredData = jsonLd ?? defaultJsonLd;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -76,13 +76,14 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={`${title} preview image`} />
-    <meta name="theme-color" content="#19120C" />
+    <meta name="theme-color" content="#19120C" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f1e8" media="(prefers-color-scheme: light)" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 

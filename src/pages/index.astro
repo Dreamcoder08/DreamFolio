@@ -1,135 +1,248 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Navbar } from '../components/ui/Navbar';
-import EnhancedHeroSection from '../components/sections/EnhancedHero.tsx';
-import { EvidenceEngine } from '../components/interactive/EvidenceEngine.tsx';
-import CraftProtocol from '../components/sections/CraftProtocol.astro';
-import TrinitySection from '../components/sections/TrinitySection.astro';
-import TechnicalDepth from '../components/sections/TechnicalDepth.astro';
-import SystemUnit from '../components/sections/SystemUnit.astro';
-import { TechnicalIntake } from '../components/sections/TechnicalIntake.tsx';
-import VisualLab from '../components/sections/VisualLab.astro';
-import CollaborationSection from '../components/sections/CollaborationSection.astro';
+import { siteConfig } from '../lib/site';
+import { getCollection } from 'astro:content';
 import { mainSystems } from '../data/systems';
+
+const projects = await getCollection('projects');
+const featured = projects.filter(p => p.data.featured);
 ---
 
 <BaseLayout
-  title="DreamFolio | Fiscal AI Systems Architect"
-  description="High-integrity product architecture for fiscal operations, compliance workflows, and evidence-driven AI systems."
+  title={siteConfig.title}
+  description={siteConfig.description}
 >
-  <!-- System Dock Navigation -->
   <Navbar client:load />
 
   <main id="main-content">
-    <!-- Section 01: Hero -->
-    <section id="hero">
-      <EnhancedHeroSection client:idle />
-    </section>
-
-    <!-- Section 02: Craft Protocol -->
-    <CraftProtocol />
-
-    <!-- Section 03: Evidence Pipeline Visualizer -->
-    <section class="layout-grid">
-      <div class="col-span-12">
-        <EvidenceEngine client:visible />
+    <!-- === HERO === -->
+    <section class="min-h-screen flex items-center px-6">
+      <div class="container-wide">
+        <div class="max-w-3xl">
+          <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-6">
+            Software Architect · GDE
+          </p>
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8">
+            Building fiscal<br />
+            <span class="gradient-text">intelligence</span><br />
+            infrastructure
+          </h1>
+          <p class="text-xl md:text-2xl text-[var(--color-text-secondary)] max-w-xl leading-relaxed mb-10">
+            Founder of <a href="https://github.com/arkelythex" class="text-[var(--color-accent)]">ARKELYTHEX</a>.
+            Architecting audit-first systems for Latin America's most demanding sectors.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#projects" class="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-[#19120c] font-semibold rounded-lg hover:opacity-90 transition-opacity">
+              View Projects
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3L13 8L8 13M3 8H12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+            <a href="https://github.com/Dreamcoder08" class="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border)] text-[var(--color-text)] font-semibold rounded-lg hover:border-[var(--color-border-hover)] transition-all">
+              GitHub
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-text-secondary)]"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       </div>
     </section>
 
-    <!-- Section 04: Operating Thesis & Principles -->
-    <TrinitySection />
-
-    <!-- Section 05: Public Systems Unit Catalog -->
-    <section id="systems" class="py-32 bg-background-deep relative">
-      <div class="layout-grid mb-20">
-        <div class="col-span-4 md:col-span-8 lg:col-span-12">
-          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div class="space-y-4">
-              <p class="font-mono text-[10px] font-black text-primary uppercase tracking-[0.4em]">Section 05 // Selected Systems</p>
-              <h2 class="text-5xl md:text-7xl font-display font-black text-foreground italic tracking-tighter leading-none">
-                Unit Catalog.
-              </h2>
+    <!-- === ABOUT === -->
+    <section class="section-padding px-6" id="about">
+      <div class="container-wide">
+        <div class="max-w-3xl">
+          <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-4">About</p>
+          <h2 class="text-3xl md:text-5xl font-bold mb-8">Architecture is how<br/>ambition survives<br/><span class="gradient-text">contact with reality.</span></h2>
+          <div class="space-y-6 text-lg text-[var(--color-text-secondary)] leading-relaxed">
+            <p>
+              I'm a Software Architect designing mission-critical infrastructure for Latin America's 
+              most demanding sectors — fiscal intelligence, electoral integrity, agro-industrial traceability, 
+              and autonomous systems. My work lives at the intersection of 
+              <strong class="text-[var(--color-text)]"> audit-first engineering</strong>, 
+              <strong class="text-[var(--color-text)]">AI-augmented governance</strong>, and 
+              <strong class="text-[var(--color-text)]">sovereign cloud platforms</strong>.
+            </p>
+            <p>
+              I founded <a href="https://github.com/arkelythex" class="text-[var(--color-accent)]">ARKELYTHEX</a> 
+              to build the infrastructure that Latin America deserves. Our flagship, <strong class="text-[var(--color-text)]">Drenyra</strong>, 
+              is an agentic fiscal operating system — where AI prepares, reviews, and explains accounting 
+              work under human supervision, with versioned evidence and approval gates.
+            </p>
+            <p>
+              As a <strong class="text-[var(--color-text)]">Google Developer Expert</strong>, I also created 
+              tools that serve 10k+ developers across the Gentleman ecosystem — 
+              because great infrastructure should <em>teach</em>, not just execute.
+            </p>
+          </div>
+          <div class="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-[var(--color-border)]">
+            <div>
+              <p class="text-3xl font-bold text-[var(--color-accent)]">15+</p>
+              <p class="text-sm text-[var(--color-text-secondary)] mt-1">Years shipping<br/>systems</p>
             </div>
-            <p class="max-w-md text-lg text-muted-text font-medium leading-relaxed">
-              Technical records for inspectable systems: friction, architecture, evidence, and public proof.
+            <div>
+              <p class="text-3xl font-bold text-[var(--color-accent)]">10k+</p>
+              <p class="text-sm text-[var(--color-text-secondary)] mt-1">Ecosystem<br/>stars</p>
+            </div>
+            <div>
+              <p class="text-3xl font-bold text-[var(--color-accent)]">LATAM</p>
+              <p class="text-sm text-[var(--color-text-secondary)] mt-1">Infrastructure<br/>first</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === FEATURED PROJECTS === -->
+    <section class="section-padding px-6" id="projects">
+      <div class="container-wide">
+        <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-4">Projects</p>
+        <h2 class="text-3xl md:text-5xl font-bold mb-12">What I'm building</h2>
+
+        <div class="space-y-16">
+          {featured.sort((a, b) => a.id.localeCompare(b.id)).map((project) => (
+            <article class="group grid md:grid-cols-5 gap-6 md:gap-10 pb-16 border-b border-[var(--color-border)] last:border-0">
+              <div class="md:col-span-2">
+                {project.data.coverImage && (
+                  <div class="aspect-video rounded-xl overflow-hidden bg-[var(--color-surface-elevated)] border border-[var(--color-border)]">
+                    <img
+                      src={project.data.coverImage}
+                      alt={project.data.coverImageAlt || project.data.title}
+                      class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+              </div>
+              <div class="md:col-span-3 flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="font-mono text-[10px] text-[var(--color-accent)] uppercase tracking-[0.2em]">
+                    {project.data.domain}
+                  </span>
+                  {project.data.githubUrl && (
+                    <a href={project.data.githubUrl} class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                    </a>
+                  )}
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3">{project.data.title}</h3>
+                <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4">{project.data.summary}</p>
+                <div class="flex flex-wrap gap-2">
+                  {project.data.stack?.map((tech) => (
+                    <span class="px-3 py-1 text-xs font-mono bg-[var(--color-accent-muted)] text-[var(--color-accent)] rounded-full">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- === ARCHITECTURE THINKING === -->
+    <section class="section-padding px-6" id="architecture">
+      <div class="container-wide">
+        <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-4">Philosophy</p>
+        <h2 class="text-3xl md:text-5xl font-bold mb-8">How I architect systems</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="p-8 rounded-2xl bg-[var(--color-surface-alt)] border border-[var(--color-border)]">
+            <p class="text-3xl mb-4">🔍</p>
+            <h3 class="text-xl font-bold mb-3">Audit-first design</h3>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed">
+              Every system I build has evidence trails baked in. If it can't be inspected, 
+              it shouldn't execute. Transparency isn't a feature — it's the foundation.
+            </p>
+          </div>
+          <div class="p-8 rounded-2xl bg-[var(--color-surface-alt)] border border-[var(--color-border)]">
+            <p class="text-3xl mb-4">⚖️</p>
+            <h3 class="text-xl font-bold mb-3">Deterministic core</h3>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed">
+              AI proposes, deterministic rules validate, humans approve. The core domain 
+              logic stays framework-free and testable. Always.
+            </p>
+          </div>
+          <div class="p-8 rounded-2xl bg-[var(--color-surface-alt)] border border-[var(--color-border)]">
+            <p class="text-3xl mb-4">🌎</p>
+            <h3 class="text-xl font-bold mb-3">LATAM-first</h3>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed">
+              Built for Peru's reality — designed to scale across the region. Offline resilience, 
+              regulatory complexity, and sovereign infrastructure are requirements, not afterthoughts.
             </p>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="layout-grid gap-y-12 md:gap-y-16">
-        {mainSystems.map((sys) => (
-          <div class="col-span-4 md:col-span-8 lg:col-span-12">
-            <SystemUnit system={sys} />
-          </div>
-        ))}
+    <!-- === OPEN SOURCE IMPACT === -->
+    <section class="section-padding px-6" id="opensource">
+      <div class="container-wide">
+        <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-4">Open Source</p>
+        <h2 class="text-3xl md:text-5xl font-bold mb-12">Ecosystem & impact</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- ARKELYTHEX -->
+          <a href="https://github.com/arkelythex" class="p-8 rounded-2xl bg-[var(--color-surface-alt)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all group">
+            <p class="font-mono text-xs text-[var(--color-accent)] mb-2">🏢 Venture Studio</p>
+            <h3 class="text-xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">ARKELYTHEX</h3>
+            <p class="text-[var(--color-text-secondary)] text-sm">12 repos · Civic, Agri & Legal Tech for Peru</p>
+          </a>
+
+          <!-- GitHub Profile -->
+          <a href="https://github.com/Dreamcoder08" class="p-8 rounded-2xl bg-[var(--color-surface-alt)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all group">
+            <p class="font-mono text-xs text-[var(--color-accent)] mb-2">👤 Personal</p>
+            <h3 class="text-xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">Dreamcoder08</h3>
+            <p class="text-[var(--color-text-secondary)] text-sm">Rust · Go · TypeScript · Python · Shell</p>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Section 06: Visual Systems Laboratory -->
-    <VisualLab />
-
-    <!-- Section 07: Architectural Layers -->
-    <TechnicalDepth />
-
-    <!-- Section 08: Public Signal -->
-    <section id="collaboration">
-      <CollaborationSection />
+    <!-- === CONTACT / CONNECT === -->
+    <section class="section-padding px-6" id="connect">
+      <div class="container-wide">
+        <div class="max-w-xl">
+          <p class="font-mono text-xs text-[var(--color-accent)] uppercase tracking-[0.3em] mb-4">Connect</p>
+          <h2 class="text-3xl md:text-5xl font-bold mb-8">Let's build</h2>
+          <p class="text-lg text-[var(--color-text-secondary)] mb-10">
+            I'm always open to conversations about fiscal intelligence, civic infrastructure, 
+            and architecture that matters.
+          </p>
+          <div class="flex flex-wrap gap-6">
+            <a href={siteConfig.social.x} class="flex items-center gap-3 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span>@Dreamcoder08</span>
+            </a>
+            <a href={siteConfig.social.github} class="flex items-center gap-3 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              <span>Dreamcoder08</span>
+            </a>
+            <a href={siteConfig.social.arkelythex} class="flex items-center gap-3 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              <span>ARKELYTHEX</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
-
-    <!-- Section 09: Intake Handshake -->
-    <TechnicalIntake client:visible />
   </main>
 
-  <!-- System Metadata Footer -->
-  <footer class="bg-background-deep border-t border-white/5 py-32 overflow-hidden">
-    <div class="layout-grid">
-      <div class="col-span-4 md:col-span-6 lg:col-span-6 space-y-10">
-        <div class="flex items-center gap-5">
-          <div class="w-12 h-12 rounded-full bg-background-soft border border-white/10 flex items-center justify-center shadow-clay">
-            <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></div>
-          </div>
-          <span class="text-2xl font-display font-black text-foreground tracking-tighter italic uppercase">
-            DreamFolio <span class="text-muted-text ml-2">v3.0.0</span>
-          </span>
-        </div>
-        <p class="max-w-sm text-base text-muted-text leading-relaxed font-medium">
-          A direct inspection interface for systems, aesthetics, and architectural intent.
+  <!-- === FOOTER === -->
+  <footer class="border-t border-[var(--color-border)] py-16 px-6">
+    <div class="container-wide">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          © {new Date().getFullYear()} Dreamcoder08. Built with 
+          <a href="https://astro.build" class="text-[var(--color-accent)]"> Astro</a> · 
+          Designed with purpose · Fueled by mate
+        </p>
+        <p class="text-xs font-mono text-[var(--color-text-secondary)]">
+          <span class="inline-block w-2 h-2 rounded-full bg-[var(--color-accent)] mr-2 animate-pulse"></span>
+          Lima · Cusco · Montevideo
         </p>
       </div>
-
-      <div class="col-span-4 md:col-span-2 lg:col-span-3 space-y-8 mt-16 md:mt-0">
-        <p class="font-mono text-[10px] font-black text-foreground uppercase tracking-[0.3em]">Navigation Metadata</p>
-        <ul class="space-y-4">
-          {['Systems', 'Audit', 'Handshake', 'Profile'].map((item) => (
-            <li key={item}>
-              <a 
-                href={item === 'Profile' ? 'https://github.com/dreamcoder08' : `#${item.toLowerCase() === 'handshake' ? 'contact' : item.toLowerCase()}`} 
-                class="text-sm font-black uppercase tracking-widest text-muted-text hover:text-primary transition-all flex items-center group"
-              >
-                <span class="w-0 h-px bg-primary mr-0 group-hover:w-4 group-hover:mr-2 transition-all"></span>
-                {item}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div class="col-span-4 md:col-span-4 lg:col-span-3 space-y-8 mt-16 lg:mt-0">
-        <p class="font-mono text-[10px] font-black text-foreground uppercase tracking-[0.3em]">System Environment</p>
-        <div class="space-y-3 font-mono text-[11px] text-muted-text uppercase font-bold tracking-widest">
-          <p>Location: <span class="text-foreground">LATAM Node // Global Execution</span></p>
-          <p>Uptime: <span class="text-sage">99.99% Portfolio Integrity</span></p>
-          <p>Hash: <span class="text-primary break-all">0x8F2A7E...E41D9C</span></p>
-          <p class="pt-6 text-accent italic">— Built with Astro + Cocoa Terminal OS</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-32 border-t border-white/5 pt-12 text-center px-6">
-      <span class="font-mono text-[10px] text-muted-text uppercase tracking-[1.2em] block truncate leading-none">
-        DreamFolio © 2026 // Architect Interface
-      </span>
     </div>
   </footer>
 </BaseLayout>
