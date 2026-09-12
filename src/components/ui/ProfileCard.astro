@@ -1,21 +1,44 @@
 ---
-import { siteConfig, withBase } from '../../lib/site';
-import Icon from './Icon.astro';
+import { siteConfig, withBase } from "../../lib/site";
+import Icon from "./Icon.astro";
 const { profile } = siteConfig;
 ---
-<aside class="profile-card" aria-label="Perfil de Albert Agurto">
+
+<aside class="profile-card" aria-label="Perfil de Dreamcoder">
   <figure class="profile-portrait">
-    <img src={withBase(profile.image)} alt={profile.imageAlt} width="768" height="768" fetchpriority="high" decoding="async" style={`object-position:${profile.imagePosition}`} />
-    <span class="portrait-caption"><Icon name="mark" size={13}/> DREAMCODER / 08</span>
+    <img
+      src={withBase(profile.image)}
+      alt={profile.imageAlt}
+      width="768"
+      height="768"
+      fetchpriority="high"
+      decoding="async"
+      style={`object-position:${profile.imagePosition}`}
+    />
+    <span class="portrait-caption">
+      <Icon name="mark" size={13} /> DREAMCODER / 08
+    </span>
   </figure>
   <div class="profile-bio">
-    <p class="profile-name">Albert Agurto<span class="profile-signature">Dreamcoder</span></p>
+    <p class="profile-name">
+      Dreamcoder<span class="profile-signature">08</span>
+    </p>
     <p class="profile-role">Software & sistemas de IA</p>
-    <div class="profile-location"><Icon name="location" size={15}/><span>Piura, Perú</span></div>
+    <div class="profile-location">
+      <Icon name="location" size={15} />
+      <span>Perú</span>
+    </div>
   </div>
-  <a class="profile-project" href="https://arkelythex.com/drenyra">
-    <span class="profile-project-symbol"><Icon name="agents" size={23}/></span>
-    <span><span class="profile-project-label">AHORA, CONSTRUYENDO</span><strong>Drenyra <small>· MVP en desarrollo</small></strong></span>
-    <Icon name="arrow" size={17}/>
+  <a class="profile-project" href={withBase("/#connect")}>
+    <span class="profile-project-symbol">
+      <Icon name="mail" size={23} />
+    </span>
+    <span>
+      <span class="profile-project-label">DISPONIBILIDAD</span>
+      <strong>
+        Compromisos seleccionados <small>· alcance por escrito</small>
+      </strong>
+    </span>
+    <Icon name="arrow" size={17} />
   </a>
 </aside>

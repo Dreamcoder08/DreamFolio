@@ -1,102 +1,237 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/ui/Navbar.astro';
-import { siteConfig, withBase } from '../lib/site';
-import '../styles/portfolio.css';
-import Icon from '../components/ui/Icon.astro';
-import ProfileCard from '../components/ui/ProfileCard.astro';
-
-const modules = [
-  ['drenyra-ai', 'Configuración', 'Entorno y herramientas para trabajar con IA.'],
-  ['drenyra-pi', 'Agentes', 'Flujos de trabajo especializados en contabilidad.'],
-  ['drenyra-engram', 'Memoria', 'Contexto y decisiones con trazabilidad.'],
-];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/ui/Navbar.astro";
+import { siteConfig, withBase, mailto } from "../lib/site";
+import "../styles/portfolio.css";
+import Icon from "../components/ui/Icon.astro";
+import ProfileCard from "../components/ui/ProfileCard.astro";
 ---
-<BaseLayout title={siteConfig.title} description={siteConfig.description} lang="es">
+
+<BaseLayout
+  title={siteConfig.title}
+  description={siteConfig.description}
+  lang="es"
+>
   <Navbar />
 
   <main id="main-content" class="portfolio">
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-kicker">
-        <span class="mono">ALBERT AGURTO / DREAMCODER</span>
-        <span class="location"><Icon name="location" size={15}/> Piura, Perú</span>
+        <span class="mono">DREAMCODER / SOFTWARE & IA</span>
+        <span class="location">
+          <Icon name="location" size={15} /> Perú
+        </span>
       </div>
 
       <div class="hero-stage">
         <div class="hero-copy">
           <p class="hero-intro">Software, sistemas de IA y producto digital</p>
-          <h1 id="hero-title">Ideas que<br/><span>se vuelven</span><br/>sistemas.</h1>
+          <h1 id="hero-title">
+            Ideas que
+            <br />
+            <span>se vuelven</span>
+            <br />
+            sistemas.
+          </h1>
           <div class="hero-brief">
-            <p>Diseño y construyo software con criterio técnico, interfaces claras y decisiones que se pueden explicar.</p>
+            <p>
+              Diseño y construyo software con criterio técnico, interfaces
+              claras y decisiones que se pueden explicar.
+            </p>
             <div class="actions">
-              <a class="solid-link" href="#projects">Ver proyectos <Icon name="down" size={18}/></a>
-              <a class="quiet-link" href={siteConfig.social.github}><Icon name="github" size={19}/> GitHub <Icon name="arrow" size={17}/></a>
+              <a class="solid-link" href="#projects">
+                Ver proyectos <Icon name="down" size={18} />
+              </a>
+              <a class="quiet-link" href={siteConfig.social.github}>
+                <Icon name="github" size={19} /> GitHub{" "}
+                <Icon name="arrow" size={17} />
+              </a>
             </div>
           </div>
         </div>
         <div class="hero-portrait">
-          <span class="portrait-orbit" aria-hidden="true">08</span>
+          <span class="portrait-orbit" aria-hidden="true">
+            08
+          </span>
           <ProfileCard />
-          <p class="portrait-note mono"><span>●</span> CONSTRUYENDO DESDE PERÚ</p>
+          <p class="portrait-note mono">
+            <span>●</span> OPERANDO DESDE PERÚ
+          </p>
         </div>
       </div>
 
       <div class="hero-ticker" aria-label="Áreas de trabajo">
-        <span><Icon name="layers" size={17}/> ARQUITECTURA</span>
-        <span><Icon name="agents" size={17}/> IA CON SUPERVISIÓN</span>
-        <span><Icon name="code" size={17}/> PRODUCTO DIGITAL</span>
+        <span>
+          <Icon name="layers" size={17} /> ARQUITECTURA
+        </span>
+        <span>
+          <Icon name="agents" size={17} /> IA CON SUPERVISIÓN
+        </span>
+        <span>
+          <Icon name="code" size={17} /> PRODUCTO DIGITAL
+        </span>
         <span class="hero-index">PORTAFOLIO / 2026</span>
       </div>
     </section>
 
-    <section id="projects" class="work-section wrap" aria-labelledby="work-title" data-reveal>
+    <section
+      id="projects"
+      class="work-section wrap"
+      aria-labelledby="work-title"
+      data-reveal
+    >
       <header class="section-heading">
         <div>
           <p class="eyebrow">01 / TRABAJO SELECCIONADO</p>
-          <h2 id="work-title">Tres proyectos.<br/><span>Una práctica en evolución.</span></h2>
+          <h2 id="work-title">
+            Tres proyectos.
+            <br />
+            <span>Una práctica en evolución.</span>
+          </h2>
         </div>
-        <a class="quiet-link" href={withBase('/projects/')}>Índice completo <Icon name="arrow" size={18}/></a>
+        <a class="quiet-link" href={withBase("/projects/")}>
+          Índice completo <Icon name="arrow" size={18} />
+        </a>
       </header>
 
       <div class="project-bento">
         <article class="project-card project-card--lead" data-reveal>
-          <a class="project-image" href={withBase('/projects/drenyra-fiscal-command-center/')} aria-label="Explorar el proyecto Drenyra">
-            <div class="card-meta"><span>01 / PRODUCTO PRINCIPAL</span><span>EN DESARROLLO</span></div>
-            <img src={withBase('/images/projects/arkelythex-interface.jpg')} width="1920" height="1080" alt="Interfaz de una etapa anterior del prototipo contable de Arkelythex, con consultas y herramientas contables" loading="lazy"/>
-            <span class="image-caption mono">ARCHIVO DEL PROTOTIPO / INTERFAZ ANTERIOR</span>
+          <a
+            class="project-image"
+            href={withBase("/projects/drenyra-fiscal-command-center/")}
+            aria-label="Explorar el proyecto Drenyra"
+          >
+            <div class="card-meta">
+              <span>01 / PRODUCTO PRINCIPAL</span>
+              <span>REVISIÓN HUMANA</span>
+            </div>
+            <img
+              src={withBase("/images/projects/fiscal-workspace.jpg")}
+              width="1920"
+              height="1080"
+              alt="Interfaz de trabajo asistida por IA en una etapa anterior del proyecto"
+              loading="lazy"
+            />
+            <span class="image-caption mono">
+              ARCHIVO DEL PROTOTIPO / INTERFAZ ANTERIOR
+            </span>
           </a>
           <div class="project-story">
-            <div class="project-title-line"><p class="eyebrow">IA + CONTABILIDAD</p><span class="project-number">01</span></div>
+            <div class="project-title-line">
+              <p class="eyebrow">IA + CONTABILIDAD</p>
+              <span class="project-number">01</span>
+            </div>
             <h3>Drenyra</h3>
-            <p class="project-lead">Un espacio de trabajo para la contabilidad con IA.</p>
-            <p>Conecta agentes, contexto y revisión profesional para asistir el trabajo contable en Perú y Latinoamérica.</p>
-            <blockquote><Icon name="evidence" size={20}/> <span>La IA asiste. El sistema valida.<br/>El profesional revisa.</span></blockquote>
-            <div class="tags"><span>TypeScript</span><span>Go</span><span>React</span><span>PostgreSQL</span></div>
+            <p class="project-lead">
+              Un espacio de trabajo para la contabilidad con IA.
+            </p>
+            <p>
+              Conecta agentes, contexto y revisión profesional para asistir el
+              trabajo contable en Perú y Latinoamérica.
+            </p>
+            <blockquote>
+              <Icon name="evidence" size={20} />{" "}
+              <span>
+                La IA asiste. El sistema valida.
+                <br />
+                El profesional revisa.
+              </span>
+            </blockquote>
+            <div class="tags">
+              <span>Contabilidad</span>
+              <span>IA supervisada</span>
+              <span>Trazabilidad</span>
+              <span>Revisión humana</span>
+            </div>
             <div class="project-links">
-              <a href="https://arkelythex.com/drenyra">Conocer Drenyra <Icon name="arrow" size={17}/></a>
-              <a href="https://github.com/arkelythex"><Icon name="github" size={17}/> Código <Icon name="arrow" size={17}/></a>
+              <a class="quiet-link" href="#connect">
+                Solicitar información <Icon name="arrow" size={17} />
+              </a>
             </div>
           </div>
         </article>
 
         <article class="project-card project-card--workbench" data-reveal>
-          <div class="compact-heading"><span class="project-number">02</span><p class="eyebrow"><Icon name="terminal" size={16}/> DEVELOPER EXPERIENCE</p></div>
-          <h3>Dreamcoder<br/>Workbench</h3>
-          <p>Mi entorno Arch Linux: configuración, terminal y herramientas adaptadas a cómo construyo software.</p>
-          <a class="compact-image" href={withBase('/projects/dreamcoder-workbench/')} aria-label="Explorar Dreamcoder Workbench">
-            <img src={withBase('/images/projects/dreamcoder-workbench.webp')} alt="Entorno de terminal de Dreamcoder Workbench sobre Arch Linux" width="1600" height="900" loading="lazy"/>
+          <div class="compact-heading">
+            <span class="project-number">02</span>
+            <p class="eyebrow">
+              <Icon name="terminal" size={16} /> DEVELOPER EXPERIENCE
+            </p>
+          </div>
+          <h3>
+            Dreamcoder
+            <br />
+            Workbench
+          </h3>
+          <p>
+            Mi entorno Arch Linux: configuración, terminal y herramientas
+            adaptadas a cómo construyo software.
+          </p>
+          <a
+            class="compact-image"
+            href={withBase("/projects/dreamcoder-workbench/")}
+            aria-label="Explorar Dreamcoder Workbench"
+          >
+            <img
+              src={withBase("/images/projects/dreamcoder-workbench.webp")}
+              alt="Entorno de terminal de Dreamcoder Workbench sobre Arch Linux"
+              width="1600"
+              height="900"
+              loading="lazy"
+            />
           </a>
-          <div class="compact-footer"><div class="tags"><span>Arch Linux</span><span>Shell</span><span>Lua</span></div><a href="https://github.com/Dreamcoder08/Dreamcoder-Workbench" class="circle-link" aria-label="Código de Dreamcoder Workbench"><Icon name="arrow" size={20}/></a></div>
+          <div class="compact-footer">
+            <div class="tags">
+              <span>Arch Linux</span>
+              <span>Shell</span>
+              <span>Lua</span>
+            </div>
+            <a
+              href="https://github.com/Dreamcoder08/Dreamcoder-Workbench"
+              class="circle-link"
+              aria-label="Código de Dreamcoder Workbench"
+            >
+              <Icon name="arrow" size={20} />
+            </a>
+          </div>
         </article>
 
         <article class="project-card project-card--civic" data-reveal>
-          <div class="compact-heading"><span class="project-number">03</span><p class="eyebrow"><Icon name="globe" size={16}/> TECNOLOGÍA CÍVICA</p></div>
-          <a class="compact-image" href={withBase('/projects/digital-public-peru/')} aria-label="Explorar Digital Public Peru">
-            <img src={withBase('/images/projects/digital-public-peru-desktop.png')} alt="Interfaz del proyecto Digital Public Peru" width="1600" height="900" loading="lazy"/>
+          <div class="compact-heading">
+            <span class="project-number">03</span>
+            <p class="eyebrow">
+              <Icon name="globe" size={16} /> TECNOLOGÍA CÍVICA
+            </p>
+          </div>
+          <a
+            class="compact-image"
+            href={withBase("/projects/digital-public-peru/")}
+            aria-label="Explorar Digital Public Peru"
+          >
+            <img
+              src={withBase("/images/projects/digital-public-peru-desktop.png")}
+              alt="Interfaz del proyecto Digital Public Peru"
+              width="1600"
+              height="900"
+              loading="lazy"
+            />
           </a>
           <h3>Digital Public Peru</h3>
-          <p>Exploración de información pública y transparencia en Perú, actualmente en desarrollo privado.</p>
-          <div class="compact-footer"><div class="tags"><span>Rust</span><span>Next.js</span><span>OpenAPI</span></div><a href={withBase('/projects/digital-public-peru/')} class="circle-link" aria-label="Explorar Digital Public Peru"><Icon name="arrow" size={20}/></a></div>
+          <p>Exploración de información pública y transparencia en Perú.</p>
+          <div class="compact-footer">
+            <div class="tags">
+              <span>Información pública</span>
+              <span>Transparencia</span>
+              <span>Datos abiertos</span>
+            </div>
+            <a
+              href={withBase("/projects/digital-public-peru/")}
+              class="circle-link"
+              aria-label="Explorar Digital Public Peru"
+            >
+              <Icon name="arrow" size={20} />
+            </a>
+          </div>
         </article>
       </div>
     </section>
@@ -105,95 +240,286 @@ const modules = [
       <div class="wrap about-grid">
         <div class="about-title">
           <p class="eyebrow">02 / DETRÁS DEL CÓDIGO</p>
-          <h2>Autodidacta.<br/>Curioso por naturaleza.<br/><span>Constructor por elección.</span></h2>
-          <span class="about-mark" aria-hidden="true">A<span>/</span>08</span>
+          <h2>
+            Autodidacta.
+            <br />
+            Curioso por naturaleza.
+            <br />
+            <span>Constructor por elección.</span>
+          </h2>
+          <span class="about-mark" aria-hidden="true">
+            A<span>/</span>08
+          </span>
         </div>
         <div class="about-copy">
-          <p class="about-lead">Soy Albert Agurto, también conocido como <strong>Dreamcoder</strong>.</p>
-          <p>Desde Piura, Perú, conecto mis intereses en software, inteligencia artificial y contabilidad para construir herramientas útiles.</p>
-          <p>Fundé <a href="https://arkelythex.com/">Arkelythex</a> como laboratorio de productos de software e IA. Hoy mi foco está en Drenyra y en el ecosistema que lo hace posible.</p>
-          <p>Aprendo construyendo, leyendo código y cuestionando decisiones. Me interesa tanto lo que ve una persona en pantalla como lo que permite que el sistema funcione por dentro.</p>
-          <a class="quiet-link" href={siteConfig.social.github}><Icon name="github" size={18}/> Conoce mi trabajo en GitHub <Icon name="arrow" size={17}/></a>
+          <p class="about-lead">
+            Soy <strong>Dreamcoder</strong>, desarrollador de software y
+            sistemas de IA.
+          </p>
+          <p>
+            Desde Perú, conecto mis intereses en software, inteligencia
+            artificial y contabilidad para construir herramientas útiles.
+          </p>
+          <p>
+            Trabajo desde un laboratorio propio de productos de software e IA,
+            con foco en sistemas que exigen trazabilidad y revisión humana.
+          </p>
+          <p>
+            Aprendo construyendo, leyendo código y cuestionando decisiones. Me
+            interesa tanto lo que ve una persona en pantalla como lo que permite
+            que el sistema funcione por dentro.
+          </p>
+          <a class="quiet-link" href={siteConfig.social.github}>
+            <Icon name="github" size={18} /> Conoce mi trabajo en GitHub{" "}
+            <Icon name="arrow" size={17} />
+          </a>
         </div>
       </div>
     </section>
 
     <section id="architecture" class="principles-section wrap" data-reveal>
       <header class="section-heading">
-        <div><p class="eyebrow">03 / FORMA DE TRABAJAR</p><h2>La ambición necesita<br/><span>criterio técnico.</span></h2></div>
-        <p class="heading-note">Tres principios para decidir<br/>qué construir y cómo hacerlo.</p>
+        <div>
+          <p class="eyebrow">03 / FORMA DE TRABAJAR</p>
+          <h2>
+            La ambición necesita
+            <br />
+            <span>criterio técnico.</span>
+          </h2>
+        </div>
+        <p class="heading-note">
+          Tres principios para decidir
+          <br />
+          qué construir y cómo hacerlo.
+        </p>
       </header>
       <div class="principles">
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="layers" size={25}/></span><span class="principle-number">01</span></div><h3>Diseñar antes de escalar.</h3><p>Definir el problema, separar responsabilidades y hacer explícitos los límites. Elegir la complejidad que el producto necesita.</p></article>
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="agents" size={25}/></span><span class="principle-number">02</span></div><h3>IA con supervisión.</h3><p>Dar a los agentes contexto y herramientas. Reservar las decisiones sensibles para reglas verificables y revisión humana.</p></article>
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="evidence" size={25}/></span><span class="principle-number">03</span></div><h3>Construir para entender.</h3><p>Código legible, documentación útil y pruebas en los puntos críticos. Poder explicar una decisión y volver a ella.</p></article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="layers" size={25} />
+            </span>
+            <span class="principle-number">01</span>
+          </div>
+          <h3>Diseñar antes de escalar.</h3>
+          <p>
+            Definir el problema, separar responsabilidades y hacer explícitos
+            los límites. Elegir la complejidad que el producto necesita.
+          </p>
+        </article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="agents" size={25} />
+            </span>
+            <span class="principle-number">02</span>
+          </div>
+          <h3>IA con supervisión.</h3>
+          <p>
+            Dar a los agentes contexto y herramientas. Reservar las decisiones
+            sensibles para reglas verificables y revisión humana.
+          </p>
+        </article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="evidence" size={25} />
+            </span>
+            <span class="principle-number">03</span>
+          </div>
+          <h3>Construir para entender.</h3>
+          <p>
+            Código legible, documentación útil y pruebas en los puntos críticos.
+            Poder explicar una decisión y volver a ella.
+          </p>
+        </article>
       </div>
-      <div class="toolbelt"><span class="mono">EN MI ENTORNO</span><p>TypeScript <span>/</span> React <span>/</span> Go <span>/</span> Rust <span>/</span> Python <span>/</span> Linux</p></div>
+      <div class="toolbelt">
+        <span class="mono">EN MI ENTORNO</span>
+        <p>
+          TypeScript <span>/</span> React <span>/</span> Go <span>/</span> Rust{" "}
+          <span>/</span> Python <span>/</span> Linux
+        </p>
+      </div>
     </section>
 
-    <section id="opensource" class="open-section wrap" data-reveal>
-      <header class="section-heading">
-        <div><p class="eyebrow">04 / ECOSISTEMA ABIERTO</p><h2>Un producto.<br/><span>Piezas con propósito.</span></h2></div>
-        <a href="https://github.com/arkelythex" class="quiet-link">Explorar Arkelythex <Icon name="arrow" size={17}/></a>
-      </header>
-      <div class="module-list">
-        {modules.map(([name, label, description], i) => (
-          <a href={`https://github.com/arkelythex/${name}`} class="module-row" data-reveal>
-            <span class="module-index mono">0{i + 1}</span>
-            <span class="module-icon"><Icon name={(["terminal", "agents", "memory"] as const)[i]} size={23}/></span>
-            <h3>{name}</h3><span class="module-label">{label}</span><p>{description}</p><Icon name="arrow" size={18}/>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section id="services" class="open-section wrap" aria-labelledby="services-title" data-reveal>
+    <section
+      id="services"
+      class="section-flush-top wrap"
+      aria-labelledby="services-title"
+      data-reveal
+    >
       <header class="section-heading">
         <div>
-          <p class="eyebrow">05 / SERVICIOS</p>
-          <h2 id="services-title">Construyo software.<br/><span>Tú defines el alcance.</span></h2>
+          <p class="eyebrow">04 / SERVICIOS</p>
+          <h2 id="services-title">
+            Construyo software.
+            <br />
+            <span>Tú defines el alcance.</span>
+          </h2>
         </div>
-        <p class="heading-note">Disponible para proyectos puntuales<br/>fuera de Drenyra y Arkelythex.</p>
+        <p class="heading-note">
+          Compromisos seleccionados, con alcance y supuestos por escrito.
+        </p>
       </header>
       <div class="module-list">
-        <a href="mailto:dreamcoder.dev08@gmail.com?subject=Servicio%3A%20Producto%20web" class="module-row" data-reveal>
+        <a
+          href={mailto("Servicio: Producto web")}
+          class="module-row"
+          data-reveal
+        >
           <span class="module-index mono">01</span>
-          <span class="module-icon"><Icon name="code" size={23}/></span>
-          <h3>Producto web</h3><span class="module-label">Sitios y apps</span><p>Landing pages, sitios de negocio y aplicaciones internas con Astro o React, listos para producción. Desde S/600.</p><Icon name="arrow" size={18}/>
+          <span class="module-icon">
+            <Icon name="code" size={23} />
+          </span>
+          <h3>Producto web</h3>
+          <span class="module-label">Sitios y apps</span>
+          <p>
+            Landing pages, sitios de negocio y aplicaciones internas con Astro o
+            React, listos para producción.
+          </p>
+          <Icon name="arrow" size={18} />
         </a>
-        <a href="mailto:dreamcoder.dev08@gmail.com?subject=Servicio%3A%20Automatizaci%C3%B3n%20con%20IA" class="module-row" data-reveal>
+        <a
+          href={mailto("Servicio: Automatización con IA")}
+          class="module-row"
+          data-reveal
+        >
           <span class="module-index mono">02</span>
-          <span class="module-icon"><Icon name="agents" size={23}/></span>
-          <h3>Automatización con IA</h3><span class="module-label">Agentes y flujos</span><p>Flujos con LLMs para clasificar, extraer o asistir procesos internos, con revisión humana en los puntos críticos. Desde S/800.</p><Icon name="arrow" size={18}/>
+          <span class="module-icon">
+            <Icon name="agents" size={23} />
+          </span>
+          <h3>Automatización con IA</h3>
+          <span class="module-label">Agentes y flujos</span>
+          <p>
+            Flujos con LLMs para clasificar, extraer o asistir procesos
+            internos, con revisión humana en los puntos críticos.
+          </p>
+          <Icon name="arrow" size={18} />
         </a>
-        <a href="mailto:dreamcoder.dev08@gmail.com?subject=Servicio%3A%20Revisi%C3%B3n%20de%20arquitectura" class="module-row" data-reveal>
+        <a
+          href={mailto("Servicio: Revisión de arquitectura")}
+          class="module-row"
+          data-reveal
+        >
           <span class="module-index mono">03</span>
-          <span class="module-icon"><Icon name="evidence" size={23}/></span>
-          <h3>Revisión de arquitectura</h3><span class="module-label">Auditoría técnica</span><p>Evaluación de arquitectura, seguridad y escalabilidad de un sistema existente, con hallazgos accionables. Desde S/500.</p><Icon name="arrow" size={18}/>
+          <span class="module-icon">
+            <Icon name="evidence" size={23} />
+          </span>
+          <h3>Revisión de arquitectura</h3>
+          <span class="module-label">Auditoría técnica</span>
+          <p>
+            Evaluación de arquitectura, seguridad y escalabilidad de un sistema
+            existente, con hallazgos accionables.
+          </p>
+          <Icon name="arrow" size={18} />
         </a>
       </div>
     </section>
 
     <section id="process" class="principles-section wrap" data-reveal>
       <header class="section-heading">
-        <div><p class="eyebrow">06 / CÓMO TRABAJO</p><h2>Un proceso claro.<br/><span>Sin sorpresas en el camino.</span></h2></div>
-        <p class="heading-note">Tres pasos, del primer<br/>correo a la entrega.</p>
+        <div>
+          <p class="eyebrow">05 / CÓMO TRABAJO</p>
+          <h2>
+            Un proceso claro.
+            <br />
+            <span>Sin sorpresas en el camino.</span>
+          </h2>
+        </div>
+        <p class="heading-note">
+          Tres pasos, del primer
+          <br />
+          correo a la entrega.
+        </p>
       </header>
       <div class="principles">
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="mail" size={25}/></span><span class="principle-number">01</span></div><h3>Conversamos.</h3><p>Me escribes con el problema o la idea. Una llamada o un correo bastan para entender el alcance real.</p></article>
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="evidence" size={25}/></span><span class="principle-number">02</span></div><h3>Propuesta y precio.</h3><p>Te envío alcance, tiempo y precio cerrado antes de empezar. Sin sorpresas a mitad de camino.</p></article>
-        <article data-reveal><div class="principle-top"><span class="principle-icon"><Icon name="layers" size={25}/></span><span class="principle-number">03</span></div><h3>Construyo y entrego.</h3><p>Avances visibles durante el desarrollo, no solo un entregable al final. Código documentado y explicable.</p></article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="mail" size={25} />
+            </span>
+            <span class="principle-number">01</span>
+          </div>
+          <h3>Conversamos.</h3>
+          <p>
+            Me escribes con el problema o la idea. Una llamada o un correo
+            bastan para entender el alcance real.
+          </p>
+        </article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="evidence" size={25} />
+            </span>
+            <span class="principle-number">02</span>
+          </div>
+          <h3>Propuesta y alcance.</h3>
+          <p>
+            Te envío alcance, supuestos y criterios de aceptación por escrito
+            antes de empezar. Sin sorpresas a mitad del camino.
+          </p>
+        </article>
+        <article data-reveal>
+          <div class="principle-top">
+            <span class="principle-icon">
+              <Icon name="layers" size={25} />
+            </span>
+            <span class="principle-number">03</span>
+          </div>
+          <h3>Construyo y entrego.</h3>
+          <p>
+            Avances visibles durante el desarrollo, no solo un entregable al
+            final. Código documentado y explicable.
+          </p>
+        </article>
       </div>
-      <a class="quiet-link" href="#connect">Empecemos <Icon name="arrow" size={18}/></a>
+      <a class="quiet-link" href="#connect">
+        Empecemos <Icon name="arrow" size={18} />
+      </a>
     </section>
 
     <section id="connect" class="contact-section wrap" data-reveal>
-      <div class="contact-top"><p class="eyebrow">07 / SIGUIENTE CONVERSACIÓN</p><span class="mono">PIURA, PERÚ · UTC−5</span></div>
-      <h2>¿Algo interesante<br/>por <span>construir?</span></h2>
-      <div class="contact-bottom"><p>Conversemos sobre oportunidades en desarrollo,<br/>productos con IA o colaboraciones técnicas.</p><a class="solid-link" href="mailto:dreamcoder.dev08@gmail.com"><Icon name="mail" size={20}/> Hablemos por correo <Icon name="arrow" size={18}/></a></div>
-      <div class="contact-social"><a href={siteConfig.social.github}><Icon name="github" size={18}/> GitHub <Icon name="arrow" size={15}/></a><a href={siteConfig.social.x}><Icon name="x" size={17}/> X / Twitter <Icon name="arrow" size={15}/></a><a href="https://arkelythex.com/"><Icon name="mark" size={18}/> Arkelythex <Icon name="arrow" size={15}/></a></div>
+      <div class="contact-top">
+        <p class="eyebrow">06 / SIGUIENTE CONVERSACIÓN</p>
+        <span class="mono">PERÚ · UTC−5</span>
+      </div>
+      <h2>
+        ¿Algo interesante
+        <br />
+        por <span>construir?</span>
+      </h2>
+      <div class="contact-bottom">
+        <p>
+          Conversemos sobre oportunidades en desarrollo,
+          <br />
+          productos con IA o colaboraciones técnicas.
+        </p>
+        <a class="solid-link" href={mailto("Contacto desde el portafolio")}>
+          <Icon name="mail" size={20} /> Hablemos por correo{" "}
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+      <div class="contact-social">
+        <a href={siteConfig.social.github}>
+          <Icon name="github" size={18} /> GitHub{" "}
+          <Icon name="arrow" size={15} />
+        </a>
+        <a href={siteConfig.social.x}>
+          <Icon name="x" size={17} /> X / Twitter{" "}
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer wrap"><a href={withBase('/')}><Icon name="mark" size={24}/> <strong>dreamcoder</strong></a><p>© {new Date().getFullYear()} Albert Agurto</p><a href="#main-content">Volver arriba <Icon name="up" size={16}/></a></footer>
+  <footer class="site-footer wrap">
+    <a href={withBase("/")}>
+      <Icon name="mark" size={24} /> <strong>dreamcoder</strong>
+    </a>
+    <p>© {new Date().getFullYear()} Dreamcoder</p>
+    <a href="#main-content">
+      Volver arriba <Icon name="up" size={16} />
+    </a>
+  </footer>
 </BaseLayout>

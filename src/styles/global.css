@@ -8,27 +8,28 @@
 
 @theme {
   /* ---- SURFACES ---- */
-  --color-surface: #080909;
-  --color-surface-alt: #111212;
-  --color-surface-elevated: #191a1a;
-  --color-surface-glass: rgba(255, 255, 255, 0.03);
+  --color-surface: #000000;
+  --color-surface-alt: #0d0d10;
+  --color-surface-elevated: #17171c;
+  --color-surface-glass: rgba(255, 255, 255, 0.045);
 
   /* ---- TEXT ---- */
-  --color-text: #f0efeb;
-  --color-text-secondary: #a5a6a2;
+  --color-text: #ededeb;
+  --color-text-secondary: #b7b8b3;
 
   /* ---- ACCENTS ---- */
-  --color-accent: #dda783;
-  --color-accent-muted: rgba(221, 167, 131, 0.07);
-  --color-on-accent: #080909;
+  --color-accent: #e6b795;
+  --color-accent-muted: rgba(230, 183, 149, 0.08);
+  --color-on-accent: #0a0a0a;
 
   /* ---- BORDERS ---- */
-  --color-border: rgba(255, 255, 255, 0.11);
-  --color-border-hover: rgba(255, 255, 255, 0.24);
+  --color-border: rgba(255, 255, 255, 0.16);
+  --color-border-hover: rgba(255, 255, 255, 0.34);
+  --color-border-strong: rgba(255, 255, 255, 0.28);
 
   /* ---- SEMANTIC ---- */
-  --color-danger: #ff4d4d;
-  --color-on-danger: #080909;
+  --color-danger: #ff6b6b;
+  --color-on-danger: #0a0a0a;
 
   /* ---- TYPOGRAPHY ---- */
   --font-sans: "Inter", system-ui, sans-serif;
@@ -60,6 +61,7 @@
   --color-on-accent: #fff7ea;
   --color-border: rgba(0, 0, 0, 0.1);
   --color-border-hover: rgba(0, 0, 0, 0.18);
+  --color-border-strong: rgba(0, 0, 0, 0.22);
   --color-danger: #b3261e;
   --color-on-danger: #fff7ea;
 }
@@ -80,10 +82,14 @@
   *::before,
   *::after {
     border-color: var(--color-border);
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.2s ease;
   }
 
   html {
+    background-color: var(--color-surface);
     scroll-behavior: smooth;
   }
 
@@ -97,8 +103,8 @@
   }
 
   ::selection {
-    background: var(--color-accent-muted);
-    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+    color: var(--color-text);
   }
 
   :focus-visible {
@@ -107,26 +113,106 @@
     border-radius: 4px;
   }
 
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--color-text-secondary); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-text-secondary);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+  }
 
   /* ---- TYPOGRAPHY ---- */
-  h1 { font-size: var(--text-h1); line-height: 1.1; font-weight: 700; letter-spacing: -0.03em; }
-  h2 { font-size: var(--text-h2); line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; }
-  h3 { font-size: var(--text-h3); line-height: 1.2; font-weight: 600; }
-  h4 { font-size: 1.125rem; line-height: 1.3; font-weight: 600; }
-  p { line-height: 1.8; }
-  code { font-family: var(--font-mono); font-size: 0.9em; }
-  strong { font-weight: 600; }
+  h1 {
+    font-size: var(--text-h1);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  h3 {
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  p {
+    line-height: 1.8;
+  }
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  strong {
+    font-weight: 600;
+  }
 
   a {
     color: var(--color-accent);
     text-decoration: none;
     transition: opacity 0.2s ease;
   }
-  a:hover { opacity: 0.8; }
+  a:hover {
+    opacity: 0.8;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST
+   ============================================ */
+@media (prefers-contrast: more) {
+  [data-theme="dark"] {
+    --color-text-secondary: #e2e2df;
+    --color-border: rgba(255, 255, 255, 0.42);
+    --color-border-hover: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ============================================
+   OLED CARD EDGES (dark)
+   Drop shadows vanish on pure black, so card
+   edges rely on a stronger border plus a
+   subtle inset highlight.
+   ============================================ */
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .compact-image,
+[data-theme="dark"] .tags span {
+  border-color: var(--color-border-strong);
+}
+
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .compact-image {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .profile-card {
+  box-shadow:
+    0 34px 80px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-contrast: more) {
+  [data-theme="dark"] .tags span,
+  [data-theme="dark"] .module-row,
+  [data-theme="dark"] .principles article,
+  [data-theme="dark"] .compact-image {
+    border-color: var(--color-border-hover);
+  }
 }
 
 /* ============================================
@@ -168,7 +254,9 @@
     border-radius: 1rem;
     background: var(--color-surface-alt);
     border: 1px solid var(--color-border);
-    transition: border-color 0.3s ease, transform 0.2s ease;
+    transition:
+      border-color 0.3s ease,
+      transform 0.2s ease;
   }
   .card:hover {
     border-color: var(--color-border-hover);
@@ -192,14 +280,16 @@
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     background: var(--color-accent);
-    color: #000;
+    color: var(--color-on-accent);
     font-weight: 600;
     border-radius: 0.5rem;
     transition: opacity 0.2s;
     min-height: 44px;
     min-width: 44px;
   }
-  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
 
   /* ---- BTN SECONDARY ---- */
   .btn-secondary {
@@ -215,7 +305,9 @@
     min-height: 44px;
     min-width: 44px;
   }
-  .btn-secondary:hover { border-color: var(--color-border-hover); }
+  .btn-secondary:hover {
+    border-color: var(--color-border-hover);
+  }
 
   /* ---- SECTION LABEL (accent mono label) ---- */
   .section-label {

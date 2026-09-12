@@ -3,23 +3,6 @@ export interface ProjectSignalMetric {
   value: string;
 }
 
-export interface ProjectCaseStudySection {
-  title: string;
-  body: string;
-}
-
-export interface ProjectCaseStudyModule {
-  name: string;
-  description: string;
-}
-
-export interface ProjectFlagshipCaseStudy {
-  thesis: string;
-  sections: ProjectCaseStudySection[];
-  modules: ProjectCaseStudyModule[];
-  decisions: string[];
-}
-
 export interface ProjectCaseStudy {
   eyebrow: string;
   challenge: string;
@@ -30,183 +13,106 @@ export interface ProjectCaseStudy {
   metrics: ProjectSignalMetric[];
   cardImpact: string;
   highlightRank: number;
-  flagship?: ProjectFlagshipCaseStudy;
 }
 
 const projectCaseStudies: Record<string, ProjectCaseStudy> = {
   drenyra: {
-    eyebrow: 'Producto principal de Arkelythex',
-    challenge: 'El trabajo contable reúne documentos, reglas y decisiones que necesitan contexto. Mi objetivo es asistir ese trabajo sin perder la revisión profesional.',
-    approach: 'Estoy construyendo un ecosistema modular: Drenyra AI para configurar el entorno, Drenyra Pi para los flujos de agentes y Drenyra Engram para el contexto y la memoria.',
-    outcome: 'MVP en desarrollo. El foco actual está en integrar la asistencia de IA con validaciones y revisión humana; el repositorio permite revisar el avance técnico.',
-    evidence: ['Código y documentación en la organización Arkelythex.', 'Separación entre asistencia de IA, validación del sistema y revisión profesional.', 'Captura de una etapa anterior de la interfaz, conservada como archivo del prototipo.'],
-    signals: ['IA', 'Contabilidad', 'Revisión humana'],
+    eyebrow: "Espacio de trabajo con IA para contabilidad",
+    challenge:
+      "El trabajo contable reúne documentos, reglas y decisiones que necesitan contexto. Mi objetivo es asistir ese trabajo sin perder la revisión profesional.",
+    approach:
+      "Construyo un espacio de trabajo modular donde la asistencia de IA se apoya en reglas verificables, contexto explícito y revisión profesional antes de cualquier cambio de estado.",
+    outcome:
+      "Foco actual: integrar asistencia de IA con validación y revisión humana.",
+    evidence: [
+      "Separación entre asistencia de IA, validación del sistema y revisión profesional.",
+      "Prácticas de trazabilidad aplicadas al trabajo contable.",
+      "Captura de una etapa anterior de la interfaz, conservada como archivo del prototipo.",
+    ],
+    signals: ["IA", "Contabilidad", "Revisión humana"],
     metrics: [],
-    cardImpact: 'Asistencia contable con contexto y revisión profesional.',
+    cardImpact: "Asistencia contable con contexto y revisión profesional.",
     highlightRank: 1,
   },
-  arkelythex: {
-    eyebrow: 'Flagship Fiscal-Operational Intelligence',
+  "digital-public-peru": {
+    eyebrow: "Infraestructura de servicios públicos",
     challenge:
-      'Peruvian fiscal operations still depend on scattered files, manual review, and late visibility. The hard problem is not automation; it is making fiscal decisions traceable before they affect the business.',
+      "La información pública suele estar dispersa y ser difícil de auditar. El objetivo es explorarla con criterios explícitos de alcance, uso de datos y trazabilidad.",
     approach:
-      'I am building Arkelythex as a fiscal-operational intelligence platform: deterministic rules, governed agents, evidence graph, and human approval gates.',
+      "Diseño herramientas cívicas alrededor de flujos administrativos públicos, manteniendo explícitos el alcance, el uso de datos y el comportamiento del sistema.",
     outcome:
-      'Arkelythex turns close, review, reconciliation, and compliance work into inspectable workflows for Peru-first teams and LATAM expansion.',
+      "Una herramienta de transparencia cívica que hace la información pública más fácil de explorar y auditar.",
     evidence: [
-      'Fiscal validation modeled as deterministic gates before state changes.',
-      'SIRE, CPE, reconciliation, and close workflows designed around visible evidence.',
-      'Governed agents prepare work, but approval and execution stay bounded by traceability.',
+      "Exploración de información pública enfocada en transparencia.",
+      "Alcance documentado y criterios de uso explícitos.",
+      "Enfoque en accesibilidad y utilidad pública.",
     ],
-    signals: ['SUNAT', 'SIRE', 'CPE', 'Evidence Graph', 'Governed Agents'],
-    metrics: [
-      { label: 'Domain', value: 'Peru Fiscal Ops' },
-      { label: 'Trust Model', value: 'Evidence-First' },
-      { label: 'Execution', value: 'Approval-Gated' },
+    signals: [
+      "Tecnología cívica",
+      "Integridad de servicios",
+      "Operación confiable",
     ],
+    metrics: [{ label: "Dominio", value: "Infraestructura pública" }],
     cardImpact:
-      'Fiscal-operational intelligence with deterministic rules, evidence trails, and governed agent workflows.',
-    highlightRank: 1,
-    flagship: {
-      thesis:
-        'Arkelythex treats fiscal evidence as the operating layer for accounting, compliance, and agent-assisted work.',
-      sections: [
-        {
-          title: 'Problem Space',
-          body:
-            'Fiscal work breaks when invoices, declarations, accounting context, and review decisions live in disconnected tools.',
-        },
-        {
-          title: 'Architectural Thesis',
-          body:
-            'Domain rules decide what cannot happen. Agents can assist, but only inside inspectable boundaries.',
-        },
-        {
-          title: 'Evidence Model',
-          body:
-            'Every workflow explains what entered, which rules ran, what risk appeared, what evidence was produced, and who approved the next step.',
-        },
-      ],
-      modules: [
-        {
-          name: 'Drenyra Command Center',
-          description: 'Coordinates companies, periods, agents, evidence, risk, and approval.',
-        },
-        {
-          name: 'Fiscal Truth Engine',
-          description: 'Runs deterministic fiscal rules before accounting state changes.',
-        },
-        {
-          name: 'Evidence Graph',
-          description: 'Keeps source trails, mismatches, reviews, and decisions connected.',
-        },
-        {
-          name: 'Governed Agents',
-          description: 'Prepare and explain work without bypassing human approval.',
-        },
-      ],
-      decisions: [
-        'Position Arkelythex as company + platform, not just a single app.',
-        'Keep the narrative short: fiscal evidence, governed agents, human approval.',
-        'Use Drenyra as the flagship command center inside the ecosystem.',
-      ],
-    },
-  },
-  'legal-os-01': {
-    eyebrow: 'Structured Intelligence System',
-    challenge:
-      'I needed to unify fragmented legal data and complex procedural workflows into a deterministic operating system without compromising data fidelity.',
-    approach:
-      'I architected a multi-layered data ingestion pipeline with automated semantic tagging and built a modular service layer using Rust and Bun for high-performance processing.',
-    outcome:
-      'I created a centralized legal intelligence platform that transforms raw documentation into actionable structured data, reducing procedural latency significantly.',
-    evidence: [
-      'My high-speed document parsing engine with semantic validation.',
-      'Deterministic workflow engine I built for complex legal sequences.',
-      'Unified schema I designed for cross-jurisdictional data interoperability.',
-    ],
-    signals: ['Data Engineering', 'Rust Performance', 'LegalTech Architecture'],
-    metrics: [
-      { label: 'Processing', value: 'Sub-second Parsing' },
-      { label: 'Reliability', value: 'Deterministic Flows' },
-      { label: 'Scale', value: 'Multi-tenant Ready' },
-    ],
-    cardImpact: 'Centralized legal intelligence OS I architected for high-volume data orchestration.',
-    highlightRank: 5,
-  },
-  'digital-public-peru': {
-    eyebrow: 'Public Service Infrastructure',
-    challenge:
-      'I needed to modernize public-sector service flows while preserving traceability, compliance constraints, and operational reliability.',
-    approach:
-      'I designed service boundaries around administrative workflows, with clear data contracts and resilience patterns for high-friction institutional environments.',
-    outcome:
-      'I shaped a civic infrastructure baseline that improves service continuity and makes system behavior easier to audit and operate.',
-    evidence: [
-      'Workflow architecture aligned to public-sector constraints and documentation needs.',
-      'Service interfaces designed for transparent state transitions.',
-      'Operational foundations focused on reliability and long-term maintainability.',
-    ],
-    signals: ['GovTech Architecture', 'Service Integrity', 'Operational Resilience'],
-    metrics: [
-      { label: 'Domain', value: 'Public Infrastructure' },
-      { label: 'Design', value: 'Service Boundaries' },
-      { label: 'Priority', value: 'Traceable Operations' },
-    ],
-    cardImpact:
-      'Civic digital infrastructure focused on service integrity, compliance alignment, and reliable operations.',
+      "Infraestructura digital cívica enfocada en integridad de servicios y operación confiable.",
     highlightRank: 3,
   },
-  'edge-traz-agro': {
-    eyebrow: 'Edge Computing Resilience',
+  "edge-traz-agro": {
+    eyebrow: "Trazabilidad en campo",
     challenge:
-      'I faced the challenge of maintaining data integrity and operational traceability in low-connectivity environments where field devices must operate autonomously.',
+      "Mantener integridad de datos y trazabilidad donde la conectividad es limitada y los dispositivos operan de forma autónoma.",
     approach:
-      'I developed an offline-first synchronization protocol and leveraged lightweight containerization to ensure consistent deployment across heterogeneous hardware.',
+      "Diseño herramientas de trazabilidad para operaciones en campo, con criterios explícitos de integridad y captura confiable en sitio.",
     outcome:
-      'I built a robust traceability system for remote operations, reducing cloud dependency and preserving reliable local capture.',
+      "Un enfoque de trazabilidad para operaciones remotas que mantiene los datos confiables con conectividad limitada.",
     evidence: [
-      'My asynchronous sync engine with verifiable state hashes.',
-      'Low-power edge worker nodes I designed for real-time telemetry.',
-      'Hardened hardware-software interface for environmental resilience.',
+      "Captura de datos en campo con criterios explícitos de integridad.",
+      "Operación pensada para entornos de baja conectividad.",
+      "Menor dependencia de conectividad constante.",
     ],
-    signals: ['Edge Computing', 'Offline-First Sync', 'IoT Resilience'],
-    metrics: [
-      { label: 'Uptime', value: '99.9% Edge Autonomy' },
-      { label: 'Sync Latency', value: 'Optimized Burst' },
-      { label: 'Data Safety', value: 'Local Redundancy' },
+    signals: [
+      "Operación en campo",
+      "Conectividad limitada",
+      "Integridad de datos",
     ],
-    cardImpact: 'Edge traceability infrastructure I built for operational resilience in distributed environments.',
+    metrics: [],
+    cardImpact:
+      "Trazabilidad para operaciones distribuidas con integridad de datos en campo.",
     highlightRank: 2,
   },
-  'dreamcoder-workbench': {
-    eyebrow: 'System Orchestration',
+  "dreamcoder-workbench": {
+    eyebrow: "Entorno de desarrollo",
     challenge:
-      'I set out to engineer a reproducible, high-performance Linux workstation environment that balances aesthetic polish with extreme operational efficiency.',
+      "Un entorno de trabajo Linux reproducible que equilibra presentación visual y eficiencia operativa.",
     approach:
-      'I built a modular configuration system using GNU Stow and custom Shell/Lua orchestrators, integrating GLSL shader-driven visual feedback loops.',
+      "Mantengo una configuración versionada donde temas, terminal y herramientas comparten un mismo criterio.",
     outcome:
-      'I achieved a deterministic development environment that I can bootstrap in minutes, providing a high-signal interface for deep-work sessions.',
+      "Un entorno de desarrollo reproducible, rápido de preparar y enfocado en claridad y baja fricción.",
     evidence: [
-      'Declarative system setup I designed using shell automation.',
-      'GPU-accelerated terminal interface with custom GLSL integration.',
-      'Modular DX tooling with unified keybinding orchestration.',
+      "Configuración del entorno bajo control de versiones.",
+      "Tematización consistente entre terminal, editor y shell.",
+      "Herramientas organizadas alrededor de un solo flujo de trabajo.",
     ],
-    signals: ['System Design', 'Developer Experience', 'Unix Philosophy'],
-    metrics: [
-      { label: 'Bootstrap', value: '< 5 min' },
-      { label: 'Engine', value: 'Lua + Shell' },
-      { label: 'Visuals', value: 'GLSL / GPU' },
+    signals: [
+      "Entorno de desarrollo",
+      "Configuración reproducible",
+      "Herramientas de terminal",
     ],
-    cardImpact: 'Deterministic Arch Linux workstation environment with custom GPU-driven orchestration.',
+    metrics: [],
+    cardImpact:
+      "Entorno de trabajo Linux reproducible con configuración unificada.",
     highlightRank: 4,
   },
 };
 
-export function getProjectCaseStudy(projectId: string): ProjectCaseStudy | undefined {
+export function getProjectCaseStudy(
+  projectId: string,
+): ProjectCaseStudy | undefined {
   return projectCaseStudies[projectId];
 }
 
 export function getProjectHighlightRank(projectId: string): number {
-  return projectCaseStudies[projectId]?.highlightRank ?? Number.MAX_SAFE_INTEGER;
+  return (
+    projectCaseStudies[projectId]?.highlightRank ?? Number.MAX_SAFE_INTEGER
+  );
 }

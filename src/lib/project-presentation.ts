@@ -1,97 +1,11 @@
-export type ProjectTone =
-  | 'arkelythex'
-  | 'govtech'
-  | 'agritech'
-  | 'legaltech'
-  | 'media'
-  | 'systems'
-  | 'design'
-  | 'archive'
-  | 'lab';
-
-const toneMap: Record<string, ProjectTone> = {
-  'fintech-platform': 'arkelythex',
-  'fiscal-infrastructure': 'arkelythex',
-  govtech: 'govtech',
-  agritech: 'agritech',
-  legaltech: 'legaltech',
-  'media-tools': 'media',
-  systems: 'systems',
-  platform: 'systems',
-  'developer-experience': 'systems',
-  'knowledge-systems': 'systems',
-  validation: 'govtech',
-  operations: 'systems',
-  portfolio: 'design',
-  'design-systems': 'design',
-  'creative-ui': 'design',
-  audio: 'design',
-  'ai-content': 'design',
-  commerce: 'design',
-  hospitality: 'design',
-  'saas-operations': 'systems',
-  'startup-ops': 'systems',
-  security: 'lab',
-};
-
-export function getProjectTone(domain: string, bucket: string): ProjectTone {
-  if (bucket === 'archived') {
-    return 'archive';
-  }
-
-  if (bucket === 'lab') {
-    return 'lab';
-  }
-
-  return toneMap[domain] ?? 'systems';
-}
-
-export function getProjectCoverClasses(tone: ProjectTone): string {
-  const toneClasses: Record<ProjectTone, string> = {
-    arkelythex:
-      'from-primary/20 via-primary/5 to-transparent',
-    govtech:
-      'from-cyan/20 via-cyan/5 to-transparent',
-    agritech:
-      'from-sage/20 via-sage/5 to-transparent',
-    legaltech:
-      'from-cyan/20 via-cyan/5 to-transparent',
-    media:
-      'from-accent/20 via-accent/5 to-transparent',
-    systems:
-      'from-sage/20 via-sage/5 to-transparent',
-    design:
-      'from-primary/15 via-primary/5 to-transparent',
-    archive:
-      'from-muted-text/20 via-muted-text/5 to-transparent',
-    lab:
-      'from-accent/20 via-accent/5 to-transparent',
-  };
-
-  return toneClasses[tone];
-}
-
-export function getProjectToneLabel(tone: ProjectTone): string {
-  const labels: Record<ProjectTone, string> = {
-    arkelythex: 'Fiscal Intelligence',
-    govtech: 'Public Infrastructure',
-    agritech: 'Edge Traceability',
-    legaltech: 'Legal Intelligence',
-    media: 'Media Tooling',
-    systems: 'Systems Engineering',
-    design: 'Interface Direction',
-    archive: 'Archived Iteration',
-    lab: 'Research Track',
-  };
-
-  return labels[tone];
-}
-
+/** Derives the public route slug from a project title.
+ *  Centralised so every link and route computes it identically. Changing a
+ *  title does change its URL, because the slug is derived from the title. */
 export function getProjectSlug(title: string): string {
   return title
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

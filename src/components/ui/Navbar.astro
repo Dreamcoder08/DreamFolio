@@ -1,79 +1,138 @@
 ---
-import { withBase } from '../../lib/site';
-import Icon from './Icon.astro';
-import '../../styles/portfolio.css';
+import { withBase } from "../../lib/site";
+import Icon from "./Icon.astro";
+import "../../styles/portfolio.css";
 
-const items: [string, string][] = [['Proyectos', 'projects'], ['Sobre mí', 'about'], ['Enfoque', 'architecture']];
-const mobileItems: [string, string][] = [...items, ['Hablemos', 'connect']];
+const items: [string, string][] = [
+  ["Proyectos", "projects"],
+  ["Sobre mí", "about"],
+  ["Enfoque", "architecture"],
+];
+const mobileItems: [string, string][] = [...items, ["Hablemos", "connect"]];
 ---
 
 <header class="site-header">
   <nav class="nav-wrap" aria-label="Navegación principal">
-    <a class="wordmark" href={withBase('/')} aria-label="Dreamcoder, inicio">
-      <span class="brand-seal"><Icon name="mark" size={30} /></span>
+    <a class="wordmark" href={withBase("/")} aria-label="Dreamcoder, inicio">
+      <span class="brand-seal">
+        <Icon name="mark" size={30} />
+      </span>
       dreamcoder<span class="wordmark-dot">.</span>
     </a>
     <div class="desktop-nav">
-      {items.map(([label, id]) => <a href={withBase('/#' + id)}>{label}</a>)}
-      <a class="nav-contact" href={withBase('/#connect')}>Hablemos <Icon name="arrow" size={16} /></a>
+      {items.map(([label, id]) => (
+        <a href={withBase("/#" + id)}>{label}</a>
+      ))}
+      <a class="nav-contact" href={withBase("/#connect")}>
+        Hablemos <Icon name="arrow" size={16} />
+      </a>
     </div>
     <div class="nav-controls">
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar a tema claro">
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        type="button"
+        aria-pressed="false"
+        aria-label="Cambiar a tema claro"
+      >
         <Icon name="moon" size={20} class="theme-icon theme-icon--dark" />
         <Icon name="sun" size={20} class="theme-icon theme-icon--light" />
       </button>
-      <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
+      <button
+        id="menu-toggle"
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Abrir menú"
+      >
         <Icon name="menu" size={24} class="menu-icon menu-icon--closed" />
         <Icon name="close" size={24} class="menu-icon menu-icon--open" />
       </button>
     </div>
   </nav>
   <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden>
-    {mobileItems.map(([label, id]) => <a href={withBase('/#' + id)}>{label}<Icon name="arrow" size={17} /></a>)}
+    {mobileItems.map(([label, id]) => (
+      <a href={withBase("/#" + id)}>
+        {label}
+        <Icon name="arrow" size={17} />
+      </a>
+    ))}
   </nav>
 </header>
 
 <script>
-  const THEME_KEY = 'dreamfolio-theme';
+  const THEME_KEY = "dreamfolio-theme";
 
-  const themeToggle = document.getElementById('theme-toggle') as HTMLButtonElement;
-  const themeIconDark = themeToggle.querySelector('.theme-icon--dark') as HTMLElement;
-  const themeIconLight = themeToggle.querySelector('.theme-icon--light') as HTMLElement;
-  themeToggle.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem(THEME_KEY, next); } catch { /* storage unavailable */ }
+  const themeToggle = document.getElementById(
+    "theme-toggle",
+  ) as HTMLButtonElement;
+  const themeIconDark = themeToggle.querySelector(
+    ".theme-icon--dark",
+  ) as HTMLElement;
+  const themeIconLight = themeToggle.querySelector(
+    ".theme-icon--light",
+  ) as HTMLElement;
+  themeToggle.addEventListener("click", () => {
+    const next =
+      document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      /* storage unavailable */
+    }
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', next === 'light' ? '#f3eadc' : '#080909');
+    if (meta)
+      meta.setAttribute("content", next === "light" ? "#f3eadc" : "#000000");
     syncThemeToggle();
   });
   function syncThemeToggle() {
-    const isLight = document.documentElement.dataset.theme === 'light';
-    themeToggle.setAttribute('aria-pressed', String(isLight));
-    themeToggle.setAttribute('aria-label', isLight ? 'Cambiar a tema oscuro' : 'Cambiar a tema claro');
-    themeIconDark.style.display = isLight ? 'none' : '';
-    themeIconLight.style.display = isLight ? '' : 'none';
+    const isLight = document.documentElement.dataset.theme === "light";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+    themeToggle.setAttribute(
+      "aria-label",
+      isLight ? "Cambiar a tema oscuro" : "Cambiar a tema claro",
+    );
+    themeIconDark.style.display = isLight ? "none" : "";
+    themeIconLight.style.display = isLight ? "" : "none";
   }
   syncThemeToggle();
 
-  const menuToggle = document.getElementById('menu-toggle') as HTMLButtonElement;
-  const mobileNav = document.getElementById('mobile-nav') as HTMLElement;
-  const menuIconClosed = menuToggle.querySelector('.menu-icon--closed') as HTMLElement;
-  const menuIconOpen = menuToggle.querySelector('.menu-icon--open') as HTMLElement;
+  const menuToggle = document.getElementById(
+    "menu-toggle",
+  ) as HTMLButtonElement;
+  const mobileNav = document.getElementById("mobile-nav") as HTMLElement;
+  const menuIconClosed = menuToggle.querySelector(
+    ".menu-icon--closed",
+  ) as HTMLElement;
+  const menuIconOpen = menuToggle.querySelector(
+    ".menu-icon--open",
+  ) as HTMLElement;
   let menuOpen = false;
   function setMenuOpen(next: boolean) {
     menuOpen = next;
     mobileNav.hidden = !menuOpen;
-    menuToggle.setAttribute('aria-expanded', String(menuOpen));
-    menuToggle.setAttribute('aria-label', menuOpen ? 'Cerrar menú' : 'Abrir menú');
-    menuIconClosed.style.display = menuOpen ? 'none' : '';
-    menuIconOpen.style.display = menuOpen ? '' : 'none';
+    menuToggle.setAttribute("aria-expanded", String(menuOpen));
+    menuToggle.setAttribute(
+      "aria-label",
+      menuOpen ? "Cerrar menú" : "Abrir menú",
+    );
+    menuIconClosed.style.display = menuOpen ? "none" : "";
+    menuIconOpen.style.display = menuOpen ? "" : "none";
   }
   setMenuOpen(false);
-  menuToggle.addEventListener('click', () => setMenuOpen(!menuOpen));
-  mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenuOpen(false)));
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menuOpen) { setMenuOpen(false); menuToggle.focus(); }
+  menuToggle.addEventListener("click", () => setMenuOpen(!menuOpen));
+  mobileNav
+    .querySelectorAll("a")
+    .forEach((a) => a.addEventListener("click", () => setMenuOpen(false)));
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menuOpen) {
+      setMenuOpen(false);
+      menuToggle.focus();
+    }
   });
-  window.addEventListener('resize', () => { if (window.innerWidth > 720 && menuOpen) setMenuOpen(false); });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 720 && menuOpen) setMenuOpen(false);
+  });
 </script>

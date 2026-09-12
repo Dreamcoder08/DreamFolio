@@ -1,13 +1,73 @@
 ---
 import Icon from "../../components/ui/Icon.astro";
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Navbar from '../../components/ui/Navbar.astro';
-import { getCollection } from 'astro:content';
-import { withBase } from '../../lib/site';
-import { getProjectSlug } from '../../lib/project-presentation';
-import '../../styles/portfolio.css';
-const projects = await getCollection('projects');
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/ui/Navbar.astro";
+import { getCollection } from "astro:content";
+import { withBase } from "../../lib/site";
+import { getProjectSlug } from "../../lib/project-presentation";
+import "../../styles/portfolio.css";
+const projects = await getCollection("projects");
 ---
-<BaseLayout title="Proyectos — Albert Agurto" description="Proyectos y exploraciones de Albert Agurto en software, IA y herramientas para desarrolladores." lang="es">
-<Navbar /><main id="main-content" class="portfolio wrap" style="padding-top:145px;padding-bottom:90px"><a class="quiet-link" href={withBase('/#projects')}><Icon name="back" size={17}/>Volver al portafolio</a><p class="eyebrow" style="margin-top:35px">DREAMCODER / PROYECTOS</p><h1 style="font-size:clamp(2.5rem,6vw,5rem);margin-bottom:25px">Código para explorar.</h1><p style="color:var(--color-text-secondary);max-width:640px;margin-bottom:40px">Productos en desarrollo, herramientas y exploraciones técnicas. Cada proyecto enlaza a su código para que puedas revisar su estado.</p><div class="project-pair">{projects.map(({data:p})=><article class="small-project" style="border-top:1px solid var(--color-border);padding-top:24px"><p class="eyebrow">{p.domain}</p><h2 style="font-size:1.6rem;margin-bottom:14px"><a style="color:var(--color-text)" href={withBase('/projects/'+getProjectSlug(p.title)+'/')}>{p.title}</a></h2><p>{p.summary}</p><div class="tags">{p.stack.map(t=><span>{t}</span>)}</div><div class="project-links"><a href={withBase('/projects/'+getProjectSlug(p.title)+'/')}>Explorar proyecto <Icon name="arrow" size={17}/></a>{p.githubUrl&&<a href={p.githubUrl}><Icon name="github" size={18}/>GitHub <Icon name="arrow" size={17}/></a>}</div></article>)}</div></main>
+
+<BaseLayout
+  title="Proyectos — Dreamcoder"
+  description="Proyectos y exploraciones técnicas en software, IA y herramientas para desarrolladores."
+  lang="es"
+>
+  <Navbar />
+  <main
+    id="main-content"
+    class="portfolio wrap"
+    style="padding-top:145px;padding-bottom:90px"
+  >
+    <a class="quiet-link" href={withBase("/#projects")}>
+      <Icon name="back" size={17} />
+      Volver al portafolio
+    </a>
+    <p class="eyebrow" style="margin-top:35px">
+      DREAMCODER / PROYECTOS
+    </p>
+    <h1 style="font-size:clamp(2.5rem,6vw,5rem);margin-bottom:25px">
+      Código para explorar.
+    </h1>
+    <p style="color:var(--color-text-secondary);max-width:640px;margin-bottom:40px">
+      Productos en desarrollo, herramientas y exploraciones técnicas, con su
+      alcance y estado público.
+    </p>
+    <div class="project-pair">
+      {projects.map(({ data: p }) => (
+        <article
+          class="small-project"
+          style="border-top:1px solid var(--color-border);padding-top:24px"
+        >
+          <p class="eyebrow">{p.domain}</p>
+          <h2 style="font-size:1.6rem;margin-bottom:14px">
+            <a
+              style="color:var(--color-text)"
+              href={withBase("/projects/" + getProjectSlug(p.title) + "/")}
+            >
+              {p.title}
+            </a>
+          </h2>
+          <p>{p.summary}</p>
+          <div class="tags">
+            {p.stack.map((t) => (
+              <span>{t}</span>
+            ))}
+          </div>
+          <div class="project-links">
+            <a href={withBase("/projects/" + getProjectSlug(p.title) + "/")}>
+              Explorar proyecto <Icon name="arrow" size={17} />
+            </a>
+            {p.githubUrl && (
+              <a href={p.githubUrl}>
+                <Icon name="github" size={18} />
+                GitHub <Icon name="arrow" size={17} />
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
 </BaseLayout>

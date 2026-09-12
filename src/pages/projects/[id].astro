@@ -1,15 +1,15 @@
 ---
 import Icon from "../../components/ui/Icon.astro";
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Navbar from '../../components/ui/Navbar.astro';
-import { siteConfig } from '../../lib/site';
-import { getProjectSlug } from '../../lib/project-presentation';
-import { getProjectCaseStudy } from '../../lib/project-case-studies';
-import { withBase } from '../../lib/site';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/ui/Navbar.astro";
+import { siteConfig } from "../../lib/site";
+import { getProjectSlug } from "../../lib/project-presentation";
+import { getProjectCaseStudy } from "../../lib/project-case-studies";
+import { withBase } from "../../lib/site";
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
+  const projects = await getCollection("projects");
   return projects.map((entry) => ({
     params: { id: getProjectSlug(entry.data.title) },
     props: { project: entry.data },
@@ -20,39 +20,60 @@ const { project } = Astro.props;
 
 const outboundUrl = project.liveUrl ?? project.githubUrl;
 const caseStudy = getProjectCaseStudy(project.id);
-const projectImage = project.coverImage ?? '/images/projects/arkelythex-interface.jpg';
+const projectImage =
+  project.coverImage ?? "/images/projects/fiscal-workspace.jpg";
 
 const projectJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'CreativeWork',
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
   name: project.title,
   description: project.summary,
-  url: new URL(Astro.url.pathname, Astro.site ?? 'https://dreamcoder08.github.io').toString(),
+  url: new URL(
+    Astro.url.pathname,
+    Astro.site ?? "https://dreamcoder08.github.io",
+  ).toString(),
   image: projectImage,
-  creator: { '@type': 'Person', name: 'Dreamcoder08', url: 'https://github.com/dreamcoder08' },
+  creator: {
+    "@type": "Person",
+    name: "Dreamcoder",
+    url: "https://github.com/dreamcoder08",
+  },
   keywords: [project.domain, ...project.stack],
 };
 ---
 
-<BaseLayout title={`${project.title} — Proyecto`} description={project.summary} image={projectImage} jsonLd={projectJsonLd} lang="es">
+<BaseLayout
+  title={`${project.title} — Proyecto`}
+  description={project.summary}
+  image={projectImage}
+  jsonLd={projectJsonLd}
+  lang="es"
+>
   <Navbar />
 
   <main id="main-content" class="pt-24 pb-32">
     <!-- Header -->
     <section class="section-padding px-6">
       <div class="container-wide">
-        <a href={withBase('/#projects')} class="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors mb-8">
-          <Icon name="back" size={18}/>
+        <a
+          href={withBase("/#projects")}
+          class="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors mb-8"
+        >
+          <Icon name="back" size={18} />
           Volver a los proyectos
         </a>
 
         <div class="flex items-center gap-3 mb-4">
           <span class="tag">{project.domain}</span>
-          <span class="text-sm text-[var(--color-text-secondary)]">Actualizado en {project.updatedYear}</span>
+          <span class="text-sm text-[var(--color-text-secondary)]">
+            Actualizado en {project.updatedYear}
+          </span>
         </div>
 
         <h1 class="text-4xl md:text-6xl font-bold mb-6">{project.title}</h1>
-        <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl leading-relaxed">{project.summary}</p>
+        <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl leading-relaxed">
+          {project.summary}
+        </p>
 
         <div class="flex flex-wrap gap-2 mt-6">
           {project.stack?.map((tech) => (
@@ -67,7 +88,12 @@ const projectJsonLd = {
       <section class="px-6 mb-16">
         <div class="container-wide">
           <div class="aspect-video rounded-2xl overflow-hidden bg-[var(--color-surface-elevated)] border border-[var(--color-border)]">
-            <img src={withBase(project.coverImage)} alt={project.coverImageAlt || project.title} class="w-full h-full object-cover" loading="lazy" />
+            <img
+              src={withBase(project.coverImage)}
+              alt={project.coverImageAlt || project.title}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
@@ -88,7 +114,9 @@ const projectJsonLd = {
             </div>
             <div class="card">
               <p class="section-label">Estado</p>
-              <p class="text-xl font-bold text-[var(--color-accent)]">{caseStudy.outcome}</p>
+              <p class="text-xl font-bold text-[var(--color-accent)]">
+                {caseStudy.outcome}
+              </p>
             </div>
             {caseStudy.evidence && (
               <div class="space-y-3">
@@ -113,14 +141,22 @@ const projectJsonLd = {
             )}
           </div>
         ) : (
-          <p class="text-[var(--color-text-secondary)] italic">Consulta el repositorio para explorar el código, la documentación y el estado del proyecto.</p>
+          <p class="text-[var(--color-text-secondary)] italic">
+            Consulta el repositorio para explorar el código, la documentación y
+            el estado del proyecto.
+          </p>
         )}
 
         {outboundUrl && (
           <div class="mt-12">
-            <a href={outboundUrl} target="_blank" rel="noopener noreferrer" class="btn-primary">
-              {project.liveUrl ? 'Conocer el proyecto' : 'Ver en GitHub'}
-              <Icon name="arrow" size={18}/>
+            <a
+              href={outboundUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              {project.liveUrl ? "Conocer el proyecto" : "Ver en GitHub"}
+              <Icon name="arrow" size={18} />
             </a>
           </div>
         )}

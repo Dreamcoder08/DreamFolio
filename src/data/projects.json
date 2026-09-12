@@ -2,7 +2,7 @@
   {
     "id": "drenyra",
     "title": "Drenyra — Fiscal Command Center",
-    "summary": "Producto principal de Arkelythex, en fase de MVP. Un espacio de trabajo con IA para asistir tareas contables, con reglas verificables, revisión profesional y trazabilidad.",
+    "summary": "Espacio de trabajo con IA para asistir tareas contables, con reglas verificables, revisión profesional y trazabilidad.",
     "domain": "fiscal-infrastructure",
     "lifecycle": "active",
     "bucket": "primary",
@@ -10,32 +10,25 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": [
-      "React",
-      "Bun",
-      "TypeScript",
-      "Go",
-      "PostgreSQL"
+      "Contabilidad",
+      "IA supervisada",
+      "Revisión humana",
+      "Trazabilidad"
     ],
-    "githubUrl": "https://github.com/arkelythex",
-    "coverImage": "/images/projects/arkelythex-interface.jpg",
-    "coverImageAlt": "ARKELYTHEX — fiscal intelligence interface",
-    "liveUrl": "https://arkelythex.com/drenyra"
+    "coverImage": "/images/projects/fiscal-workspace.jpg",
+    "coverImageAlt": "Interfaz de trabajo asistida por IA"
   },
   {
     "id": "digital-public-peru",
     "title": "Digital Public Peru",
-    "summary": "Proyecto de tecnología cívica para explorar información pública y transparencia en Perú, ahora en desarrollo privado.",
+    "summary": "Proyecto de tecnología cívica para explorar información pública y transparencia en Perú.",
     "domain": "govtech",
     "lifecycle": "active",
     "bucket": "primary",
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Rust",
-      "Next.js",
-      "OpenAPI"
-    ],
+    "stack": ["Información pública", "Transparencia", "Datos abiertos"],
     "coverImage": "/images/projects/digital-public-peru-desktop.png",
     "coverImageAlt": "Digital Public Peru — civic transparency interface"
   },
@@ -49,12 +42,7 @@
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Go",
-      "CLI",
-      "Web"
-    ],
-    "githubUrl": "https://github.com/arkelythex/elect-validate",
+    "stack": ["Validación de datos", "Herramientas CLI", "Civic tech"],
     "coverImage": ""
   },
   {
@@ -67,11 +55,7 @@
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "TypeScript",
-      "Edge",
-      "IoT"
-    ],
+    "stack": ["Trazabilidad", "Operación en campo", "Sincronización offline"],
     "coverImage": "/images/projects/edgetraz-agro-hero.png",
     "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
   },
@@ -85,11 +69,7 @@
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Arch Linux",
-      "Shell",
-      "Lua"
-    ],
+    "stack": ["Arch Linux", "Shell", "Lua"],
     "githubUrl": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
     "coverImage": "/images/projects/dreamcoder-workbench.webp",
     "coverImageAlt": "Dreamcoder Workbench — custom terminal environment"
@@ -104,29 +84,21 @@
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Rust",
-      "CLI",
-      "TUI"
-    ],
+    "stack": ["Rust", "CLI", "TUI"],
     "githubUrl": "https://github.com/Dreamcoder08/CleanSweep",
     "coverImage": ""
   },
   {
     "id": "pactyra",
     "title": "Pactyra",
-    "summary": "Especificación y arquitectura para operaciones ofensivas de seguridad autorizadas, con cadena de evidencia verificable y aplicación de alcance.",
+    "summary": "Investigación en seguridad autorizada: alcance definido, autorización explícita y evidencia verificable.",
     "domain": "security",
     "lifecycle": "lab",
     "bucket": "lab",
     "path": "",
     "updatedYear": 2026,
     "featured": false,
-    "stack": [
-      "Go",
-      "Security",
-      "Evidence Chain"
-    ],
+    "stack": ["Seguridad autorizada", "Alcance", "Cadena de evidencia"],
     "githubUrl": "https://github.com/Dreamcoder08/pactyra",
     "coverImage": ""
   },
@@ -140,11 +112,7 @@
     "path": "",
     "updatedYear": 2026,
     "featured": false,
-    "stack": [
-      "TypeScript",
-      "AI Agents",
-      "DeepSeek"
-    ],
+    "stack": ["TypeScript", "AI Agents", "DeepSeek"],
     "githubUrl": "https://github.com/Dreamcoder08/dreamcoder-dsh",
     "coverImage": ""
   },
@@ -158,11 +126,7 @@
     "path": "",
     "updatedYear": 2026,
     "featured": false,
-    "stack": [
-      "React",
-      "Bun",
-      "TypeScript"
-    ],
+    "stack": ["React", "Bun", "TypeScript"],
     "githubUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
     "coverImage": ""
   }
