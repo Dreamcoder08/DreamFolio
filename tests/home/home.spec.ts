@@ -1,27 +1,27 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from './home-page';
+import { test, expect } from "@playwright/test";
+import { HomePage } from "./home-page";
 
-test.describe('Home — responsive layout', () => {
+test.describe("Home — responsive layout", () => {
   const widths = [320, 375, 480, 721, 768, 1024, 1280, 1366, 1440, 1920];
 
   for (const width of widths) {
     test(
       `no horizontal overflow at ${width}px`,
-      { tag: ['@critical', '@responsive', `@HOME-RESPONSIVE-${width}`] },
+      { tag: ["@critical", "@responsive", `@HOME-RESPONSIVE-${width}`] },
       async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         const home = new HomePage(page);
         await home.goto();
         await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
-      }
+      },
     );
   }
 });
 
-test.describe('Home — navbar', () => {
+test.describe("Home — navbar", () => {
   test(
-    'theme toggle switches and persists across reload',
-    { tag: ['@critical', '@navbar', '@HOME-NAVBAR-001'] },
+    "theme toggle switches and persists across reload",
+    { tag: ["@critical", "@navbar", "@HOME-NAVBAR-001"] },
     async ({ page }) => {
       const home = new HomePage(page);
       await home.goto();
@@ -33,12 +33,12 @@ test.describe('Home — navbar', () => {
       const toggled = await home.currentTheme();
       await page.reload();
       await expect.poll(() => home.currentTheme()).toBe(toggled);
-    }
+    },
   );
 
   test(
-    'mobile menu opens, closes on Escape with focus returned, and closes on link click',
-    { tag: ['@critical', '@navbar', '@HOME-NAVBAR-002'] },
+    "mobile menu opens, closes on Escape with focus returned, and closes on link click",
+    { tag: ["@critical", "@navbar", "@HOME-NAVBAR-002"] },
     async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const home = new HomePage(page);
@@ -48,13 +48,13 @@ test.describe('Home — navbar', () => {
       await home.openMobileMenu();
       await expect(home.mobileNav).toBeVisible();
 
-      await page.keyboard.press('Escape');
+      await page.keyboard.press("Escape");
       await expect(home.mobileNav).toBeHidden();
       await expect(home.menuToggle).toBeFocused();
 
       await home.openMobileMenu();
-      await home.mobileNav.getByRole('link').first().click();
+      await home.mobileNav.getByRole("link").first().click();
       await expect(home.mobileNav).toBeHidden();
-    }
+    },
   );
 });

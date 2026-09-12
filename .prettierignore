@@ -1,0 +1,29 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Local tool state (never formatted, never published)
+.atl/
+.pi/
+.codegraph/
+.playwright-mcp/
+
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# Generated or vendor-managed files
+pnpm-lock.yaml
+public/
+lighthouse-report.*
+
+# Prose and frozen artifacts.
+# Prettier earns its keep on code and configuration. Reformatting archived
+# SDD change records and documentation prose produces large diffs with no
+# maintainability benefit, and it competes with the docs' own conventions.
+openspec/
+docs/

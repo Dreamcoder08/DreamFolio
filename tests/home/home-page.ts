@@ -1,5 +1,5 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from '../base-page';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "../base-page";
 
 export class HomePage extends BasePage {
   readonly themeToggle: Locator;
@@ -9,14 +9,14 @@ export class HomePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.themeToggle = page.getByRole('button', { name: /Cambiar a tema/ });
-    this.menuToggle = page.getByRole('button', { name: /(Abrir|Cerrar) menú/ });
-    this.mobileNav = page.getByRole('navigation', { name: 'Navegación móvil' });
-    this.heroPortrait = page.locator('.hero-portrait');
+    this.themeToggle = page.getByRole("button", { name: /Cambiar a tema/ });
+    this.menuToggle = page.getByRole("button", { name: /(Abrir|Cerrar) menú/ });
+    this.mobileNav = page.getByRole("navigation", { name: "Navegación móvil" });
+    this.heroPortrait = page.locator(".hero-portrait");
   }
 
   async goto(): Promise<void> {
-    await super.goto('/');
+    await super.goto("/");
   }
 
   async toggleTheme(): Promise<void> {

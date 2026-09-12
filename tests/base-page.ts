@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page } from "@playwright/test";
 
 export class BasePage {
   constructor(protected page: Page) {}
@@ -8,11 +8,15 @@ export class BasePage {
   }
 
   async currentTheme(): Promise<string | null> {
-    return this.page.evaluate(() => document.documentElement.getAttribute('data-theme'));
+    return this.page.evaluate(() =>
+      document.documentElement.getAttribute("data-theme"),
+    );
   }
 
   /** Real content overflowing the viewport, not the 15-17px a scrollbar itself accounts for. */
   async hasHorizontalOverflow(): Promise<boolean> {
-    return this.page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 20);
+    return this.page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 20,
+    );
   }
 }

@@ -3,6 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
   "pnpm": {
     "onlyBuiltDependencies": []
   },
@@ -17,6 +20,9 @@
     "lighthouse": "pnpm dlx lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html",
     "performance": "pnpm run build && pnpm run preview",
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('node_modules/.astro',{recursive:true,force:true})\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "secret:scan": "gitleaks detect --source . --no-banner --redact",
     "check": "astro sync && tsc --noEmit",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",
     "verify": "pnpm run build && pnpm run check"
@@ -29,6 +35,8 @@
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "1.0.0",
     "serve": "14.2.6",
     "typescript": "^7.0.2"
   }
