@@ -44,10 +44,11 @@ tests/                  # Playwright e2e specs
 ## Design System
 
 ### Colors (CSS Variables, dark by default, `[data-theme="light"]` overrides)
-- Surface: near-black `#080909` (dark) / warm cream `#f3eadc` (light)
-- Text: off-white `#f0efeb` (dark) / dark brown `#17120d` (light)
-- Accent: warm tan `#dda783` (dark) / burnt orange `#8a4e26` (light)
-- Danger: `#ff4d4d` (dark) / `#b3261e` (light)
+- Surface: pure black `#000000` (dark, layered `#0d0d10` / `#17171c`) / warm cream `#f3eadc` (light)
+- Text: off-white `#ededeb` (dark) / dark brown `#17120d` (light)
+- Text secondary: `#b7b8b3` (dark) / `#6b5947` (light)
+- Accent: OLED orange `#ff7a18` (dark) / burnt orange `#8a4e26` (light)
+- Danger: `#ff6b6b` (dark) / `#b3261e` (light)
 
 ### Typography
 - Sans: Inter (body + headings)
