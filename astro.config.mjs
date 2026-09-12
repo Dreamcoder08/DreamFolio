@@ -5,9 +5,12 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { resolveAnalytics } from "./src/lib/analytics.ts";
+import { resolveMode } from "./src/lib/astro-mode.ts";
 
 const isDev = process.env.NODE_ENV === "development";
-const mode = isDev ? "development" : "production";
+
+// See src/lib/astro-mode.ts for why the mode cannot come from NODE_ENV.
+const mode = resolveMode(process.argv, isDev);
 
 // Vite reads .env, .env.local, .env.[mode] and .env.[mode].local; gives the
 // later files precedence; and never overrides a real environment variable.

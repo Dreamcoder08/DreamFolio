@@ -79,10 +79,14 @@ test.describe("Home — content security", () => {
       await home.goto();
       await expect(home.themeToggle).toBeVisible();
 
-      // Console events arrive asynchronously, so asserting immediately can
-      // pass on an empty array before a violation from a deferred script has
-      // been delivered. There is no deterministic signal for "the console
-      // has flushed", so settle before checking.
+      // The deterministic half. If the policy blocked the theme script,
+      // nothing would have set data-theme, and no amount of waiting would
+      // make the console check below trustworthy on its own.
+      expect(await home.currentTheme()).toMatch(/^(light|dark)$/);
+
+      // The best-effort half, for anything else the policy might block.
+      // Console events arrive asynchronously, so settle before asserting
+      // that the list is still empty.
       await page.waitForLoadState("load");
       await page.waitForTimeout(300);
 
