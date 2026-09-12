@@ -7,10 +7,10 @@ on:
       - master
   workflow_dispatch:
 
+# Least privilege at the top, and each job raises its own scope below. A
+# workflow-level grant would hand every step a token broader than it needs.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -25,6 +25,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # upload-pages-artifact writes the Pages artifact, which needs pages: write.
+    permissions:
+      contents: read
+      pages: write
 
     steps:
       # Every action is pinned to a full commit SHA instead of a mutable tag:
@@ -83,6 +87,9 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
+      - name: Unit tests
+        run: pnpm run test:unit
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
@@ -110,6 +117,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # deploy-pages creates the deployment and proves through OIDC that it came
+    # from this workflow.
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -147,8 +147,8 @@ const projectJsonLd = {
           </p>
         )}
 
-        {outboundUrl && (
-          <div class="mt-12">
+        <div class="mt-12">
+          {outboundUrl ? (
             <a
               href={outboundUrl}
               target="_blank"
@@ -158,8 +158,16 @@ const projectJsonLd = {
               {project.liveUrl ? "Conocer el proyecto" : "Ver en GitHub"}
               <Icon name="arrow" size={18} />
             </a>
-          </div>
-        )}
+          ) : (
+            /* Some projects deliberately have no public link. They still need a
+               way forward, so they point at the contact section, which is what
+               the rest of the site does when it cannot link to the product. */
+            <a href={withBase("/#connect")} class="btn-primary">
+              Hablar de este proyecto
+              <Icon name="arrow" size={18} />
+            </a>
+          )}
+        </div>
       </div>
     </section>
   </main>

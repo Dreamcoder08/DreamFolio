@@ -22,6 +22,7 @@
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('node_modules/.astro',{recursive:true,force:true})\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:unit": "node --test --experimental-strip-types \"tests/unit/*.test.ts\"",
     "secret:scan": "gitleaks detect --source . --no-banner --redact",
     "check": "astro sync && tsc --noEmit",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",

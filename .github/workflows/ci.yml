@@ -77,6 +77,9 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
+      - name: Unit tests
+        run: pnpm run test:unit
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 

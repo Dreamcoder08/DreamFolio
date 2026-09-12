@@ -1,7 +1,22 @@
 // @ts-check
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
+import { resolveAnalytics } from "./src/lib/analytics.ts";
+
+// This file runs before Vite loads .env, so read it here too. Without it, a
+// value set in .env would reach the component through Vite but not the policy
+// built below — the exact mismatch this wiring exists to prevent.
+const envFile = fileURLToPath(new URL(".env", import.meta.url));
+if (existsSync(envFile)) {
+  process.loadEnvFile(envFile);
+}
+
+// One resolution feeds both the page's script tag and the policy that allows
+// it, so self-hosting or disabling analytics cannot desynchronise the two.
+const analytics = resolveAnalytics(process.env);
 
 const isDev = process.env.NODE_ENV === "development";
 // Vercel injects VERCEL=1 on every build automatically; no dashboard
@@ -40,17 +55,18 @@ export default defineConfig({
         "form-action 'none'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "connect-src 'self' https://gateway.umami.is",
+        `connect-src 'self'${analytics.connectOrigins
+          .map((origin) => ` ${origin}`)
+          .join("")}`,
       ],
+      // Derived from the same resolution as the script tag, so pointing
+      // analytics elsewhere updates the policy with it.
       scriptDirective: {
-        resources: ["'self'", "https://cloud.umami.is"],
+        resources: ["'self'", ...analytics.scriptOrigins],
       },
-      styleDirective: {
-        resources: [
-          "'self'",
-          { resource: "'unsafe-inline'", kind: "attribute" },
-        ],
-      },
+      // No styleSrcAttr override: the layout no longer sets inline style
+      // attributes, so style attributes stay blocked rather than broadly
+      // allowed. Astro still hashes the <style> blocks it emits.
     },
   },
   vite: {

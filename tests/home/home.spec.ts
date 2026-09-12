@@ -58,3 +58,28 @@ test.describe("Home — navbar", () => {
     },
   );
 });
+
+test.describe("Home — content security", () => {
+  test(
+    "loads without content-security-policy violations",
+    { tag: ["@critical", "@security", "@HOME-CSP-001"] },
+    async ({ page }) => {
+      // The policy ships as a meta tag, so a violation only surfaces in the
+      // console. Watching for one catches the class of bug where the
+      // analytics script and the policy that allows it disagree about an
+      // origin, which is silent in the browser and green everywhere else.
+      const violations: string[] = [];
+      page.on("console", (message) => {
+        if (/content security policy|refused to/i.test(message.text())) {
+          violations.push(message.text());
+        }
+      });
+
+      const home = new HomePage(page);
+      await home.goto();
+      await expect(home.themeToggle).toBeVisible();
+
+      expect(violations).toEqual([]);
+    },
+  );
+});

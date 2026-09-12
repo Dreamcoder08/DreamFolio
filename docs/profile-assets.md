@@ -6,7 +6,7 @@ La portada incluye un espacio de foto independiente del contenido: `src/componen
 
 1. Añadir una foto cuadrada a `public/images/profile/` (recomendado: WebP, 768 × 768 px).
 2. En `src/lib/site.ts`, cambiar `profile.image` por su ruta y `profile.imageAlt` por una descripción real, por ejemplo `Retrato de Dreamcoder`.
-3. Ajustar `profile.imagePosition` si hace falta centrar el rostro; por ejemplo `50% 35%`.
+3. Si hace falta recentrar el rostro, ajustar `object-position` en la regla `.profile-portrait img` de `src/styles/portfolio.css`; por ejemplo `50% 35%`. Vive en CSS, no en un estilo inline, para que el CSP pueda prohibir los atributos `style`.
 
 La tarjeta adapta automáticamente el encuadre a escritorio y móvil.
 

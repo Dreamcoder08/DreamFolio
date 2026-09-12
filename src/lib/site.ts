@@ -11,7 +11,6 @@ export const siteConfig = {
     image: "/images/profile/dreamcoder-portrait.webp",
     imageAlt:
       "Retrato ilustrado de Dreamcoder trabajando en un boceto de arquitectura",
-    imagePosition: "50% 28%",
   },
   social: {
     x: "https://x.com/Dreamcoder08",

@@ -47,7 +47,8 @@ lighthouse-report.*
 .codegraph/
 .playwright-mcp/
 
-# Documento de capacidades con datos de identidad (nombre legal en el nombre de
-# archivo y en el metadato Title): export de uso local, nunca en el repositorio.
+# Documentos de capacidades: exports de uso local, nunca en el repositorio. Un
+# PDF exportado conserva el nombre legal en el nombre de archivo y en el
+# metadato Title, así que el patrón cubre cualquier export futuro.
 # La fuente mantenida es docs/anexo-capacidades.html, ya neutralizada.
-docs/Anexo-Capacidades-AlbertAgurto.pdf
+docs/*.pdf

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { siteConfig, toAbsoluteSiteUrl, withBaseAsset } from "../lib/site";
+import { resolveAnalytics } from "../lib/analytics.ts";
 
 export interface Props {
   title: string;
@@ -20,16 +21,10 @@ const {
 
 const siteOrigin = Astro.site?.toString() ?? "https://dreamcoder08.github.io";
 
-// Analytics is single-sourced here. It defaults to the hosted Umami Cloud
-// instance so existing metrics keep working. Point PUBLIC_UMAMI_SRC at your
-// own deployment to remove the third-party origin, or leave
-// PUBLIC_UMAMI_WEBSITE_ID empty to disable analytics entirely.
-const umamiSrc =
-  import.meta.env.PUBLIC_UMAMI_SRC ?? "https://cloud.umami.is/script.js";
-const umamiWebsiteId =
-  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ??
-  "c2e89983-d7b4-4f2f-adb0-00495b95a5f7";
-const analyticsEnabled = Boolean(umamiSrc && umamiWebsiteId);
+// The same resolution astro.config.mjs uses to build the CSP, so the
+// script tag and the policy that allows it can never disagree. See
+// src/lib/analytics.ts.
+const analytics = resolveAnalytics(import.meta.env);
 
 const canonical = new URL(
   Astro.url.pathname,
@@ -106,29 +101,11 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta name="twitter:image:alt" content={`${title} preview image`} />
     <meta name="theme-color" content="#000000" />
 
-    <script is:inline>
-      (function () {
-        var KEY = "dreamfolio-theme";
-        var stored = null;
-        try {
-          stored = localStorage.getItem(KEY);
-        } catch (e) {}
-        var theme =
-          stored === "light" || stored === "dark"
-            ? stored
-            : window.matchMedia &&
-                window.matchMedia("(prefers-color-scheme: light)").matches
-              ? "light"
-              : "dark";
-        document.documentElement.setAttribute("data-theme", theme);
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta)
-          meta.setAttribute(
-            "content",
-            theme === "light" ? "#f3eadc" : "#000000",
-          );
-      })();
-    </script>
+    <!-- Applies the stored theme before paint. It is an external blocking
+         script rather than an inline one because Astro does not hash
+         `is:inline` scripts, so an inline version would be silently blocked
+         by the CSP. See public/theme-init.js. -->
+    <script is:inline src={withBaseAsset("/theme-init.js")}></script>
     <!-- Fonts: self-hosted variable fonts. No third-party origin is contacted. -->
     <link
       rel="preload"
@@ -153,9 +130,13 @@ const structuredData = jsonLd ?? defaultJsonLd;
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     ></script>
-    <!-- Analytics: single-sourced and optional (see frontmatter). -->
-    {analyticsEnabled && (
-      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+    <!-- Analytics: optional and single-sourced (src/lib/analytics.ts). -->
+    {analytics.enabled && (
+      <script
+        defer
+        src={analytics.src}
+        data-website-id={analytics.websiteId}
+      ></script>
     )}
   </head>
   <body class="min-h-screen antialiased">
@@ -163,7 +144,9 @@ const structuredData = jsonLd ?? defaultJsonLd;
       {lang === "es" ? "Saltar al contenido" : "Skip to content"}
     </a>
     <slot />
-    <script is:inline>
+    <!-- Bundled by Astro, so it is an external same-origin module that
+         `script-src 'self'` already allows and that needs no hash. -->
+    <script>
       (function () {
         try {
           var reduceMotion =
