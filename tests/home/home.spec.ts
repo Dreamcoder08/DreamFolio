@@ -79,6 +79,13 @@ test.describe("Home — content security", () => {
       await home.goto();
       await expect(home.themeToggle).toBeVisible();
 
+      // Console events arrive asynchronously, so asserting immediately can
+      // pass on an empty array before a violation from a deferred script has
+      // been delivered. There is no deterministic signal for "the console
+      // has flushed", so settle before checking.
+      await page.waitForLoadState("load");
+      await page.waitForTimeout(300);
+
       expect(violations).toEqual([]);
     },
   );

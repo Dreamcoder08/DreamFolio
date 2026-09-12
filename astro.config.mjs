@@ -6,19 +6,33 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import { resolveAnalytics } from "./src/lib/analytics.ts";
 
-// This file runs before Vite loads .env, so read it here too. Without it, a
-// value set in .env would reach the component through Vite but not the policy
-// built below — the exact mismatch this wiring exists to prevent.
-const envFile = fileURLToPath(new URL(".env", import.meta.url));
-if (existsSync(envFile)) {
-  process.loadEnvFile(envFile);
+const isDev = process.env.NODE_ENV === "development";
+const mode = isDev ? "development" : "production";
+
+// Vite reads .env, .env.local, .env.[mode] and .env.[mode].local; gives the
+// later files precedence; and never overrides a real environment variable.
+// This file runs before Vite does, so it has to land on the same value.
+// Loading the four files in reverse precedence order relies on
+// process.loadEnvFile keeping the first value it sees, and real variables are
+// already in process.env, so they win the way Vite intends. Reading only .env
+// would let a value set in .env.[mode] reach the component through Vite but
+// not the policy built below — the mismatch this wiring exists to remove.
+const envDir = new URL(".", import.meta.url);
+for (const name of [
+  `.env.${mode}.local`,
+  `.env.${mode}`,
+  ".env.local",
+  ".env",
+]) {
+  const file = fileURLToPath(new URL(name, envDir));
+  if (existsSync(file)) {
+    process.loadEnvFile(file);
+  }
 }
 
 // One resolution feeds both the page's script tag and the policy that allows
 // it, so self-hosting or disabling analytics cannot desynchronise the two.
 const analytics = resolveAnalytics(process.env);
-
-const isDev = process.env.NODE_ENV === "development";
 // Vercel injects VERCEL=1 on every build automatically; no dashboard
 // configuration required. Vercel serves the site from its domain root,
 // while GitHub Pages serves it under /DreamFolio, so the base path must

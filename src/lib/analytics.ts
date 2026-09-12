@@ -44,13 +44,40 @@ const DISABLED: AnalyticsConfig = {
   connectOrigins: [],
 };
 
-/** Origin of an absolute URL, or [] when it is a same-origin path. */
-function originOf(url: string): string[] {
-  try {
-    return [new URL(url).origin];
-  } catch {
+/**
+ * Origin of an absolute URL, or [] for a same-origin path.
+ *
+ * A value that is neither is a configuration mistake, and failing is the point:
+ * returning nothing would drop the origin from the policy and the tracker would
+ * be blocked in the browser with no other symptom to notice.
+ */
+function originOf(source: string): string[] {
+  // A same-origin path needs no extra source: `'self'` already covers it.
+  if (source.startsWith("/")) {
     return [];
   }
+
+  let parsed: URL | null = null;
+  try {
+    parsed = new URL(source);
+  } catch {
+    parsed = null;
+  }
+
+  // A misspelled scheme still parses as some other protocol, so checking the
+  // protocol too catches `htp://…`, which would otherwise put a bogus origin in
+  // the policy and block the tracker with no symptom other than silence.
+  if (
+    !parsed ||
+    (parsed.protocol !== "https:" && parsed.protocol !== "http:")
+  ) {
+    throw new Error(
+      `Analytics configuration is invalid: "${source}" is neither a same-origin path nor an absolute http(s) URL. ` +
+        `Set it to a valid URL such as https://analytics.example.com, or leave the variable unset.`,
+    );
+  }
+
+  return [parsed.origin];
 }
 
 export function resolveAnalytics(env: Env): AnalyticsConfig {
@@ -62,18 +89,20 @@ export function resolveAnalytics(env: Env): AnalyticsConfig {
   }
 
   const scriptOrigins = originOf(src);
-  const connectOverride = env.PUBLIC_UMAMI_CONNECT;
 
-  // A self-hosted instance normally serves the collection endpoint from the
-  // same origin as the script. An explicit override covers deployments that
-  // split them, and a same-origin path needs no extra source at all.
+  // connect-src defaults to the script's own origin, which is where a
+  // self-hosted tracker posts its beacon. The hosted instance is the exception:
+  // it sends to a separate collection host. An explicit value overrides both,
+  // and an explicitly empty one says the tracker posts to the page's own
+  // origin, so `'self'` already covers it.
+  const connectOverride = env.PUBLIC_UMAMI_CONNECT;
   let connectOrigins: string[];
-  if (connectOverride !== undefined) {
-    connectOrigins = originOf(connectOverride);
-  } else if (src === CLOUD.src) {
-    connectOrigins = CLOUD.connectOrigins;
+  if (connectOverride === undefined) {
+    connectOrigins = src === CLOUD.src ? CLOUD.connectOrigins : scriptOrigins;
+  } else if (connectOverride === "") {
+    connectOrigins = [];
   } else {
-    connectOrigins = scriptOrigins;
+    connectOrigins = originOf(connectOverride);
   }
 
   return { enabled: true, src, websiteId, scriptOrigins, connectOrigins };

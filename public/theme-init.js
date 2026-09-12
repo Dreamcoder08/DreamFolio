@@ -18,19 +18,17 @@
   var stored = null;
   try {
     stored = localStorage.getItem(KEY);
-  } catch (e) {
+  } catch {
     /* storage unavailable */
   }
 
   var prefersLight =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: light)").matches;
-  var theme =
-    stored === "light" || stored === "dark"
-      ? stored
-      : prefersLight
-        ? "light"
-        : "dark";
+  var theme = stored;
+  if (theme !== "light" && theme !== "dark") {
+    theme = prefersLight ? "light" : "dark";
+  }
 
   document.documentElement.setAttribute("data-theme", theme);
 

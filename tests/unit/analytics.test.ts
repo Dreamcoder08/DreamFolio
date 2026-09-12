@@ -54,3 +54,34 @@ test("an empty script URL disables analytics", () => {
 
   assert.equal(analytics.enabled, false);
 });
+
+test("an explicitly empty connect override means same-origin only", () => {
+  const analytics = resolveAnalytics({
+    PUBLIC_UMAMI_SRC: "https://analytics.example.com/script.js",
+    PUBLIC_UMAMI_CONNECT: "",
+  });
+
+  assert.deepEqual(analytics.scriptOrigins, ["https://analytics.example.com"]);
+  assert.deepEqual(analytics.connectOrigins, []);
+});
+
+test("a misspelled scheme fails instead of adding a bogus origin", () => {
+  assert.throws(
+    () =>
+      resolveAnalytics({
+        PUBLIC_UMAMI_SRC: "htp://analytics.example.com/script.js",
+      }),
+    /neither a same-origin path nor an absolute http\(s\) URL/,
+  );
+});
+
+test("an unparsable connect override fails too", () => {
+  assert.throws(
+    () =>
+      resolveAnalytics({
+        PUBLIC_UMAMI_SRC: "https://analytics.example.com/script.js",
+        PUBLIC_UMAMI_CONNECT: "not a url",
+      }),
+    /neither a same-origin path nor an absolute http\(s\) URL/,
+  );
+});
