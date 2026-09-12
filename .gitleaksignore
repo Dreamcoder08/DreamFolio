@@ -1,0 +1,19 @@
+# gitleaks: accepted findings from history. NOT A PERMANENT WAIVER.
+#
+# expires: 2026-12-31
+#
+# History, not current state. Verified: the value is absent from HEAD and from
+# the working tree, the files that held it no longer do, and Supabase was
+# removed from the code in commit 842b1c3 ("go fully static").
+#
+# STILL UNREMEDIATED: the key has not been rotated. See the Security section
+# of README.md.
+#
+# This waiver cannot outlive its date. The secret scan in ci.yml and
+# deploy.yml reads the "# expires:" line above and fails the build when the
+# date is missing or past. To close this: rotate or delete the key in the
+# Supabase dashboard, then delete this file.
+#
+# Do not add entries without a stated reason and without a date.
+27945a8297c3fb91ec9eb1bc6f30b6240aad3c52:docs/guides/getting-started.md:generic-api-key:47
+27945a8297c3fb91ec9eb1bc6f30b6240aad3c52:docs/lib/supabase.md:generic-api-key:133

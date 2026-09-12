@@ -1,53 +1,64 @@
 ---
-import '../styles/global.css'
-import { toAbsoluteSiteUrl, withBaseAsset } from '../lib/site';
+import "../styles/global.css";
+import { siteConfig, toAbsoluteSiteUrl, withBaseAsset } from "../lib/site";
 
 export interface Props {
-  title: string
-  description?: string
-  image?: string
-  lang?: string
-  jsonLd?: Record<string, unknown> | Record<string, unknown>[]
+  title: string;
+  description?: string;
+  image?: string;
+  lang?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title,
-  description = 'Architecting high-integrity AI infrastructure for domains where trust is expensive and evidence matters.',
-  image = '/images/projects/arkelythex-interface.jpg',
+  description = "Arquitectura de software y sistemas de IA con supervisión humana y evidencia verificable.",
+  image = "/images/projects/fiscal-workspace.jpg",
   jsonLd,
-  lang = "en",
-} = Astro.props
+  lang = "es",
+} = Astro.props;
 
-const siteOrigin = Astro.site?.toString() ?? 'https://dreamcoder08.github.io';
-// Not a secret: Umami exposes this ID publicly via the script tag on every page load.
-const umamiWebsiteId = 'c2e89983-d7b4-4f2f-adb0-00495b95a5f7';
+const siteOrigin = Astro.site?.toString() ?? "https://dreamcoder08.github.io";
+
+// Analytics is single-sourced here. It defaults to the hosted Umami Cloud
+// instance so existing metrics keep working. Point PUBLIC_UMAMI_SRC at your
+// own deployment to remove the third-party origin, or leave
+// PUBLIC_UMAMI_WEBSITE_ID empty to disable analytics entirely.
+const umamiSrc =
+  import.meta.env.PUBLIC_UMAMI_SRC ?? "https://cloud.umami.is/script.js";
+const umamiWebsiteId =
+  import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ??
+  "c2e89983-d7b4-4f2f-adb0-00495b95a5f7";
+const analyticsEnabled = Boolean(umamiSrc && umamiWebsiteId);
 
 const canonical = new URL(
   Astro.url.pathname,
   Astro.site ?? siteOrigin,
-).toString()
+).toString();
 
 const imageUrl = /^https?:\/\//.test(image)
   ? image
   : toAbsoluteSiteUrl(image, siteOrigin);
 
+const imageType = imageUrl.endsWith(".png")
+  ? "image/png"
+  : imageUrl.endsWith(".webp")
+    ? "image/webp"
+    : "image/jpeg";
+
 const defaultJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Albert Agurto Farfán',
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Dreamcoder",
   url: canonical,
-  jobTitle: 'Systems Architect',
+  jobTitle: "Systems Architect",
   knowsAbout: [
-    'Fiscal intelligence infrastructure',
-    'Audit-first systems architecture',
-    'Civic technology for Latin America',
-    'AI-augmented governance',
-    'Rust, Go, TypeScript systems',
+    "Arquitectura de sistemas",
+    "Sistemas de IA con supervisión humana",
+    "Producto digital",
+    "Trazabilidad y evidencia",
   ],
-  sameAs: [
-    'https://github.com/dreamcoder08',
-    'https://github.com/arkelythex',
-  ],
+  sameAs: ["https://github.com/dreamcoder08"],
 };
 
 const structuredData = jsonLd ?? defaultJsonLd;
@@ -59,7 +70,12 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href={withBaseAsset('/favicon.svg')} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={withBaseAsset("/favicon.svg")}
+    />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
@@ -72,39 +88,56 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:type" content={imageType} />
     <meta property="og:image:alt" content={`${title} preview image`} />
     <meta property="og:site_name" content="DreamFolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:site" content={siteConfig.social.twitterHandle} />
+    <meta
+      property="twitter:creator"
+      content={siteConfig.social.twitterHandle}
+    />
     <meta property="twitter:url" content={canonical} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={`${title} preview image`} />
-    <meta name="theme-color" content="#080909" />
+    <meta name="theme-color" content="#000000" />
 
     <script is:inline>
       (function () {
-        var KEY = 'dreamfolio-theme';
+        var KEY = "dreamfolio-theme";
         var stored = null;
-        try { stored = localStorage.getItem(KEY); } catch (e) {}
-        var theme = (stored === 'light' || stored === 'dark')
-          ? stored
-          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', theme);
+        try {
+          stored = localStorage.getItem(KEY);
+        } catch (e) {}
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+        document.documentElement.setAttribute("data-theme", theme);
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'light' ? '#f3eadc' : '#080909');
+        if (meta)
+          meta.setAttribute(
+            "content",
+            theme === "light" ? "#f3eadc" : "#000000",
+          );
       })();
     </script>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts: self-hosted variable fonts. No third-party origin is contacted. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={withBaseAsset("/fonts/inter-var-v20.woff2")}
+      crossorigin
     />
+    <link rel="stylesheet" href={withBaseAsset("/fonts/fonts.css")} />
 
     <!-- Security headers are configured in vercel.json. -->
 
@@ -114,37 +147,49 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta name="author" content="Dreamcoder08" />
     <meta
       name="keywords"
-      content="software architect, fiscal intelligence, arkelythex, latin america infrastructure, rust, go, typescript, systems architecture, drenyra"
+      content="arquitectura de software, sistemas de IA, automatización con supervisión, producto digital, seguridad de la información, Perú, LATAM"
     />
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
-
-    <!-- Analytics: Umami Cloud (cloud.umami.is), free tier. -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId}></script>
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    ></script>
+    <!-- Analytics: single-sourced and optional (see frontmatter). -->
+    {analyticsEnabled && (
+      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+    )}
   </head>
   <body class="min-h-screen antialiased">
-    <a href="#main-content" class="skip-link">{lang === "es" ? "Saltar al contenido" : "Skip to content"}</a>
+    <a href="#main-content" class="skip-link">
+      {lang === "es" ? "Saltar al contenido" : "Skip to content"}
+    </a>
     <slot />
     <script is:inline>
       (function () {
         try {
-          var reduceMotion = window.matchMedia &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (reduceMotion || !('IntersectionObserver' in window)) return;
-          var targets = document.querySelectorAll('[data-reveal]');
+          var reduceMotion =
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (reduceMotion || !("IntersectionObserver" in window)) return;
+          var targets = document.querySelectorAll("[data-reveal]");
           if (!targets.length) return;
           var pending = new Set(targets);
           function reveal(el) {
-            el.classList.add('is-visible');
+            el.classList.add("is-visible");
             pending.delete(el);
             io.unobserve(el);
           }
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) reveal(entry.target);
-            });
-          }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-          targets.forEach(function (el) { io.observe(el); });
-          document.documentElement.classList.add('motion-ready');
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) reveal(entry.target);
+              });
+            },
+            { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+          );
+          targets.forEach(function (el) {
+            io.observe(el);
+          });
+          document.documentElement.classList.add("motion-ready");
 
           // A scroll jump large enough to carry a target from fully below
           // to fully above the viewport in one frame never registers as
@@ -154,14 +199,18 @@ const structuredData = jsonLd ?? defaultJsonLd;
           function sweep() {
             sweepQueued = false;
             pending.forEach(function (el) {
-              if (el.getBoundingClientRect().top < window.innerHeight) reveal(el);
+              if (el.getBoundingClientRect().top < window.innerHeight)
+                reveal(el);
             });
-            if (!pending.size) window.removeEventListener('scroll', queueSweep);
+            if (!pending.size) window.removeEventListener("scroll", queueSweep);
           }
           function queueSweep() {
-            if (!sweepQueued) { sweepQueued = true; requestAnimationFrame(sweep); }
+            if (!sweepQueued) {
+              sweepQueued = true;
+              requestAnimationFrame(sweep);
+            }
           }
-          window.addEventListener('scroll', queueSweep, { passive: true });
+          window.addEventListener("scroll", queueSweep, { passive: true });
         } catch (e) {}
       })();
     </script>
