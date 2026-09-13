@@ -944,12 +944,12 @@ a:hover {
   padding: 22px 18px 22px 0;
   color: var(--color-text-secondary);
   border-bottom: 1px solid var(--color-border);
-  /* `color` joins the list in unit 4: the universal transition used to animate
-         the label promotion for free, and `:hover` / `:active` both change it. */
-  transition:
-    background-color var(--motion-fast),
-    color var(--motion-fast),
-    transform var(--motion-fast) var(--motion-ease);
+  /* No `transition` here on purpose. `.module-row` carries `data-reveal`, and
+         `.motion-ready [data-reveal]` is (0,2,0): a declaration written on this
+         (0,1,0) rule never reached the element, which is why the hover and press
+         states of this row had no transition while every other interactive element
+         did. The merged declaration now lives in the "Motion" section at the end of
+         this file, on a selector that outranks the reveal rule. */
 }
 .module-row:hover {
   color: var(--color-text);
@@ -1751,11 +1751,24 @@ a:hover {
    evaluated, so these land no matter which layer declared the matching rest rule.
    `.btn-primary` is the case that needs it — the unlayered `a` rule at the top of
    this file outranks a layered `.btn-primary` transition, so one declared in
-   `global.css` would never reach the element. `a`, `.card`, `.module-row`, the two
-   image transforms and `[data-reveal]` already own tokenised transitions and are
-   deliberately not repeated. The reduced-motion guard in `global.css` neutralises
-   all of this again with `transition: none !important`.
+   `global.css` would never reach the element. `a`, `.card`, the two image
+   transforms and `[data-reveal]` already own tokenised transitions and are
+   deliberately not repeated; `.module-row` is declared here rather than on its own
+   rest rule because of the specificity the reveal rule holds over it (see below).
+   The reduced-motion guard in `global.css` neutralises all of this again with
+   `transition: none !important`.
    ============================================ */
+/* `text-decoration-line` and `text-underline-offset` are the non-chromatic
+   hover/press signal unit 2 gave the max-brightness elements. They were missing
+   from this list, so the underline appeared and its offset jumped in the frame the
+   state applied. Both belong to the same declaration as the rest of the set:
+   the six selectors that write their decoration (`.desktop-nav a`, `.nav-contact`,
+   `.quiet-link`, `.project-links a`, `.site-footer > a`, `.contact-social a`) all
+   already share it, and on the selectors that never touch their decoration the two
+   entries are inert. `text-decoration-line` is a discrete property — naming it is
+   honest about what the state writes, but only the offset can interpolate, and only
+   between two lengths. `text-decoration-color` is deliberately absent: it is
+   `currentColor`, so it already animates with `color`. */
 .desktop-nav a,
 .quiet-link,
 .project-links a,
@@ -1773,5 +1786,42 @@ a:hover {
     color var(--motion-fast),
     background-color var(--motion-fast),
     border-color var(--motion-fast),
-    transform var(--motion-fast) var(--motion-ease);
+    transform var(--motion-fast) var(--motion-ease),
+    text-decoration-line var(--motion-fast),
+    text-underline-offset var(--motion-fast);
+}
+
+/* `.module-row` is the one interactive element whose transition declaration was
+   dead. It carries `data-reveal`, so `.motion-ready [data-reveal]` at (0,2,0)
+   outranked anything its own (0,1,0) rest rule declared: the computed transition
+   was the reveal's `opacity, transform` at 0.64s, and hover/press changed `color`
+   and `background-color` with no transition list entry at all, so both snapped.
+
+   Specificity is raised by naming the state the competing rule applies in.
+   `.motion-ready [data-reveal].module-row` is (0,3,0): it beats the reveal rule's
+   (0,2,0) without `!important`, without an id, and without editing the reveal rule
+   that every other `[data-reveal]` element depends on. `.module-row` stays in the
+   prelude so the same declaration still applies when `motion-ready` is absent (the
+   reveal rule then does not match either).
+
+   The list merges both sets the element actually needs: the two interaction
+   properties at `--motion-fast`, and the reveal's `opacity` at `--motion-reveal`,
+   because the reveal rule is not going away. `transform` is carried as the
+   hover/press property, so it runs at `--motion-fast`; the reveal's slide for this
+   row therefore finishes in 180ms while its fade keeps the full 640ms. Every other
+   `[data-reveal]` element keeps `opacity, transform` at `--motion-reveal`.
+
+   Consequence worth knowing: this declaration resets `transition-delay` too, so it
+   supersedes `.motion-ready .module-row:nth-child(2|3)`'s stagger delay for this
+   row (equal specificity, later in source). Restoring it would mean delaying the
+   interaction properties with it, which is the defect being fixed here, or writing
+   a per-property delay list with a bare `0`, which the unit contract's "no bare time
+   literal" clause exists to keep out of these declarations. */
+.module-row,
+.motion-ready [data-reveal].module-row {
+  transition:
+    background-color var(--motion-fast),
+    color var(--motion-fast),
+    transform var(--motion-fast) var(--motion-ease),
+    opacity var(--motion-reveal) var(--motion-ease);
 }
