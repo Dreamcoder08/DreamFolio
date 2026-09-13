@@ -29,7 +29,7 @@
   /* ---- BORDERS ---- */
   --color-border: rgba(255, 255, 255, 0.16);
   --color-border-strong: rgba(255, 255, 255, 0.28);
-  --color-border-interactive: rgba(255, 255, 255, 0.34);
+  --color-border-interactive: rgba(255, 255, 255, 0.4);
   --color-border-interactive-hover: rgba(255, 255, 255, 0.56);
 
   /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
@@ -64,8 +64,6 @@
   --radius-pill: 999px;
   --radius-circle: 50%;
   --radius-arch: 48% 48% 8px 8px;
-  /* The gated `:focus-visible` geometry — deleted with that line in task 2.5. */
-  --radius-focus: 4px;
 
   /* ---- MOTION (one system; portfolio.css aliases resolve from here) ---- */
   --motion-fast: 180ms;
@@ -153,7 +151,6 @@
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    border-radius: var(--radius-focus);
   }
 
   ::-webkit-scrollbar {
@@ -353,14 +350,18 @@
     color: var(--color-on-accent);
     font-weight: 600;
     border-radius: var(--radius-control);
-    transition: opacity var(--motion-fast);
+    transition: background-color var(--motion-fast);
     min-height: 44px;
     min-width: 44px;
   }
   /* State-preserving hover: the fill moves, the ink does not, and no `opacity`
-     remains anywhere in the pair. */
+     remains anywhere in the pair. The transition targets `background-color`
+     because that is the property the state actually changes. */
   .btn-primary:hover {
     background: var(--color-accent-hover);
+  }
+  .btn-primary:active {
+    background: var(--color-accent-active);
   }
 
   /* ---- SECTION LABEL (accent mono label) ---- */
