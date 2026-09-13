@@ -65,7 +65,8 @@ Rest, hover, focus, and active rules in the dark theme MUST resolve their backgr
 
 - GIVEN a hover or active rule added or changed by this change
 - WHEN the rule's declarations are read
-- THEN each background and border value is a state token reference, not a literal
+- THEN each background and border value is a state token reference, not a literal, **except** that an element whose at-rest label already sits at the palette ceiling MAY declare its at-rest colour or `transparent` for the background — and MUST still take its border from a state token
+- AND the exempted element's label ratio does not fall below its own at-rest ratio
 
 #### Scenario: Decorative and interactive borders stay separable in use
 
