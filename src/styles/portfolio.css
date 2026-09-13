@@ -944,8 +944,11 @@ a:hover {
   padding: 22px 18px 22px 0;
   color: var(--color-text-secondary);
   border-bottom: 1px solid var(--color-border);
+  /* `color` joins the list in unit 4: the universal transition used to animate
+         the label promotion for free, and `:hover` / `:active` both change it. */
   transition:
-    background var(--motion-fast),
+    background-color var(--motion-fast),
+    color var(--motion-fast),
     transform var(--motion-fast) var(--motion-ease);
 }
 .module-row:hover {
@@ -1616,12 +1619,6 @@ a:hover {
 [data-theme="dark"] .menu-toggle {
   border-color: var(--color-border-interactive);
 }
-/* global.css's @layer utilities cannot deliver this retarget: the unlayered
-   `a { transition: … opacity … }` above outranks it, and every .btn-primary is
-   an anchor, so `opacity` would stay in the transition list forever. */
-.btn-primary {
-  transition: background-color var(--motion-fast);
-}
 
 /* ---- Press ---- */
 /* Controls that carry a fill move to the pressed surface step. */
@@ -1738,4 +1735,43 @@ a:hover {
   .solid-link:active {
     outline: 2px dashed CanvasText;
   }
+}
+
+/* ============================================
+   Motion — the explicit replacement for the universal transition
+
+   `global.css`'s `@layer base` used to carry
+   `*, *::before, *::after { transition: background-color …, border-color …, color … }`,
+   which animated every element, including non-interactive ones. Unit 4 deletes it
+   and declares the interactive set's transitions explicitly here. Everything not
+   named below is now instant, which is the point of the removal.
+
+   Appended unlayered for the same reason the state section above is: unlayered
+   author rules beat `@layer base` / `@layer utilities` before specificity is
+   evaluated, so these land no matter which layer declared the matching rest rule.
+   `.btn-primary` is the case that needs it — the unlayered `a` rule at the top of
+   this file outranks a layered `.btn-primary` transition, so one declared in
+   `global.css` would never reach the element. `a`, `.card`, `.module-row`, the two
+   image transforms and `[data-reveal]` already own tokenised transitions and are
+   deliberately not repeated. The reduced-motion guard in `global.css` neutralises
+   all of this again with `transition: none !important`.
+   ============================================ */
+.desktop-nav a,
+.quiet-link,
+.project-links a,
+.site-footer > a,
+.contact-social a,
+.nav-contact,
+.circle-link,
+.mobile-nav a,
+.theme-toggle,
+.menu-toggle,
+.solid-link,
+.btn-primary,
+.skip-link {
+  transition:
+    color var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    transform var(--motion-fast) var(--motion-ease);
 }

@@ -119,14 +119,17 @@
    BASE STYLES
    ============================================ */
 @layer base {
+  /* Unit 4 removed the `transition` this rule used to carry
+     (`background-color`, `border-color`, `color` on every element, including
+     non-interactive ones). Its explicit replacements live in `portfolio.css`'s
+     unlayered "Motion" section and in the rules that already owned a tokenised
+     transition (`a`, `.card`, `.module-row`, the image transforms, `[data-reveal]`).
+     The `border-color` reset stays: it is a theme-independent default Tailwind's
+     preflight does not supply, so removing it would change rendered borders. */
   *,
   *::before,
   *::after {
     border-color: var(--color-border);
-    transition:
-      background-color var(--motion-fast) ease,
-      border-color var(--motion-fast) ease,
-      color var(--motion-fast) ease;
   }
 
   html {
@@ -252,9 +255,11 @@
 }
 
 /* Universal reduced-motion guard, relocated from portfolio.css: it must stay
-   unlayered to keep beating the `@layer base` universal transition, and it must
-   not depend on a portfolio.css import. portfolio.css keeps only its own
-   component exceptions. */
+   unlayered so no layered rule can reintroduce motion, and it must not depend on a
+   portfolio.css import. It is a different rule from the universal transition unit 4
+   deleted, and it is now load-bearing for every explicit per-selector transition
+   those replacements introduced. portfolio.css keeps only its own component
+   exceptions. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
