@@ -22,11 +22,9 @@ a {
 a:hover {
   opacity: 1;
 }
-a:focus-visible,
-button:focus-visible {
-  outline: 3px solid var(--portfolio-yellow);
-  outline-offset: 5px;
-}
+/* The `a`/`button` focus ring used to live here at 3px/5px, outranking
+   global.css's layered `:focus-visible`. It now lives there alone, at the same
+   3px/5px, so the ring is identical and only one declaration exists. */
 .about-section a:focus-visible,
 .contact-section a:focus-visible {
   outline-color: var(--portfolio-yellow-ink);
