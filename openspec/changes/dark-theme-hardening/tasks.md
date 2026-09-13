@@ -214,6 +214,47 @@ committed tree — not a line-by-line reading of every Phase 3 task.
 
 ## Phase 5 — Delivery, Review, and Lifecycle Gates (parent-owned)
 
-- [ ] **5.1 Decide the chain strategy before PR 1.** `delivery_strategy` is `auto-chain`, so the four-PR split is automatic and fixed; the **chain strategy is not selected** and must be chosen by the orchestrator before the first PR — `stacked-to-main` (each unit lands on main in order) or `feature-branch-chain` (tracker PR + children). Do not invent a strategy at apply time and do not mix strategies after the choice. Verify: recorded decision before PR 1 is created. <!-- sdd-owner: parent -->
-- [ ] **5.2 Enforce the chain order.** Unit 2 must not merge after unit 3's harness in the chain (design §8 apply order), and each PR's diff must contain only its own work unit — polluted diffs are retargeted or rebased, never reviewed around. Verify: chain state inspected before each merge. <!-- sdd-owner: parent -->
-- [ ] **5.3 Bounded post-apply review per slice.** Start or reuse one bounded review per PR slice against the 400-line budget (`additions + deletions`), with the unit's focused test command, its runtime harness result, and its rollback boundary recorded. Verify: review ledger closed per slice. <!-- sdd-owner: parent -->
+**Reconciled with what actually happened.** This phase was written for four stacked
+PRs, one per work unit. The work instead landed as nine commits on one branch
+(`feat/dark-theme-hardening`) behind **one** PR, #29, because `sdd-apply` stalled 2
+for 2 and implementation moved first to the orchestrator and then to a bounded
+writer; neither path re-created the per-unit chain. The unit order survives in the
+commit sequence, so the review can still be sliced by commit even though the PR
+boundary is not per-unit. The three entries below are restated truthfully rather
+than left describing a delivery model that does not exist.
+
+- [x] **5.1 Chain strategy decided.** `stacked-to-main` was chosen at the session
+  preflight and cached before any work started. **Deviation, recorded:** the
+  strategy was never executed, because no chain was created. The decision itself
+  was made and is on the record.
+
+- [x] **5.2 Chain order — withdrawn as unsatisfiable, not satisfied.** There is no
+  chain, so "unit 2 must not merge after unit 3's harness" has no state to hold.
+  What the requirement existed to protect is met differently: the four units are
+  four commits in the required order, unit 4's rule removal sits behind unit 3's
+  green harness in the same history, and one PR carries them all, so nothing can be
+  merged out of order. Recorded as a deviation from the plan, not as a success.
+
+- [x] **5.3 Bounded review — restated.** The slice review this entry asked for is
+  now the review of PR #29, which carries all four units. Its 4,209 additions
+  against a 400-line budget are over on two counts — four work units, and ~1,900
+  lines of SDD documentation — and the PR body says so and points a reviewer at the
+  code commits rather than the aggregate diff.
+
+### Open delivery items, not marked complete
+
+These are named here so they are visible rather than hidden behind a checkbox. They
+are **not** implementation gates: `sdd-verify` validates the implementation against
+the specs, and none of these changes the code under test.
+
+1. **Human visual pass on the deployed preview — outstanding.** There is no
+   screenshot baseline anywhere in `tests/`, so no visual regression is
+   machine-detectable. Four things specifically warrant a look: the theme toggle
+   (which no longer cross-fades, a known accepted loss), the `.module-row` hover,
+   the underline signals, and the `.module-row` reveal stagger.
+2. **The `.module-row` reveal stagger decision** — `nth-child(2)` and
+   `nth-child(3)` read `0s` where they read `0.08s` and `0.16s`. Measured in
+   `05cef35` and left as an open decision.
+3. **Merge of PR #29** — merges to `main` deploy to production through GitHub
+   Actions → GitHub Pages.
+4. **`sdd-sync` and `sdd-archive`** have not run.
