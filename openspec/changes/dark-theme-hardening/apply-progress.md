@@ -132,3 +132,25 @@ report.
 `pnpm run test:unit` 35/35 · `pnpm run test:e2e` 74/74 · `pnpm run build` 12 pages ·
 `pnpm run verify` · `pnpm run format:check` · zero new dependencies ·
 `git diff --stat -- package.json pnpm-lock.yaml` empty.
+
+## TDD Cycle Evidence
+
+Required by the verify contract, which flagged its absence as one of the reasons the
+change failed verification. Recorded honestly: **three of the five cycles had a
+genuine RED observation; two could not**, because the apply executor stalled and the
+code landed before the assertions could be written.
+
+| Cycle | Assertions | RED observation | GREEN | Notes |
+| --- | --- | --- | --- | --- |
+| Unit 1 — token layer | A1, A2, A6, A9, A10 | **Yes.** `tests/unit/tokens.test.ts` was created first and observed failing against the un-migrated tree; the failing assertion names and output were recorded at the time. | 21/21 unit | Genuine RED-first. |
+| Unit 2 — state hardening | A7, A8, A11 plus the e2e state matrix | **No.** The executor stalled, so the CSS landed before the assertions. Three of them surfaced as genuine failures only later: `--color-on-focus` had no consumer (A3), and `.desktop-nav .nav-contact:hover` and `.circle-link:hover` dropped from 17.49:1 at rest to 6.17:1 in light mode. Both were repaired in `891df09`. Every other state assertion arrived GREEN by construction and is declared as a regression guard rather than manufactured into a failure. | 31/31 unit, 57/57 e2e after the repairs | **This is the gap the verify contract cites.** It is a real limitation, not a formality. |
+| Unit 4 — transition contract | Clauses (a), (b), (c), plus the reduced-motion guard-liveness assertion | **Yes.** Observed 2 pass / 2 fail against the un-removed universal rule, with the failing output recorded verbatim; then 3 of 4 after the replacements landed; then 4 of 4 only after the removal. Clauses (c) and the guard assertion were GREEN-by-construction. | 35/35 unit | Genuine RED-first, and the 2 -> 3 -> 4 progression is itself the evidence that the removal was walked last. |
+| Motion repair | `tests/theme-state/motion.spec.ts` (17 tests) | **Sensitivity evidence, not RED-first.** `strict_tdd` was not activated for that run. The two defect shapes were temporarily restored and the spec observed failing on exactly the defect class, then the CSS was restored and re-measured. | 74/74 e2e | Recorded as sensitivity evidence rather than claimed as a RED-first cycle. |
+| Review correction | The `R3-INPUT-SCOPE` evidence-scope statement in the verify report | **No.** A documentation correction, not a behavioural cycle. | — | Bounded to 3 diff lines against a 134-line budget, then accepted by the provider's targeted validator. |
+
+**Honest summary.** Strict TDD was substantively followed where the tooling allowed
+it — units 1 and 4 — and could not be followed for unit 2, whose executor stalled
+mid-flight. That limitation is recorded here rather than smoothed over. It is one of
+the stated reasons the verification returned `fail`, and correcting the record does
+not correct the practice: the durable answer is the harness in unit 3, which now
+makes the unit-2 assertions fail on their own.
