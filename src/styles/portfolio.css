@@ -24,10 +24,14 @@ a:hover {
 }
 /* The `a`/`button` focus ring used to live here at 3px/5px, outranking
    global.css's layered `:focus-visible`. It now lives there alone, at the same
-   3px/5px, so the ring is identical and only one declaration exists. */
+   3px/5px, so the ring is identical and only one declaration exists. The ink
+   variant stays because an accent ring on an accent-filled background would be
+   1:1; it consumes `--color-on-focus`, which aliases `--color-on-accent`, so the
+   resolved colour is unchanged from the `--portfolio-yellow-ink` alias it
+   replaced. */
 .about-section a:focus-visible,
 .contact-section a:focus-visible {
-  outline-color: var(--portfolio-yellow-ink);
+  outline-color: var(--color-on-focus);
 }
 .wrap {
   width: min(1320px, calc(100% - 96px));
@@ -1591,10 +1595,18 @@ a:hover {
   border-color: currentColor;
   transform: translateY(1px);
 }
-/* `.nav-contact` is deliberately absent from this group: `.desktop-nav
-   .nav-contact:hover` (0,3,0) outranks any appended (0,2,0) rule and keeps its
-   accent hover border, so a declaration here would be dead code. */
+/* Max-brightness elements must not swap their fill on hover. `.desktop-nav
+   .nav-contact` and `.circle-link` rest on `--color-text` over the canvas —
+   17.91:1 dark, 17.49:1 light on a card — and the accent pill their own hover
+   rules applied flipped the ink and dropped the label to 6.17:1 light, below its
+   own at-rest ratio. The design's rule for these states is to signal through
+   border and motion rather than colour, and the icon translate plus the `:active`
+   transform already do that. Restating the rest colour keeps the ratio identical
+   to rest, so the hover is now strictly additive. */
+.desktop-nav .nav-contact:hover,
 .circle-link:hover {
+  color: var(--color-text);
+  background: transparent;
   border-color: var(--color-border-interactive-hover);
 }
 /* Dark-scoped toggle boundary (task 2.8). At rest the toggles move off
