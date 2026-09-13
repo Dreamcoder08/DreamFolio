@@ -10,7 +10,9 @@ This capability hardens *state* and *architecture*. It is not a contrast-conform
 
 ### Requirement: Dark-Scoped Press State Coverage
 
-Every interactive element in the dark theme MUST define an `:active` (pressed) state, so that no interactive selector relies on hover alone for press feedback. At minimum this covers `.theme-toggle`, `.menu-toggle`, `.solid-link`, `.quiet-link`, `.circle-link`, `.project-links a`, `.desktop-nav a`, `.nav-contact`, `.mobile-nav a`, `.site-footer a`, `.module-row`, and `.contact-social a`. Press rules MUST be dark-scoped, and MUST NOT change any element's at-rest appearance in either mode.
+Every interactive element in the dark theme MUST define an `:active` (pressed) state, so that no interactive selector relies on hover alone for press feedback. At minimum this covers `.theme-toggle`, `.menu-toggle`, `.solid-link`, `.quiet-link`, `.circle-link`, `.project-links a`, `.desktop-nav a`, `.nav-contact`, `.mobile-nav a`, `.site-footer a`, `.module-row`, and `.contact-social a`. Press rules MUST NOT change any element's at-rest appearance in either mode. They MAY apply in both modes: a pressed state is additive by nature, its feedback is non-chromatic wherever the label sits at the palette ceiling, and scoping it to the dark theme alone would leave light-mode users with no press confirmation at all.
+
+(**Amended 2026-09-12.** This requirement previously read "Press rules MUST be dark-scoped". That wording could not be satisfied without removing press feedback from light mode entirely, which is the gap this requirement exists to close. The at-rest half is unaffected and is asserted by the per-state harness and the at-rest regression checks. See `../decision-required.md`.)
 
 #### Scenario: Pressed feedback exists for every interactive element
 
@@ -54,7 +56,9 @@ A hover treatment MUST NOT attenuate the contrast of a label against its own sur
 
 ### Requirement: State-Driven Interaction Tokens in Use
 
-Rest, hover, focus, and active rules in the dark theme MUST resolve their background and border values from the state tokens declared in the token source — the hovered and pressed background steps and the interactivity-separated border tokens — rather than from literals or from an alpha-reduced copy of the element's own colour.
+Rest, hover, focus, and active rules in the dark theme MUST resolve their background and border values from the state tokens declared in the token source — the hovered and pressed background steps and the interactivity-separated border tokens — rather than from literals or from an alpha-reduced copy of the element's own colour. An element whose at-rest label already sits at the palette ceiling is **exempt from the fill requirement**: every state-token-backed fill lowers its ratio below rest — measured, `--color-surface-hover` under `--color-text` is 14.15:1 and `--color-surface-active` under `--color-text` is 12.80:1, against a 17.91:1 rest — so such elements MUST signal through border, underline or motion and MAY declare their at-rest colour and `transparent`.
+
+(**Amended 2026-09-12.** Applying this requirement literally to the palette ceiling reintroduced the `.solid-link` contrast regression repaired in `891df09`. The exemption is bounded: it applies only where the at-rest label is already at the ceiling, and the harness asserts the ratio does not fall below rest. See `../decision-required.md`.)
 (The categories themselves are declared in both modes, with parity and consumers, by the `design-tokens` delta; this requirement is about the state rules consuming them.)
 
 #### Scenario: State rules consume state tokens

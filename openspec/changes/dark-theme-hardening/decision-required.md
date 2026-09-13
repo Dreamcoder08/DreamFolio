@@ -1,6 +1,6 @@
 # Decision Required: Two Spec Requirements Conflict
 
-Status: **OPEN — maintainer decision required.** Both items block a passing
+Status: **DECIDED — 2026-09-12.** Option **1b + 2b** was chosen by the maintainer: amend both requirements, with the measured reasoning below recorded as the amendment's justification. The two requirements in `specs/theme-state-hardening/spec.md` now carry dated amendment notes. Options 1a, 2a and 2c were considered and are recorded with their consequences, not discarded. Both items block a passing
 `sdd-verify`, and neither can be resolved by editing the implementation, because in
 each case the fix that satisfies one requirement violates another requirement in the
 same spec.
