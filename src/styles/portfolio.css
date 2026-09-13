@@ -3,9 +3,6 @@
   --portfolio-yellow: var(--color-accent);
   --portfolio-yellow-ink: var(--color-on-accent);
   --portfolio-cream: var(--color-surface-alt);
-  --motion-fast: 180ms;
-  --motion-reveal: 640ms;
-  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -25,14 +22,16 @@ a {
 a:hover {
   opacity: 1;
 }
-a:focus-visible,
-button:focus-visible {
-  outline: 3px solid var(--portfolio-yellow);
-  outline-offset: 5px;
-}
+/* The `a`/`button` focus ring used to live here at 3px/5px, outranking
+   global.css's layered `:focus-visible`. It now lives there alone, at the same
+   3px/5px, so the ring is identical and only one declaration exists. The ink
+   variant stays because an accent ring on an accent-filled background would be
+   1:1; it consumes `--color-on-focus`, which aliases `--color-on-accent`, so the
+   resolved colour is unchanged from the `--portfolio-yellow-ink` alias it
+   replaced. */
 .about-section a:focus-visible,
 .contact-section a:focus-visible {
-  outline-color: var(--portfolio-yellow-ink);
+  outline-color: var(--color-on-focus);
 }
 .wrap {
   width: min(1320px, calc(100% - 96px));
@@ -114,8 +113,8 @@ button:focus-visible {
 .desktop-nav .nav-contact {
   gap: 10px;
   color: var(--color-text);
-  border: 1px solid var(--color-border-hover);
-  border-radius: 999px;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-pill);
   padding-inline: 18px;
   margin-left: 6px;
 }
@@ -139,7 +138,7 @@ button:focus-visible {
   color: var(--color-text-secondary);
   background: transparent;
   border: 1px solid var(--color-border);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   padding: 8px;
 }
 .theme-toggle:hover,
@@ -178,7 +177,7 @@ button:focus-visible {
   color: var(--portfolio-yellow-ink);
   background: var(--portfolio-yellow);
   border: 1px solid var(--portfolio-yellow);
-  border-radius: 2px;
+  border-radius: var(--radius-sharp);
   font-size: 0.84rem;
   font-weight: 700;
 }
@@ -321,7 +320,7 @@ button:focus-visible {
   position: absolute;
   inset: 8% -22% 8% 16%;
   background: var(--portfolio-yellow);
-  border-radius: 48% 48% 8px 8px;
+  border-radius: var(--radius-arch);
   transform: rotate(4deg);
 }
 .hero-portrait::after {
@@ -335,7 +334,7 @@ button:focus-visible {
   place-items: center;
   border: 1px solid
     color-mix(in srgb, var(--portfolio-yellow-ink) 35%, transparent);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   color: var(--portfolio-yellow-ink);
   font: 1.8rem / 1 var(--font-mono);
 }
@@ -351,7 +350,7 @@ button:focus-visible {
   color: var(--portfolio-yellow);
   background: var(--color-surface);
   border: 1px solid var(--portfolio-yellow);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   font: 0.8rem var(--font-mono);
 }
 .profile-card {
@@ -361,7 +360,7 @@ button:focus-visible {
   background: var(--color-surface-alt);
   border: 1px solid
     color-mix(in srgb, var(--portfolio-yellow) 45%, var(--color-border));
-  box-shadow: 0 34px 80px #0003;
+  box-shadow: var(--shadow-profile);
   transform: rotate(-2.5deg);
 }
 .profile-portrait {
@@ -374,7 +373,7 @@ button:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 0 1px #fff2;
+  box-shadow: var(--shadow-inset-ring);
   pointer-events: none;
 }
 .profile-portrait img {
@@ -567,7 +566,7 @@ button:focus-visible {
   right: -85px;
   top: -100px;
   border: 1px solid color-mix(in srgb, var(--color-on-accent) 25%, transparent);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 .project-image img {
   position: relative;
@@ -576,8 +575,8 @@ button:focus-visible {
   height: auto;
   display: block;
   border: 1px solid color-mix(in srgb, var(--color-on-accent) 40%, transparent);
-  box-shadow: 0 24px 48px #0006;
-  transition: transform 350ms var(--motion-ease);
+  box-shadow: var(--shadow-image);
+  transition: transform var(--motion-image) var(--motion-ease);
 }
 .project-image:hover img {
   transform: translateY(-7px) rotate(0.4deg);
@@ -723,8 +722,8 @@ button:focus-visible {
   object-fit: cover;
   object-position: top;
   transition:
-    transform 350ms var(--motion-ease),
-    filter 350ms;
+    transform var(--motion-image) var(--motion-ease),
+    filter var(--motion-image);
 }
 .compact-image:hover img {
   transform: scale(1.04);
@@ -781,8 +780,8 @@ button:focus-visible {
   display: grid;
   place-items: center;
   color: var(--color-text);
-  border: 1px solid var(--color-border-hover);
-  border-radius: 50%;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-circle);
 }
 .circle-link:hover {
   color: var(--portfolio-yellow-ink);
@@ -895,7 +894,7 @@ button:focus-visible {
   color: var(--portfolio-yellow);
   border: 1px solid
     color-mix(in srgb, var(--portfolio-yellow) 40%, var(--color-border));
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 .principle-number {
   color: var(--color-text-secondary);
@@ -945,13 +944,16 @@ button:focus-visible {
   padding: 22px 18px 22px 0;
   color: var(--color-text-secondary);
   border-bottom: 1px solid var(--color-border);
+  /* `color` joins the list in unit 4: the universal transition used to animate
+         the label promotion for free, and `:hover` / `:active` both change it. */
   transition:
-    background var(--motion-fast),
+    background-color var(--motion-fast),
+    color var(--motion-fast),
     transform var(--motion-fast) var(--motion-ease);
 }
 .module-row:hover {
   color: var(--color-text);
-  background: color-mix(in srgb, var(--portfolio-yellow) 6%, transparent);
+  background: var(--color-surface-hover);
   transform: translateX(5px);
 }
 .module-index {
@@ -964,7 +966,7 @@ button:focus-visible {
   place-items: center;
   color: var(--portfolio-yellow);
   border: 1px solid var(--color-border);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 .module-row h3 {
   color: var(--color-text);
@@ -1164,11 +1166,11 @@ button:focus-visible {
 }
 .motion-ready .principles article:nth-child(2),
 .motion-ready .module-row:nth-child(2) {
-  transition-delay: 80ms;
+  transition-delay: var(--motion-stagger);
 }
 .motion-ready .principles article:nth-child(3),
 .motion-ready .module-row:nth-child(3) {
-  transition-delay: 160ms;
+  transition-delay: calc(var(--motion-stagger) * 2);
 }
 @keyframes hero-rise {
   from {
@@ -1187,13 +1189,13 @@ button:focus-visible {
   animation: hero-rise var(--motion-reveal) var(--motion-ease) both;
 }
 .hero-copy {
-  animation-delay: 80ms;
+  animation-delay: var(--motion-stagger);
 }
 .hero-portrait {
-  animation-delay: 170ms;
+  animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step));
 }
 .hero-ticker {
-  animation-delay: 260ms;
+  animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step) * 2);
 }
 
 @media (max-width: 1050px) {
@@ -1518,16 +1520,9 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
-  }
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation: none !important;
-    transition: none !important;
-  }
+  /* The universal guard moved to global.css (unlayered) so it no longer depends
+     on this file being imported. What stays here is portfolio-owned: the reveal
+     reset and the eight component transform neutralisations. */
   .motion-ready [data-reveal] {
     opacity: 1;
     transform: none;
@@ -1542,4 +1537,241 @@ button:focus-visible {
   .module-row:hover > .icon:last-child {
     transform: none;
   }
+  /* The press states added below are motion-bearing, so a reduced-motion user
+         must not get the movement. Every one of them also carries a fill, border
+         or underline signal, so the press state survives `transform: none`. */
+  /* The press states added below are motion-bearing, so a reduced-motion user
+     must not get the movement. Every one of them also carries a fill, border or
+     underline signal, so the press state survives `transform: none`. `!important`
+     is load-bearing here: this list sits *before* the `:active` rules it must
+     override and has equal specificity, so source order alone would let them win. */
+  .theme-toggle:active,
+  .menu-toggle:active,
+  .module-row:active,
+  .quiet-link:active > .icon:last-child,
+  .project-links a:active > .icon:last-child,
+  .contact-social a:active,
+  .nav-contact:active,
+  .circle-link:active,
+  .mobile-nav a:active {
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   Interaction states — hover repairs and press feedback
+
+   Appended unlayered on purpose: unlayered author rules beat global.css's
+   `@layer base` / `@layer utilities` before specificity is even evaluated, so
+   these state rules win their ties deterministically and nothing above had to
+   be reordered.
+
+   Before this section the site declared zero `:active` rules, so a press gave no
+   feedback at all — and on touch, where `:hover` is sticky, none either. Every
+   press below therefore carries a non-colour signal (border, underline or
+   motion) in addition to any fill, so the state also survives forced-colors
+   mode, which strips author backgrounds and borders.
+   ============================================ */
+
+/* ---- Hover: move the surface, never attenuate the label ---- */
+.desktop-nav a:hover {
+  color: var(--color-text);
+}
+.quiet-link:hover,
+.project-links a:hover {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.theme-toggle:hover,
+.menu-toggle:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-interactive-hover);
+}
+/* `.contact-section .solid-link` rests at --color-surface on --color-text =
+   17.91:1, the palette ceiling. No state can exceed it and any fill swap must
+   lower it, so per the design's own rule for max-brightness elements this variant
+   signals through geometry rather than colour, and keeps its contrast. */
+.contact-section .solid-link:hover {
+  background: var(--color-text);
+  color: var(--color-surface);
+  border-color: currentColor;
+  transform: translateY(1px);
+}
+/* Max-brightness elements must not swap their fill on hover. `.desktop-nav
+   .nav-contact` and `.circle-link` rest on `--color-text` over the canvas —
+   17.91:1 dark, 17.49:1 light on a card — and the accent pill their own hover
+   rules applied flipped the ink and dropped the label to 6.17:1 light, below its
+   own at-rest ratio. The design's rule for these states is to signal through
+   border and motion rather than colour, and the icon translate plus the `:active`
+   transform already do that. Restating the rest colour keeps the ratio identical
+   to rest, so the hover is now strictly additive. */
+.desktop-nav .nav-contact:hover,
+.circle-link:hover {
+  color: var(--color-text);
+  background: transparent;
+  border-color: var(--color-border-interactive-hover);
+}
+/* Dark-scoped toggle boundary (task 2.8). At rest the toggles move off
+   --color-border (0.16, 1.44:1 on --color-surface) onto the interactive token
+   (0.40, 3.66:1). */
+[data-theme="dark"] .theme-toggle,
+[data-theme="dark"] .menu-toggle {
+  border-color: var(--color-border-interactive);
+}
+
+/* ---- Press ---- */
+/* Controls that carry a fill move to the pressed surface step. */
+.theme-toggle:active,
+.menu-toggle:active {
+  background: var(--color-surface-active);
+  border-color: var(--color-border-interactive-hover);
+  transform: translateY(1px);
+}
+.module-row:active {
+  color: var(--color-text);
+  background: var(--color-surface-active);
+}
+/* The ordinary `.solid-link` press passes on its own terms (rest 7.59:1 ->
+   press 9.98:1), so it keeps the accent fill. */
+.solid-link:active {
+  background: var(--color-accent-active);
+  color: var(--color-on-accent);
+}
+/* The `.contact-section` variant keeps its fill for the same reason as its hover,
+   and separates hover from press by geometry — 1px vs 2px plus a ring — so the
+   press is still a real, computable difference from rest. */
+.contact-section .solid-link:active {
+  background: var(--color-text);
+  color: var(--color-surface);
+  border-color: currentColor;
+  transform: translateY(2px);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+/* Max-brightness labels signal through decoration and motion instead of a colour
+   swap: nothing outranks --color-text against the canvas, so a fill swap there
+   could only attenuate. */
+.desktop-nav a:active {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.quiet-link:active,
+.project-links a:active {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.quiet-link:active > .icon:last-child,
+.project-links a:active > .icon:last-child {
+  transform: translate(3px, -3px);
+}
+.site-footer > a:active {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.contact-social a:active {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transform: translateY(2px);
+}
+.nav-contact:active {
+  transform: translateY(1px);
+}
+.circle-link:active {
+  border-color: var(--color-border-interactive-hover);
+  transform: scale(0.94);
+}
+.mobile-nav a:active {
+  border-color: var(--color-border-interactive);
+  transform: translateX(2px);
+}
+
+/* ---- forced-colors: targeted non-colour state signals ----
+   Best practice, not a WCAG requirement — no success criterion mentions
+   forced-colors. The user agent forces `box-shadow` to `none` and replaces
+   author `border-color` and `background-color`, which erases every state signal
+   above that relies on them, so each state gets a shape or a decoration instead.
+   Deliberately no `forced-color-adjust`, no custom properties, and no palette,
+   typography or layout: MDN is explicit that this feature is for small tweaks,
+   not a parallel design. The OLED card edges and `--color-border-strong` get no
+   tweak on purpose — the agent's own forcing is the intended behaviour there. */
+@media (forced-colors: active) {
+  .module-row:hover {
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+  .card:hover,
+  .nav-contact:hover,
+  .circle-link:hover,
+  .theme-toggle:hover,
+  .menu-toggle:hover,
+  .solid-link:hover,
+  .btn-primary:hover {
+    outline: 1px solid CanvasText;
+    outline-offset: 2px;
+  }
+  .quiet-link:hover,
+  .project-links a:hover,
+  .desktop-nav a:hover,
+  .site-footer > a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .module-row:active,
+  .theme-toggle:active,
+  .menu-toggle:active,
+  .desktop-nav a:active,
+  .quiet-link:active,
+  .project-links a:active,
+  .site-footer > a:active,
+  .contact-social a:active,
+  .nav-contact:active,
+  .circle-link:active,
+  .mobile-nav a:active,
+  .btn-primary:active,
+  .solid-link:active {
+    outline: 2px dashed CanvasText;
+  }
+}
+
+/* ============================================
+   Motion — the explicit replacement for the universal transition
+
+   `global.css`'s `@layer base` used to carry
+   `*, *::before, *::after { transition: background-color …, border-color …, color … }`,
+   which animated every element, including non-interactive ones. Unit 4 deletes it
+   and declares the interactive set's transitions explicitly here. Everything not
+   named below is now instant, which is the point of the removal.
+
+   Appended unlayered for the same reason the state section above is: unlayered
+   author rules beat `@layer base` / `@layer utilities` before specificity is
+   evaluated, so these land no matter which layer declared the matching rest rule.
+   `.btn-primary` is the case that needs it — the unlayered `a` rule at the top of
+   this file outranks a layered `.btn-primary` transition, so one declared in
+   `global.css` would never reach the element. `a`, `.card`, `.module-row`, the two
+   image transforms and `[data-reveal]` already own tokenised transitions and are
+   deliberately not repeated. The reduced-motion guard in `global.css` neutralises
+   all of this again with `transition: none !important`.
+   ============================================ */
+.desktop-nav a,
+.quiet-link,
+.project-links a,
+.site-footer > a,
+.contact-social a,
+.nav-contact,
+.circle-link,
+.mobile-nav a,
+.theme-toggle,
+.menu-toggle,
+.solid-link,
+.btn-primary,
+.skip-link {
+  transition:
+    color var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    transform var(--motion-fast) var(--motion-ease);
 }

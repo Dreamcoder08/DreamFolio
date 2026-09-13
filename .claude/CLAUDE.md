@@ -29,7 +29,7 @@ src/
 │       ├── index.astro
 │       └── [id].astro
 ├── styles/             # global.css (design tokens + theme), portfolio.css
-├── data/               # projects.json, systems.ts
+├── data/               # projects.json
 └── content.config.ts
 tests/                  # Playwright e2e specs
 ```
@@ -55,7 +55,8 @@ tests/                  # Playwright e2e specs
 - Mono: JetBrains Mono (code, labels)
 
 ### Visual Style
-- Dual theme (dark default, light opt-in), no glassmorphism
+- Dual theme (dark default, light opt-in)
+- The fixed site header is a glass surface: `backdrop-filter: blur(18px)` over a translucent canvas (`portfolio.css`)
 - Responsive design (mobile-first)
 
 ## Development Commands

@@ -11,21 +11,30 @@
   --color-surface: #000000;
   --color-surface-alt: #0d0d10;
   --color-surface-elevated: #17171c;
-  --color-surface-glass: rgba(255, 255, 255, 0.045);
+  --color-surface-hover: #1e1e24;
+  --color-surface-active: #26262e;
 
   /* ---- TEXT ---- */
   --color-text: #ededeb;
   --color-text-secondary: #b7b8b3;
+  --color-text-tertiary: #7f7f7a;
 
   /* ---- ACCENTS ---- */
   --color-accent: #ff7a18;
   --color-accent-muted: rgba(255, 122, 24, 0.08);
+  --color-accent-hover: #ff8f42;
+  --color-accent-active: #ffa25e;
   --color-on-accent: #0a0a0a;
 
   /* ---- BORDERS ---- */
   --color-border: rgba(255, 255, 255, 0.16);
-  --color-border-hover: rgba(255, 255, 255, 0.34);
   --color-border-strong: rgba(255, 255, 255, 0.28);
+  --color-border-interactive: rgba(255, 255, 255, 0.4);
+  --color-border-interactive-hover: rgba(255, 255, 255, 0.56);
+
+  /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
+  --color-focus: #ff7a18;
+  --color-on-focus: #0a0a0a;
 
   /* ---- SEMANTIC ---- */
   --color-danger: #ff6b6b;
@@ -46,22 +55,54 @@
   --text-body: 1rem;
   --text-small: 0.875rem;
   --text-xs: 0.75rem;
+
+  /* ---- RADIUS SCALE (also generates Tailwind `rounded-*`) ---- */
+  --radius-sharp: 2px;
+  --radius-thumb: 3px;
+  --radius-control: 0.5rem;
+  --radius-panel: 1rem;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+  --radius-arch: 48% 48% 8px 8px;
+
+  /* ---- MOTION (one system; portfolio.css aliases resolve from here) ---- */
+  --motion-fast: 180ms;
+  --motion-image: 350ms;
+  --motion-reveal: 640ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-stagger: 80ms;
+  --motion-hero-step: 90ms;
+
+  /* ---- SHADOWS (also generates Tailwind `shadow-*`) ---- */
+  --shadow-edge: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-profile: 0 34px 80px #0003;
+  --shadow-profile-dark:
+    0 34px 80px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-image: 0 24px 48px #0006;
+  --shadow-inset-ring: inset 0 0 0 1px #fff2;
 }
 
-/* ---- LIGHT MODE ---- */
+/* ---- LIGHT MODE (unlayered: it must keep beating the layered `@theme`) ---- */
 [data-theme="light"] {
   --color-surface: #f3eadc;
   --color-surface-alt: #fff7ea;
   --color-surface-elevated: #fffdf6;
-  --color-surface-glass: rgba(0, 0, 0, 0.02);
+  --color-surface-hover: #fbf6ec;
+  --color-surface-active: #fffdf8;
   --color-text: #17120d;
   --color-text-secondary: #6b5947;
+  --color-text-tertiary: #746555;
   --color-accent: #8a4e26;
   --color-accent-muted: rgba(138, 78, 38, 0.1);
+  --color-accent-hover: #7a4522;
+  --color-accent-active: #6b3c1c;
   --color-on-accent: #fff7ea;
   --color-border: rgba(0, 0, 0, 0.1);
-  --color-border-hover: rgba(0, 0, 0, 0.18);
   --color-border-strong: rgba(0, 0, 0, 0.22);
+  --color-border-interactive: rgba(0, 0, 0, 0.18);
+  --color-border-interactive-hover: rgba(0, 0, 0, 0.3);
+  --color-focus: #8a4e26;
+  --color-on-focus: #fff7ea;
   --color-danger: #b3261e;
   --color-on-danger: #fff7ea;
 }
@@ -78,14 +119,17 @@
    BASE STYLES
    ============================================ */
 @layer base {
+  /* Unit 4 removed the `transition` this rule used to carry
+     (`background-color`, `border-color`, `color` on every element, including
+     non-interactive ones). Its explicit replacements live in `portfolio.css`'s
+     unlayered "Motion" section and in the rules that already owned a tokenised
+     transition (`a`, `.card`, `.module-row`, the image transforms, `[data-reveal]`).
+     The `border-color` reset stays: it is a theme-independent default Tailwind's
+     preflight does not supply, so removing it would change rendered borders. */
   *,
   *::before,
   *::after {
     border-color: var(--color-border);
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      color 0.2s ease;
   }
 
   html {
@@ -107,10 +151,14 @@
     color: var(--color-text);
   }
 
+  /* One focus ring for the whole site. `.portfolio.css` used to declare a
+     competing 3px/5px `a`/`button` ring that outranked this layered rule, so the
+     effective ring is unchanged by consolidating here — the 2px/2px this rule
+     used to carry was never the ring anyone saw. `--color-focus` is an alias of
+     `--color-accent` in both modes, so no colour moves either. */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline: 3px solid var(--color-focus);
+    outline-offset: 5px;
   }
 
   ::-webkit-scrollbar {
@@ -122,7 +170,7 @@
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-text-secondary);
-    border-radius: 3px;
+    border-radius: var(--radius-thumb);
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-accent);
@@ -165,7 +213,7 @@
   a {
     color: var(--color-accent);
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--motion-fast) ease;
   }
   a:hover {
     opacity: 0.8;
@@ -179,7 +227,49 @@
   [data-theme="dark"] {
     --color-text-secondary: #e2e2df;
     --color-border: rgba(255, 255, 255, 0.42);
-    --color-border-hover: rgba(255, 255, 255, 0.6);
+    --color-border-strong: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Light counterpart. Unlayered and placed after the light token block, which it
+   shares specificity with, so source order is what makes it win — the ordering
+   is load-bearing. Real deltas from the declarations below: light
+   --color-text-secondary #6b5947 -> #4a3d30 on --color-surface #f3eadc
+   (5.60:1 -> 8.80:1), and the civic-card text 5.77:1 -> 8.27:1 on
+   --color-surface-elevated #fffdf6. `opacity` is the one mechanism that cannot
+   deliver "more contrast", so the two real attenuated cases go opaque. */
+@media (prefers-contrast: more) {
+  [data-theme="light"] {
+    --color-text-secondary: #4a3d30;
+    --color-text-tertiary: #5c4a39;
+    --color-border: rgba(0, 0, 0, 0.32);
+    --color-border-strong: rgba(0, 0, 0, 0.42);
+    --color-border-interactive: rgba(0, 0, 0, 0.34);
+    --color-border-interactive-hover: rgba(0, 0, 0, 0.5);
+  }
+  [data-theme="light"] .project-card--civic .project-number,
+  [data-theme="light"] .project-card--civic > p {
+    color: var(--color-text-tertiary);
+    opacity: 1;
+  }
+}
+
+/* Universal reduced-motion guard, relocated from portfolio.css: it must stay
+   unlayered so no layered rule can reintroduce motion, and it must not depend on a
+   portfolio.css import. It is a different rule from the universal transition unit 4
+   deleted, and it is now load-bearing for every explicit per-selector transition
+   those replacements introduced. portfolio.css keeps only its own component
+   exceptions. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -197,13 +287,11 @@
 
 [data-theme="dark"] .project-card,
 [data-theme="dark"] .compact-image {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-edge);
 }
 
 [data-theme="dark"] .profile-card {
-  box-shadow:
-    0 34px 80px rgba(0, 0, 0, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-profile-dark);
 }
 
 @media (prefers-contrast: more) {
@@ -211,7 +299,7 @@
   [data-theme="dark"] .module-row,
   [data-theme="dark"] .principles article,
   [data-theme="dark"] .compact-image {
-    border-color: var(--color-border-hover);
+    border-color: var(--color-border-strong);
   }
 }
 
@@ -230,17 +318,6 @@
     padding: var(--space-section) 0;
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, var(--color-accent), #0055aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-muted {
-    color: var(--color-text-secondary);
-  }
-
   /* ---- RESPONSIVE GRID UTILITY ---- */
   .grid-auto {
     display: grid;
@@ -251,15 +328,15 @@
   /* ---- GLASS CARD ---- */
   .card {
     padding: clamp(1.25rem, 3vw, 2rem);
-    border-radius: 1rem;
+    border-radius: var(--radius-panel);
     background: var(--color-surface-alt);
     border: 1px solid var(--color-border);
     transition:
-      border-color 0.3s ease,
-      transform 0.2s ease;
+      border-color var(--motion-fast) ease,
+      transform var(--motion-fast) ease;
   }
   .card:hover {
-    border-color: var(--color-border-hover);
+    border-color: var(--color-border-strong);
   }
 
   /* ---- TAG / CHIP ---- */
@@ -270,7 +347,7 @@
     font-family: var(--font-mono);
     background: var(--color-accent-muted);
     color: var(--color-accent);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
   }
 
   /* ---- BTN PRIMARY ---- */
@@ -282,31 +359,19 @@
     background: var(--color-accent);
     color: var(--color-on-accent);
     font-weight: 600;
-    border-radius: 0.5rem;
-    transition: opacity 0.2s;
+    border-radius: var(--radius-control);
+    transition: background-color var(--motion-fast);
     min-height: 44px;
     min-width: 44px;
   }
+  /* State-preserving hover: the fill moves, the ink does not, and no `opacity`
+     remains anywhere in the pair. The transition targets `background-color`
+     because that is the property the state actually changes. */
   .btn-primary:hover {
-    opacity: 0.9;
+    background: var(--color-accent-hover);
   }
-
-  /* ---- BTN SECONDARY ---- */
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
-    font-weight: 600;
-    border-radius: 0.5rem;
-    transition: border-color 0.2s;
-    min-height: 44px;
-    min-width: 44px;
-  }
-  .btn-secondary:hover {
-    border-color: var(--color-border-hover);
+  .btn-primary:active {
+    background: var(--color-accent-active);
   }
 
   /* ---- SECTION LABEL (accent mono label) ---- */
