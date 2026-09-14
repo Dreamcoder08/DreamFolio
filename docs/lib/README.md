@@ -1,16 +1,18 @@
 # Library Helpers
 
-DreamFolio keeps shared logic small and presentation-oriented. There is no active analytics client or database client in the public portfolio.
-
-## Active helpers
+`src/lib/` holds small presentation-oriented helpers plus two build-time resolvers. There is no
+database client here, and the analytics module is disabled unless it is configured.
 
 | File | Purpose |
-|------|---------|
-| `src/lib/site.ts` | Base path and absolute URL helpers for GitHub Pages/Vercel compatibility. |
-| `src/lib/project-presentation.ts` | Project tone, cover classes, labels, and slug generation. |
-| `src/lib/project-case-studies.ts` | Curated case-study copy for selected projects. |
-| `src/lib/utils.ts` | Small class-name utility helpers. |
+| ------ | --------- |
+| `site.ts` | `siteConfig`, `basePath`, and the path helpers `withBase`, `withBaseAsset`, `mailto` and `toAbsoluteSiteUrl` — what lets GitHub Pages (`/DreamFolio`) and Vercel (`/`) be served from one tree. |
+| `icons.ts` | The icon set (`icons`) and its `IconName` union, consumed by `Icon.astro`. |
+| `project-presentation.ts` | `getProjectSlug` — the slug rule shared by links and routes. |
+| `project-case-studies.ts` | Curated long-form case-study copy and the highlight ranking, via `getProjectCaseStudy` and `getProjectHighlightRank`. |
+| `analytics.ts` | `resolveAnalytics`, which turns `PUBLIC_UMAMI_SRC` / `PUBLIC_UMAMI_WEBSITE_ID` into one configuration consumed by both the page's script tag and the Content-Security-Policy. With those variables unset, analytics is off. |
+| `astro-mode.ts` | `resolveMode`, which derives the Astro mode from the CLI arguments, because `NODE_ENV` cannot be trusted for it. |
 
 ## Rule
 
-Do not add service abstractions unless they are used by production code. Public portfolio architecture should stay inspectable and boring where possible.
+Do not add service abstractions unless production code uses them. The public portfolio should stay
+inspectable and boring where possible.

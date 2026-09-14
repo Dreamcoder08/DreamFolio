@@ -1,27 +1,27 @@
 # Component Catalog
 
-DreamFolio uses Astro sections by default and React islands only for real browser behavior.
-
-## Static Astro sections
+Three components, all `.astro`, all turned into HTML at build time. There is no client framework in
+this repository, and no component carries a browser runtime of its own.
 
 | Component | File | Purpose |
-|-----------|------|---------|
-| `CraftProtocol` | `src/components/sections/CraftProtocol.astro` | First proof layer after the hero. |
-| `TrinitySection` | `src/components/sections/TrinitySection.astro` | Operating principles. |
-| `SystemUnit` | `src/components/sections/SystemUnit.astro` | Static system catalog cards with native `<details>`. |
-| `VisualLab` | `src/components/sections/VisualLab.astro` | Visual system proof without JS. |
-| `TechnicalDepth` | `src/components/sections/TechnicalDepth.astro` | Architecture layers. |
-| `CollaborationSection` | `src/components/sections/CollaborationSection.astro` | Public proof and CTA. |
+| ----------- | ------ | --------- |
+| `Icon` | `src/components/ui/Icon.astro` | Renders one inline SVG from the icon set in `src/lib/icons.ts`. No sprite sheet and no icon font. |
+| `Navbar` | `src/components/ui/Navbar.astro` | Site navigation: desktop links, the mobile menu, and the theme toggle, driven by one inline vanilla script. |
+| `ProfileCard` | `src/components/ui/ProfileCard.astro` | The portrait and identity block, reading `siteConfig` for its copy and its asset paths. |
 
-## Hydrated React islands
+## Layout and pages
 
-| Component | File | Directive | Reason |
-|-----------|------|-----------|--------|
-| `Navbar` | `src/components/ui/Navbar.tsx` | `client:load` | Mobile menu and smooth navigation. |
-| `EnhancedHero` | `src/components/sections/EnhancedHero.tsx` | `client:idle` | Interactive signal selector. |
-| `EvidenceEngine` | `src/components/interactive/EvidenceEngine.tsx` | `client:visible` | Interactive evidence/preset inspection. |
-| `TechnicalIntake` | `src/components/sections/TechnicalIntake.tsx` | `client:visible` | Clipboard, validation, target-domain selection, and mailto draft. |
+Not components, but the rest of what renders:
+
+| File | Purpose |
+| ------ | --------- |
+| `src/layouts/BaseLayout.astro` | The document shell: head, Content-Security-Policy, theme bootstrap and analytics tag. |
+| `src/pages/index.astro` | The home page; composes the sections directly. |
+| `src/pages/projects/index.astro` | The project index. |
+| `src/pages/projects/[id].astro` | One project page, built from the typed collection. |
+| `src/pages/404.astro` | The not-found page. |
 
 ## Design rule
 
-If a component only renders content, build it as `.astro`. If it needs state or browser APIs, make it a small island and load it as late as possible.
+If a component only renders content it is an `.astro` file, which today is all of them. Adding a
+client framework would require an interaction that vanilla JavaScript cannot express.

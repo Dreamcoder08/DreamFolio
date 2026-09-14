@@ -61,22 +61,22 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 3: docs/ rewrite — Batch A (root + architecture)
 
-- [ ] 3.1 Rewrite `docs/README.md` to describe the real static Astro architecture (zero islands, 3 UI components).
-- [ ] 3.2 Rewrite `docs/architecture/README.md`: remove hydrated-islands/React claims; document actual `src/components/ui/{Icon,Navbar,ProfileCard}.astro` and `src/pages/{index,404,projects/index,projects/[id]}.astro`.
-- [ ] 3.3 Rewrite `docs/architecture/stack-comparison.md` to drop the fictional React/Supabase comparison.
-- [ ] 3.4 Replace `docs/architecture/islands-architecture.md` content with a short note that the site has zero client-side hydration by design (do not delete — avoid a dangling link from `docs/README.md`).
-- [ ] 3.5 Verify: grep `docs/README.md` and `docs/architecture/*.md` for `EnhancedHero`, `EvidenceEngine`, `TechnicalIntake`, `Supabase`; confirm no matches.
+- [x] 3.1 Rewrite `docs/README.md` to describe the real static Astro architecture (zero islands, 3 UI components).
+- [x] 3.2 Rewrite `docs/architecture/README.md`: remove hydrated-islands/React claims; document actual `src/components/ui/{Icon,Navbar,ProfileCard}.astro` and `src/pages/{index,404,projects/index,projects/[id]}.astro`.
+- [x] 3.3 Rewrite `docs/architecture/stack-comparison.md` to drop the fictional React/Supabase comparison.
+- [x] 3.4 Replace `docs/architecture/islands-architecture.md` content with a short note that the site has zero client-side hydration by design (do not delete — avoid a dangling link from `docs/README.md`).
+- [x] 3.5 Verify: grep `docs/README.md` and `docs/architecture/*.md` for `EnhancedHero`, `EvidenceEngine`, `TechnicalIntake`, `Supabase`; confirm no matches.
 
 ## Phase 4: docs/ rewrite — Batch B (components)
 
-- [ ] 4.1 Delete `docs/components/collaboration.md`, `docs/components/technical-intake.md`, `docs/components/hero.md`, `docs/components/navigation.md` (all document nonexistent components).
-- [ ] 4.2 Rewrite `docs/components/README.md` as a catalog of the real 3 files in `src/components/ui/` (read-only reference): `Icon.astro`, `Navbar.astro` (vanilla Astro, no hydration, per commit `af68540`), `ProfileCard.astro`.
-- [ ] 4.3 Verify: `docs/components/` contains only `README.md`; grep it for `React`, `.tsx`, `hydrat`; confirm no matches.
+- [x] 4.1 Delete `docs/components/collaboration.md`, `docs/components/technical-intake.md`, `docs/components/hero.md`, `docs/components/navigation.md` (all document nonexistent components).
+- [x] 4.2 Rewrite `docs/components/README.md` as a catalog of the real 3 files in `src/components/ui/` (read-only reference): `Icon.astro`, `Navbar.astro` (vanilla Astro, no hydration, per commit `af68540`), `ProfileCard.astro`.
+- [x] 4.3 Verify: `docs/components/` contains only `README.md`; grep it for `React`, `.tsx`, `hydrat`; confirm no matches.
 
 ## Phase 5: docs/ rewrite — Batch C1 (`docs/guides/getting-started.md`)
 
-- [ ] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0` and Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
-- [ ] 5.2 Verify: grep the file for `Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`; confirm no matches.
+- [x] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0` and Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
+- [x] 5.2 Verify: grep the file for `Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`; confirm no matches.
 
 ## Phase 6: docs/ rewrite — Batch C2 (`docs/guides/best-practices.md`) — HIGH RISK, own PR
 
@@ -86,8 +86,8 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 7: docs/ rewrite — Batch D (lib)
 
-- [ ] 7.1 Rewrite `docs/lib/README.md` to document the real 4 files (read-only references): `src/lib/site.ts` (`withBase` helper, used in `404.astro`), `src/lib/icons.ts`, `src/lib/project-presentation.ts`, `src/lib/project-case-studies.ts`; remove the reference to nonexistent `src/lib/utils.ts`.
-- [ ] 7.2 Verify: grep the file for `utils.ts`; confirm no match; confirm all 4 real filenames appear.
+- [x] 7.1 Rewrite `docs/lib/README.md` to document the real 4 files (read-only references): `src/lib/site.ts` (`withBase` helper, used in `404.astro`), `src/lib/icons.ts`, `src/lib/project-presentation.ts`, `src/lib/project-case-studies.ts`; remove the reference to nonexistent `src/lib/utils.ts`.
+- [x] 7.2 Verify: grep the file for `utils.ts`; confirm no match; confirm all 4 real filenames appear.
 
 ## Phase 8: LICENSE
 

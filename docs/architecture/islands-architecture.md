@@ -1,34 +1,32 @@
 # Islands Architecture
 
-DreamFolio follows Astro's islands model: render static HTML by default and hydrate only the components that need browser state.
+DreamFolio has **no islands**. The site previously used Astro's islands model; it does not any more,
+and this page records what replaced it rather than describing components that no longer exist.
 
-## Current islands
+## Current state
 
-| Island | Directive | Reason |
-|--------|-----------|--------|
-| `Navbar` | `client:load` | Navigation and mobile menu must work immediately. |
-| `EnhancedHero` | `client:idle` | Interactive signal selector can hydrate after first render. |
-| `EvidenceEngine` | `client:visible` | Inspection UI is below the fold and interactive. |
-| `TechnicalIntake` | `client:visible` | Clipboard, validation, domain selection, and mailto draft. |
+- Zero `client:*` directives — `grep -rn "client:" src/` returns nothing.
+- Zero `.tsx` files, and no React, Preact, Svelte, Vue or Solid dependency in `package.json`.
+- Every component is an `.astro` file that renders to HTML at build time.
 
-## Static sections
+## What the JavaScript is
 
-These are `.astro` because they do not require client state:
+Two scripts, neither of them a hydrated component:
 
-- `CraftProtocol`
-- `TrinitySection`
-- `SystemUnit`
-- `VisualLab`
-- `TechnicalDepth`
-- `CollaborationSection`
+| Script | Where | Why |
+|--------|-------|-----|
+| Theme bootstrap | `public/theme-init.js`, a blocking classic script loaded from `BaseLayout.astro` | Applies the stored theme before the first paint, so the page never flashes the wrong one. |
+| Menu and theme toggle | one inline `<script>` in `Navbar.astro` | The mobile menu and the toggle need the browser, and are small enough to stay vanilla. |
 
 ## Rule
 
-If a section only presents content, it stays static. If it needs state, browser APIs, or a controlled interaction, it may become an island and should use the latest safe hydration directive.
+If a section only presents content it stays static, which today is all of them. Adding a client
+framework would require a real interaction that vanilla JavaScript cannot express, and that argument
+has not been made.
 
 ## Anti-patterns avoided
 
-- Hydrating cards only for hover animation.
+- Adding a framework to animate a card on hover.
 - Shipping a form library for a `mailto:` flow.
-- Using ARIA tab roles without full keyboard tab behavior.
-- Keeping docs that describe deleted code.
+- Using ARIA tab roles without the full keyboard tab behaviour.
+- Keeping documentation that describes code which has been deleted.
