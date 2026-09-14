@@ -449,3 +449,8 @@ is a capabilities annex rather than architecture documentation.
 
 3/3 tasks complete. **The change is 27/27**: every task in `tasks.md` and all five Success Criteria in
 `proposal.md` are satisfied on the chain tip.
+
+`sdd-verify` has not run for this change: it would be judged under `strict_tdd` while the
+change was applied in Standard mode, so it would return a predictable `fail`. That policy
+question — which governs this change and `dark-theme-hardening` — is written down with its
+options and their costs in [`strict-tdd-legacy-debt.md`](../../strict-tdd-legacy-debt.md).
