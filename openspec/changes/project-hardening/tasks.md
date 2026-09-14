@@ -96,6 +96,6 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 9: Final verification
 
-- [ ] 9.1 Run `pnpm run build`; confirm it stays green with no errors.
-- [ ] 9.2 Run `pnpm run test:e2e`; confirm the full Playwright suite passes including the new `tests/404/` spec.
-- [ ] 9.3 Re-check proposal.md's Success Criteria against final state (404 spec passes, `.env.example` clean, `docs/` accurate except the flagged-out-of-scope `docs/github-profile-README.md`, `LICENSE` present).
+- [x] 9.1 Run `pnpm run build`; confirm it stays green with no errors.
+- [x] 9.2 Run `pnpm run test:e2e`; confirm the full Playwright suite passes including the new `tests/404/` spec.
+- [x] 9.3 Re-check proposal.md's Success Criteria against final state (404 spec passes, `.env.example` clean, `docs/` accurate except the flagged-out-of-scope `docs/github-profile-README.md`, `LICENSE` present).

@@ -397,3 +397,55 @@ The file was 553 lines describing a stack this repository does not have. Measure
 
 3/3 tasks of this slice complete (24/27 total). Both commits under the review budget, gates green on
 final bytes. Phase 9 remains, after the chain lands.
+
+---
+
+## Phase 9: Final verification — COMPLETE
+
+Run on the chain tip (slice 4's branch, which contains all four slices), against the state that
+merging the chain in order produces.
+
+### Completed Tasks
+
+- **9.1** `pnpm run verify` — exit 0: the build produces the pages and `tsc --noEmit` is clean.
+- **9.2** `pnpm run test:e2e` — exit 0, **20 tests passed** in 10.6s, including the `tests/404/` spec
+  from Phase 1. (The Unit 1 record above says 19; the suite has grown since, outside this change's
+  phases, and 20 is the count observed on the final tip. Recorded rather than reconciled silently.)
+- **9.3** The proposal's Success Criteria re-checked against the final state, one by one:
+
+| Criterion | Result |
+| --- | --- |
+| `404.astro` has a passing Playwright e2e spec | ✅ `tests/404/404.spec.ts`, 2 tests, inside the green suite |
+| `.env.example` contains no vars unused in `src/` | ✅ it holds no variables at all, and the grep for the four dead families returns nothing |
+| Every file under `docs/` describes the actual architecture, except the flagged `docs/github-profile-README.md` | ✅ see the sweep below |
+| Root `LICENSE` exists with MIT text | ✅ non-empty and contains `MIT License` |
+| `pnpm run build` and the Playwright suite stay green throughout | ✅ green here and on all four PRs' CI runs |
+
+### The `docs/` sweep, and how to read it
+
+Twelve non-asset files live under `docs/`. A case-insensitive sweep for the fictional stack
+(`react`, `supabase`, `island`, `.tsx`, `motion v`, `shadcn`, `components/sections`,
+`tailwind.config.mjs`, and the three invented component names) returns
+
+- **zero** in `docs/anexo-capacidades.html`, `docs/css/styles.css`, `docs/profile-assets.md`,
+  `docs/components/README.md`, `docs/architecture/stack-comparison.md`,
+  `docs/guides/getting-started.md` and `docs/lib/README.md`;
+- **hits only as negations or titles** in the four files where it returns anything:
+  `docs/README.md` ("zero islands", "There is no `src/components/sections/` directory, and no `.tsx`
+  file", plus a link to the islands page), `docs/architecture/README.md` ("The repository has no
+  `.tsx` file and no hydration directive", "there is no `tailwind.config.mjs`"),
+  `docs/architecture/islands-architecture.md` (its title, "DreamFolio has **no islands**", "Zero
+  `.tsx` files, and no React…") and `docs/guides/best-practices.md` ("Tampoco existe
+  `tailwind.config.mjs`").
+
+Naming an absent artifact inside the sentence that says it is absent is deliberate: a reader has to be
+told it is not there, or the fiction returns in the next draft. It is also why this change's phase
+checks are per-file greps rather than one global grep — a global one would flag the negations.
+
+`docs/github-profile-README.md` is excluded as the proposal flagged, and `docs/anexo-capacidades.*`
+is a capabilities annex rather than architecture documentation.
+
+### Status
+
+3/3 tasks complete. **The change is 27/27**: every task in `tasks.md` and all five Success Criteria in
+`proposal.md` are satisfied on the chain tip.
