@@ -1,205 +1,223 @@
 ```yaml
 schema: gentle-ai.verify-result/v1
-evidence_revision: sha256:9f1dba0eb410482b754bab12c79640a79750c730793e5c634a2d28f936a76c2c
+evidence_revision: sha256:40fa84e23735ae6109584ecb64a7a5974c777afe753f77f00932b986f27fcbd3
 verdict: fail
-blockers: 4
-critical_findings: 4
-requirements: 11/14
-scenarios: 34/39
+blockers: 2
+critical_findings: 2
+requirements: 14/14
+scenarios: 39/39
 test_command: pnpm run test:unit && pnpm run test:e2e
 test_exit_code: 0
-test_output_hash: sha256:fa2465ddfa6acb31dc83e25ad915f01f614c540f6363c90a843c6f157740d9e8
-build_command: pnpm run build && pnpm run verify && pnpm run format:check
+test_output_hash: sha256:8048aee38f91a9d2ca78d479cccc0feb02c85ebfe204118d0e2ea5b9368e1d28
+build_command: pnpm run verify && pnpm run format:check
 build_exit_code: 0
-build_output_hash: sha256:da808aecc246a0c551d14861a3ece6bd6ea3ea283b866bd3737eb0a2b54f79b1
+build_output_hash: sha256:258e08566a38aeb533358555af907a70e0e3ba02a68225ac5d6b89cb07d5ae4b
 ```
 
-## Verification Report
+# Verification Report
 
-**Change**: `dark-theme-hardening`  
-**Mode**: full spec-driven verification; Strict TDD active  
-**Artifact store**: OpenSpec  
-**Result**: **FAIL — not ready for archive**
+- **Change:** `dark-theme-hardening`
+- **Candidate:** working tree over HEAD `92baacd3aab7f89615156d090e2972e93d626d3f`; includes modified `src/styles/portfolio.css` and new untracked `tests/unit/state-border-contract.test.ts` / `tests/theme-state/state-evidence.spec.ts`
+- **Mode:** fresh independent full verification of the two amended delta specs; Strict TDD active
+- **Result:** **FAIL — implementation satisfies 14/14 requirements and 39/39 scenarios, but strict-TDD process evidence remains critically incomplete; not ready for archive**
 
 ## Executive Summary
 
-The final tree is buildable and its automated gates are green: unit 35/35, e2e 74/74, 12 static pages, typecheck, and format. The token contracts, contrast harness, focus behavior, forced-colors signals, and transition replacement are substantive and fail-capable.
+The remediation claim is verified by measurement. The working-tree CSS now gives `.contact-section .solid-link:hover` and `:active` the state-token border `var(--color-surface-active)`. Fresh Chromium reads resolve that border to `#26262e` in dark mode and `#fffdf8` in light mode, distinct from `currentColor`, with border-to-fill ratios of **12.80:1 dark** and **18.30:1 light**. The two new test files are genuinely fail-capable against the reported defect: in a temporary copy with only those two declarations restored to `currentColor`, the unit contract failed **2/6** and the focused browser evidence failed **6/12**; on the candidate they pass **6/6** and **12/12**.
 
-The change nevertheless does not fully satisfy its authoritative specs. Two implementation contradictions remain: press rules are not dark-scoped, and several changed state rules use non-state values (`transparent`, `currentColor`, `--color-text`) where the spec requires state-token-backed background and border values. Light-mode at-rest preservation and touch press feedback remain not verifiable without the outstanding human/device evidence. Strict TDD also fails the reporting protocol: `apply-progress.md` has no required `TDD Cycle Evidence` table and admits unit 2's RED observations were not taken before implementation.
+All requested gates are green: `pnpm run test:unit` **41/41**, `pnpm run test:e2e` **86/86** with a **12-page** static build, `pnpm run verify` with a **12-page** build and clean typecheck, and `pnpm run format:check`. The amended-spec implementation coverage is now **14/14 requirements and 39/39 scenarios**. The human light-mode at-rest evidence is accepted at its actual resolution: a general maintainer confirmation, anchored to the current CSS hash, with no screenshot baseline or per-element attestation. Touch and `prefers-contrast: more` evidence is Chromium emulation, not physical-device or operating-system evidence.
 
-The planned four-PR chain was not executed. PR #29 carries all units and exceeds the 400-line review budget without a recorded `size:exception`. The implementation order is preserved in commit history, but that does not satisfy the promised PR boundary.
+The overall verdict remains **FAIL** under the active strict-TDD verification contract. Unit 2 still has no RED-first lineage (explicitly accepted as debt, not repaired), and the two remediation test files were proven sensitive by reverting the fix after the assertions existed, not authored RED-first. That sensitivity evidence is valid verification evidence, but it is not RED-first TDD lineage. No implementation/spec blocker remains; the exact blockers are process-evidence blockers.
 
-## Inputs and Workspace
+## Inputs, Structured Status, and Action Context
 
-- Read both delta specs, `tasks.md`, `apply-progress.md`, `design.md` including §9.1, `proposal.md`, and `openspec/config.yaml`.
-- **Evidence scope.** These are *inputs* to this verification, not the candidate under review. This candidate's changed-path manifest contains exactly one path — `verify-report.md` — so every claim below about a file other than this report is a statement about the change, made from the change's own artifacts and the tree, and is not a defect this candidate introduced. The strict-TDD observation in particular is a **change-level gap**: `apply-progress.md` predates this candidate and this report did not modify it.
-- Structured status: `ready`; change selection is unambiguous; action context is `repo-local` with workspace and allowed edit root `/home/dreamcoder08/Documents/PROYECTOS/dreamfolio`.
-- Ownership is proven: all implementation and report files are inside the authoritative workspace.
-- Branch: `feat/dark-theme-hardening`; HEAD `fb3c525b43c91e01b0955400fe8e554aaff86449`.
-- Working tree was clean before this report write. The branch is one commit ahead of `origin/feat/dark-theme-hardening`; this is committed state, not an uncommitted change.
-- `origin/main...HEAD` contains 11 commits and 5,663 additions / 118 deletions across 23 files. This differs from the nine-commit summary in the request because the current local branch also includes task/apply reconciliation commits.
-- No source, tests, proposal, specs, design, tasks, apply-progress, Git refs, commits, or remote state were changed by verification.
+- Read `apply-progress.md` first, then `proposal.md`, both amended delta specs, full `design.md`, `tasks.md`, the stale report, `openspec/config.yaml`, changed CSS, and both new tests.
+- Native status: `ready`; active change selection is unambiguous; all 42 implementation tasks are checked.
+- `actionContext.mode`: `repo-local`; workspace root and allowed edit root are `/home/dreamcoder08/Documents/PROYECTOS/dreamfolio`.
+- Implementation ownership is proven inside that workspace. Verification changed only this report; sensitivity mutations occurred only in a removed `/tmp` copy.
+- Candidate HEAD remains `92baacd`; the candidate is explicitly the working tree, not a commit.
+- Candidate evidence anchors: `portfolio.css` `sha256:d888a53d…`; unit test `sha256:2585a693…`; e2e test `sha256:65a2e76b…`; amended specs `sha256:2278e35b…` and `sha256:56a9cc49…`.
+- CodeGraph was checked first and its `codegraph_explore` call timed out; verification fell back to targeted artifact/source reads, not broad structural inference.
 
 ## Task Completion
 
-- Checkbox status: **42/42 checked; 0 unchecked implementation task lines**.
+- **42/42 checked; 0 unchecked implementation task markers.**
 - Exact scan `^\s*- \[ \]` found no matches in `tasks.md`.
-- Phase 5 is truthfully reconciled rather than represented as successful chaining: 5.2 is withdrawn as unsatisfiable because no chain exists.
-- Four open delivery items remain outside the checkbox count: human visual pass, `.module-row` stagger decision, merge of PR #29, and `sdd-sync` / `sdd-archive`.
+- `apply-progress.md` contains the required `TDD Cycle Evidence` table and the post-verification remediation record.
+- No stale-checkbox exception or partial-slice exception is needed.
+- Lifecycle items still outside implementation completion: PR merge, `sdd-sync`, and `sdd-archive`.
 
 ## Requirement Verdicts
 
-| Capability / requirement | Verdict | Evidence |
-| --- | --- | --- |
-| Design Tokens — Dark Theme Canonical Values Recorded | **SATISFIED** | Dark tokens are `#ff7a18` / `#000000`; A6 rejects the superseded values and `9.5:1`; A7 confirms the 8.05:1 pairing. The old strings occur only as negative regression-test inputs, not dark values. `README.md` has no diff from `main`. |
-| Design Tokens — State and Border-by-Interactivity Categories | **SATISFIED** | A1/A2 pass for the 21-key blocks in both modes; decorative and interactive border values are distinct. |
-| Design Tokens — State and Non-Text Contrast Coverage | **SATISFIED** | A7 verifies the dark interactive-border floor on canvas/card/elevated surfaces and focus pairs; e2e reads state styles. Light border ratios are omitted from the required floor and documented as accepted debt. No report text claims light non-text conformance. |
-| Design Tokens — Mode Key Parity | **SATISFIED** | A1 compares exact sets and passes at 21/21 in both modes. |
-| Design Tokens — No Consumerless Tokens | **SATISFIED** | A3/A4/A5 pass. The exception list is exactly `--color-danger` and `--color-on-danger`; dead artifacts are absent from shipped surfaces. |
-| Design Tokens — removed Dark Theme Values Preserved | **SATISFIED (SUPERSEDED)** | Proposal and delta supersede exactly this requirement; corrected regression checks are active. |
-| Theme State — Dark-Scoped Press State Coverage | **UNSATISFIED** | Press feedback exists and is tested, but the shipped selectors at `portfolio.css:1625-1689` and `.btn-primary:active` in `global.css` are unscoped. The requirement says press rules **MUST be dark-scoped**. The e2e matrix intentionally proves they also change light-mode pressed appearance. At-rest equivalence and touch-device behavior are not independently proven. |
-| Theme State — State-Preserving Hover | **SATISFIED** | Both-mode e2e reads enforce hover ratio ≥ rest across the fixed target set. The live `.btn-primary` path uses a fill token; the remaining layered `a:hover { opacity: 0.8 }` is defeated by the unlayered portfolio rule and is not live. |
-| Theme State — State-Driven Interaction Tokens in Use | **UNSATISFIED** | Most state fills/borders use state tokens, but changed state rules also use `background: transparent`, `border-color: currentColor`, and `background: var(--color-text)` (`portfolio.css:1598-1649`). The requirement permits token-name choice, not non-state values, and requires changed state background/border declarations to resolve from state tokens. |
-| Theme State — Focus Indicator Consolidation and Ink Variant Preservation | **SATISFIED** | E2e verifies 3px/5px geometry, keyboard focus, unchanged focused radius, and the ink variant in both modes. Human consent for the light focused-geometry delta is recorded. |
-| Theme State — Forced-Colors Non-Colour State Signals | **SATISFIED** | Forced-colors e2e verifies solid hover outlines, underlined hover links, and dashed press outlines. Source inspection confirms a targeted block with no palette or parallel theme. |
-| Theme State — Per-State Computed-Style Verification | **SATISFIED** | `theme-state.spec.ts` reads rest/hover/active/focus for dark and light, asserts theme pinning and the live reduced-motion lever, uses keyboard focus, and emulates forced colors. No screenshot assertion or image baseline exists under `tests/`. |
-| Theme State — Harness-Gated Universal Transition Removal | **SATISFIED** | Unit-3 harness commit precedes `bee791d`; transition contract and motion harness pass. The commit records RED 2/4 → replacement 3/4 → removal 4/4. |
-| Theme State — Light-Mode Default Appearance Preservation | **NOT-VERIFIABLE** | Source structure preserves base light token values and records accepted light debt, but no before/after screenshot baseline or completed human visual pass exists. The `prefers-contrast: more` counterpart is present but has no current browser test that emulates `more`. |
+| # | Capability / requirement | Verdict | Evidence |
+| ---: | --- | --- | --- |
+| 1 | Design Tokens — Dark Theme Canonical Values Recorded | **SATISFIED** | `global.css` declares `#ff7a18` / `#000000`; A6 rejects superseded literals and `9.5:1`; A7 computes the canonical pairing. |
+| 2 | Design Tokens — State and Border-by-Interactivity Token Categories | **SATISFIED** | A1/A2 pass for equal 21-key mode blocks and distinct decorative/interactive border roles. |
+| 3 | Design Tokens — State and Non-Text Contrast Coverage | **SATISFIED** | A7 verifies dark interactive-border and focus floors; excluded decorative/supplemental cases retain quality, not conformance, framing. |
+| 4 | Design Tokens — Mode Key Parity for Every Declared Token | **SATISFIED** | Exact-set checks pass at 21/21 in both modes and name missing/unpaired keys. |
+| 5 | Design Tokens — No Consumerless Tokens | **SATISFIED** | A3–A5 pass; exception list is exactly the two danger tokens; dead artifacts are absent. |
+| 6 | Design Tokens — removed Dark Theme Values Preserved | **SATISFIED (SUPERSEDED)** | Exactly the obsolete requirement is removed and replaced by the canonical-values requirement. |
+| 7 | Theme State — Dark-Scoped Press State Coverage (amended) | **SATISFIED** | Both-mode state matrix proves computed press deltas. Chromium coarse-pointer emulation reproduces the mouse-pressed computed state for three targets in both themes; this is emulation, not a device. General human review supports at-rest preservation. |
+| 8 | Theme State — State-Preserving Hover | **SATISFIED** | Both-mode browser reads require hover ratio ≥ own rest ratio and the applicable floor. No live state uses reduced element opacity. |
+| 9 | Theme State — State-Driven Interaction Tokens in Use (amended) | **SATISFIED** | Winning hover/active declarations now use `var(--color-surface-active)`. Static contract verifies source provenance/declaration/cascade; Chromium verifies computed token identity and 12.80:1 / 18.30:1 border contrast. Temporary pre-fix mutation makes both files fail. |
+| 10 | Theme State — Focus Indicator Consolidation and Ink Variant Preservation | **SATISFIED** | E2e verifies 3px/5px, keyboard focus, unchanged radius, ink variant, and ≥3:1 in both modes; consent is recorded. |
+| 11 | Theme State — Forced-Colors Non-Colour State Signals | **SATISFIED** | Browser tests verify solid hover outlines, underlines, and dashed press outlines; source block remains targeted. |
+| 12 | Theme State — Per-State Computed-Style Verification | **SATISFIED** | Harness reads rest/hover/focus/active, pins theme, asserts media levers, composes alpha, and introduces no screenshots/dependency. |
+| 13 | Theme State — Harness-Gated Universal Transition Removal | **SATISFIED** | Commit order places harness before removal; transition contract records RED 2/4 → 3/4 → 4/4 and passes now. |
+| 14 | Theme State — Light-Mode Default Appearance Preservation | **SATISFIED WITH GENERAL HUMAN EVIDENCE** | Maintainer reports the served candidate correct against production on four route types. Evidence is general, not per-element, has no screenshot baseline, and is anchored to the current `portfolio.css` hash `d888a53d…`. Chromium proves the preference-gated block activates but does not replace that human judgement. |
 
-**Requirement summary**: 11 satisfied, 2 unsatisfied, 1 not verifiable — **11/14 complete**.
+**Requirement summary:** 14 satisfied — **14/14 complete**. Process compliance is assessed separately and controls the overall verdict.
 
 ## Scenario Coverage
 
 ### `design-tokens` — 13/13 complete
 
-| Requirement | Scenarios | Result / covering evidence |
-| --- | ---: | --- |
-| Canonical values | 2/2 | A6/A7: canonical values and negative reintroduction guard. |
-| Categories / border separation | 2/2 | A1/A2 plus computed state reads. |
-| Dark state/non-text coverage | 4/4 | A7 and focus e2e; exclusions and non-violation framing are explicitly preserved. |
-| Mode parity | 2/2 | A1 exact-set and unpaired-key failure behavior. |
-| Consumerless tokens | 3/3 | A3–A6: consumers/exceptions, dead-token failure, dead-artifact absence. |
+| # | Requirement | Scenario | Status | Evidence |
+| ---: | --- | --- | --- | --- |
+| 1 | Canonical values | Canonical values are asserted, not re-derived | **SATISFIED** | A6/A7 and current token literals. |
+| 2 | Canonical values | Superseded literal reintroduced | **SATISFIED** | Negative literal/claim guard is fail-capable. |
+| 3 | Categories | New categories present in both modes | **SATISFIED** | A1/A2 exact category checks. |
+| 4 | Categories | Border role separable by interactivity | **SATISFIED** | Distinct token/value assertion plus browser paths. |
+| 5 | State/non-text | Required state indicator reaches 3:1 | **SATISFIED** | A7 plus browser-computed remediated border at 12.80:1 / 18.30:1. |
+| 6 | State/non-text | Supplemental hover not judged against 3:1 | **SATISFIED** | Spec/report framing and tests apply no improper floor. |
+| 7 | State/non-text | Existing borders not reported as violations | **SATISFIED** | Report preserves legibility-quality framing. |
+| 8 | State/non-text | Focus rings recognised as passing | **SATISFIED** | Token and browser ring calculations pass. |
+| 9 | Mode parity | Parity after categories land | **SATISFIED** | A1 21/21 exact sets. |
+| 10 | Mode parity | Unpaired token detected | **SATISFIED** | Missing-key/exact-set assertions fail with key evidence. |
+| 11 | Consumerless tokens | Declared token has consumer/exception | **SATISFIED** | A3/A4. |
+| 12 | Consumerless tokens | New dead token detected | **SATISFIED** | Consumerless list must remain empty. |
+| 13 | Consumerless tokens | Confirmed dead artifacts deleted | **SATISFIED** | A6 source checks pass. |
 
-### `theme-state-hardening` — 21/26 complete
+### `theme-state-hardening` — 26/26 complete
 
-| Requirement | Scenario | Status | Evidence |
-| --- | --- | --- | --- |
-| Dark-scoped press | Pressed feedback exists | **SATISFIED** | 13 required selectors produce a real computed press delta in dark; e2e green. |
-| Dark-scoped press | No at-rest visual delta | **NOT-VERIFIABLE** | No screenshot baseline or human before/after visual pass. |
-| Dark-scoped press | Touch press without hover | **NOT-VERIFIABLE** | Mouse-held `:active` is tested; no touch-context/device run is recorded. |
-| State-preserving hover | Hover label does not drop | **SATISFIED** | Both-mode target matrix asserts hover ≥ rest and AA floor. |
-| State-preserving hover | Surface-changing hover stays usable | **SATISFIED** | Opaque surface-step cases are exercised in both modes. |
-| State-preserving hover | Attenuation mechanism detected | **SATISFIED** | Behavioral monotonicity would fail on the prior live opacity path; source inspection confirms no live reduced-opacity state. |
-| State-token use | State rules consume state tokens | **UNSATISFIED** | Several changed background/border values are not state-token references. |
-| State-token use | Decorative/interactive borders separable | **SATISFIED** | A2 values differ; card vs interactive state paths remain distinct. |
-| Focus | Consistent ring geometry | **SATISFIED** | Both-mode e2e across target and plain-focusable sets. |
-| Focus | Ink variant | **SATISFIED** | Both-mode focus tests compute ≥3:1. |
-| Focus | Shape preserved | **SATISFIED** | Focus radius equals rest radius. |
-| Focus | Consent gate | **SATISFIED** | Human consent and resulting implementation are recorded and inspected. |
-| Forced colors | Hover survives | **SATISFIED** | Browser forced-colors reads. |
-| Forced colors | Press survives | **SATISFIED** | Browser forced-colors reads. |
-| Forced colors | No parallel theme | **SATISFIED** | Targeted source block inspected; no custom-property palette/layout. |
-| Computed-style harness | Deterministic reads | **SATISFIED** | Reduced motion is enabled before navigation and asserted; repeated verifier runs remained green. |
-| Computed-style harness | Keyboard focus read | **SATISFIED** | Tab-driven focus and outline reads. |
-| Computed-style harness | Forced-colors reads | **SATISFIED** | Emulation is asserted live. |
-| Computed-style harness | No screenshot baseline | **SATISFIED** | Unit guard passes; filesystem scan finds no screenshot/snapshot image. |
-| Universal transition | Gate respected | **SATISFIED** | Commit order and green unit-3 evidence precede `bee791d`. |
-| Universal transition | Replacements complete | **SATISFIED** | Static transition contract and non-reduced-motion browser harness pass. |
-| Universal transition | RED-first contract | **SATISFIED** | Commit evidence records observed 2/4 RED before replacement/removal. |
-| Universal transition | Incomplete replacement fallback | **SATISFIED** | Replacement completed in-budget; fallback was not entered and universal rule is absent. |
-| Light preservation | Default at rest unchanged | **NOT-VERIFIABLE** | Human visual comparison is outstanding; no baseline exists. |
-| Light preservation | Preference-gated block applies | **NOT-VERIFIABLE** | CSS exists and is correctly ordered, but no current test emulates `prefers-contrast: more`. |
-| Light preservation | Accepted light debt recorded | **SATISFIED** | Border-hover, `.tag`, and button-hover light figures are recorded without a repair/conformance claim. |
+| # | Requirement | Scenario | Status | Evidence |
+| ---: | --- | --- | --- | --- |
+| 14 | Press coverage | Pressed feedback exists for every interactive element | **SATISFIED** | Dark 14-target e2e matrix requires non-empty state differences. |
+| 15 | Press coverage | No at-rest visual delta | **SATISFIED — GENERAL HUMAN EVIDENCE** | Maintainer compared the served candidate to production across four route types. No screenshot baseline or itemized per-element attestation exists. |
+| 16 | Press coverage | Press feedback without hover (touch) | **SATISFIED — EMULATED** | Chromium `hasTouch`/coarse-pointer/CDP run shows a held input state equal to the mouse-pressed computed state for three representative targets in both modes. This is not a physical device, and Chromium retains sticky hover. |
+| 17 | Hover | Hovered label contrast does not drop | **SATISFIED** | Dynamic `hover.ratio >= rest.ratio`, both modes. |
+| 18 | Hover | Surface-changing hover stays usable | **SATISFIED** | Opaque state-step cases are browser-exercised. |
+| 19 | Hover | Attenuation mechanism detected | **SATISFIED** | Monotonicity is fail-capable and source inspection finds no live reduced-opacity state. |
+| 20 | State tokens | State rules consume state tokens | **SATISFIED** | Static winning-cascade contract plus computed border identity. Pre-fix sensitivity: unit 4 pass/2 fail; e2e 6 pass/6 fail. |
+| 21 | State tokens | Decorative/interactive borders stay separable | **SATISFIED** | A2 plus card/control browser paths. |
+| 22 | Focus | Consistent ring geometry | **SATISFIED** | 3px/5px across matrix. |
+| 23 | Focus | Ink variant preserved | **SATISFIED** | Both-mode computed ring colour and ratio. |
+| 24 | Focus | Focused element keeps rest shape | **SATISFIED** | Focus radius equals rest radius. |
+| 25 | Focus | Consent gate | **SATISFIED** | Explicit consent is recorded before geometry edit. |
+| 26 | Forced colors | Hover remains distinguishable | **SATISFIED** | Forced-colors hover assertions. |
+| 27 | Forced colors | Press remains distinguishable | **SATISFIED** | Dashed active outline assertion. |
+| 28 | Forced colors | No parallel forced-colors theme | **SATISFIED** | Targeted source review. |
+| 29 | Computed styles | Each state read deterministically | **SATISFIED** | Reduced motion before navigation; `0s` asserted. |
+| 30 | Computed styles | Focus ring read after keyboard focus | **SATISFIED** | Tab-driven focus helper and concrete ring checks. |
+| 31 | Computed styles | Forced-colors signals verified | **SATISFIED** | Emulation is asserted live. |
+| 32 | Computed styles | No screenshot baseline | **SATISFIED** | Unit source guard and tree inspection. |
+| 33 | Transition removal | Gate respected | **SATISFIED** | Harness commit precedes removal. |
+| 34 | Transition removal | Replacement complete | **SATISFIED** | Static transition contract and non-reduced-motion motion harness. |
+| 35 | Transition removal | RED-first assertion | **SATISFIED** | Recorded 2/4 → 3/4 → 4/4 sequence. |
+| 36 | Transition removal | Incomplete replacement fallback | **SATISFIED** | Replacement completed; fallback not entered; universal rule absent. |
+| 37 | Light preservation | Light at rest unchanged | **SATISFIED — GENERAL HUMAN EVIDENCE** | Human comparison reported correct; no reproducible screenshot baseline or per-element attestation. |
+| 38 | Light preservation | Preference-gated block applies | **SATISFIED — EMULATED** | Chromium asserts `matchMedia`, then measures every overridden token in both themes and light civic opacity `0.65 → 1`. This is browser emulation, not an OS preference. |
+| 39 | Light preservation | Accepted light debt recorded | **SATISFIED** | Border, tag, and button-hover debt remains documented without conformance claim. |
 
-**Scenario summary**: 34/39 complete; 1 unsatisfied and 4 not verifiable.
+**Scenario summary:** 39 satisfied — **39/39 complete**. Scenario 15/37 rely on general human evidence; scenario 16/38 rely on Chromium emulation and are not physical-device/OS attestations.
 
-## Harness Fail-Capability and Assertion Quality
+## Amendment-Specific Verification
 
-The changed tests are not tautological:
+| Amendment | Fresh finding | Verdict |
+| --- | --- | --- |
+| Press rules may cover both modes but cannot alter at-rest appearance | Both-mode matrix is green. Human comparison generally confirms at-rest preservation. Coarse-pointer Chromium emulation produces held press deltas and, in captured annotations, the held state equals the mouse-pressed computed state for each sampled target. Sticky hover remains and no physical device was used. | **SATISFIED at the recorded human/emulated evidence resolution.** |
+| Palette-ceiling fill exemption with state-token border and preserved label ratio | Winning CSS declarations use `var(--color-surface-active)`. Browser reads: dark border `rgb(38,38,46)`, fill `rgb(237,237,235)`, **12.80:1**; light border `rgb(255,253,248)`, fill `rgb(23,18,13)`, **18.30:1**. Label ratios remain **17.91:1** / **15.60:1**. Temporary restoration of `currentColor` fails the unit and browser evidence exactly on the defect class. | **SATISFIED and fail-capably covered.** |
 
-- `tests/unit/tokens.test.ts` uses fixed non-empty key/category/composition tables, exact set comparisons, explicit contrast floors, consumer scans, and negative literal checks. A missing key, added exception, dead token, dangling reference, raw literal, or changed composition fails with an identifying message.
-- `tests/unit/transition-contract.test.ts` scans concrete stylesheet rules and fails for a surviving universal transition, missing per-selector transition, missing reduced-motion neutralization, or bare duration.
-- `tests/theme-state/theme-state.spec.ts` uses a fixed 14-target matrix in both modes. Locators fail if absent; theme and media levers are asserted; press must differ from rest; contrast and focus values are concrete.
-- `tests/theme-state/motion.spec.ts` deliberately does **not** emulate reduced motion. It asserts that pointer hover and held-button active states are real, changed properties are non-empty where required, and every changed property has a non-zero matching transition. Its sibling spec deliberately enables reduced motion. Both halves are necessary.
-- Empty-array assertions are attached to fixed non-empty target matrices and concrete positive controls; no ghost loop, tautology, type-only-only, smoke-only, mock-heavy, or CSS-class-only assertion was found. CSS declaration assertions are the specified token/transition contracts, not incidental styling snapshots.
-
-**Assertion quality**: ✅ all assertions verify real behavior; 0 CRITICAL, 0 WARNING.
+The remediation test is not accepted merely because it names the right token. Static evidence checks the winning same-selector declaration and token declaration; browser evidence checks the actual computed token identity on all four border sides and the composed ratio in hover/press and both modes.
 
 ## Strict TDD Compliance
 
+`apply-progress.md` contains the required `TDD Cycle Evidence` table and candidly separates RED-first lineage from sensitivity evidence. Its honesty is accepted; its admitted gaps are not converted into TDD compliance.
+
 | Check | Result | Details |
 | --- | --- | --- |
-| TDD Evidence reported | ❌ | No required `TDD Cycle Evidence` table exists in `apply-progress.md`. This is CRITICAL under the strict-TDD verify protocol. |
-| All implementation units have test files | ✅ | Token and transition unit contracts plus state and motion e2e specs exist. |
-| RED confirmed | ⚠️ | Unit 1 and unit 4 have recorded RED-first evidence; unit 3 found real failures on first run. Unit 2 explicitly admits its RED observations were not taken before code. |
-| GREEN confirmed | ✅ | 35/35 unit and 74/74 e2e pass now. |
-| Triangulation adequate | ✅ | Fixed token sets, 14 state targets × 2 modes, focus variants, forced-colors groups, and 14 non-reduced-motion targets. |
-| Safety net reported | ❌ | No per-task Safety Net column/table exists, so modified-file safety-net claims cannot be cross-checked in the mandated format. |
+| TDD Evidence reported | **PASS** | Table exists with five historical cycles; remediation evidence is recorded in the following section. |
+| Reported test files exist | **PASS** | All historical files plus both new untracked test files exist and ran. |
+| RED confirmed | **FAIL — CRITICAL** | Unit 2 explicitly had no RED-before-GREEN. The maintainer accepted that as debt, not repaired history. The remediation tests were observed RED only by reverting the fix after assertions existed: valid sensitivity evidence, not RED-first lineage. |
+| GREEN confirmed | **PASS** | Fresh unit 41/41, e2e 86/86, and focused remediation 18/18. |
+| Triangulation adequate | **PASS** | Fixed token sets, both themes, hover/press, source and computed provenance, four border sides, media preference, and three touch targets. |
+| Safety net evidence | **WARNING** | The historical table does not use the support module's per-task Safety Net column/count format; the post-remediation section records full-suite GREEN but not a pre-authoring safety-net run for the new tests. |
+| REFACTOR | **PASS WITH LIMIT** | Final bytes were rerun; one scanner ReDoS smell was removed. This does not repair missing RED-first lineage. |
 
-**TDD compliance**: **FAIL**. The tests are strong, but the required evidence protocol is missing and unit 2 did not follow RED-before-GREEN.
+**Strict TDD compliance: FAIL.** Two behavioral slices lack RED-first lineage. The unit-2 deviation is explicitly accepted debt; the remediation evidence proves sensitivity but does not satisfy the active RED-first requirement.
 
-### Test Layer Distribution
+## Fail-Capability and Assertion Quality Audit
 
-| Layer | Tests introduced for this change | Files | Tool |
+### `tests/unit/state-border-contract.test.ts`
+
+- Candidate: **6/6 pass** as part of `pnpm run test:unit`.
+- Temporary pre-fix CSS: **4 pass / 2 fail**, exit 1. Failures identify both winning `currentColor` declarations and the absence of a resolvable state-token reference.
+- Fixed non-empty `STATES` matrix prevents ghost-loop success. It checks rule presence, winning source-order declaration, `var(--color-*)` shape, declaration existence, border-box survival, and press outline survival.
+- Its cascade model is deliberately limited to same-specificity, same-origin, unlayered rules. This is not silently overclaimed because the browser test independently measures the winning computed result.
+- No tautology, type-only-only assertion, empty orphan assertion, smoke-only assertion, or mock-heavy pattern found.
+
+### `tests/theme-state/state-evidence.spec.ts`
+
+- Candidate: **12/12 pass** in the focused run and as part of **86/86** full e2e.
+- Temporary pre-fix CSS: **6 pass / 6 fail**, exit 1. All four hover/press × dark/light provenance cases fail, plus the two touch-held exempt-link cases.
+- Browser assertions verify values, not CSS classes: border differs from computed `color`, equals resolved `--color-surface-active`, and clears 3:1 against the element fill.
+- Media arrays and touch targets are fixed and non-empty; theme/media levers are asserted live. No tautology, type-only-only assertion, ghost loop, smoke-only test, or mocks found.
+- **WARNING:** the raw-touch test title says the path delivers “no pressed state,” but the test intentionally does not assert the no-delta observation; it asserts only touch/pointer delivery and records the held delta as an annotation. The file header explains this browser-version sensitivity, so the core remediation coverage is not weakened, but the title is stronger than the fail condition.
+- Touch resolution is bounded: `Input.emulateTouchFromMouseEvent` produces `pointerdown(touch)` plus compatibility `mousedown`, sticky hover, and a held computed state matching mouse press. It is not a physical-device or pure touch-event attestation.
+
+**Assertion quality:** 0 CRITICAL trivial assertions; 1 WARNING-level title/assertion mismatch. The remediation defect itself is genuinely fail-capable at both static and browser layers.
+
+## Test Layer Distribution
+
+| Layer | Tests introduced by change | Files | Tool |
 | --- | ---: | ---: | --- |
-| Unit | 20 | 2 | `node:test` |
+| Unit | 26 | 3 | `node:test` |
 | Integration | 0 | 0 | — |
-| E2E | 54 | 2 | Playwright Chromium |
-| **Total** | **74** | **4** | |
+| E2E | 66 | 3 | Playwright Chromium |
+| **Total** | **92** | **6** | |
 
-Coverage analysis skipped — no coverage tool is configured.
-
-### Quality Metrics
-
-- **Formatter**: ✅ `pnpm run format:check`
-- **Type checker**: ✅ `pnpm run verify` (`astro sync && tsc --noEmit`)
-- **Linter**: ➖ no separate linter configured
+The remediation adds 6 unit and 12 e2e tests. Coverage analysis skipped — no coverage tool is configured.
 
 ## Commands Executed
 
-| Command | Exit | Result |
+| Exact command | Exit code | Counts / result |
 | --- | ---: | --- |
-| `pnpm run test:unit` | 0 | 35/35 passed. |
-| `pnpm run test:e2e` | 0 | Build succeeded; 74/74 Playwright tests passed. |
-| `pnpm run build` | 0 | Static output; 12 pages. Shiki/CSP compatibility warning remains. |
-| `pnpm run verify` | 0 | Build, Astro sync, and TypeScript check passed. |
-| `pnpm run format:check` | 0 | All matched files use Prettier style. |
-| `git diff --exit-code main...HEAD -- README.md` | 0 | README unchanged. |
-| `git diff --stat main...HEAD -- package.json pnpm-lock.yaml` | 0 | No dependency-file changes. |
+| `pnpm run test:unit` | **0** | **41/41 passed**, 0 failed/cancelled/skipped/todo. |
+| `pnpm run test:e2e` | **0** | Build **12 pages**; Playwright **86/86 passed** on Chromium. Its web server also reran the 41 unit checks successfully. |
+| `pnpm run verify` | **0** | Static build **12 pages**; `astro sync && tsc --noEmit` passed. Existing Shiki/CSP compatibility warning remains. |
+| `pnpm run format:check` | **0** | All matched files use Prettier style. |
+| `SITE_BASE=/ pnpm run build && pnpm exec playwright test tests/theme-state/state-evidence.spec.ts --reporter=json` | **0** | Focused **12/12 passed**; annotations yielded exact border, preference, and touch measurements. |
+| `node --test --experimental-strip-types tests/unit/state-border-contract.test.ts` in a removed temporary copy with exactly the two candidate border declarations changed back to `currentColor` | **1 (expected sensitivity RED)** | **4 passed / 2 failed**; failures name hover and active provenance. |
+| `SITE_BASE=/ pnpm run build && pnpm exec playwright test tests/theme-state/state-evidence.spec.ts` in that same removed temporary pre-fix copy | **1 (expected sensitivity RED)** | Build **12 pages**; **6 passed / 6 failed**, exactly the four border-provenance and two exempt-link touch cases. |
 
-Envelope hashes bind a fresh combined execution of `pnpm run test:unit && pnpm run test:e2e` and `pnpm run build && pnpm run verify && pnpm run format:check`.
+The expected non-zero sensitivity exits are positive evidence, not candidate failures. The temporary directory was deleted after the run; no authoritative source/test/artifact was changed.
+
+## Design Coherence
+
+The implementation follows the design's token/state/cascade architecture, fixed unit order, focus consent gate, forced-colors strategy, deterministic browser composition, and harness-gated transition removal. The remediated palette-ceiling element keeps its inverted fill/ink and uses a state token for the border. `--color-surface-active` is a fill-step state token rather than an interactivity-border token, but measurement validates that choice: the ordinary alpha border tokens collapse to roughly 1.1:1 against the inverted fill, while the chosen state token yields 12.80:1 / 18.30:1 without adding a token or amending the contract again.
+
+Known design limitations remain accurately disclosed: no screenshot baseline, lost theme cross-fade, lost `.module-row` stagger, an outranked row transform, and an unmeasurable scrollbar pseudo-element. The general human visual confirmation does not erase those disclosures.
 
 ## Review Workload / PR Boundary
 
-**CRITICAL lifecycle deviation.** Tasks forecast high single-PR risk and require four ordered PR slices. Actual delivery is one branch/PR (#29). The unit order is preserved in commits and review can be sliced by commit, but the PR boundary is not the assigned boundary. No `size:exception` acceptance is recorded. The current aggregate branch diff is 5,663 additions / 118 deletions; the task record reports PR #29 at 4,209 additions before the final local reconciliation commit. This is far beyond the 400-line budget.
+The forecast recommended four chained PRs under the 400-line budget. Delivery instead used one oversized PR with commit-level slices. This remains a deviation from the forecast, but it is no longer an unapproved blocker: `tasks.md` and `apply-progress.md` explicitly record the maintainer's accepted **`size:exception`** and the reason recutting the verified commits was rejected. The report does not relabel the single PR as a chain.
 
-This deviation does not invalidate the green code execution, but it means the review-workload forecast was not respected and archive/merge readiness cannot be represented as a clean pass.
-
-## Known Gaps and Open Delivery Items
-
-1. **No human visual pass has been done**, and there is no screenshot baseline anywhere in `tests/`.
-2. **Accepted:** theme-toggle cross-fade is lost for non-interactive elements (`bee791d`); six of six sampled elements snap.
-3. **Open decision:** `.module-row` reveal stagger is lost for `nth-child(2)` / `nth-child(3)` (`05cef35`); computed `0s` replaces `0.08s` / `0.16s` because the later winning transition shorthand resets delay.
-4. **Pre-existing:** `.module-row:hover` declares `translateX(5px)`, but `.motion-ready [data-reveal].is-visible` wins the transform cascade, so it never applies.
-5. `::-webkit-scrollbar-thumb:hover` could not be measured in Chromium.
-6. PR #29 has not merged; `sdd-sync` and `sdd-archive` have not run.
-
-The six verification rounds found **20 defects** that unit tests, e2e, build, and format did not all detect (17 manual/browser-round findings plus 3 first-run harness failures). Implication: green gates are necessary but not sufficient for this CSS-heavy change. Confidence is strongest for the exact selector/state matrix encoded by the harness and materially weaker for unsampled visual interpolation, cascade interactions, pseudo-elements, and before/after appearance. The missing screenshot/human baseline is therefore a real confidence limit, not paperwork.
+Current-session delivery strategy is `ask-on-risk`; no new delivery action was taken during verification. Verification changed only this report and did not commit, push, merge, or alter Git refs.
 
 ## Exact Blockers
 
-1. **Spec contradiction:** press rules are not dark-scoped.
-2. **Spec contradiction:** changed background/border state declarations do not uniformly resolve from the required state-token categories.
-3. **Verification gap / strict-TDD failure:** no human at-rest visual comparison, no touch run, no `prefers-contrast: more` browser test, and no required `TDD Cycle Evidence` table; unit 2 was not RED-first.
-4. **Review/lifecycle boundary:** one oversized PR replaced the required four-PR chain without a recorded `size:exception`; merge, `sdd-sync`, and `sdd-archive` remain open.
+1. **Strict TDD — historical unit 2:** no RED-before-GREEN observation exists. The maintainer accepted this as explicit debt, but strict-TDD verification requires it to remain a CRITICAL incompleteness finding.
+2. **Strict TDD — remediation lineage:** both new test files are demonstrably fail-capable, but their RED was measured by reverting the fix with assertions already present. That is sensitivity evidence, not RED-first lineage, and does not satisfy the active strict-TDD process requirement.
+
+There are **no remaining amended-spec implementation blockers**: the previous `currentColor` violation and missing fail-capable coverage are closed. The accepted `size:exception`, general human visual pass, Chromium touch emulation, and Chromium `prefers-contrast` emulation are reported at their actual resolution and are not counted as hidden blockers.
 
 ## Verdict
 
-**FAIL / NOT READY FOR ARCHIVE.** Automated execution is green and most requirements are satisfied, but this report cannot round two normative implementation contradictions, four unresolved scenarios, missing strict-TDD protocol evidence, and the unapproved review-boundary deviation up to a pass.
+**FAIL / NOT READY FOR ARCHIVE under strict TDD.** The current working-tree candidate passes every requested automated gate and satisfies **14/14 requirements and 39/39 scenarios**. The previous border defect is fixed and independently proven fail-capable. Archive readiness is withheld solely because strict-TDD evidence remains incomplete: one accepted historical debt and one remediation cycle supported by sensitivity evidence rather than RED-first lineage.
 
 ## Key Learnings
 
-- The reduced-motion contrast harness and the no-reduced-motion motion harness prove opposite ends of the same axis; either one alone leaves a material blind spot.
-- Token-level correctness does not prove the winning selector/cascade. The 20 discovered defects demonstrate that browser reads and human visual review remain necessary for CSS state work.
-- A reconciled checkbox can accurately describe a withdrawn delivery task, but it does not retroactively make an unexecuted four-PR strategy compliant with the workload forecast.
-- Strong regression tests do not repair missing TDD lineage. Current GREEN and historical RED evidence are separate claims and must both be recorded in the required format.
+- The state-token border fix is real at both layers: static source provenance and browser-computed identity/contrast.
+- Reverting only the two declarations in a disposable copy proves both new files fail on the exact old defect without mutating the candidate.
+- Sensitivity evidence is strong regression evidence, but it is not RED-first authorship evidence; the distinction changes process verdict even when implementation coverage is complete.
+- Human and emulated evidence can satisfy scenarios at a bounded resolution, but must not be restated as screenshot, physical-device, per-element, or operating-system attestation.

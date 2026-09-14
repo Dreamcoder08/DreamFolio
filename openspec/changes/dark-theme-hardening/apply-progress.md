@@ -129,6 +129,9 @@ report.
 
 ## Gates on the final tree
 
+*(Superseded 2026-09-13 by the post-verification remediation section below, which
+re-ran every gate on the remediated tree: `test:unit` 41/41 and `test:e2e` 86/86.)*
+
 `pnpm run test:unit` 35/35 · `pnpm run test:e2e` 74/74 · `pnpm run build` 12 pages ·
 `pnpm run verify` · `pnpm run format:check` · zero new dependencies ·
 `git diff --stat -- package.json pnpm-lock.yaml` empty.
@@ -154,3 +157,163 @@ mid-flight. That limitation is recorded here rather than smoothed over. It is on
 the stated reasons the verification returned `fail`, and correcting the record does
 not correct the practice: the durable answer is the harness in unit 3, which now
 makes the unit-2 assertions fail on their own.
+
+## Post-verification remediation (2026-09-13)
+
+### Why this exists
+
+The first verification of the amended contract returned `fail` and named two
+implementation contradictions, which the maintainer resolved by amending the spec
+(`6a9266c`, `92baacd`). The **second** independent verification
+(`evidence_revision: sha256:d4242883937d004da60ca5ed94a751ee6984fd60193a6012885afea4837f8ce8`)
+returned `fail` again — 12/14 requirements, 34/39 scenarios — but for a different and
+narrower reason: the amendment's own bound was violated by the code.
+
+`.contact-section .solid-link` declared `border-color: currentColor` in both its
+`:hover` and its `:active` rule. The amended scenario requires that the exempted
+element, whose at-rest label sits at the palette ceiling, still take its **border**
+from a state token. On this element `currentColor` resolves to `--color-surface` —
+the label's own value — so no state token stood behind the border at all. And no
+test asserted that bound, which is why a green suite coexisted with the violation.
+
+### The measurement that decided the fix
+
+The obvious repair — consume the interactivity-separated border token — is wrong
+here, and measuring is what shows it. The element inverts (fill `--color-text`, ink
+`--color-surface`), and those border tokens are authored against surfaces, not
+against an inverted fill. Alpha-composited against the element's own fill:
+
+| border value | dark | light |
+| --- | --- | --- |
+| `currentColor` (= `var(--color-surface)`) | 17.91:1 | 15.60:1 |
+| `--color-border-interactive-hover` | **1.09:1** | **1.04:1** |
+| `--color-border-interactive` | **1.07:1** | **1.03:1** |
+| **`--color-surface-active`** (chosen) | **12.80:1** | **18.30:1** |
+
+So the amended wording is satisfiable only by borrowing a *fill-step* state token
+(`--color-surface-active`), never by the border tokens: against an inverted ceiling
+fill those collapse to roughly 1.1:1, i.e. an invisible border. The two rejected
+alternatives were adding a dedicated inverted-border token to the contract and
+amending the requirement a third time. The chosen fix keeps the non-text floor with
+a wide margin (the floor is 3:1) and needs no new token and no new amendment.
+
+### What changed
+
+- `src/styles/portfolio.css` — `.contact-section .solid-link:hover` and
+  `.contact-section .solid-link:active`: `border-color: currentColor` →
+  `border-color: var(--color-surface-active)`. Two declarations, nothing else. The
+  `:active` rule's `outline: 2px solid currentColor` is deliberately untouched: the
+  outline sits outside the element over the page surface, it is neither a background
+  nor a border value, and re-tokenising it would remove the light-mode press ring.
+  The fill, the ink and the transform are unchanged, so the change is border-only.
+- `tests/unit/state-border-contract.test.ts` (new, 6 assertions) — a static contract
+  over `portfolio.css`: each state's **winning** `border-color` must be a
+  `var(--color-*)` reference and must not be `currentColor`; the named token must be
+  declared in `global.css` (an undeclared reference fails silently at computed-value
+  time, which is worse than the `currentColor` it replaced); and the winning block
+  must be the last same-selector block, so a shadowed block cannot resurrect the old
+  value. It resolves which declaration wins by modelling the only cascade rule that
+  applies here — same specificity, same unlayered origin, last in source order — and
+  says so, including what that simplification cannot see.
+- `tests/theme-state/state-evidence.spec.ts` (new, 12 tests) — the evidence the
+  previous report recorded as missing: computed border provenance in both themes
+  (the border must differ from the computed `color`, which is what `currentColor`
+  would produce, and must hold ≥3:1 against the element's own fill);
+  `prefers-contrast: more` actually changing the preference-gated declarations in
+  both themes, with the media feature asserted live; and a held touch press in a
+  `hasTouch` coarse-pointer context.
+
+### RED → GREEN, observed
+
+Both new assertion sets were observed failing against the pre-fix CSS and passing
+after it.
+
+**RED, unit contract**
+(`node --test --experimental-strip-types tests/unit/state-border-contract.test.ts`,
+pre-fix CSS): 6 tests, **4 pass / 2 fail**. Both failures name the real lines —
+`src/styles/portfolio.css:1595` and `:1644` declare `border-color: currentColor`, so
+`currentColor` resolves to `--color-surface`, the label's own value and no state
+token.
+
+**RED, e2e**
+(`SITE_BASE=/ pnpm run build && npx playwright test tests/theme-state/state-evidence.spec.ts`,
+pre-fix CSS): **6 failed / 6 passed**. The four border-provenance tests (hover and
+press, both themes) and the two `.contact-section .solid-link` touch tests fail, the
+latter because the touch-held border measured `rgb(0, 0, 0)` in dark and
+`rgb(243, 234, 220)` in light — the computed `color`, i.e. the old `currentColor` —
+against a rest border of `rgb(237, 237, 235)` / `rgb(23, 18, 13)`.
+
+**GREEN, on the remediated tree**: unit contract 6/6; focused e2e 12/12; full
+`pnpm run test:unit` **41/41**; full `pnpm run test:e2e` **86/86**;
+`pnpm run verify` exit 0; `pnpm run format:check` exit 0.
+
+**Honest provenance of the RED observations.** The assertions were authored by a
+bounded writer that stalled before it reported, so the RED runs above were taken by
+reverting the two declarations to their pre-fix value **with the assertions already
+in place**, then restoring them. That proves the assertions are fail-capable against
+the pre-fix CSS — which is the property a verification needs — and it is *not* a
+claim that the assertions were written before the CSS within the same authoring pass.
+It is the same technique, and the same label, as the round-4 motion repair above:
+sensitivity evidence, not RED-first lineage. Unlike unit 2, the failure is captured
+verbatim rather than asserted in prose.
+
+**Byte stability.** The first GREEN run predates two later edits to the same files:
+`prettier --write` on both new files (the writer stalled before formatting), and the
+replacement of one dynamically assembled regex in the unit contract with a
+split-based check, which removed the only quality finding the static analyzer raised
+(a ReDoS smell a scanner cannot distinguish from a real one). The unit contract was
+re-observed RED and GREEN on its final bytes, and the full e2e run was taken on the
+final bytes of every e2e-relevant file. `--color-surface-active` is a state token
+declared in both modes and already consumed by the press rules; no token was added,
+renamed, or revalued by this remediation.
+
+### What the new evidence does and does not prove
+
+- The touch tests run in Chromium's **emulated** coarse-pointer context, not on a
+  physical device, and the spec says so in its own header. Chromium applies a sticky
+  `:hover` on touch start, so press and hover cannot be fully separated under a
+  finger; the spec measures that path explicitly and reports what it observes instead
+  of claiming hover-independence.
+- `prefers-contrast: more` is emulated, and the emulation is asserted live before any
+  read. This closes the gap the previous report recorded as "no current browser test
+  emulates `more`".
+- The at-rest visual comparison in light mode remains **human**. No screenshot
+  baseline exists in `tests/` and this change deliberately introduces none, so no
+  test here claims it.
+- The strict-TDD deviation for unit 2 is unchanged by any of this: it is documented
+  and now explicitly accepted as debt, not repaired.
+
+### Human visual pass (2026-09-13)
+
+This is the one piece of evidence requirement 14 needs that no machine here can
+produce, so it is recorded with its instrument rather than summarized.
+
+**Instrument.** A local static build of this working tree (`SITE_BASE=/ pnpm run
+build`, served from `dist/` on port 4409) compared against production, which still
+serves `main` — PR #29 is open and unmerged. Routes: `/`, `/projects/`, a project
+detail page and the 404 route.
+
+**Checklist given to the reviewer.**
+
+1. Light mode at rest on the four routes — nothing at rest may differ from `main`.
+2. Dark mode at rest — only two intended deltas (`:root` toggle borders 1.44:1 →
+   3.66:1 and the `.desktop-nav .nav-contact` / `.circle-link` pill 2.89:1 →
+   3.66:1). Any other at-rest change is a finding.
+3. Hover and held press on the thirteen interactive selectors, both themes: press
+   feedback exists and no label reads worse than at rest.
+4. The remediation's own visible delta on `.contact-section .solid-link` (border
+   `#26262e` dark / `#fffdf8` light where it was pure ink) — confirm it still reads
+   as a border.
+5. The accepted losses, so they cannot surprise later: the theme-toggle cross-fade,
+   the `.module-row` stagger, the unmeasurable scrollbar pseudo-element.
+
+**Outcome.** The maintainer reported the appearance as correct.
+
+**Resolution of this evidence, stated plainly.** It is a *general* confirmation, not
+an itemized attestation per element and per checker-step. It is a human judgement
+with no screenshot baseline anywhere in `tests/`, and this change deliberately
+introduces none, so no test can reproduce it and no machine assertion is claimed to
+replace it. It is anchored to
+`sha256:d888a53d89b3bddbf35ca8baa4a9ae720fa7e4bd50369f759082c1574e9e4f1b`
+(`src/styles/portfolio.css`), the bytes the served build was made from; any later
+edit to that file invalidates this pass for that file.

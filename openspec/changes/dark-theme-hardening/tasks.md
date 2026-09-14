@@ -16,6 +16,7 @@ Every ratio quoted below is attributed inline to design §9.1 or to the design s
 | Suggested split | PR 1 (unit 1) → PR 2 (unit 2) → PR 3 (unit 3) → PR 4 (unit 4), one work unit per PR |
 | Delivery strategy | `auto-chain` (session preflight) |
 | Chain strategy | **pending** — not selected; must be decided by the orchestrator before the first PR |
+| `size:exception` | **Accepted 2026-09-13 by the maintainer.** The four-slice chain was never created; all four units landed on one branch behind one PR (#29). Re-cutting 11 verified commits into a chain would invalidate the verification and re-run CI four times for no review gain, so the exception is recorded instead of the chain and review is sliced by commit. |
 
 ```text
 Decision needed before apply: Yes
@@ -241,17 +242,88 @@ than left describing a delivery model that does not exist.
   lines of SDD documentation — and the PR body says so and points a reviewer at the
   code commits rather than the aggregate diff.
 
+### Maintainer decisions recorded after the second verification (2026-09-13)
+
+The second independent verification of the amended contract
+(`evidence_revision: sha256:d4242883937d004da60ca5ed94a751ee6984fd60193a6012885afea4837f8ce8`)
+returned `fail` with 12/14 requirements and 34/39 scenarios. Four decisions were put
+to the maintainer and answered; three of them close items this file previously left
+open, and one of them authorised a bounded remediation.
+
+- **`size:exception` — accepted.** Recorded in the Review Workload Forecast above.
+  The forecast's `Chained PRs recommended: Yes` is not retroactively edited; the
+  exception is the decision, and it is now explicit rather than absent.
+
+- **Strict-TDD deviation — accepted, not repaired.** Unit 2 was not RED-first; that
+  is real, it is documented in `apply-progress.md`'s `TDD Cycle Evidence` table, and
+  no historical evidence may be manufactured to close it. The maintainer accepts the
+  deviation as recorded debt. The forward-going rule is unchanged: new assertions in
+  this change must still open RED.
+
+- **Remediation — authorised and bounded.** One finding was machine-fixable:
+  `.contact-section .solid-link` declared `border-color: currentColor` in its `:hover`
+  and `:active` rules, while the amended `theme-state-hardening` scenario requires the
+  exempted element's border to come from a state token, with no test asserting that
+  bound. The maintainer authorised the bounded fix (a state-token border plus a
+  fail-capable test) and declined the two alternatives: adding a dedicated inverted-
+  border token to the token contract, and a third amendment to the requirement. The
+  evidence is recorded in `apply-progress.md`; no task line is added for it here, so
+  the audit trail lives with the apply record rather than in the task list.
+
+- **Human evidence — planned, not waived.** A served build plus a written checklist
+  is prepared for the at-rest visual pass; the two remaining scenario gaps are closed
+  by emulation instead (`touch` in a coarse-pointer context and
+  `prefers-contrast: more`). The at-rest visual comparison itself stays a human step
+  and is not claimed by any test.
+
+### Verification outcome and maintainer disposition (2026-09-13)
+
+The third independent verification completed over the working-tree candidate that
+carries the border remediation and the two new test files.
+
+- `requirements: 14/14`, `scenarios: 39/39`,
+  `evidence_revision: sha256:40fa84e23735ae6109584ecb64a7a5974c777afe753f77f00932b986f27fcbd3`,
+  admitted by `sdd-verify-validate` (`valid: true`).
+- Gates: `pnpm run test:unit` 41/41, `pnpm run test:e2e` 86/86, `pnpm run verify`
+  exit 0, `pnpm run format:check` exit 0.
+- The previous border defect is closed, and it was proven fail-capable **by the
+  verifier rather than by the author**: it reverted the two declarations in a
+  disposable copy and observed RED in both new files.
+- `verdict: fail`, `blockers: 2`, both of them strict-TDD **process** blockers:
+  unit 2 has no RED-before-GREEN observation, and the remediation's RED is
+  sensitivity evidence rather than RED-first lineage. The report states explicitly
+  that there are no remaining amended-spec implementation blockers.
+
+**Maintainer disposition.** The change's spec coverage is approved. The strict-TDD
+deviation is accepted as recorded debt. `sdd-archive` stays withheld pending an
+explicit maintainer decision on that debt, because the verify contract keeps the
+historical gap CRITICAL even though the maintainer accepted it — so a zero-blocker
+verdict is unreachable for this change. `sdd-sync` proceeds under this disposition.
+Native status recommends `remediate`, and that route is **deliberately not
+followed**: no remediation can create a RED-before-GREEN observation that never
+happened.
+
+**What was deliberately not done.** No evidence was manufactured, and no test was
+re-authored to simulate RED-first ordering. The two new test files keep their
+recorded label (sensitivity evidence) and the unit-2 gap keeps its own.
+
 ### Open delivery items, not marked complete
 
 These are named here so they are visible rather than hidden behind a checkbox. They
 are **not** implementation gates: `sdd-verify` validates the implementation against
 the specs, and none of these changes the code under test.
 
-1. **Human visual pass on the deployed preview — outstanding.** There is no
-   screenshot baseline anywhere in `tests/`, so no visual regression is
-   machine-detectable. Four things specifically warrant a look: the theme toggle
-   (which no longer cross-fades, a known accepted loss), the `.module-row` hover,
-   the underline signals, and the `.module-row` reveal stagger.
+1. **Human visual pass — performed 2026-09-13.** The maintainer compared the local
+   build of this branch against production, which still serves `main` (PR #29 is open
+   and unmerged), across the home page, the projects index, a project detail page and
+   the 404 route, in both themes, at rest and through the hover and press states of
+   the interactive selectors, against the checklist in `apply-progress.md`. Reported
+   outcome: the appearance is correct. Recorded at its true resolution: this is a
+   **general confirmation, not an itemized per-element attestation**, and it is a
+   human judgement with no screenshot baseline anywhere in `tests/`, so no test here
+   can reproduce it. The evidence is anchored to
+   `sha256:d888a53d89b3bddbf35ca8baa4a9ae720fa7e4bd50369f759082c1574e9e4f1b`
+   (`src/styles/portfolio.css`) — the bytes the served build was made from.
 2. **The `.module-row` reveal stagger decision** — `nth-child(2)` and
    `nth-child(3)` read `0s` where they read `0.08s` and `0.16s`. Measured in
    `05cef35` and left as an open decision.
