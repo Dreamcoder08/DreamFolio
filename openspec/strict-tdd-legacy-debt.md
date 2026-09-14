@@ -1,7 +1,23 @@
 # Decision Required: Strict TDD, Applied Retroactively
 
 Status: **OPEN.** A governance question about this project's SDD policy — not a defect in any change.
-It is the only thing standing between two finished changes and their archive.
+It is the keystone blocker: the other one is already resolved, and this is why.
+
+## There are two blockers, not one
+
+This document originally presented the policy gap as the only thing standing between the parked
+changes and their archive. The sync evaluation says otherwise, and naming both matters because the
+second one is *derivable from the artifacts* rather than a question anyone has to answer.
+
+| # | Blocker | State |
+| --- | --- | --- |
+| A | The strict-TDD gap, applied to work that ran before the policy existed | **open — the decision below** |
+| B | An active `design-tokens` collision between two parked changes | **resolved by the artifacts; the order is derivable** |
+
+`openspec/changes/dark-theme-hardening/sync-report.md` records the native sync state as `blocked`
+with *"unresolved failing verification and an active `design-tokens` collision"*, and asks to
+*"define the ordering for the active `design-tokens` collision"*. Blocker A is that unresolved
+verification. Blocker B is the collision, and what follows is what it is.
 
 ## The evidence
 
@@ -22,10 +38,54 @@ never taken, and manufacturing one is not an option this project takes.
 
 ## Why it is bigger than two changes
 
-Five changes sit in `openspec/changes/`. Two are finished and verified except for this one
-(`dark-theme-hardening`, `project-hardening`). None can reach a canonical sync while its verification
-verdict is `fail`, so `openspec/specs/` stays empty and the project's spec library exists only as
-change-deltas — which means the next change cannot read the current contract from the canonical tree.
+Five changes sit in `openspec/changes/`, and the measured state is not the one this document first
+sketched. What is true, counted from the tree:
+
+| Change | Tasks | `verify-report.md` | `sync-report.md` |
+| --- | --- | --- | --- |
+| `dark-theme-hardening` | 42/42 | yes — `fail`, 2 blockers | yes — `blocked` |
+| `dual-theme-design-system` | 25/26 | no | no |
+| `project-hardening` | 27/27 | no | no |
+| `responsive-color-hardening` | 16/16 | no | no |
+| `scroll-motion-polish` | 19/19 | no | no |
+
+Four have every implementation task done; **one** has ever been verified. So the honest statement is
+not "two changes are finished". It is that one change reached verification and stopped there, and four
+more are waiting behind a door that the same policy question holds shut. None can reach a canonical
+sync while its verification verdict is `fail`, so `openspec/specs/` stays empty and the project's spec
+library exists only as change-deltas — which means the next change cannot read the current contract
+from the canonical tree.
+
+## Blocker B: the `design-tokens` collision, and why the order is not a coin flip
+
+Both `dark-theme-hardening` and `dual-theme-design-system` declare the same canonical domain,
+`design-tokens`. That is the collision. It is *not* an unresolved disagreement, and treating it as one
+would be the mistake:
+
+- `dark-theme-hardening` declares a **supersession of exactly one requirement** — `Dark Theme Values
+  Preserved` in `dual-theme-design-system/specs/design-tokens/spec.md` — in the form the contract
+  expects: a `## REMOVED Requirements` entry carrying both a `(Reason: …)` and a `(Migration: …)`.
+- The reason is factual, and the check holds today. That requirement asserts accent `#dda783` on
+  surface `#080909` at ≥ 9.5:1. The tree says `--color-accent: #ff7a18` and `--color-surface:
+  #000000`, and both obsolete literals survive **only** inside the assertion that forbids them
+  (`tests/unit/tokens.test.ts`, A6). The requirement is not out of favour; it is false.
+- The migration note fixes the order in as many words: the superseded requirement *"MUST NOT be
+  carried forward into a canonical design-tokens spec"*.
+
+**The derived order is `dual-theme-design-system` first, then `dark-theme-hardening`.** The first is
+where the requirement lives; the second is what removes it. Reversed, the stale requirement lands in
+the canonical tree and nothing is left to remove it.
+
+So blocker B adds no decision — it adds a **prerequisite**: a canonical tree has to exist before a
+removal can apply to it, so `design-tokens` can only be populated in that order.
+
+## One prerequisite that no policy decision gates
+
+`dual-theme-design-system` carries one unchecked task, `6.3`: a **manual** check that the theme toggle
+switches, persists across reload and shows no flash of the wrong theme. It was never performed because
+no browser was available. The change is merged and the site is deployed, so that check can be done
+against the live site right now — and it is worth doing regardless of what is decided below, because it
+is the only item in the parked set that is blocked by nothing at all.
 
 ## The options, and what each one costs
 
@@ -50,7 +110,7 @@ the config says so in as many words.
 | Option | Next action |
 | --- | --- |
 | 1 | Nothing. Both changes simply stop here, with their records as they are. |
-| 2 | A change to `openspec/config.yaml` recording the enablement date and the prospective scope, plus a line in each change's record saying the gap was not repaired. Then `sdd-verify` and `sdd-archive` can be attempted again. |
+| 2 | A change to `openspec/config.yaml` recording the enablement date and the prospective scope, plus a line in each change's record saying the gap was not repaired. `sdd-verify` then becomes attemptable, and any `design-tokens` sync must follow the derived order above. |
 | 3 | A follow-up change for the fault-injection harness — a real work unit, independent of this decision. |
 | 4 | A dated disposition note in each change; no config change. |
 
