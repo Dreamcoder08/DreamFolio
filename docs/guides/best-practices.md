@@ -113,333 +113,156 @@ intención:
 
 ---
 
-## 🔍 SEO Técnico
+## 🔍 SEO técnico
 
-### Configuración Básica
+El `<head>` completo vive en `src/layouts/BaseLayout.astro`: `canonical`, Open Graph (tipo, url,
+título, descripción, imagen, tipo de imagen, alt y `site_name`) y las etiquetas de Twitter. El `site`
+y el `base` salen de `astro.config.mjs`, que sirve GitHub Pages bajo `/DreamFolio` y Vercel desde `/`.
 
-```astro
----
-// src/layouts/BaseLayout.astro
-interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
-}
+### Sitemap y `robots.txt`
 
-const { 
-  title = 'Dreamcoder08 | Full Stack Developer',
-  description = 'Portfolio de desarrollo web...',
-  image = '/og-image.jpg'
-} = Astro.props;
+`@astrojs/sitemap` genera `sitemap-index.xml` en cada build. `robots.txt` **no es un archivo
+estático**: lo emite `src/pages/robots.txt.ts` en tiempo de build, y arma la URL del sitemap con
+`withBase` para que respete el `base` — que es exactamente el error que traía el ejemplo viejo de esta
+guía, con una barra doble en la URL.
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
----
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- SEO -->
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={canonicalURL} />
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={canonicalURL} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={new URL(image, Astro.site)} />
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={new URL(image, Astro.site)} />
-</head>
-```
-
-### Sitemap Automático
-
-```javascript
-// astro.config.mjs
-import sitemap from '@astrojs/sitemap';
-
-export default defineConfig({
-  site: 'https://dreamcoder08.github.io/DreamFolio/',
-  integrations: [sitemap()],
-});
-```
-
-### robots.txt
-
-```text
-# public/robots.txt
-User-agent: *
-Allow: /
-
-Sitemap: https://dreamcoder08.github.io/DreamFolio//sitemap-index.xml
-```
-
----
-
-## 🌙 Dark Mode
-
-Es casi un estándar esperado en portafolios de desarrolladores.
-
-### Implementación con CSS Variables
-
-```css
-/* src/styles/global.css */
-:root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
-  --primary: 221 83% 53%;
-}
-
-.dark {
-  --background: 0 0% 3.9%;
-  --foreground: 0 0% 98%;
-  --primary: 217 91% 60%;
-}
-```
-
-### Toggle con Sistema de Usuario
-
-```typescript
-// Detectar preferencia del sistema
-function getSystemTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches 
-    ? 'dark' 
-    : 'light';
-}
-
-// Inicializar tema
-function initTheme() {
-  const stored = localStorage.getItem('theme');
-  const theme = stored || getSystemTheme();
-  
-  document.documentElement.classList.toggle('dark', theme === 'dark');
-}
-
-// Toggle theme
-function toggleTheme() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-```
-
----
-
-## 🧩 Arquitectura de Componentes (Atomic Design)
-
-### Utilidad `cn()` - Tailwind Inteligente
-
-En 2025 es estándar usar una utilidad que combine `clsx` + `tailwind-merge` para resolver conflictos de clases:
-
-```typescript
-// src/lib/utils.ts
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-// Uso: cn("bg-blue-500 p-4", className) 
-// Si className="p-2", resultado es "bg-blue-500 p-2" (sin conflicto)
-```
-
-### Componentes Atómicos (`src/components/ui/`)
-
-Sigue el patrón Atomic Design para componentes reutilizables:
-
-| Componente | Descripción | Archivo |
-| ------------ | ------------- | --------- |
-| **Button** | Variantes, tamaños, loading | `ui/button.tsx` |
-| **Input** | Label, error, a11y | `ui/input.tsx` |
-| **Textarea** | Label, error, resize | `ui/textarea.tsx` |
-| **Card** | Glassmorphism, slots | `ui/card.tsx` |
-| **Badge** | Status tags, variantes | `ui/badge.tsx` |
-| **StatusIndicator** | Pulse animation | `ui/status-indicator.tsx` |
-| **LinkButton** | CTAs con arrow | `ui/link-button.tsx` |
-
-### Patrón de Composición (Slots)
-
-```tsx
-// ❌ Mal - Prop drilling
-<Card title="Hola" content="Mundo" footerText="Click" />
-
-// ✅ Bien - Composición
-<Card>
-  <CardHeader>Hola</CardHeader>
-  <CardBody>Mundo</CardBody>
-  <CardFooter>Click</CardFooter>
-</Card>
-```
-
-### Custom Hooks - Separar Lógica de UI
-
-```typescript
-// hooks/inlineContactValidation.ts
-export function inlineContactValidation() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  // ... toda la lógica
-  return { isSubmitting, submitStatus, handleFormSubmit, register, errors };
-}
-
-// El componente solo tiene JSX
-const TechnicalIntake = () => {
-  const { register, errors, isSubmitting, handleFormSubmit } = inlineContactValidation();
-  return <form onSubmit={handleFormSubmit}>...</form>;
+```ts
+// src/pages/robots.txt.ts
+export const GET: APIRoute = ({ site }) => {
+  const sitemapUrl = new URL(withBase("sitemap-index.xml"), site);
+  const body = `User-agent: *\nAllow: /\n\nSitemap: ${sitemapUrl}\n`;
+  return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 };
 ```
 
-### Barrel Exports
+---
 
-```typescript
-// src/components/ui/index.ts
-export { Button } from './button';
-export { Input } from './input';
-export { Card, CardHeader, CardBody, CardFooter } from './card';
-// ... etc
+## 🌙 Tema claro y oscuro
 
-// Uso limpio
-import { Button, Input, Card } from '../ui';
+El tema no usa una clase `.dark`: se aplica con el atributo `data-theme` en `<html>`, y los colores
+salen de tokens declarados en `src/styles/global.css`.
+
+```css
+@theme { /* modo oscuro: los valores canónicos */ }
+[data-theme="light"] { /* sobrescrituras del modo claro */ }
 ```
+
+- `public/theme-init.js` se carga como script clásico bloqueante y aplica el tema guardado **antes
+  del primer pintado**. Ésa es toda su razón de existir: diferirlo produce el destello del tema
+  equivocado, que es el problema que resuelve.
+- La clave de almacenamiento es `dreamfolio-theme`.
+- Sin valor guardado, el tema sigue `prefers-color-scheme` del sistema.
+- El toggle vive en `src/components/ui/Navbar.astro`, como JavaScript vainilla dentro de un `<script>`.
 
 ---
 
-## 🏛️ Arquitectura \"Feature-First\"
+## 🧩 Componentes y nombres
 
-### ❌ No Usar Clean Architecture
+El catálogo son tres archivos, todos `.astro` y todos estáticos.
 
-Clean Architecture está diseñada para **lógica de negocio compleja**. En un portafolio, tu "lógica de negocio" es simplemente mostrar texto e imágenes.
+| Componente | Archivo |
+| ------------ | --------- |
+| `Icon` | `src/components/ui/Icon.astro` |
+| `Navbar` | `src/components/ui/Navbar.astro` |
+| `ProfileCard` | `src/components/ui/ProfileCard.astro` |
 
-Implementar Casos de Uso, Entidades, Repositorios y DTOs para leer un archivo Markdown es un **anti-patrón** llamado *Over-engineering*.
+### Convenciones de nombre
 
-### ✅ Usar Feature-First / Colocation
+| Tipo | Regla | Ejemplo |
+| ------ | ------- | --------- |
+| Componentes | `PascalCase.astro` | `Navbar.astro`, `ProfileCard.astro` |
+| Utilidades | `camelCase.ts` | `site.ts`, `icons.ts` |
+| Páginas | `kebab-case.astro` | `projects/index.astro` |
+| Configuración | `camelCase.mjs` | `astro.config.mjs` |
+
+### Clases condicionales
+
+No hay un helper que combine y deduplique clases. Se resuelven con un template literal o con
+`class:list` de Astro:
+
+```astro
+<div class:list={["module-row", { "is-visible": visible }]}>…</div>
+```
+
+### TypeScript
+
+Modo estricto. Interfaces para formas de objeto, `type` para uniones y alias, nunca `any` —`unknown`
+si de verdad hace falta— y los tipos que cruzan módulos se exportan.
+
+### Cuando algo necesita el navegador
+
+Primero un `<script>` acotado al componente, como hace `Navbar.astro`. Un framework de cliente es la
+última opción y requiere una decisión de arquitectura, no un atajo.
+
+---
+
+## 🏛️ Arquitectura
 
 ```text
 src/
-├── components/       # UI Reutilizable
-├── content/          # Tu "Base de datos" (Markdown/MDX)
-├── layouts/          # Plantillas base
-├── pages/            # Rutas del sistema
-└── styles/           # CSS global
+├── components/ui/      # UI reutilizable: los tres archivos .astro
+├── content.config.ts   # La colección tipada sobre data/projects.json
+├── data/               # projects.json — los datos
+├── layouts/            # BaseLayout.astro
+├── lib/                # Helpers de presentación y de build
+├── pages/              # index, 404, projects/, projects/[id], robots.txt
+└── styles/             # global.css (tokens) + portfolio.css
 ```
-
-### Principios Clave
 
 | Principio | Aplicación |
 | ----------- | ------------ |
 | **KISS** | No crear abstracciones hasta necesitarlas |
-| **Separation of Concerns** | Data (Content Collections) vs UI (Componentes) |
-| **Colocation** | Mantener archivos relacionados juntos |
+| **Separación de responsabilidades** | Los datos (la colección) separados de la UI (los componentes) |
+| **Colocation** | Cada archivo cerca de lo que le da sentido |
+| **Sin sobre-ingeniería** | Casos de uso, entidades, repositorios y DTOs para leer un JSON son un anti-patrón |
 
 ---
 
-## 📝 Content Collections (Astro)
+## 📝 Contenido
 
-Para proyectos y contenido estructurado, usa Content Collections con local validation:
+Los proyectos son datos, no Markdown. `src/content.config.ts` declara la colección con el loader
+`file("src/data/projects.json")` y un esquema que valida cada entrada durante el build.
 
-```typescript
-// src/content/config.ts
-import { defineCollection, z } from 'astro:content';
+| Campo | Tipo |
+| ------- | ------ |
+| `id`, `title`, `summary`, `domain`, `path` | `string` |
+| `lifecycle` | `active` \| `workspace` \| `archived` \| `lab` |
+| `bucket` | `primary` \| `workspace` \| `archived` \| `lab` |
+| `updatedYear` | entero |
+| `featured` | booleano, por defecto `false` |
+| `stack` | array de `string`, por defecto vacío |
+| `githubUrl`, `liveUrl` | URL opcional |
+| `coverImage`, `coverImageAlt`, `coverImageMobile` | `string` opcional |
 
-const projects = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    technologies: z.array(z.string()),
-    image: z.string().optional(),
-    liveUrl: z.string().url().optional(),
-    githubUrl: z.string().url().optional(),
-    featured: z.boolean().default(false),
-    publishedAt: z.date(),
-  }),
-});
-
-export const collections = { projects };
-```
-
-```markdown
----
-# src/content/projects/my-project.md
-title: "Mi Proyecto"
-description: "Descripción del proyecto..."
-technologies: ["React", "TypeScript", "Tailwind"]
-featured: true
-publishedAt: 2024-01-15
----
-
-## Contenido MDX con componentes
-```
+Agregar un proyecto es editar `src/data/projects.json`: un campo mal tipado falla el build, que es
+exactamente lo que se quiere.
 
 ---
 
-## 🔗 View Transitions API
+## 📊 Checklist final
 
-Astro soporta View Transitions nativas para transiciones de página tipo SPA:
+### Antes de publicar
 
-```astro
----
-// src/layouts/BaseLayout.astro
-import { ViewTransitions } from 'astro:transitions';
----
+- [ ] `pnpm verify` — build y typecheck
+- [ ] `pnpm test:e2e` — suite de Playwright
+- [ ] `pnpm format:check`
+- [ ] `pnpm secret:scan`
+- [ ] `git diff --check`
 
-<head>
-  <ViewTransitions />
-</head>
-```
+No hay ESLint configurado: el gate es CI, que corre typecheck, e2e, build, formato y el escaneo de
+secretos.
 
-```astro
-<!-- Transición personalizada para elemento -->
-<h1 transition:name="page-title">
-  {title}
-</h1>
+### Rendimiento
 
-<Image
-  src={image}
-  transition:name={`project-${slug}`}
-  transition:animate="fade"
-/>
-```
+- [ ] Lighthouse Performance > 95 contra `pnpm preview`
+- [ ] Ninguna directiva `client:*` agregada sin una necesidad concreta
+- [ ] Imágenes optimizadas y con dimensiones explícitas
 
----
+### Accesibilidad y SEO
 
-## 📊 Checklist Final
-
-### Performance
-
-- [ ] Lighthouse Performance > 95
-- [ ] LCP < 2.5s
-- [ ] CLS < 0.1
-- [ ] JS Bundle < 100KB total
-
-### SEO
-
-- [ ] Meta tags configurados
-- [ ] Open Graph tags
-- [ ] sitemap.xml generado
-- [ ] robots.txt
-
-### Accesibilidad
-
-- [ ] HTML semántico
-- [ ]ading hierarchy correcto
-- [ ] Focus visible en todos los elementos
-- [ ] Reduced motion respetado
-
-### DX
-
-- [ ] TypeScript strict
-- [ ] ESLint + Prettier configurados
-- [ ] Hot reload funcional
-- [ ] Documentación actualizada
+- [ ] La tabla de accesibilidad de la primera mitad sigue sosteniéndose
+- [ ] `canonical` y Open Graph correctos en la página nueva
+- [ ] La página aparece en `sitemap-index.xml`
 
 ---
 
@@ -449,4 +272,4 @@ import { ViewTransitions } from 'astro:transitions';
 - [Tailwind CSS v4](https://tailwindcss.com/docs)
 - [Web.dev Vitals](https://web.dev/vitals/)
 - [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
-- [Islands Architecture](https://www.patterns.dev/posts/islands-architecture)
+- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
