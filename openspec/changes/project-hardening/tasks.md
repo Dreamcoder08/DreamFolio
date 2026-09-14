@@ -54,10 +54,10 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 2: `.env.example` cleanup
 
-- [ ] 2.1 Read `.env.example` directly (apply-phase read) and capture its current content as a diff baseline before editing.
-- [ ] 2.2 Re-verify zero references via `grep -rE "SUPABASE_|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" src/` (read-only).
-- [ ] 2.3 Remove `SUPABASE_*`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY` lines and their section headers/comments from `.env.example`; keep the file present — if no vars remain, leave a short comment noting no required env vars (referenced by `README.md` and `docs/guides/getting-started.md`).
-- [ ] 2.4 Verify: `grep -E "SUPABASE|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" .env.example` returns no matches.
+- [x] 2.1 Read `.env.example` directly (apply-phase read) and capture its current content as a diff baseline before editing.
+- [x] 2.2 Re-verify zero references via `grep -rE "SUPABASE_|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" src/` (read-only).
+- [x] 2.3 Remove `SUPABASE_*`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY` lines and their section headers/comments from `.env.example`; keep the file present — if no vars remain, leave a short comment noting no required env vars (referenced by `README.md` and `docs/guides/getting-started.md`).
+- [x] 2.4 Verify: `grep -E "SUPABASE|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" .env.example` returns no matches.
 
 ## Phase 3: docs/ rewrite — Batch A (root + architecture)
 
@@ -91,8 +91,8 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 8: LICENSE
 
-- [ ] 8.1 Create root `LICENSE` with the standard MIT license text and copyright line `Copyright (c) 2026 Dreamcoder08`.
-- [ ] 8.2 Verify: `LICENSE` is non-empty and contains the string `MIT License`.
+- [x] 8.1 Create root `LICENSE` with the standard MIT license text and copyright line `Copyright (c) 2026 Dreamcoder08`.
+- [x] 8.2 Verify: `LICENSE` is non-empty and contains the string `MIT License`.
 
 ## Phase 9: Final verification
 
