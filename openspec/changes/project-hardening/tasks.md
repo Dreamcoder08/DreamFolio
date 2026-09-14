@@ -48,8 +48,8 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 1: 404 e2e spec
 
-- [x] 1.1 Create `tests/404/404-page.ts`: `NotFoundPage extends BasePage`, `heading` locator (`getByRole('heading', { name: 'Página no encontrada' })`), `backLink` locator (`getByRole('link', { name: /Volver al inicio/ })`), `goto()` override navigating to `/nonexistent-route-hardening-test`.
-- [x] 1.2 Create `tests/404/404.spec.ts`: 2 tests tagged `@critical`, `@404`, `@404-E2E-001`/`002` — (a) unknown route renders `heading` + `page.getByText('404')` visible; (b) `backLink` href resolves to base path and click navigates to the home page.
+- [x] 1.1 Create `tests/404/404-page.ts`: `NotFoundPage extends BasePage`, `heading` locator (`getByRole('heading', { name: 'Página no encontrada' })`), `backLink` locator (`getByRole('link', { name: /Volver al inicio/ })`), `goto()` override navigating to `/nonexistent-route-hardening-test` (read-only).
+- [x] 1.2 Create `tests/404/404.spec.ts`: 2 tests tagged `@critical`, `@404`, `@404-E2E-001` and `@404-E2E-002` — (a) unknown route renders `heading` + `page.getByText('404')` visible; (b) `backLink` href resolves to base path and click navigates to the home page.
 - [x] 1.3 Run `pnpm run test:e2e` and confirm both new tests pass with zero regressions in existing suites.
 
 ## Phase 2: `.env.example` cleanup
@@ -75,7 +75,7 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 5: docs/ rewrite — Batch C1 (`docs/guides/getting-started.md`)
 
-- [x] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0`/Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
+- [x] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0` and Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
 - [x] 5.2 Verify: grep the file for `Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`; confirm no matches.
 
 ## Phase 6: docs/ rewrite — Batch C2 (`docs/guides/best-practices.md`) — HIGH RISK, own PR
