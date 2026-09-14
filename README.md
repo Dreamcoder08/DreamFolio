@@ -94,8 +94,6 @@ DreamFolio/
 
 El sitio se despliega automáticamente a GitHub Pages en cada push a `main`/`master` mediante `.github/workflows/deploy.yml` (instala con pnpm, corre typecheck, e2e con Playwright, build y publica `dist/`). También incluye `vercel.json` para despliegue alternativo en Vercel.
 
-> **Nota sobre `.env.example`**: el archivo referencia Supabase y APIs de IA (OpenAI/Anthropic/Google). Confirmado por historial de git (`842b1c3` — "remove Supabase, go fully static") que son remanentes de una iteración anterior del proyecto: ninguna variable ahí listada es consumida por el código actual en `src/`.
-
 ## Seguridad
 
 Canal de divulgación responsable: `dreamcoder.dev08@gmail.com`, publicado también en

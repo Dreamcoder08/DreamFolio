@@ -3,7 +3,7 @@
 ## Review Workload Forecast
 
 | Field | Value |
-|-------|-------|
+| ------- | ------- |
 | Estimated changed lines | ~1550-1650 total across all units (see per-unit estimates below); no single non-docs unit exceeds ~90 lines |
 | 400-line budget risk | High (driven entirely by unit 6 / docs Batch C2) |
 | Chained PRs recommended | Yes — 8 independent work units |
@@ -19,7 +19,7 @@ Chain strategy: pending
 ### Per-Unit Line Estimates (additions + deletions)
 
 | Unit | Files | Existing lines | Estimated changed lines | Risk |
-|------|-------|-----------------|--------------------------|------|
+| ------ | ------- | ----------------- | -------------------------- | ------ |
 | 1 — 404 e2e spec | `tests/404/404-page.ts`, `tests/404/404.spec.ts` (new) | 0 | ~65-85 | Low |
 | 2 — `.env.example` cleanup | `.env.example` | unknown (permission-denied) | ~15-30 | Low |
 | 3 — docs Batch A (root+arch) | 4 files | 127 | ~250-290 | Low-Medium |
@@ -34,7 +34,7 @@ Unit 6 alone is confirmed to exceed the 400-line budget: `best-practices.md` is 
 ### Suggested Work Units
 
 | Unit | Goal | Likely PR | Focused test command | Runtime harness | Rollback boundary |
-|------|------|-----------|----------------------|-----------------|-------------------|
+| ------ | ------ | ----------- | ---------------------- | ----------------- | ------------------- |
 | 1 | 404 e2e spec | PR 1 | `pnpm run test:e2e -- tests/404` | Playwright against `astro preview` (existing CI harness) | Delete `tests/404/` |
 | 2 | `.env.example` cleanup | PR 2 | `grep -E "SUPABASE\|OPENAI_API_KEY\|ANTHROPIC_API_KEY\|GOOGLE_AI_API_KEY" .env.example` (expect no match) | N/A — static config file, no runtime effect | `git revert` single commit |
 | 3 | docs Batch A | PR 3 | N/A — docs only | N/A — no build/runtime dependency on `docs/` | `git revert` single commit |
@@ -54,10 +54,10 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 2: `.env.example` cleanup
 
-- [ ] 2.1 Read `.env.example` directly (apply-phase read) and capture its current content as a diff baseline before editing.
-- [ ] 2.2 Re-verify zero references via `grep -rE "SUPABASE_|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" src/` (read-only).
-- [ ] 2.3 Remove `SUPABASE_*`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY` lines and their section headers/comments from `.env.example`; keep the file present — if no vars remain, leave a short comment noting no required env vars (referenced by `README.md` and `docs/guides/getting-started.md`).
-- [ ] 2.4 Verify: `grep -E "SUPABASE|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" .env.example` returns no matches.
+- [x] 2.1 Read `.env.example` directly (apply-phase read) and capture its current content as a diff baseline before editing.
+- [x] 2.2 Re-verify zero references via `grep -rE "SUPABASE_|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" src/` (read-only).
+- [x] 2.3 Remove `SUPABASE_*`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_AI_API_KEY` lines and their section headers/comments from `.env.example`; keep the file present — if no vars remain, leave a short comment noting no required env vars (referenced by `README.md` and `docs/guides/getting-started.md`).
+- [x] 2.4 Verify: `grep -E "SUPABASE|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_AI_API_KEY" .env.example` returns no matches.
 
 ## Phase 3: docs/ rewrite — Batch A (root + architecture)
 
@@ -91,8 +91,8 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 8: LICENSE
 
-- [ ] 8.1 Create root `LICENSE` with the standard MIT license text and copyright line `Copyright (c) 2026 Dreamcoder08`.
-- [ ] 8.2 Verify: `LICENSE` is non-empty and contains the string `MIT License`.
+- [x] 8.1 Create root `LICENSE` with the standard MIT license text and copyright line `Copyright (c) 2026 Dreamcoder08`.
+- [x] 8.2 Verify: `LICENSE` is non-empty and contains the string `MIT License`.
 
 ## Phase 9: Final verification
 
