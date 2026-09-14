@@ -1,3 +1,9 @@
+# The dependency build-script gate lives here, not in package.json. pnpm 11 moved
+# settings out of package.json's `pnpm` field into this file, and `allowBuilds` is
+# the consolidated replacement for `onlyBuiltDependencies` and its siblings. The
+# empty `pnpm.onlyBuiltDependencies: []` that used to sit in package.json was the
+# pre-move spelling of "no dependency may run a build script"; it was removed with
+# everything else in that field, so the gate moved rather than being dropped.
 allowBuilds:
   esbuild: false
   sharp: false
