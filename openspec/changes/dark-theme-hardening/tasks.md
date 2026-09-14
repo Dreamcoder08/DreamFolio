@@ -331,8 +331,10 @@ the specs, and none of these changes the code under test.
    the per-property delay list legal. See `apply-progress.md`'s debt-elimination section.
    The same slice deleted `.module-row:hover`'s unsanctioned `translateX(5px)` and
    retitled the raw-touch test to match what its body asserts.
-3. **Merge of PR #29** — merges to `main` deploy to production through GitHub
-   Actions → GitHub Pages.
+3. **Merge of PR #29 — merged 2026-09-14 as `1cbcc18`.** Merging needed nothing from
+   the SDD lifecycle: it was always a delivery decision under ordinary repository policy,
+   and the push to `main` ran the deploy workflow. What stays blocked is the *archive*,
+   not the delivery — see the item below.
 4. **`sdd-sync` and `sdd-archive`** — `sdd-sync` ran and **refused** (`sync-report.md`,
    `status: blocked`) while the verification verdict is `fail`, and it also reported the
    dangling `REMOVED` requirement that the still-active `dual-theme-design-system`
