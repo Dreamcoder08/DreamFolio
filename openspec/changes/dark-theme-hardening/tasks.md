@@ -340,3 +340,5 @@ the specs, and none of these changes the code under test.
    dangling `REMOVED` requirement that the still-active `dual-theme-design-system`
    change owns. `sdd-archive` has not run, and cannot until the strict-TDD policy
    question is settled.
+   The policy question is written down with its options and their costs in
+   [`strict-tdd-legacy-debt.md`](../../strict-tdd-legacy-debt.md).
