@@ -75,8 +75,8 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 5: docs/ rewrite — Batch C1 (`docs/guides/getting-started.md`)
 
-- [ ] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0`/Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
-- [ ] 5.2 Verify: grep the file for `Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`; confirm no matches.
+- [x] 5.1 Update `docs/guides/getting-started.md`: correct prerequisites to `pnpm@10.33.0`/Node 22 (per `.github/workflows/deploy.yml:38`, read-only), remove `src/components/sections/` from the project-structure diagram, remove the `tailwind.config.mjs` reference (Tailwind 4 is CSS-first, no config file exists), replace the tree with the real `src/` layout (`components/ui/`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`, `styles/`).
+- [x] 5.2 Verify: grep the file for `Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`; confirm no matches.
 
 ## Phase 6: docs/ rewrite — Batch C2 (`docs/guides/best-practices.md`) — HIGH RISK, own PR
 

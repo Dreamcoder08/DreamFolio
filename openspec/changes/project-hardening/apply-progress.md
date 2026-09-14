@@ -242,3 +242,79 @@ Six documents rewritten (`docs/README.md`, `docs/architecture/{README,islands-ar
 
 10/10 tasks of this slice complete (19/27 total). Gates green on the final bytes. Ready for the
 review of its PR; slices 3 and 4 follow.
+
+---
+
+## Slice 3 of the re-sliced chain: Phase 5 (docs Batch C1, `getting-started.md`) — COMPLETE
+
+### What was wrong, measured
+
+| Claim in the file | Reality |
+| --- | --- |
+| Prerequisites: **Node.js 18.x**, **pnpm 8.x** | `.nvmrc` is `22`, `package.json` declares `engines.node: >=22` and `packageManager: pnpm@10.33.0` |
+| Structure tree: `src/components/sections/` | The directory does not exist; `src/components/` holds only `ui/`. |
+| Structure tree: `tailwind.config.mjs` | No such file: Tailwind 4 is CSS-first, with the tokens in `@theme` inside `global.css`. |
+| A whole **"Nuevo Componente React (Island)"** section: `src/components/sections/TechnicalIntake.tsx`, `import React, { useState }`, `motion/react`, `<TechnicalIntake client:visible />` | No React in `package.json` (nor Motion), zero `.tsx` files, zero `client:*` directives. |
+| Two troubleshooting notes: "`TechnicalIntake` valida localmente…" | The component does not exist. |
+
+### Completed Tasks
+
+- **5.1** `docs/guides/getting-started.md` updated: prerequisites corrected to Node 22 / pnpm
+  10.33.0 with the source of each (`../.nvmrc`, `package.json`); the structure tree replaced by the
+  real `src/` layout (`components/ui`, `content.config.ts`, `data/`, `layouts/`, `lib/`, `pages/`,
+  `styles/`); the `tailwind.config.mjs` entry gone; the React-island tutorial replaced by a section
+  on what the repository actually does when something needs the browser; the script table completed
+  with the real gates (`verify`, `check`, `test:unit`, `test:e2e`, `format`/`format:check`,
+  `secret:scan`, `deploy:pages`, `lighthouse`); the development-flow diagram now goes through
+  `pnpm verify + test:e2e` before the build.
+- **5.2** Verified: no `Node 18`, `pnpm 8`, `tailwind.config.mjs` or `components/sections` left in the
+  file.
+
+### Files Changed
+
+- `docs/guides/getting-started.md` — rewritten in place, same language (Spanish) and same section
+  shape as before.
+
+### Work Unit Evidence
+
+| Command | Result |
+| --- | --- |
+| `grep -nE "Node 18\|pnpm 8\|tailwind\.config\.mjs\|components/sections" docs/guides/getting-started.md` | no matches (5.2) |
+| `grep -niE "react\|\.tsx\|motion/react\|client:visible\|TechnicalIntake" docs/guides/getting-started.md` | no matches — the fiction is gone, not merely unmentioned |
+| `.nvmrc` / `package.json` | `22`, `engines.node: >=22`, `packageManager: pnpm@10.33.0` — the prerequisites table quotes measured values |
+| `pnpm run format:check` / `git diff --check` | clean |
+| `pnpm run test:unit` | 15/15 |
+
+### Deviations from Design
+
+1. **The React-island tutorial was removed even though task 5.1 does not name it.** Task 5.1 lists the
+   prerequisites, the `components/sections` entry, the `tailwind.config.mjs` reference and the tree.
+   Removing only those would have left a step-by-step tutorial for a `TechnicalIntake.tsx` island that
+   cannot exist — and task 5.2's four-string grep would have passed anyway. See Issues Found.
+2. **The scripts table grew beyond its original seven rows.** It omitted every gate the repository
+   actually runs (`verify`, `test:e2e`, `format:check`, `secret:scan`), which made it the wrong place
+   to learn how to check your work. The additions were verified against `package.json`.
+3. **Language.** This file is Spanish and stays Spanish, unlike the English documents slice 2
+   rewrote; each file keeps the language it already used.
+4. **Markdown table separators** carry the same markdownlint padding the earlier slices disclosed.
+
+### Issues Found
+
+1. **The plan's verification for this phase was weaker than the defect.** Task 5.2 greps for four
+   strings (`Node 18`, `pnpm 8`, `tailwind.config.mjs`, `components/sections`); none of them appears in
+   the React-island tutorial, so the phase could have been marked verified with a fictional tutorial
+   still in the guide. The extra grep recorded above (`react|.tsx|motion/react|client:visible|TechnicalIntake`)
+   is the check the phase needed, and it now returns nothing.
+2. `docs/guides/getting-started.md` is the page a new contributor reads first, and it was the most
+   wrong of the set: it taught a stack — React, Motion, client islands, a Tailwind config file — that
+   this repository has never had in its current form.
+
+### Remaining Tasks
+
+- [ ] Phase 6 — docs Batch C2 (slice 4, alone)
+- [ ] Phase 9 — Final verification (after all slices land)
+
+### Status
+
+2/2 tasks of this slice complete (21/27 total). Gates green on the final bytes. Ready for the review
+of its PR; slice 4 follows.
