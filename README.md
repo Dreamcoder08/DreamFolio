@@ -129,4 +129,4 @@ exposición conocida en una invisible.
 
 ## Licencia
 
-<TODO: completar — no se encontró archivo LICENSE en el repositorio. Definir y agregar la licencia antes de publicitar el proyecto como open source.>
+MIT. El texto completo está en [`LICENSE`](LICENSE): `Copyright (c) 2026 Dreamcoder08`.
