@@ -1595,7 +1595,7 @@ a:hover {
 .contact-section .solid-link:hover {
   background: var(--color-text);
   color: var(--color-surface);
-  border-color: currentColor;
+  border-color: var(--color-surface-active);
   transform: translateY(1px);
 }
 /* Max-brightness elements must not swap their fill on hover. `.desktop-nav
@@ -1644,7 +1644,7 @@ a:hover {
 .contact-section .solid-link:active {
   background: var(--color-text);
   color: var(--color-surface);
-  border-color: currentColor;
+  border-color: var(--color-surface-active);
   transform: translateY(2px);
   outline: 2px solid currentColor;
   outline-offset: 2px;
