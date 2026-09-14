@@ -7,12 +7,14 @@ A same-session documentation-accuracy pass already fixed `.claude/CLAUDE.md`, `.
 ## Scope
 
 ### In Scope
+
 - Add a Playwright e2e spec for `404.astro`, following the existing `tests/home/` Page Object pattern.
 - Remove dead `SUPABASE_*`/`OPENAI_API_KEY`/`ANTHROPIC_API_KEY`/`GOOGLE_AI_API_KEY` vars from `.env.example` (confirmed unused anywhere in `src/`).
 - Rewrite `docs/` in place to describe the current real architecture (confirmed decision — not trim/centralize). Covers `docs/README.md`, `docs/architecture/*`, `docs/components/*`, `docs/guides/*`, `docs/lib/README.md`. `docs/profile-assets.md` is already accurate and untouched. `docs/github-profile-README.md` placement is flagged only, not fixed here.
 - Add a root `LICENSE` file (MIT — confirmed decision).
 
 ### Out of Scope
+
 - `docs/github-profile-README.md` relocation/removal (unresolved placement question, deferred).
 - Any change to the deployed site (`docs/` is not referenced by `astro.config.mjs` or `public/`).
 - Any stack or dependency change — this is documentation and hygiene only.
@@ -20,9 +22,11 @@ A same-session documentation-accuracy pass already fixed `.claude/CLAUDE.md`, `.
 ## Capabilities
 
 ### New Capabilities
+
 None — pure repo-hygiene work with no user-facing behavior contract.
 
 ### Modified Capabilities
+
 None.
 
 ## Approach
@@ -39,7 +43,7 @@ Units 1, 2, and 4 have no ordering dependency and can proceed in parallel or any
 ## Affected Areas
 
 | Area | Impact | Description |
-|------|--------|--------------|
+| ------ | -------- | -------------- |
 | `tests/404/` (new) | New | Playwright Page Object + spec for the 404 page |
 | `.env.example` | Modified | Remove unused Supabase/AI-provider vars |
 | `docs/README.md`, `docs/architecture/*`, `docs/components/*`, `docs/guides/*`, `docs/lib/README.md` | Modified | Rewritten to describe the current static Astro architecture |
@@ -48,7 +52,7 @@ Units 1, 2, and 4 have no ordering dependency and can proceed in parallel or any
 ## Risks
 
 | Risk | Likelihood | Mitigation |
-|------|------------|------------|
+| ------ | ------------ | ------------ |
 | `docs/` rewrite exceeds 400-line budget in one PR | High | Sub-slice by folder in `sdd-tasks`; `auto-chain` creates chained PRs automatically |
 | `.env.example` content was triangulated (session denies direct `.env*` reads), not read directly | Low | Apply phase attempts a direct read/diff first before deleting |
 | `docs/github-profile-README.md` left unresolved | Low | Explicitly flagged as out of scope; not silently dropped |
@@ -63,8 +67,8 @@ None external. No new npm packages.
 
 ## Success Criteria
 
-- [ ] `404.astro` has a passing Playwright e2e spec
-- [ ] `.env.example` contains no vars unused in `src/`
-- [ ] Every file under `docs/` describes the actual current architecture (verified against `src/`), except the flagged-out-of-scope `docs/github-profile-README.md`
-- [ ] Root `LICENSE` file exists with MIT text
-- [ ] `pnpm run build` and `pnpm test` (Playwright) stay green throughout
+- [x] `404.astro` has a passing Playwright e2e spec
+- [x] `.env.example` contains no vars unused in `src/`
+- [x] Every file under `docs/` describes the actual current architecture (verified against `src/`), except the flagged-out-of-scope `docs/github-profile-README.md`
+- [x] Root `LICENSE` file exists with MIT text
+- [x] `pnpm run build` and `pnpm test` (Playwright) stay green throughout

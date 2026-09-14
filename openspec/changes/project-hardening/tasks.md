@@ -80,9 +80,9 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 6: docs/ rewrite — Batch C2 (`docs/guides/best-practices.md`) — HIGH RISK, own PR
 
-- [ ] 6.1 Rewrite `docs/guides/best-practices.md` around the real conventions in `.claude/rules/code-standards.md` (read-only): TypeScript strict, `.astro` vs `.tsx` usage (repo is currently 100% `.astro`, zero `.tsx`), Tailwind utilities, file naming. Remove the entire "Bleeding Edge Stack" section (React 19.2, Motion v12, Zod, shadcn `ui/button.tsx`, `cn()` helper — confirmed nonexistent, `src/content/config.ts`).
-- [ ] 6.2 Before committing, run `git diff --stat -- docs/guides/best-practices.md` to measure the actual changed-line count; if it exceeds ~400, split into 2 sequential commits by section (prerequisites/conventions vs. examples/testing/git) instead of shrinking content to fit budget.
-- [ ] 6.3 Verify: grep the file for `React 19`, `Motion`, `shadcn`, `cn()`, `src/content/config.ts`, `Zod`; confirm no matches.
+- [x] 6.1 Rewrite `docs/guides/best-practices.md` around the real conventions in `.claude/rules/code-standards.md` (read-only): TypeScript strict, `.astro` vs `.tsx` usage (repo is currently 100% `.astro`, zero `.tsx`), Tailwind utilities, file naming. Remove the entire "Bleeding Edge Stack" section (React 19.2, Motion v12, Zod, shadcn `ui/button.tsx`, `cn()` helper — confirmed nonexistent, `src/content/config.ts`).
+- [x] 6.2 Before committing, run `git diff --stat -- docs/guides/best-practices.md` to measure the actual changed-line count; if it exceeds ~400, split into 2 sequential commits by section (prerequisites/conventions vs. examples/testing/git) instead of shrinking content to fit budget.
+- [x] 6.3 Verify: grep the file for `React 19`, `Motion`, `shadcn`, `cn()`, `src/content/config.ts`, `Zod`; confirm no matches.
 
 ## Phase 7: docs/ rewrite — Batch D (lib)
 
@@ -96,6 +96,6 @@ Units 1, 2, 4, 7, 8 have no ordering dependency on each other. Units 3, 5, 6 (do
 
 ## Phase 9: Final verification
 
-- [ ] 9.1 Run `pnpm run build`; confirm it stays green with no errors.
-- [ ] 9.2 Run `pnpm run test:e2e`; confirm the full Playwright suite passes including the new `tests/404/` spec.
-- [ ] 9.3 Re-check proposal.md's Success Criteria against final state (404 spec passes, `.env.example` clean, `docs/` accurate except the flagged-out-of-scope `docs/github-profile-README.md`, `LICENSE` present).
+- [x] 9.1 Run `pnpm run build`; confirm it stays green with no errors.
+- [x] 9.2 Run `pnpm run test:e2e`; confirm the full Playwright suite passes including the new `tests/404/` spec.
+- [x] 9.3 Re-check proposal.md's Success Criteria against final state (404 spec passes, `.env.example` clean, `docs/` accurate except the flagged-out-of-scope `docs/github-profile-README.md`, `LICENSE` present).
