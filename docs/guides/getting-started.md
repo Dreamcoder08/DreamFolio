@@ -9,7 +9,7 @@
 | Herramienta | Versión | Verificar | De dónde sale |
 | ------------- | --------- | ----------- | ---------------- |
 | **Node.js** | 24.x | `node --version` | `.nvmrc` y `engines` en `package.json` |
-| **pnpm** | 12.4.1 | `pnpm --version` | `packageManager` en `package.json` |
+| **pnpm** | 11.27.0 | `pnpm --version` | `packageManager` en `package.json` |
 | **Git** | 2.x | `git --version` | — |
 
 ---
