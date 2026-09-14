@@ -142,3 +142,95 @@ assertion, so the README edit is covered by a test rather than by inspection.
 
 6/6 tasks of this slice complete (9/27 total). Gates green on the final bytes. Ready for the
 independent review of its PR; the remaining slices follow as separate chained PRs.
+
+---
+
+## Slice 2 of the re-sliced chain: Phase 3 (docs Batch A) + Phase 4 (Batch B) + Phase 7 (Batch D) — COMPLETE
+
+### What was wrong, measured
+
+The documentation described an architecture the repository does not have. Measured before writing
+a line of the replacement:
+
+| Claim in the old docs | Reality |
+| --- | --- |
+| `src/components/sections/` with `VisualLab`, `CollaborationSection`, `SystemUnit`, `CraftProtocol`, `TrinitySection`, `TechnicalDepth` | **No `src/components/sections/` directory exists.** |
+| Four client islands: `Navbar.tsx`, `EnhancedHero.tsx`, `EvidenceEngine.tsx`, `TechnicalIntake.tsx` | **Zero `.tsx` files, zero `client:*` directives** (`grep -rn "client:" src/` returns nothing), and no React dependency in `package.json`. |
+| `src/lib/utils.ts` | Does not exist. |
+| "React islands only for real interaction" | There is no client framework at all: three `.astro` components and two vanilla scripts. |
+
+### Completed Tasks
+
+- **3.1** `docs/README.md` rewritten around the real tree: static shell, five pages plus the
+  `robots.txt` endpoint, three `.astro` components, the typed collection, the six `src/lib` modules
+  and the two stylesheets. Its link to the deleted `technical-intake.md` was dangling and is gone.
+- **3.2** `docs/architecture/README.md` rewritten: decision table and runtime composition now name
+  the real files, and the "no client framework" decision replaces the island rows.
+- **3.3** `docs/architecture/stack-comparison.md` keeps the Astro-vs-Next.js comparison and drops the
+  fictional claims — the client-JavaScript row now says this repo opts out entirely, and the
+  auth/database row records that there is no backend.
+- **3.4** `docs/architecture/islands-architecture.md` replaced by a short note: there are no islands,
+  here is what the two vanilla scripts are, and here is the rule for revisiting that.
+- **3.5** Verified: no `EnhancedHero`, `EvidenceEngine`, `TechnicalIntake` or `Supabase` left in
+  `docs/README.md` or `docs/architecture/`.
+- **4.1** Deleted `docs/components/{collaboration,technical-intake,hero,navigation}.md`.
+- **4.2** `docs/components/README.md` rewritten as the catalog of the three real components, plus a
+  table of the layout and the pages.
+- **4.3** Verified: `docs/components/` holds only `README.md`, and it contains no `React`, `.tsx` or
+  `hydrat` string.
+- **7.1** `docs/lib/README.md` rewritten against the real exports.
+- **7.2** Verified: no `utils.ts`; `site.ts`, `icons.ts`, `project-presentation.ts` and
+  `project-case-studies.ts` all appear.
+
+### Files Changed
+
+Six documents rewritten (`docs/README.md`, `docs/architecture/{README,islands-architecture,stack-comparison}.md`,
+`docs/components/README.md`, `docs/lib/README.md`) and four deleted.
+
+### Work Unit Evidence
+
+| Command | Result |
+| --- | --- |
+| `grep -rn "client:" src/` | no matches — the zero-hydration claim is measured |
+| `grep -rnE "EnhancedHero\|EvidenceEngine\|TechnicalIntake\|Supabase" docs/README.md docs/architecture/` | no matches (3.5) |
+| `grep -nE "React\|\.tsx\|hydrat" docs/components/README.md` | no matches (4.3) |
+| `ls docs/components/` | `README.md` only (4.3) |
+| `grep -n "utils.ts" docs/lib/README.md` | no matches; the four real filenames all present (7.2) |
+| dangling links to the deleted files under `docs/` | none |
+| `pnpm run format:check` / `git diff --check` | clean |
+| `pnpm run test:unit` | 15/15 |
+
+### Deviations from Design
+
+1. **`docs/lib/README.md` documents six modules, not the four the task named.** The task lists
+   `site.ts`, `icons.ts`, `project-presentation.ts` and `project-case-studies.ts`; `src/lib/` also
+   contains `analytics.ts` and `astro-mode.ts`, both consumed by `astro.config.mjs` and the layout.
+   Documenting four would have replaced one inaccuracy with another.
+2. **`docs/README.md`'s "Key docs" list changed shape.** It linked the deleted
+   `technical-intake.md`; it now links the architecture overview, the islands note, the stack
+   comparison, the component catalog, the library helpers and getting started.
+3. **Three markdown tables are padded by this session's markdownlint autofix**, the same cosmetic
+   churn slice 1 disclosed. `openspec/` is excluded from prettier, and the `docs/*.md` tables were
+   already in the non-padded style.
+4. **Language.** These six documents are English and stay English; `docs/profile-assets.md` is
+   Spanish and was left alone as out of scope.
+
+### Issues Found
+
+1. `docs/README.md` carried a link to `docs/components/technical-intake.md`, which this slice
+   deletes. Removing the link is part of the change, not a follow-up; a dangling link in the first
+   document a reader opens is exactly the class of debt this change exists to remove.
+2. `docs/architecture/README.md` and `docs/components/README.md` claimed island directives
+   (`client:load`, `client:idle`, `client:visible`) with component files that never existed. Any
+   reader following them would have found nothing.
+
+### Remaining Tasks
+
+- [ ] Phase 5 — docs Batch C1 (slice 3)
+- [ ] Phase 6 — docs Batch C2 (slice 4, alone)
+- [ ] Phase 9 — Final verification (after all slices land)
+
+### Status
+
+10/10 tasks of this slice complete (19/27 total). Gates green on the final bytes. Ready for the
+review of its PR; slices 3 and 4 follow.
