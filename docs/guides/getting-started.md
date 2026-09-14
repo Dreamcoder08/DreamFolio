@@ -8,8 +8,8 @@
 
 | Herramienta | Versión | Verificar | De dónde sale |
 | ------------- | --------- | ----------- | ---------------- |
-| **Node.js** | 22.x | `node --version` | `.nvmrc` y `engines` en `package.json` |
-| **pnpm** | 10.33.0 | `pnpm --version` | `packageManager` en `package.json` |
+| **Node.js** | 24.x | `node --version` | `.nvmrc` y `engines` en `package.json` |
+| **pnpm** | 12.4.1 | `pnpm --version` | `packageManager` en `package.json` |
 | **Git** | 2.x | `git --version` | — |
 
 ---
