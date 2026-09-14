@@ -47,6 +47,10 @@ lighthouse-report.*
 .codegraph/
 .playwright-mcp/
 
+# Native SDD runtime marker, written per change by the Gentle AI attempt ledger.
+# Machine state, not source: it must never be committed.
+.gentle-ai-instance
+
 # Documentos de capacidades: exports de uso local, nunca en el repositorio. Un
 # PDF exportado conserva el nombre legal en el nombre de archivo y en el
 # metadato Title, así que el patrón cubre cualquier export futuro.
