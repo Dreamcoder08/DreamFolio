@@ -111,21 +111,24 @@ never broken.
 These are open. Their absence from the verify report would be a defect in the
 report.
 
-1. **No human visual pass has been done**, and there is no screenshot baseline
-   anywhere in `tests/`, so no visual regression is machine-detectable.
+1. **Human visual pass — performed 2026-09-13.** Resolved; see the human-pass
+   section below for the instrument, the outcome and its true resolution. No screenshot
+   baseline exists anywhere in `tests/`, so no visual regression is machine-detectable.
 2. **The theme-toggle cross-fade is lost** for non-interactive elements
    (`bee791d`; six of six sampled elements snap). Accepted, not fixed — recovering
    it without a universal rule needs a temporary class during the switch, i.e. new
    client-side JS, which is out of scope.
-3. **The `.module-row` reveal stagger is lost** for `nth-child(2)` and
-   `nth-child(3)` (`05cef35`; they read `0s` where they read `0.08s`/`0.16s`).
-   Open decision.
-4. **`.module-row`'s declared `translateX(5px)` still never applies**, because
-   `.motion-ready [data-reveal].is-visible` wins the transform cascade.
-   Pre-existing, outside unit 4.
+3. **The `.module-row` reveal stagger — restored 2026-09-13.** Resolved; see the debt
+   elimination section below. `nth-child(2)` and `nth-child(3)` read `0.08s` and `0.16s`
+   again on the fade, and the interaction properties stay immediate.
+4. **`.module-row`'s declared `translateX(5px)` — deleted 2026-09-13.** Resolved; see
+   the debt elimination section below. It was unsanctioned by the design and unreachable
+   in the enhanced path, so removing it is the fix rather than a loss.
 5. **`::-webkit-scrollbar-thumb:hover`** could not be measured — Chromium exposes
    no dependable locator for the pseudo-element.
-6. `sdd-sync` and `sdd-archive` have not run.
+6. `sdd-sync` ran and **refused** (`sync-report.md`, `status: blocked`) while the
+   verification verdict is `fail`; `sdd-archive` has not run and cannot until the
+   strict-TDD policy question is settled.
 
 ## Gates on the final tree
 
@@ -317,3 +320,111 @@ replace it. It is anchored to
 `sha256:d888a53d89b3bddbf35ca8baa4a9ae720fa7e4bd50369f759082c1574e9e4f1b`
 (`src/styles/portfolio.css`), the bytes the served build was made from; any later
 edit to that file invalidates this pass for that file.
+
+## Debt elimination, second slice (2026-09-13)
+
+### The recorded trade-off was false
+
+The unit-4 comment at `portfolio.css` documented the lost `.module-row` stagger as an
+unavoidable consequence: restoring it "would mean delaying the interaction properties
+with it, which is the defect being fixed here, or writing a per-property delay list with
+a bare `0`, which the unit contract's 'no bare time literal' clause exists to keep out of
+these declarations".
+
+The second horn was misread. Both contracts ban the **literal**, not the **value**:
+`tests/unit/tokens.test.ts` A10 matches `/\d+(?:\.\d+)?m?s\b/` and
+`tests/unit/transition-contract.test.ts` clause (c) matches
+`/\b\d*\.?\d+(?:ms|s)\b/` — and `0s` matches both. A token for zero is legal
+vocabulary; a bare zero is not. The choice was never between delaying the press and
+breaking the contract; it was between having a zero token and not having one.
+
+### What changed
+
+- `global.css` — `--motion-none: 0s` joins the motion tokens.
+- `portfolio.css` — the stagger is restored at `(0,4,0)`, above the merged
+  `.motion-ready [data-reveal].module-row` declaration at `(0,3,0)`, as a per-property
+  delay list whose last slot is `opacity`, the only reveal property in that list:
+  `var(--motion-none), var(--motion-none), var(--motion-none), var(--motion-stagger)`.
+  The row's fade staggers again (0.08s / 0.16s) while hover and press stay immediate —
+  **stricter than the pre-change behaviour**, which delayed every property including the
+  interaction ones.
+- `portfolio.css` — the `.module-row` halves of the two `.principles article` stagger
+  rules are deleted. They are `(0,3,0)` — two classes and a pseudo-class, the same as the
+  merged selector — so they lost on **source order**, being earlier in the file, and were
+  shadowed dead selectors. `.principles article` keeps its own rules, unchanged.
+- `portfolio.css` — `.module-row:hover`'s `transform: translateX(5px)` is deleted. It is
+  absent from the design (`design.md`'s hover row for `.module-row` reads "fill step +
+  label promotion"), it never applies in the enhanced path because
+  `.motion-ready [data-reveal].is-visible` owns `transform`, and its only observable
+  effect was an inconsistency: a hover nudge for readers *without* JavaScript and none
+  for everyone else.
+- `tests/theme-state/motion.spec.ts` — the harness now reads `transition-delay`, not only
+  `transition-duration`. **That blindness was the root cause**: a staggered row and a
+  non-staggered row report identical property and duration lists, so no existing
+  assertion could have caught this regression. The new assertion covers
+  `nth-child(1..3)`, so a delay on an interaction slot fails as loudly as a missing
+  fade delay.
+- `tests/theme-state/state-evidence.spec.ts` — the raw-touch test was retitled. It
+  claimed the CDP path "delivers a touch press but no pressed state" while the body
+  deliberately asserts only that the press arrives as a real touch pointer event and
+  records the held delta as a run annotation. The title now says what the body proves,
+  which closes the review's second advisory finding without weakening an assertion.
+
+### RED → GREEN, observed
+
+**RED** (`SITE_BASE=/ pnpm run build && npx playwright test tests/theme-state/motion.spec.ts -g "nth-child stagger"`, pre-fix CSS): 1 failed, and the new read printed the whole diagnosis —
+`transition-property=[background-color, color, transform, opacity] durations=[180, 180, 180, 640]ms delays=[0, 0, 0, 0]ms`
+against an expected `[0, 0, 0, 80]`.
+
+**GREEN**, on the final bytes: the focused test passes; `pnpm run test:unit` 41/41;
+`pnpm run test:e2e` **87/87** (86 + the new stagger assertion); `pnpm run verify` and
+`pnpm run format:check` clean.
+
+This cycle is RED-first in the ordinary sense — the assertion was written and observed
+failing before any production declaration changed — so unlike unit 2 and the border
+remediation it needs no sensitivity-evidence label.
+
+### Fail-capability of the alignment assertion, measured
+
+The stagger assertion checks the *pairing* between a property and its delay rather than
+a bare delay array, because `transition-delay` aligns with `transition-property` by
+index: a positional assertion passes if both lists are reordered in step and the delay
+lands on an interaction property.
+
+That failure mode was injected to prove the assertion catches it: the merged
+declaration's property list was reordered (`opacity` third, `transform` fourth) with the
+delay list left untouched. The measured result is exactly what a positional check would
+have missed:
+
+- on `nth-child(1)`, where every expected delay is `0`, the delay array is still
+  `[0, 0, 0, 0]` — indistinguishable from correct;
+- the alignment-aware assertion failed anyway, naming the mispaired entries (`transform`
+  where `opacity` was expected, and vice versa) and printing
+  `transition-property=[background-color, color, opacity, transform]`.
+
+The injection was then reverted and the file restored byte-identically (`prettier
+--write` reports it unchanged).
+
+### Three review findings, fixed in place
+
+The native review of this slice (`review-3bf3ef636e5e023a`, approved, authority burned)
+returned three advisory findings, all of them on this slice's own diff. All three are
+addressed rather than deferred:
+
+- `R3-specificity-comment-miscites-value` — **a factual error this slice introduced**.
+  The comment claimed the shadowed stagger halves were `(0,2,0)` against a `(0,3,0)`
+  declaration. They are `(0,3,0)` — two classes and a pseudo-class — the same as the
+  merged selector, so they lose on *source order*, not on specificity. The comment now
+  says that, and says why the replacement is `(0,4,0)`: it wins outright and keeps
+  winning if the declaration is ever moved.
+- `R3-module-row-stagger-scope-narrowed` — the restored selector requires
+  `[data-reveal]`, which the rule it replaces did not. That narrowing is deliberate and
+  is now documented: the stagger is only meaningful where the reveal runs, and the
+  attribute supplies the fourth specificity unit that makes the rule order-independent.
+- `R3-stagger-delay-property-alignment` — see the section above.
+
+They are recorded here rather than in the review store because the review is
+provider-owned and read-only from this side; the fix is the evidence.
+
+**Gates on the final bytes of this slice**: `pnpm run test:unit` 41/41,
+`pnpm run test:e2e` **87/87**, `pnpm run verify` clean, `pnpm run format:check` clean.

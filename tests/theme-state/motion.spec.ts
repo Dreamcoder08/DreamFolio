@@ -58,6 +58,16 @@ const THEME_STORAGE_KEY = "dreamfolio-theme";
 const DARK: Theme = THEME.DARK;
 
 /**
+ * `--motion-stagger`, pinned rather than derived from the token.
+ *
+ * The duration assertions in this file pin their design values the same way
+ * (180 and 640), and for the same reason: a test that reads the token it is
+ * checking cannot notice the token changing. The second row doubles it through
+ * `calc(var(--motion-stagger) * 2)`, so 160 is the value under test, not 80 twice.
+ */
+const STAGGER_MS = 80;
+
+/**
  * The properties a state can signal through, and the computed name each is read
  * back as. `border-radius` is included because a state-driven radius mutation is
  * the same defect class; `outline-*` is excluded (see the header).
@@ -82,6 +92,15 @@ interface MotionRead {
   readonly properties: readonly string[];
   /** The computed `transition-duration` list, aligned with `properties`, in ms. */
   readonly durationsMs: readonly number[];
+  /**
+   * The computed `transition-delay` list, aligned with `properties`, in ms.
+   *
+   * Read because a duration alone cannot see a stagger: a row whose fade is
+   * delayed by 80ms and one that is not both report the same duration list. The
+   * stagger is the one motion behaviour this harness could not observe, and that
+   * blindness is why it regressed unnoticed.
+   */
+  readonly delaysMs: readonly number[];
 }
 
 interface MotionTarget {
@@ -265,6 +284,9 @@ async function readState(page: Page, selector: string): Promise<MotionRead> {
         durationsMs: style.transitionDuration
           .split(",")
           .map((part) => parseTime(part)),
+        delaysMs: style.transitionDelay
+          .split(",")
+          .map((part) => parseTime(part)),
       };
     }, PROBES);
 }
@@ -341,7 +363,8 @@ function coverageGaps(
 function describeRead(read: MotionRead): string {
   return (
     `transition-property=[${read.properties.join(", ")}] ` +
-    `durations=[${read.durationsMs.join(", ")}]ms`
+    `durations=[${read.durationsMs.join(", ")}]ms ` +
+    `delays=[${read.delaysMs.join(", ")}]ms`
   );
 }
 
@@ -652,6 +675,53 @@ test.describe("Motion coverage — .module-row", () => {
         hover.values["color"],
         "and its label must be promoted off --color-text-secondary",
       ).not.toBe(rest.values["color"]);
+    },
+  );
+
+  test(
+    "the nth-child stagger delays the fade only, never the interaction properties",
+    { tag: ["@critical", "@e2e", "@motion", "@MOTION-MODULE-ROW-STAGGER"] },
+    async ({ page }) => {
+      const ui = TARGETS.find((target) => target.selector === ".module-row");
+      if (ui === undefined) throw new Error(".module-row is not in TARGETS");
+      await prepare(page, ui, DARK);
+
+      // The merged declaration lists four properties in this order:
+      // background-color, color, transform, opacity. Only the last one is the
+      // reveal's fade. The stagger must land on that slot alone, so the two
+      // interaction properties and the reveal's slide stay immediate — the
+      // whole point of merging the lists was that a delayed press is the
+      // defect this change fixed.
+      for (const child of [1, 2, 3] as const) {
+        const read = await readState(
+          page,
+          `.module-list .module-row:nth-child(${child})`,
+        );
+        const staggered = child === 1 ? 0 : STAGGER_MS * (child - 1);
+        // Assert the *pairing*, not the position. A delay list is aligned with
+        // the property list by index, so an assertion that pinned the bare array
+        // would still pass if both lists were reordered in step and the delay
+        // landed on an interaction property. Naming the property beside each delay
+        // makes that drift fail.
+        const delays = read.properties.map((property, index) => ({
+          property,
+          delayMs: read.delaysMs[index] ?? Number.NaN,
+        }));
+        expect(
+          delays,
+          `.module-list .module-row:nth-child(${child}) [${describeRead(read)}]: ` +
+            `only the reveal's fade may be delayed, by ${staggered}ms, and every ` +
+            `interaction property by nothing. A zero on opacity means the reveal ` +
+            `lost its stagger again; a non-zero on background-color, color or ` +
+            `transform means a hover or a press is being delayed, which is worse ` +
+            `than losing the stagger`,
+        ).toEqual([
+          { property: "background-color", delayMs: 0 },
+          { property: "color", delayMs: 0 },
+          { property: "transform", delayMs: 0 },
+          { property: "opacity", delayMs: staggered },
+        ]);
+      }
     },
   );
 

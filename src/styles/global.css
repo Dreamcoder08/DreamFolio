@@ -66,6 +66,7 @@
   --radius-arch: 48% 48% 8px 8px;
 
   /* ---- MOTION (one system; portfolio.css aliases resolve from here) ---- */
+  --motion-none: 0s;
   --motion-fast: 180ms;
   --motion-image: 350ms;
   --motion-reveal: 640ms;

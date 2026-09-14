@@ -494,7 +494,7 @@ test.describe("Touch press in a coarse-pointer context", () => {
   test.use({ hasTouch: true, viewport: VIEWPORT_SIZE[VIEWPORT.MOBILE] });
 
   test(
-    "the raw-touch CDP path is measured, not assumed: it delivers a touch press but no pressed state",
+    "the raw-touch CDP path is measured, not assumed: it delivers a real touch press, and the held state is recorded rather than asserted",
     {
       tag: ["@e2e", "@theme-state", "@THEME-STATE-TOUCH-PATH"],
     },

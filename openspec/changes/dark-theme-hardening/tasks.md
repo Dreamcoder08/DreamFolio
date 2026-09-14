@@ -324,9 +324,17 @@ the specs, and none of these changes the code under test.
    can reproduce it. The evidence is anchored to
    `sha256:d888a53d89b3bddbf35ca8baa4a9ae720fa7e4bd50369f759082c1574e9e4f1b`
    (`src/styles/portfolio.css`) — the bytes the served build was made from.
-2. **The `.module-row` reveal stagger decision** — `nth-child(2)` and
-   `nth-child(3)` read `0s` where they read `0.08s` and `0.16s`. Measured in
-   `05cef35` and left as an open decision.
+2. **The `.module-row` reveal stagger — resolved 2026-09-13.** `nth-child(2)` and
+   `nth-child(3)` read `0.08s` and `0.16s` again on the fade, while hover and press stay
+   immediate. The trade-off recorded in `05cef35` was false: both token contracts ban the
+   bare *literal* (`0s` included), not the *value*, so a `--motion-none: 0s` token makes
+   the per-property delay list legal. See `apply-progress.md`'s debt-elimination section.
+   The same slice deleted `.module-row:hover`'s unsanctioned `translateX(5px)` and
+   retitled the raw-touch test to match what its body asserts.
 3. **Merge of PR #29** — merges to `main` deploy to production through GitHub
    Actions → GitHub Pages.
-4. **`sdd-sync` and `sdd-archive`** have not run.
+4. **`sdd-sync` and `sdd-archive`** — `sdd-sync` ran and **refused** (`sync-report.md`,
+   `status: blocked`) while the verification verdict is `fail`, and it also reported the
+   dangling `REMOVED` requirement that the still-active `dual-theme-design-system`
+   change owns. `sdd-archive` has not run, and cannot until the strict-TDD policy
+   question is settled.

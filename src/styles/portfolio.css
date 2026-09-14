@@ -954,7 +954,6 @@ a:hover {
 .module-row:hover {
   color: var(--color-text);
   background: var(--color-surface-hover);
-  transform: translateX(5px);
 }
 .module-index {
   color: var(--color-text-secondary);
@@ -1164,12 +1163,10 @@ a:hover {
   opacity: 1;
   transform: translateY(0);
 }
-.motion-ready .principles article:nth-child(2),
-.motion-ready .module-row:nth-child(2) {
+.motion-ready .principles article:nth-child(2) {
   transition-delay: var(--motion-stagger);
 }
-.motion-ready .principles article:nth-child(3),
-.motion-ready .module-row:nth-child(3) {
+.motion-ready .principles article:nth-child(3) {
   transition-delay: calc(var(--motion-stagger) * 2);
 }
 @keyframes hero-rise {
@@ -1811,12 +1808,17 @@ a:hover {
    row therefore finishes in 180ms while its fade keeps the full 640ms. Every other
    `[data-reveal]` element keeps `opacity, transform` at `--motion-reveal`.
 
-   Consequence worth knowing: this declaration resets `transition-delay` too, so it
-   supersedes `.motion-ready .module-row:nth-child(2|3)`'s stagger delay for this
-   row (equal specificity, later in source). Restoring it would mean delaying the
-   interaction properties with it, which is the defect being fixed here, or writing
-   a per-property delay list with a bare `0`, which the unit contract's "no bare time
-   literal" clause exists to keep out of these declarations. */
+   Resolution: this declaration still resets `transition-delay`, so the
+   `.motion-ready .module-row:nth-child(2|3)` halves of the stagger rules above
+   cannot reach this row. Their specificity is (0,3,0) — two classes and a
+   pseudo-class — and so is this rule's second selector, so they lose on **source
+   order** rather than on specificity. The delay therefore lives immediately below
+   inside a (0,4,0) selector, which wins outright and keeps winning if anyone moves
+   this declaration. The zero that a per-property delay list needs for the three
+   interaction slots is `--motion-none`, not a bare `0`, so the "no bare time
+   literal" clause stays satisfied. The delay lands on the `opacity` slot alone:
+   this row's fade finally staggers while its hover and press stay immediate, which
+   is stricter than the pre-change behaviour that delayed every property. */
 .module-row,
 .motion-ready [data-reveal].module-row {
   transition:
@@ -1824,4 +1826,28 @@ a:hover {
     color var(--motion-fast),
     transform var(--motion-fast) var(--motion-ease),
     opacity var(--motion-reveal) var(--motion-ease);
+}
+
+/* The stagger, at a specificity the merged declaration above cannot outrank.
+   The four slots follow that declaration's property order — `background-color`,
+   `color`, `transform`, `opacity` — so only the last one is the reveal's fade and
+   the three interaction slots stay at `--motion-none`. Delaying any of them would
+   reintroduce the delayed press this change exists to remove.
+    
+   The scope is deliberately narrower than the rule it replaces: the selector
+   requires `[data-reveal]`, which `.motion-ready .module-row:nth-child(2|3)` did
+   not. The stagger is only meaningful where the reveal runs — a row without the
+   attribute has no fade to delay, and its interaction slots are `--motion-none` in
+   this list either way — so requiring the attribute states the real precondition
+   and supplies the fourth specificity unit that makes this rule independent of
+   source order. */
+.motion-ready [data-reveal].module-row:nth-child(2) {
+  transition-delay:
+    var(--motion-none), var(--motion-none), var(--motion-none),
+    var(--motion-stagger);
+}
+.motion-ready [data-reveal].module-row:nth-child(3) {
+  transition-delay:
+    var(--motion-none), var(--motion-none), var(--motion-none),
+    calc(var(--motion-stagger) * 2);
 }
