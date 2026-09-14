@@ -1833,7 +1833,7 @@ a:hover {
    `color`, `transform`, `opacity` — so only the last one is the reveal's fade and
    the three interaction slots stay at `--motion-none`. Delaying any of them would
    reintroduce the delayed press this change exists to remove.
-    
+
    The scope is deliberately narrower than the rule it replaces: the selector
    requires `[data-reveal]`, which `.motion-ready .module-row:nth-child(2|3)` did
    not. The stagger is only meaningful where the reveal runs — a row without the
