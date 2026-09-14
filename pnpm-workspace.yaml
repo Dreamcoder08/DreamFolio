@@ -8,6 +8,13 @@ allowBuilds:
   esbuild: false
   sharp: false
 
+# Astro's generated prerender entry imports `cookie` by bare name, so it has to resolve from the
+# project root. Without this, resolution walks past the project and can land in an unrelated
+# `node_modules` in a parent directory, which is exactly how a stray `$HOME/node_modules/cookie@0.7.2`
+# broke the build here while CI stayed green.
+publicHoistPattern:
+  - cookie
+
 # pnpm 11 stopped reading these from `.npmrc`: it now reads only auth and
 # registry settings there, and every other setting moved to this file. Left
 # behind in `.npmrc` they would have stopped applying without saying so.
