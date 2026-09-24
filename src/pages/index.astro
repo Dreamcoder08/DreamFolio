@@ -5,6 +5,7 @@ import { siteConfig, withBase, mailto } from "../lib/site";
 import "../styles/portfolio.css";
 import Icon from "../components/ui/Icon.astro";
 import ProfileCard from "../components/ui/ProfileCard.astro";
+import ConvergenceField from "../components/ui/ConvergenceField.astro";
 ---
 
 <BaseLayout
@@ -15,62 +16,67 @@ import ProfileCard from "../components/ui/ProfileCard.astro";
   <Navbar />
 
   <main id="main-content" class="portfolio">
-    <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="hero-kicker">
-        <span class="mono">DREAMCODER / SOFTWARE & IA</span>
-        <span class="location">
-          <Icon name="location" size={15} /> Perú
-        </span>
-      </div>
+    <section class="hero" aria-labelledby="hero-title">
+      <ConvergenceField />
+      <div class="hero-content wrap">
+        <div class="hero-kicker">
+          <span class="mono">DREAMCODER / SOFTWARE & IA</span>
+          <span class="location">
+            <Icon name="location" size={15} /> Perú
+          </span>
+        </div>
 
-      <div class="hero-stage">
-        <div class="hero-copy">
-          <p class="hero-intro">Software, sistemas de IA y producto digital</p>
-          <h1 id="hero-title">
-            Ideas que
-            <br />
-            <span>se vuelven</span>
-            <br />
-            sistemas.
-          </h1>
-          <div class="hero-brief">
-            <p>
-              Diseño y construyo software con criterio técnico, interfaces
-              claras y decisiones que se pueden explicar.
+        <div class="hero-stage">
+          <div class="hero-copy">
+            <p class="hero-intro">
+              Software, sistemas de IA y producto digital
             </p>
-            <div class="actions">
-              <a class="solid-link" href="#projects">
-                Ver proyectos <Icon name="down" size={18} />
-              </a>
-              <a class="quiet-link" href={siteConfig.social.github}>
-                <Icon name="github" size={19} /> GitHub{" "}
-                <Icon name="arrow" size={17} />
-              </a>
+            <h1 id="hero-title">
+              Ideas que
+              <br />
+              <span>se vuelven</span>
+              <br />
+              sistemas.
+            </h1>
+            <div class="hero-brief">
+              <p>
+                Diseño y construyo software con criterio técnico, interfaces
+                claras y decisiones que se pueden explicar.
+              </p>
+              <div class="actions">
+                <a class="solid-link" href="#projects">
+                  Ver proyectos <Icon name="down" size={18} />
+                </a>
+                <a class="quiet-link" href={siteConfig.social.github}>
+                  <Icon name="github" size={19} /> GitHub{" "}
+                  <Icon name="arrow" size={17} />
+                </a>
+              </div>
             </div>
           </div>
+          <div class="hero-portrait">
+            <span class="portrait-orbit" aria-hidden="true">
+              08
+            </span>
+            <ProfileCard />
+            <p class="portrait-note mono">
+              <span>●</span> OPERANDO DESDE PERÚ
+            </p>
+          </div>
         </div>
-        <div class="hero-portrait">
-          <span class="portrait-orbit" aria-hidden="true">
-            08
-          </span>
-          <ProfileCard />
-          <p class="portrait-note mono">
-            <span>●</span> OPERANDO DESDE PERÚ
-          </p>
-        </div>
-      </div>
 
-      <div class="hero-ticker" aria-label="Áreas de trabajo">
-        <span>
-          <Icon name="layers" size={17} /> ARQUITECTURA
-        </span>
-        <span>
-          <Icon name="agents" size={17} /> IA CON SUPERVISIÓN
-        </span>
-        <span>
-          <Icon name="code" size={17} /> PRODUCTO DIGITAL
-        </span>
-        <span class="hero-index">PORTAFOLIO / 2026</span>
+        <div class="hero-ticker" aria-label="Áreas de trabajo">
+          <span>
+            <Icon name="layers" size={17} /> ARQUITECTURA
+          </span>
+          <span>
+            <Icon name="agents" size={17} /> IA CON SUPERVISIÓN
+          </span>
+          <span>
+            <Icon name="code" size={17} /> PRODUCTO DIGITAL
+          </span>
+          <span class="hero-index">PORTAFOLIO / 2026</span>
+        </div>
       </div>
     </section>
 
