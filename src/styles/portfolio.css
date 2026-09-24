@@ -222,6 +222,30 @@ a:hover {
   padding-top: 118px;
   display: flex;
   flex-direction: column;
+  /* Own stacking context for the convergence field: the canvas is an
+     absolutely positioned first child, full-bleed (unlike everything else
+     in the hero — see .hero-content). isolation keeps its z-index from
+     leaking into/out of any later section's own stacking. */
+  position: relative;
+  isolation: isolate;
+}
+/* Everything else in the hero stays wrap-width and centered, exactly like
+   every other section on the page — only .hero itself is full-bleed, so
+   the canvas can span the full viewport width behind it. This single
+   wrapper is also the one thing that needs a z-index above the canvas:
+   nothing nested inside it (.hero-kicker, .hero-stage, .hero-portrait,
+   .hero-copy, .hero-ticker, ...) needs its own, since they never share a
+   stacking context with the canvas directly. */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* A flex item's default min-height:auto can refuse to shrink below its
+     content's natural size; 0 lets this nested column behave exactly like
+     .hero itself used to before this wrapper existed. */
+  min-height: 0;
 }
 .hero-kicker {
   display: flex;
