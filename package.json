@@ -24,7 +24,9 @@
     "secret:scan": "gitleaks detect --source . --no-banner --redact",
     "check": "astro sync && tsc --noEmit",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",
-    "verify": "pnpm run build && pnpm run check"
+    "verify": "pnpm run build && pnpm run check",
+    "snapshots": "node scripts/visual-snapshots.mjs",
+    "perf:probe": "node scripts/perf-probe.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
