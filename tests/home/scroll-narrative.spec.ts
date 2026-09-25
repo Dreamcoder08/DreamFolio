@@ -84,20 +84,25 @@ test.describe("Homepage — HUD progress rail", () => {
       };
 
       const fill = page.locator(".scroll-rail-fill");
-      const atTop = scaleYOf(
-        await fill.evaluate((el) => getComputedStyle(el).transform),
+      const fillScale = async (): Promise<number> =>
+        scaleYOf(await fill.evaluate((el) => getComputedStyle(el).transform));
+      // Poll the baseline too: before the scroll(root) timeline is active
+      // the computed transform is `none`, which reads as scaleY 1 — a value
+      // the fill can never exceed, so the growth check below could not pass.
+      await expect.poll(fillScale).toBeLessThan(0.2);
+      const atTop = await fillScale();
+      await page.evaluate(() =>
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "instant",
+        }),
       );
-      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       // Scroll timelines are sampled once per frame, so a synchronous read
       // right after scrollTo can still see the pre-scroll value: poll.
       await expect
-        .poll(
-          async () =>
-            scaleYOf(
-              await fill.evaluate((el) => getComputedStyle(el).transform),
-            ),
-          { message: `rail fill must grow with scroll from scaleY=${atTop}` },
-        )
+        .poll(fillScale, {
+          message: `rail fill must grow with scroll from scaleY=${atTop}`,
+        })
         .toBeGreaterThan(atTop);
     },
   );
@@ -188,16 +193,23 @@ test.describe("Homepage — scroll-driven section narrative", () => {
       // must still be genuinely hidden — otherwise this test could pass
       // even if the scroll-timeline wiring were entirely broken and
       // everything just rendered statically visible.
-      const connectKickerOpacity = await page
-        .locator("#connect .scene-kicker")
-        .evaluate((el) => getComputedStyle(el).opacity);
-      expect(
-        Number(connectKickerOpacity),
-        "the last section's kicker must start hidden — this is the " +
-          "scroll-driven half of the contract; a value of 1 here means " +
-          "the animation never ran, and the reduced-motion test above " +
-          "already covers the always-visible fallback",
-      ).toBeLessThan(1);
+      // Polled: in the first frame after navigation the view() timeline may
+      // not be resolved yet, and an inactive animation reads as opacity 1.
+      await expect
+        .poll(
+          () =>
+            page
+              .locator("#connect .scene-kicker")
+              .evaluate((el) => Number(getComputedStyle(el).opacity)),
+          {
+            message:
+              "the last section's kicker must start hidden — this is the " +
+              "scroll-driven half of the contract; a value of 1 here means " +
+              "the animation never ran, and the reduced-motion test above " +
+              "already covers the always-visible fallback",
+          },
+        )
+        .toBeLessThan(1);
 
       for (const id of [
         "projects",

@@ -532,12 +532,16 @@ async function traceReveal(
   readonly opacity: readonly number[];
   readonly translateY: readonly number[];
 }> {
-  return page.evaluate(
+  const trace = await page.evaluate(
     (target) =>
-      new Promise<{ opacity: number[]; translateY: number[] }>((resolve) => {
+      new Promise<{
+        opacity: number[];
+        translateY: number[];
+        completed: boolean;
+      }>((resolve) => {
         const el = document.querySelector(target);
         if (el === null) {
-          resolve({ opacity: [], translateY: [] });
+          resolve({ opacity: [], translateY: [], completed: true });
           return;
         }
         const opacity: number[] = [];
@@ -595,12 +599,27 @@ async function traceReveal(
           const stillStepping = stepIndex < STEPS || now - doneAt < 700;
           if (stillStepping && now - started < 6_000)
             requestAnimationFrame(step);
-          else resolve({ opacity, translateY });
+          else
+            resolve({
+              opacity,
+              translateY,
+              // False when the wall-clock cap cut the trace short.
+              completed: stepIndex >= STEPS && now - doneAt >= 700,
+            });
         };
         requestAnimationFrame(step);
       }),
     selector,
   );
+  // A trace cut off by the cap would look exactly like a real cut; fail
+  // loudly instead of letting the caller mistake it for evidence.
+  if (!trace.completed) {
+    throw new Error(
+      `traceReveal(${selector}): hit the 6 s cap before crossing the entry ` +
+        "range and settling — the runner is too loaded to trace the reveal",
+    );
+  }
+  return { opacity: trace.opacity, translateY: trace.translateY };
 }
 
 for (const target of TARGETS) {
