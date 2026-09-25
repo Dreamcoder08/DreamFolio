@@ -2,12 +2,16 @@
 // and composition contract tests read, plus the fixed list a few of those
 // tests iterate over.
 import { at, strip } from "./css-parsing.ts";
+import { readCssInlined } from "./css-imports.ts";
 
 // global.css imports base.css (its `@layer base` block, split out for size),
 // so the contracts read them as one global sheet.
 export const GLOBAL =
   strip(at("src/styles/global.css")) + "\n" + strip(at("src/styles/base.css"));
-export const PORTFOLIO = strip(at("src/styles/portfolio.css"));
+// portfolio.css is itself only an ordered list of `@import "./portfolio/…";`
+// lines; readCssInlined resolves them recursively so this constant is the
+// exact same effective text it was before the split.
+export const PORTFOLIO = strip(readCssInlined("src/styles/portfolio.css"));
 export const CONSOLE_CSS = strip(at("src/styles/components/console.css"));
 export const TERMINAL_CSS = strip(at("src/styles/components/terminal.css"));
 

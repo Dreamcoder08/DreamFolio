@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { readCssInlined } from "./support/css-imports.ts";
 
 /**
  * The exempted element's border contract (`theme-state-hardening`, amended
@@ -117,7 +118,11 @@ function declarations(
   return out;
 }
 
-const PORTFOLIO = blind(at("src/styles/portfolio.css"));
+// portfolio.css is only an ordered `@import` list of partials;
+// readCssInlined resolves them recursively so this is the exact same
+// effective text as before the split, and `lineOf` below reports a line
+// number in that inlined text rather than in any one partial file.
+const PORTFOLIO = blind(readCssInlined("src/styles/portfolio.css"));
 const GLOBAL = blind(at("src/styles/global.css"));
 
 const lineOf = (css: string, offset: number): number =>

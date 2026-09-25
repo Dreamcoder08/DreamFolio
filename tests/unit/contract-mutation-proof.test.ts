@@ -53,13 +53,16 @@ const SHEETS = [
   "src/styles/components/terminal.css",
 ] as const;
 
-/** Same-repo modules a checker imports beyond SHEETS/itself. Currently only
- *  transition-contract.test.ts needs these (it reads GLOBAL/PORTFOLIO from
- *  the shared support module instead of re-reading files itself), but
- *  copying them for every checker is harmless and needs no per-guard field. */
+/** Same-repo modules a checker imports beyond SHEETS/itself. transition-
+ *  contract.test.ts reads GLOBAL/PORTFOLIO from the shared support module
+ *  instead of re-reading files itself; state-border-contract.test.ts reads
+ *  portfolio.css's own `@import` chain through css-imports.ts directly.
+ *  Copying all of these for every checker is harmless and needs no
+ *  per-guard field. */
 const SUPPORT_FILES = [
   "tests/unit/support/stylesheets.ts",
   "tests/unit/support/css-parsing.ts",
+  "tests/unit/support/css-imports.ts",
 ] as const;
 
 /** `node --experimental-strip-types` needs the package type in the temp tree too. */
