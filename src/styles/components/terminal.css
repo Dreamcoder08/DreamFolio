@@ -1,0 +1,217 @@
+/* MU-TH-UR 6000 terminal (phase 3, T2). A screen in BOTH themes, styled
+   only through the --terminal-* tokens in tokens/components.css (dark:
+   phosphor; light: paper/e-ink) — never a page --color-* token directly. */
+.mu-terminal {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  margin-top: 28px;
+  padding: 20px 22px 24px;
+  background: var(--terminal-surface);
+  color: var(--terminal-ink);
+  border: 1px solid var(--terminal-border);
+  border-radius: var(--radius-panel);
+  box-shadow:
+    var(--shadow-inset-ring),
+    0 0 0 1px color-mix(in srgb, var(--terminal-accent) 20%, transparent);
+}
+/* Static scanline overlay, tinted from --terminal-scanline (near-white in
+   dark, dark-brown in light) — decorative, pointer-events: none, ≤6% so
+   it doesn't move the contrast ratios (see ODD task doc). */
+.mu-terminal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--terminal-scanline) 6%, transparent) 0px,
+    color-mix(in srgb, var(--terminal-scanline) 6%, transparent) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+.mu-terminal-header,
+.mu-terminal-boot,
+.mu-terminal-composer {
+  position: relative;
+  z-index: 2;
+}
+.mu-terminal-header {
+  margin-bottom: 12px;
+  color: var(--terminal-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+.mu-terminal-boot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--terminal-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+.mu-terminal-line {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  /* Default/no-JS/reduced-motion: fully visible — text never renders past
+     its own width, so 100% just reveals it. Typing below is additive. */
+  width: 100%;
+}
+.mu-terminal-cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  margin-top: 2px;
+  background: var(--terminal-accent);
+  vertical-align: -0.15em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mu-terminal-line {
+    width: 0;
+    animation-name: mu-type-in;
+    /* 50 steps comfortably covers every current boot line (max 41
+       characters); a longer line would just reveal slightly more than one
+       character per step near the end, not break anything. */
+    animation-timing-function: steps(50, end);
+    animation-duration: var(--motion-reveal);
+    animation-fill-mode: both;
+  }
+  @keyframes mu-type-in {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  /* Per-line stagger via :nth-child, not inline style (CSP drops those
+     silently — see the component) or a raw delay (A10 requires a
+     --motion-* token). Keep in sync with MuTerminal.astro's bootLines. */
+  .mu-terminal-boot .mu-terminal-line:nth-child(2) {
+    animation-delay: var(--motion-reveal);
+  }
+  .mu-terminal-boot .mu-terminal-line:nth-child(3) {
+    animation-delay: calc(var(--motion-reveal) * 2);
+  }
+  .mu-terminal-cursor {
+    animation-name: mu-blink;
+    animation-duration: 1s;
+    animation-timing-function: steps(1, end);
+    animation-iteration-count: infinite;
+  }
+  @keyframes mu-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+.mu-terminal-composer {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mu-terminal-composer[hidden] {
+  display: none;
+}
+.mu-terminal-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--terminal-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+}
+/* Prompt row: the ">" marker plus the field turns each input into a
+   terminal prompt line rather than a boxed form field — no background
+   box, just a baseline rule, so the field reads as part of the screen. */
+.mu-terminal-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mu-terminal-prompt-row--top {
+  align-items: flex-start;
+  padding-top: 10px;
+}
+.mu-terminal-prompt {
+  flex: 0 0 auto;
+  color: var(--terminal-accent);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1;
+}
+.mu-terminal-input,
+.mu-terminal-textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 4px;
+  color: var(--terminal-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--terminal-border);
+  border-radius: var(--radius-sharp);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  caret-color: var(--terminal-accent);
+}
+.mu-terminal-input::placeholder,
+.mu-terminal-textarea::placeholder {
+  color: var(--terminal-ink-muted);
+  opacity: 1;
+}
+.mu-terminal-input {
+  min-height: 44px;
+}
+.mu-terminal-textarea {
+  min-height: 110px;
+  /* Multi-line, so a full border (not baseline-only) — raised surface, not
+     a separate white box. */
+  border: 1px solid var(--terminal-border);
+  border-radius: var(--radius-sharp);
+  padding: 10px 12px;
+  background: var(--terminal-surface-raised);
+  resize: vertical;
+}
+.mu-terminal-input:focus-visible,
+.mu-terminal-textarea:focus-visible,
+.mu-terminal-submit:focus-visible {
+  outline: 2px solid var(--terminal-focus);
+  outline-offset: 2px;
+}
+.mu-terminal-submit {
+  align-self: flex-start;
+  min-height: 44px;
+  padding-inline: 22px;
+  color: var(--terminal-on-accent);
+  background: var(--terminal-accent);
+  border: 1px solid var(--terminal-accent);
+  border-radius: var(--radius-sharp);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.mu-terminal-submit:hover {
+  background: var(--terminal-accent-hover);
+  border-color: var(--terminal-accent-hover);
+}
+.mu-terminal-submit:active {
+  background: var(--terminal-accent-active);
+  border-color: var(--terminal-accent-active);
+}
+/* Manual-open fallback: hidden until a transmission is composed (see the
+   component), a real link so it works with no JS-driven navigation at all. */
+.mu-terminal-fallback-link {
+  align-self: flex-start;
+  color: var(--terminal-accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

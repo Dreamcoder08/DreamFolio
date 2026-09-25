@@ -1,0 +1,78 @@
+---
+import { mailto } from "../../lib/site";
+import Icon from "../ui/Icon.astro";
+---
+
+<section
+  id="services"
+  class="section-flush-top wrap"
+  aria-labelledby="services-title"
+  data-reveal
+>
+  <header class="section-heading">
+    <div>
+      <p class="eyebrow scene-kicker">04 / SERVICIOS</p>
+      <h2 id="services-title" class="scene-heading">
+        Construyo software.
+        <br />
+        <span>Tú defines el alcance.</span>
+      </h2>
+    </div>
+    <p class="heading-note">
+      Compromisos seleccionados, con alcance y supuestos por escrito.
+    </p>
+  </header>
+  <div class="module-list">
+    <a
+      href={mailto("Servicio: Producto web")}
+      class="module-row scene-card"
+      data-reveal
+    >
+      <span class="module-index mono">01</span>
+      <span class="module-icon">
+        <Icon name="code" size={23} />
+      </span>
+      <h3>Producto web</h3>
+      <span class="module-label">Sitios y apps</span>
+      <p>
+        Landing pages, sitios de negocio y aplicaciones internas con Astro o
+        React, listos para producción.
+      </p>
+      <Icon name="arrow" size={18} />
+    </a>
+    <a
+      href={mailto("Servicio: Automatización con IA")}
+      class="module-row scene-card"
+      data-reveal
+    >
+      <span class="module-index mono">02</span>
+      <span class="module-icon">
+        <Icon name="agents" size={23} />
+      </span>
+      <h3>Automatización con IA</h3>
+      <span class="module-label">Agentes y flujos</span>
+      <p>
+        Flujos con LLMs para clasificar, extraer o asistir procesos internos,
+        con revisión humana en los puntos críticos.
+      </p>
+      <Icon name="arrow" size={18} />
+    </a>
+    <a
+      href={mailto("Servicio: Revisión de arquitectura")}
+      class="module-row scene-card"
+      data-reveal
+    >
+      <span class="module-index mono">03</span>
+      <span class="module-icon">
+        <Icon name="evidence" size={23} />
+      </span>
+      <h3>Revisión de arquitectura</h3>
+      <span class="module-label">Auditoría técnica</span>
+      <p>
+        Evaluación de arquitectura, seguridad y escalabilidad de un sistema
+        existente, con hallazgos accionables.
+      </p>
+      <Icon name="arrow" size={18} />
+    </a>
+  </div>
+</section>

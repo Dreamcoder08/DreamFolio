@@ -41,8 +41,26 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 
-/** The stylesheets both contracts read. The temp tree has to carry both. */
-const SHEETS = ["src/styles/global.css", "src/styles/portfolio.css"] as const;
+/** The stylesheets both contracts read, directly or (for transition-contract,
+ *  via the shared support module, which reads every SHEETS-listed file at
+ *  module-evaluation time regardless of which export a checker imports) so
+ *  the temp tree has to carry all of them. */
+const SHEETS = [
+  "src/styles/global.css",
+  "src/styles/base.css",
+  "src/styles/portfolio.css",
+  "src/styles/components/console.css",
+  "src/styles/components/terminal.css",
+] as const;
+
+/** Same-repo modules a checker imports beyond SHEETS/itself. Currently only
+ *  transition-contract.test.ts needs these (it reads GLOBAL/PORTFOLIO from
+ *  the shared support module instead of re-reading files itself), but
+ *  copying them for every checker is harmless and needs no per-guard field. */
+const SUPPORT_FILES = [
+  "tests/unit/support/stylesheets.ts",
+  "tests/unit/support/css-parsing.ts",
+] as const;
 
 /** `node --experimental-strip-types` needs the package type in the temp tree too. */
 const PACKAGE_JSON = `${JSON.stringify({ type: "module", private: true }, null, 2)}\n`;
@@ -109,6 +127,12 @@ function buildTree(
       target,
       inject !== undefined && rel === sheet ? inject(original) : original,
     );
+  }
+
+  for (const rel of SUPPORT_FILES) {
+    const target = join(tree, rel);
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, readFileSync(join(ROOT, rel)));
   }
 
   const checkerFile = join(tree, checker);

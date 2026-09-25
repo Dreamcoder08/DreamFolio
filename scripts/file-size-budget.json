@@ -54,7 +54,7 @@
     },
     {
       "path": "tests/unit/tokens.test.ts",
-      "ceiling": 743
+      "ceiling": 624
     },
     {
       "path": "src/lib/convergence/controller.ts",
@@ -73,16 +73,12 @@
       "ceiling": 648
     },
     {
-      "path": "src/pages/index.astro",
-      "ceiling": 544
-    },
-    {
       "path": "tests/home/convergence-forced.spec.ts",
       "ceiling": 417
     },
     {
       "path": "src/styles/global.css",
-      "ceiling": 405
+      "ceiling": 302
     },
     {
       "path": "src/lib/convergence/field.ts",
@@ -103,10 +99,6 @@
     {
       "path": "src/lib/convergence/shaders.ts",
       "ceiling": 203
-    },
-    {
-      "path": "src/layouts/BaseLayout.astro",
-      "ceiling": 201
     }
   ]
 }

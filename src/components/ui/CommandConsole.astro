@@ -1,0 +1,171 @@
+---
+// The ⌘K ship console: a keyboard-first command palette mounted once in
+// BaseLayout so it's available from every page. Command data (sections,
+// projects, theme, contact) is computed here at build time and serialized
+// to JSON for the client — the heavy filter/render module is only fetched
+// on first use (see the eager script below), so this costs nothing until a
+// visitor actually opens it.
+import { getCollection } from "astro:content";
+import { siteConfig, withBase, mailto } from "../../lib/site";
+import { getProjectSlug } from "../../lib/project-presentation";
+import { buildCommands } from "../../lib/console/registry";
+import { CONSOLE_SECTIONS } from "../../lib/console/sections";
+import Icon from "./Icon.astro";
+import "../../styles/components/console.css";
+
+const projectsCollection = await getCollection("projects");
+const projects = projectsCollection.map((entry) => {
+  const slug = getProjectSlug(entry.data.title);
+  return {
+    slug,
+    title: entry.data.title,
+    href: withBase(`/projects/${slug}/`),
+  };
+});
+
+const commands = buildCommands({
+  sections: CONSOLE_SECTIONS,
+  allProjectsHref: withBase("/projects/"),
+  projects,
+  githubHref: siteConfig.social.github,
+  xHref: siteConfig.social.x,
+  mailtoHref: mailto("Contacto desde la consola"),
+  email: siteConfig.contact.email,
+});
+
+// A JSON script block is never executed, so the CSP script-src policy (and
+// its hash requirement for inline scripts) does not apply to it — only the
+// "<" escape below is needed, so a stray "</script>" inside a label or URL
+// can't prematurely close the tag.
+const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
+---
+
+{/* The trigger button itself lives in Navbar.astro (so it renders inside
+     the header, reachable on mobile the same way the theme/menu buttons
+     are) — this component only owns the dialog, its data, and the script
+     that wires the two together via id lookups. */}
+<dialog
+  id="ship-console"
+  class="ship-console"
+  aria-label="Consola de navegación"
+>
+  <div class="ship-console-panel">
+    <div class="ship-console-field">
+      <Icon name="terminal" size={16} class="ship-console-field-icon" />
+      <input
+        id="console-input"
+        class="ship-console-input"
+        type="text"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="console-listbox"
+        aria-autocomplete="list"
+        aria-activedescendant=""
+        aria-label="Buscar un comando"
+        placeholder="Buscar…"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <kbd class="ship-console-esc">Esc</kbd>
+    </div>
+    <ul
+      id="console-listbox"
+      class="ship-console-list"
+      role="listbox"
+      aria-label="Comandos disponibles"
+    ></ul>
+    <p id="console-empty" class="ship-console-empty" hidden>
+      Sin resultados. Prueba con otra palabra.
+    </p>
+    <div id="console-copy-fallback" class="ship-console-copy-fallback" hidden>
+      <label for="console-copy-input">Copia manualmente (Ctrl/Cmd + C)</label>
+      <input id="console-copy-input" type="text" readonly />
+    </div>
+    <div
+      id="console-status"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+    ></div>
+  </div>
+</dialog>
+{/* Outside the dialog: a closed <dialog>'s content isn't in the
+    accessibility tree, so a load failure before the console ever opens
+    needs its own always-present, genuinely visible (not sr-only) status. */}
+<p id="console-load-status" role="status" aria-live="assertive"></p>
+
+<script
+  type="application/json"
+  id="console-data"
+  set:html={commandsJson}
+></script>
+<script>
+  // Eager and tiny: detects the platform, reveals the trigger (hidden
+  // without JS), and lazily loads the console on first use — same-origin
+  // module, already allowed by script-src 'self'.
+  import { shouldReload } from "../../lib/console/chunk-recovery.ts";
+
+  (function setup() {
+    const trigger = document.getElementById("console-trigger");
+    if (!trigger) return;
+
+    const isApple = /Mac|iPhone|iPad|iPod/.test(
+      navigator.userAgent || navigator.platform || "",
+    );
+    const hint = document.getElementById("console-trigger-hint");
+    if (hint) hint.textContent = isApple ? "⌘K" : "Ctrl K";
+    trigger.hidden = false;
+
+    let openConsole: (() => void) | null = null;
+
+    // A stale hashed chunk (common right after a redeploy) makes this
+    // import() reject. One silent reload usually fixes it; a second
+    // failure fails visibly instead of looping.
+    async function ensureLoaded(): Promise<(() => void) | null> {
+      if (openConsole) return openConsole;
+      try {
+        const mod = await import("../../lib/console/driver.ts");
+        openConsole = mod.mountConsole();
+        return openConsole;
+      } catch {
+        if (shouldReload()) {
+          window.location.reload();
+          return null;
+        }
+        const status = document.getElementById("console-load-status");
+        if (status)
+          status.textContent =
+            "No se pudo cargar la consola. Recarga la página.";
+        return null;
+      }
+    }
+
+    trigger.addEventListener("click", () => {
+      void ensureLoaded().then((open) => open?.());
+    });
+
+    window.addEventListener("keydown", (event) => {
+      const isComboKey =
+        (event.metaKey || event.ctrlKey) &&
+        !event.altKey &&
+        event.key.toLowerCase() === "k";
+      if (!isComboKey) return;
+
+      const target = event.target as HTMLElement | null;
+      const consoleInput = document.getElementById("console-input");
+      const isTyping =
+        !!target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable);
+      // Never hijack a modifier+K combo typed into another field — except
+      // the console's own input, which re-focuses without resetting (see
+      // driver.ts's open()) instead of inserting the letter K.
+      if (isTyping && target !== consoleInput) return;
+
+      event.preventDefault();
+      void ensureLoaded().then((open) => open?.());
+    });
+  })();
+</script>
