@@ -1,0 +1,117 @@
+---
+import "../../styles/components/terminal.css";
+
+// MU-TH-UR 6000 terminal, a nod to Alien's ship computer, in #connect.
+// Composer stays `hidden` until script enhances it; without JS the existing
+// mailto button (kept by the caller) is the only way to write in — CSP's
+// `form-action 'none'` is why this is a plain button, not a <form>.
+
+// Typing effect is pure CSS (.mu-terminal-line :nth-child in terminal.css),
+// not an inline style — this CSP has no style-src-attr override, so inline
+// style="" is silently dropped. Keep this list in sync with the CSS.
+const bootLines = [
+  "> Inicializando enlace seguro...",
+  "> Verificando protocolo de transmisión...",
+  "> Canal listo. Redacta tu mensaje.",
+];
+---
+
+<div class="mu-terminal">
+  <p class="mu-terminal-header mono">
+    MU-TH-UR 6000 · INTERFACE 2037 · CANAL ABIERTO
+  </p>
+  <div class="mu-terminal-boot" aria-hidden="true">
+    {bootLines.map((line) => (
+      <p class="mu-terminal-line">{line}</p>
+    ))}
+    <span class="mu-terminal-cursor"></span>
+  </div>
+
+  <div id="terminal-composer" class="mu-terminal-composer" hidden>
+    <div class="mu-terminal-field">
+      <label for="terminal-subject">Asunto (opcional)</label>
+      <div class="mu-terminal-prompt-row">
+        <span class="mu-terminal-prompt" aria-hidden="true">
+          &gt;
+        </span>
+        <input
+          id="terminal-subject"
+          class="mu-terminal-input"
+          type="text"
+          maxlength="120"
+          placeholder="Motivo del contacto"
+        />
+      </div>
+    </div>
+    <div class="mu-terminal-field">
+      <label for="terminal-body">Escribe tu transmisión</label>
+      <div class="mu-terminal-prompt-row mu-terminal-prompt-row--top">
+        <span class="mu-terminal-prompt" aria-hidden="true">
+          &gt;
+        </span>
+        <textarea
+          id="terminal-body"
+          class="mu-terminal-textarea"
+          rows="4"
+          placeholder="Hola, me gustaría hablar sobre..."
+        ></textarea>
+      </div>
+    </div>
+    <button id="terminal-submit" type="button" class="mu-terminal-submit">
+      &gt; Transmitir_
+    </button>
+    <a id="terminal-fallback-link" class="mu-terminal-fallback-link" hidden>
+      ¿No se abrió tu correo? Usa este enlace
+    </a>
+    <div
+      id="terminal-status"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+    ></div>
+  </div>
+</div>
+
+<script>
+  import { buildMailto } from "../../lib/terminal/mailto.ts";
+  import { siteConfig } from "../../lib/site";
+
+  const composer = document.getElementById("terminal-composer");
+  if (composer) {
+    // Progressive enhancement: hidden in markup, revealed only once this
+    // module has actually run — a visitor without JS never sees a composer
+    // that can't do anything (form-action 'none' blocks real submission).
+    composer.hidden = false;
+
+    const subjectInput = document.getElementById(
+      "terminal-subject",
+    ) as HTMLInputElement | null;
+    const bodyInput = document.getElementById(
+      "terminal-body",
+    ) as HTMLTextAreaElement | null;
+    const submitButton = document.getElementById("terminal-submit");
+    const status = document.getElementById("terminal-status");
+    const fallbackLink = document.getElementById(
+      "terminal-fallback-link",
+    ) as HTMLAnchorElement | null;
+
+    submitButton?.addEventListener("click", () => {
+      const url = buildMailto({
+        to: siteConfig.contact.email,
+        subject: subjectInput?.value ?? "",
+        body: bodyInput?.value ?? "",
+      });
+      if (status) status.textContent = "Abriendo tu cliente de correo…";
+      // A visible, real fallback: location.href = "mailto:" never completes
+      // a normal navigation (it hands off to an external protocol handler,
+      // or does nothing for a visitor with no mail client configured), so
+      // this link is the only way those visitors can still reach the built
+      // address.
+      if (fallbackLink) {
+        fallbackLink.href = url;
+        fallbackLink.hidden = false;
+      }
+      window.location.href = url;
+    });
+  }
+</script>

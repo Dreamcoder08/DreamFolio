@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { GLOBAL, PORTFOLIO } from "./support/stylesheets.ts";
 
 /**
  * Unit 4's RED-first transition contract (design §7.3).
@@ -22,11 +22,6 @@ import { readFileSync } from "node:fs";
  * exist in source, not that the browser composes them; unit 3's e2e harness and
  * the human visual pass cover that.
  */
-
-const at = (rel: string) =>
-  readFileSync(new URL(`../../${rel}`, import.meta.url), "utf8");
-
-const strip = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, "");
 
 interface Rule {
   readonly prelude: string;
@@ -95,10 +90,12 @@ function declarations(body: string, names: Set<string>) {
   return out;
 }
 
-const GLOBAL = strip(at("src/styles/global.css"));
-const PORTFOLIO = strip(at("src/styles/portfolio.css"));
+// GLOBAL/PORTFOLIO (global.css + base.css, and portfolio.css, comments
+// stripped) come from the shared support module so this file doesn't
+// re-read and re-strip the same sources the token/composition contracts
+// already load.
 const SHEETS = [
-  ["src/styles/global.css", GLOBAL],
+  ["src/styles/global.css + base.css", GLOBAL],
   ["src/styles/portfolio.css", PORTFOLIO],
 ] as const;
 

@@ -1,0 +1,46 @@
+---
+import { siteConfig } from "../../lib/site";
+import Icon from "../ui/Icon.astro";
+---
+
+<section id="about" class="about-section" data-reveal>
+  <div class="wrap about-grid">
+    <div class="about-title">
+      <p class="eyebrow scene-kicker">02 / DETRÁS DEL CÓDIGO</p>
+      <h2 class="scene-heading">
+        Autodidacta.
+        <br />
+        Curioso por naturaleza.
+        <br />
+        <span>Constructor por elección.</span>
+      </h2>
+      <span class="about-mark" aria-hidden="true">
+        {" "}
+        A<span>/</span>08{" "}
+      </span>
+    </div>
+    <div class="about-copy">
+      <p class="about-lead">
+        Soy <strong>Dreamcoder</strong>, desarrollador de software y sistemas de
+        IA.
+      </p>
+      <p>
+        Desde Perú, conecto mis intereses en software, inteligencia artificial y
+        contabilidad para construir herramientas útiles.
+      </p>
+      <p>
+        Trabajo desde un laboratorio propio de productos de software e IA, con
+        foco en sistemas que exigen trazabilidad y revisión humana.
+      </p>
+      <p>
+        Aprendo construyendo, leyendo código y cuestionando decisiones. Me
+        interesa tanto lo que ve una persona en pantalla como lo que permite que
+        el sistema funcione por dentro.
+      </p>
+      <a class="quiet-link" href={siteConfig.social.github}>
+        <Icon name="github" size={18} /> Conoce mi trabajo en GitHub{" "}
+        <Icon name="arrow" size={17} />
+      </a>
+    </div>
+  </div>
+</section>

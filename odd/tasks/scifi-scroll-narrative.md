@@ -35,7 +35,7 @@ Phase 2 of the approved sci-fi redesign (2026-09-24). User authorized full auton
 - [x] T0 Extract pure helpers from `src/lib/convergence/controller.ts` (`parseHexColor`, `readThemeColors`, `pickParticleCount`, `domRectToFieldAnchor`) into a tested module; document why the remaining closures stay (shared mount state) — route: delegated writer
 - [x] T1 Cross-document View Transitions: opt-in, sci-fi root transition, shared project art + title for the 3 projects, reduced-motion off — route: delegated writer
 - [x] T2 Scroll-driven section narrative + HUD progress rail, `@supports`-gated, replaces `data-reveal` where taken over — route: delegated writer
-- [ ] T3 e2e + snapshots + perf probe + real-Chrome check; RDD review; PR(s) — route: parent + writer
+- [x] T3 e2e + snapshots + perf probe + real-Chrome check; RDD review; PR(s) — route: parent + writer — merged #55, #56, #57
 
 ## Acceptance criteria
 
@@ -63,3 +63,11 @@ Phase 2 of the approved sci-fi redesign (2026-09-24). User authorized full auton
 - Parent verification (capped, sequential): unit 76/76; check 0; format:check clean; full e2e 115/115; stress run of motion + transitions + narrative specs ×3: 99/99.
 - RDD review lineage review-3f773a2620796bf9 (medium, reliability) on 71a0ddd..895e0a5: APPROVED, acknowledged, burned. Its 4 advisory findings fixed: rail-fill test now polls (e18234e), motion contracts skip without scroll-timeline support + deterministic trace (4252130), view-transition nesting proven (9c68ddd), particle budget wording (f241c3b). Follow-ups assessed: medium, under_budget (187 lines) → pending, no review due.
 - Found by the parent: missing stagger coverage (added, e18234e); a flaky motion trace (~1 in 8 under load). Root cause: the site's `scroll-behavior: smooth` turns programmatic `scrollTo` into smooth scrolls that skip frames under load, so scroll-driven reveals crossed their entry range in one frame. Fixed with an instant jump + 8 px instant steps.
+
+## Closure (2026-09-25)
+
+- Self-critique before merge (slowed CDP frames at 8% playback): the title morph paired different strings ("Drenyra" vs "Drenyra — Fiscal Command Center") and left a stretched ghost → dropped; only project art is shared, guarded by a regression test.
+- HUD rail upgraded: starts below the header, CSS-only `042%` readout (`@property` integer + `scroll(root)` + `counter()`), clamped with `1cqh - 0.01lh` so it ends exactly on the rail bottom (measured at 1280×720, 1440×900, 1920×1080).
+- Stack review (medium, reliability) approved; its findings fixed: VT-UNSHARED rewritten and mutation-proven (fails with the gate removed), rail baseline and #connect kicker polled, `traceReveal` throws when its cap cuts a trace.
+- Verification: e2e 117/117; stress runs 70/70; CI green on every PR; Pages deploy success; live headless: rail visible, cross-document transition `finished` OK, 0 console errors on 4 pages.
+- Not verified: the full transition on the user's GPU — the automation-attached Chrome aborted it twice ("viewport size changed", "page already revealed"); navigation completed normally both times.

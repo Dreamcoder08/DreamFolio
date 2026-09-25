@@ -1,0 +1,55 @@
+/* ============================================
+   COMPONENT TOKENS
+   Component-scoped token sets, not --color-* aliases. Split out of
+   global.css so the design-system palette in global.css stays scoped to the
+   *system*, not to any one component. Imported right after Tailwind in
+   global.css, so the @theme block below still merges into the same theme
+   layer, and the plain [data-theme=light] block still stays unlayered — the
+   same cascade position both had before this file existed.
+   ============================================ */
+
+/* ---- TERMINAL (MU-TH-UR composer, phase 3 T2) ----
+   The terminal must read as a screen embedded in the page, not as a panel
+   that follows the page's own surface/text pairing 1:1. Every value is
+   still derived from the already-declared --color-* palette via var()
+   (never a new raw literal), so it stays inside the same design system and
+   the A1/A3-A5/A11 token contract in tests/unit/tokens.test.ts (which only
+   scans --color-* declarations and color-mix() compositions) never needs to
+   know about this namespace. Dark mode: reuses the site's own near-black/
+   phosphor pairing as-is — the terminal already *is* what dark mode looks
+   like. Light mode below intentionally diverges.
+
+   This block must stay inside @theme (Tailwind's theme layer) because that
+   is how the original dark declarations were layered in global.css: moving
+   it here must not change whether it wins or loses a cascade fight against
+   anything else declared in that same layer. */
+@theme {
+  --terminal-surface: var(--color-surface);
+  --terminal-surface-raised: var(--color-surface-alt);
+  --terminal-ink: var(--color-text);
+  --terminal-ink-muted: var(--color-text-secondary);
+  --terminal-accent: var(--color-accent);
+  --terminal-accent-hover: var(--color-accent-hover);
+  --terminal-accent-active: var(--color-accent-active);
+  --terminal-on-accent: var(--color-on-accent);
+  --terminal-border: var(--color-border-strong);
+  --terminal-focus: var(--color-focus);
+  --terminal-scanline: var(--color-text);
+}
+
+/* ---- TERMINAL, light mode: only the surface differs ----
+   Every other --terminal-* value above is itself var(--color-*), which
+   already resolves per theme through global.css's own light overrides —
+   repeating them here would just shadow the same resolved value with
+   itself. --terminal-surface is the one exception: --color-surface-elevated
+   (not --color-surface, the page's own cream) is a slightly lighter,
+   distinct cream, so the terminal reads as its own screen rather than the
+   section showing through.
+
+   This block must stay unlayered (a plain selector, not wrapped in @theme
+   or @layer) for the same reason it was unlayered in global.css: unlayered
+   beats layered regardless of source order, so this is what keeps it
+   beating the layered @theme block above. */
+[data-theme="light"] {
+  --terminal-surface: var(--color-surface-elevated);
+}

@@ -1,44 +1,30 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
-import { extname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   composite,
   formatRatio,
   ratio,
   relativeLuminance,
 } from "../support/contrast.ts";
+import {
+  at,
+  blocks,
+  colorMixes,
+  declarations,
+  escapeSelector,
+  normalise,
+  splitTopLevel,
+} from "./support/css-parsing.ts";
+import { ROOT, readTree, walk } from "./support/fs-tree.ts";
+import { GLOBAL, PORTFOLIO, SHEETS } from "./support/stylesheets.ts";
 
 /**
  * Token contract. Reads the `@theme` block and the `--color-*`-declaring
  * `[data-theme="light"]` block — never the second light block that only sets
  * `color-scheme`, which a naive regex would pick up.
  */
-
-const at = (rel: string) =>
-  readFileSync(new URL(`../../${rel}`, import.meta.url), "utf8");
-const strip = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, "");
-
-function body(css: string, open: number): string {
-  let depth = 0;
-  for (let i = open; i < css.length; i += 1) {
-    if (css[i] === "{") depth += 1;
-    else if (css[i] === "}" && (depth -= 1) === 0)
-      return css.slice(open + 1, i);
-  }
-  throw new Error("unbalanced block");
-}
-
-function blocks(css: string, header: RegExp): string[] {
-  const out: string[] = [];
-  for (const match of css.matchAll(header)) {
-    const open = (match.index ?? 0) + match[0].length - 1;
-    assert.equal(css[open], "{");
-    out.push(body(css, open));
-  }
-  return out;
-}
 
 function tokens(css: string): Map<string, string> {
   const map = new Map<string, string>();
@@ -49,24 +35,6 @@ function tokens(css: string): Map<string, string> {
   }
   return map;
 }
-
-function declarations(css: string, names: Set<string>) {
-  const out: { property: string; value: string }[] = [];
-  for (const chunk of css.split(/[;{}]/)) {
-    const match = /^\s*([\w-]+)\s*:\s*([\s\S]+?)\s*$/.exec(chunk);
-    if (match && names.has(match[1])) {
-      out.push({ property: match[1], value: match[2].replace(/\s+/g, " ") });
-    }
-  }
-  return out;
-}
-
-const GLOBAL = strip(at("src/styles/global.css"));
-const PORTFOLIO = strip(at("src/styles/portfolio.css"));
-const SHEETS = [
-  ["src/styles/global.css", GLOBAL],
-  ["src/styles/portfolio.css", PORTFOLIO],
-] as const;
 
 const dark = tokens(blocks(GLOBAL, /@theme\s*\{/g)[0]);
 const light = tokens(
@@ -202,41 +170,6 @@ const DECLARED: Record<(typeof MODES)[number], Map<string, string>> = {
   dark,
   light,
 };
-
-const ROOT = fileURLToPath(new URL("../../", import.meta.url));
-
-const TEXT_EXTENSIONS = new Set([
-  ".astro",
-  ".css",
-  ".html",
-  ".js",
-  ".json",
-  ".md",
-  ".mjs",
-  ".svg",
-  ".ts",
-  ".txt",
-]);
-
-function walk(relative: string): string[] {
-  const found: string[] = [];
-  for (const entry of readdirSync(join(ROOT, relative), {
-    withFileTypes: true,
-  })) {
-    const next = `${relative}/${entry.name}`;
-    if (entry.isDirectory()) found.push(...walk(next));
-    else found.push(next);
-  }
-  return found;
-}
-
-/** Every text file under `relative`, concatenated: a consumer may live in any of them. */
-function readTree(relative: string): string {
-  return walk(relative)
-    .filter((path) => TEXT_EXTENSIONS.has(extname(path)))
-    .map((path) => readFileSync(join(ROOT, path), "utf8"))
-    .join("\n");
-}
 
 function token(declared: Map<string, string>, key: string): string {
   const value = declared.get(key);
@@ -551,44 +484,6 @@ test("A8: the state steps are real and ordered, per mode", () => {
   }
 });
 
-function colorMixes(css: string): string[] {
-  const mixes: string[] = [];
-  const marker = "color-mix(";
-  let index = css.indexOf(marker);
-  while (index !== -1) {
-    let depth = 0;
-    let cursor = index + marker.length - 1;
-    for (; cursor < css.length; cursor += 1) {
-      if (css[cursor] === "(") depth += 1;
-      else if (css[cursor] === ")") {
-        depth -= 1;
-        if (depth === 0) break;
-      }
-    }
-    mixes.push(css.slice(index + marker.length, cursor));
-    index = css.indexOf(marker, cursor);
-  }
-  return mixes;
-}
-
-function splitTopLevel(value: string): string[] {
-  const parts: string[] = [];
-  let depth = 0;
-  let current = "";
-  for (const character of value) {
-    if (character === "(") depth += 1;
-    else if (character === ")") depth -= 1;
-    if (character === "," && depth === 0) {
-      parts.push(current.trim());
-      current = "";
-      continue;
-    }
-    current += character;
-  }
-  parts.push(current.trim());
-  return parts.filter((part) => part !== "");
-}
-
 test("A11: no color-mix() composes a raw literal — only token references", () => {
   const tokenStep = /^var\(--[\w-]+\)(\s+\d+(?:\.\d+)?%)?$/i;
   const keyword = /^(transparent|currentcolor)$/i;
@@ -683,16 +578,6 @@ const COMPOSITIONS: readonly Composition[] = [
   },
 ];
 
-function normalise(value: string): string {
-  return value
-    .replace(/\s+/g, " ")
-    .replace(/\(\s+/g, "(")
-    .replace(/\s+\)/g, ")")
-    .replace(/\s*,\s*/g, ", ")
-    .replace(/\s*:\s*/g, ": ")
-    .trim();
-}
-
 test("3.7: the color-mix() compositions this change touches are unchanged", () => {
   for (const entry of COMPOSITIONS) {
     const css = entry.file.endsWith("global.css") ? GLOBAL : PORTFOLIO;
@@ -722,10 +607,6 @@ test("3.7: the color-mix() compositions this change touches are unchanged", () =
     );
   }
 });
-
-function escapeSelector(selector: string): string {
-  return selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 const SCREENSHOT_CALL = ["toHave", "Screenshot"].join("");
 
