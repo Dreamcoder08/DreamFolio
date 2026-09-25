@@ -23,8 +23,9 @@
     "test:unit": "node --test --experimental-strip-types \"tests/unit/*.test.ts\"",
     "secret:scan": "gitleaks detect --source . --no-banner --redact",
     "check": "astro sync && tsc --noEmit",
+    "check:size": "node scripts/check-file-size.mjs",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",
-    "verify": "pnpm run build && pnpm run check",
+    "verify": "pnpm run build && pnpm run check && pnpm run check:size",
     "snapshots": "node scripts/visual-snapshots.mjs",
     "perf:probe": "node scripts/perf-probe.mjs"
   },
