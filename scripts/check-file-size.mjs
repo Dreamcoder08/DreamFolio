@@ -77,7 +77,14 @@ const updating = process.argv.includes("--update-allowlist");
 if (updating) {
   const kept = updateAllowlist(files, config);
   config.allowlist = kept;
-  writeFileSync(CONFIG_PATH, `${JSON.stringify(config, null, 2)}\n`);
+  // Format with the repo's Prettier config so the rewrite passes format:check.
+  const prettier = await import("prettier");
+  const options = (await prettier.resolveConfig(CONFIG_PATH)) ?? {};
+  const json = await prettier.format(JSON.stringify(config), {
+    ...options,
+    parser: "json",
+  });
+  writeFileSync(CONFIG_PATH, json);
   console.log(`Updated allowlist: ${kept.length} entries remain.`);
 }
 

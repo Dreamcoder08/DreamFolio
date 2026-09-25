@@ -8,7 +8,7 @@ export default defineConfig({
   // rendering WebGL in software (SwiftShader) on a 7 GB laptop — enough
   // memory and heat to shut the machine down mid-run. Cap local runs; CI
   // keeps Playwright's default. Override with PW_WORKERS when needed.
-  workers: process.env.CI ? undefined : Number(process.env.PW_WORKERS ?? 2),
+  workers: process.env.CI ? undefined : Number(process.env.PW_WORKERS ?? 1),
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
