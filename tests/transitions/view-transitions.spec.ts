@@ -27,8 +27,8 @@ const HOME = "/";
 /** The three projects with a homepage card image and a detail cover image —
  * the only ones carrying a shared `view-transition-name` (see
  * portfolio.css's "Cross-document view transitions" section). `id` is
- * `projects.json`'s stable id, which the `.vt-art-*`/`.vt-title-*` classes
- * and `view-transition-name`s are built from; `slug` is the route
+ * `projects.json`'s stable id, which the `.vt-art-*` classes and
+ * `view-transition-name`s are built from; `slug` is the route
  * (`getProjectSlug` of the title) and only ever appears in a URL — the two
  * differ for drenyra (`id: "drenyra"`, slug
  * `drenyra-fiscal-command-center`), which is exactly the case this
@@ -173,29 +173,20 @@ test.describe("Cross-document view transitions — shared-element names", () => 
 
   for (const { id, slug } of SHARED_ART_PROJECTS) {
     test(
-      `${id}: homepage card art/title and detail cover/heading carry matching names`,
+      `${id}: homepage card art and detail cover carry matching names`,
       { tag: ["@critical", "@e2e", "@transitions", `@VT-SHARED-${id}`] },
       async ({ page }) => {
         await page.emulateMedia({ reducedMotion: "no-preference" });
 
         await page.goto(HOME);
         const homeArtName = await viewTransitionName(page, `.vt-art-${id}`);
-        const homeTitleName = await viewTransitionName(page, `.vt-title-${id}`);
         expect(homeArtName, `${id}: homepage card art`).toBe(
           `project-art-${id}`,
-        );
-        expect(homeTitleName, `${id}: homepage card title`).toBe(
-          `project-title-${id}`,
         );
 
         await page.goto(`/projects/${slug}/`);
         const detailArtName = await viewTransitionName(page, `.vt-art-${id}`);
-        const detailTitleName = await viewTransitionName(
-          page,
-          `.vt-title-${id}`,
-        );
         expect(detailArtName, `${id}: detail cover image`).toBe(homeArtName);
-        expect(detailTitleName, `${id}: detail heading`).toBe(homeTitleName);
       },
     );
   }
@@ -222,6 +213,52 @@ test.describe("Cross-document view transitions — shared-element names", () => 
     },
   );
 
+  /** Regression guard: the title morph was removed on purpose (see
+   * portfolio.css's "Shared project art" comment) because every shared-art
+   * project pairs a short homepage card title (e.g. "Drenyra") with a
+   * longer, different detail `<h1>` (e.g. "Drenyra — Fiscal Command
+   * Center") — a group `view-transition-name` morphs the old text box into
+   * the new one, so two different strings stretch/scale and leave a ghost
+   * of the old text showing through mid-transition. This asserts no
+   * `project-title-*` name is ever produced again, on either end. */
+  test(
+    "no project-title-* view-transition-name exists on the homepage or any detail page",
+    { tag: ["@critical", "@e2e", "@transitions", "@VT-NO-TITLE-MORPH"] },
+    async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+
+      const collectNames = () =>
+        page.evaluate(() =>
+          Array.from(document.querySelectorAll<HTMLElement>("*"))
+            .map(
+              (el) =>
+                (getComputedStyle(el) as unknown as Record<string, string>)[
+                  "viewTransitionName"
+                ],
+            )
+            .filter((name) => name !== "none"),
+        );
+
+      await page.goto(HOME);
+      const homeNames = await collectNames();
+      expect(
+        homeNames.some((name) => name.startsWith("project-title-")),
+        `homepage must carry no project-title-* name, found [${homeNames.join(", ")}] — ` +
+          "reintroducing the shared title morph re-stretches two different " +
+          "strings (card title vs. detail h1) into each other",
+      ).toBe(false);
+
+      for (const { slug } of SHARED_ART_PROJECTS) {
+        await page.goto(`/projects/${slug}/`);
+        const detailNames = await collectNames();
+        expect(
+          detailNames.some((name) => name.startsWith("project-title-")),
+          `/projects/${slug}/ must carry no project-title-* name, found [${detailNames.join(", ")}]`,
+        ).toBe(false);
+      }
+    },
+  );
+
   test(
     "every view-transition-name on the homepage is unique",
     { tag: ["@critical", "@e2e", "@transitions", "@VT-UNIQUE-HOME"] },
@@ -238,8 +275,8 @@ test.describe("Cross-document view transitions — shared-element names", () => 
           )
           .filter((name) => name !== "none"),
       );
-      // The header plus the three shared-art projects' art and title: 7.
-      expect(names.length).toBeGreaterThanOrEqual(7);
+      // The header plus the three shared-art projects' art: 4.
+      expect(names.length).toBeGreaterThanOrEqual(4);
       expect(
         new Set(names).size,
         `duplicate names in [${names.join(", ")}]`,
