@@ -77,7 +77,19 @@ const updating = process.argv.includes("--update-allowlist");
 if (updating) {
   const kept = updateAllowlist(files, config);
   config.allowlist = kept;
-  writeFileSync(CONFIG_PATH, `${JSON.stringify(config, null, 2)}\n`);
+  // Format with the repo's Prettier config so the rewrite passes format:check.
+  // Prettier preserves whether an object already had a newline after `{` in
+  // its input; a compact JSON.stringify() has none, so Prettier would collapse
+  // short objects back onto one line and churn the diff on every run.
+  // Pre-indenting keeps every object already expanded, so that decision is
+  // stable regardless of how short a ceiling entry happens to be.
+  const prettier = await import("prettier");
+  const options = (await prettier.resolveConfig(CONFIG_PATH)) ?? {};
+  const json = await prettier.format(JSON.stringify(config, null, 2), {
+    ...options,
+    parser: "json",
+  });
+  writeFileSync(CONFIG_PATH, json);
   console.log(`Updated allowlist: ${kept.length} entries remain.`);
 }
 

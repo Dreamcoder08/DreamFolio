@@ -1,31 +1,112 @@
 {
   "rules": [
-    { "match": { "prefix": "src/", "ext": [".ts", ".astro"] }, "max": 200 },
-    { "match": { "prefix": "src/", "ext": [".css"] }, "max": 250 },
-    { "match": { "prefix": "tests/", "ext": [".ts"] }, "max": 300 },
     {
-      "match": { "prefix": "scripts/", "ext": [".mjs", ".sh", ".js"] },
+      "match": {
+        "prefix": "src/",
+        "ext": [".ts", ".astro"]
+      },
+      "max": 200
+    },
+    {
+      "match": {
+        "prefix": "src/",
+        "ext": [".css"]
+      },
+      "max": 250
+    },
+    {
+      "match": {
+        "prefix": "tests/",
+        "ext": [".ts"]
+      },
+      "max": 300
+    },
+    {
+      "match": {
+        "prefix": "scripts/",
+        "ext": [".mjs", ".sh", ".js"]
+      },
       "max": 150
     },
-    { "match": { "prefix": "odd/", "ext": [".md"] }, "max": 200 },
-    { "match": { "prefix": "docs/", "ext": [".md"] }, "max": 200 }
+    {
+      "match": {
+        "prefix": "odd/",
+        "ext": [".md"]
+      },
+      "max": 200
+    },
+    {
+      "match": {
+        "prefix": "docs/",
+        "ext": [".md"]
+      },
+      "max": 200
+    }
   ],
   "allowlist": [
-    { "path": "src/styles/portfolio.css", "ceiling": 2299 },
-    { "path": "tests/theme-state/motion.spec.ts", "ceiling": 925 },
-    { "path": "tests/unit/tokens.test.ts", "ceiling": 743 },
-    { "path": "src/lib/convergence/controller.ts", "ceiling": 725 },
-    { "path": "tests/theme-state/state-evidence.spec.ts", "ceiling": 691 },
-    { "path": "tests/theme-state/theme-state.spec.ts", "ceiling": 666 },
-    { "path": "src/lib/convergence/renderer.ts", "ceiling": 648 },
-    { "path": "src/pages/index.astro", "ceiling": 544 },
-    { "path": "tests/home/convergence-forced.spec.ts", "ceiling": 417 },
-    { "path": "src/styles/global.css", "ceiling": 405 },
-    { "path": "src/lib/convergence/field.ts", "ceiling": 380 },
-    { "path": "tests/unit/state-border-contract.test.ts", "ceiling": 351 },
-    { "path": "tests/theme-state/theme-state-page.ts", "ceiling": 332 },
-    { "path": "docs/guides/best-practices.md", "ceiling": 275 },
-    { "path": "src/lib/convergence/shaders.ts", "ceiling": 203 },
-    { "path": "src/layouts/BaseLayout.astro", "ceiling": 201 }
+    {
+      "path": "src/styles/portfolio.css",
+      "ceiling": 2299
+    },
+    {
+      "path": "tests/theme-state/motion.spec.ts",
+      "ceiling": 925
+    },
+    {
+      "path": "tests/unit/tokens.test.ts",
+      "ceiling": 743
+    },
+    {
+      "path": "src/lib/convergence/controller.ts",
+      "ceiling": 725
+    },
+    {
+      "path": "tests/theme-state/state-evidence.spec.ts",
+      "ceiling": 691
+    },
+    {
+      "path": "tests/theme-state/theme-state.spec.ts",
+      "ceiling": 666
+    },
+    {
+      "path": "src/lib/convergence/renderer.ts",
+      "ceiling": 648
+    },
+    {
+      "path": "src/pages/index.astro",
+      "ceiling": 544
+    },
+    {
+      "path": "tests/home/convergence-forced.spec.ts",
+      "ceiling": 417
+    },
+    {
+      "path": "src/styles/global.css",
+      "ceiling": 405
+    },
+    {
+      "path": "src/lib/convergence/field.ts",
+      "ceiling": 380
+    },
+    {
+      "path": "tests/unit/state-border-contract.test.ts",
+      "ceiling": 351
+    },
+    {
+      "path": "tests/theme-state/theme-state-page.ts",
+      "ceiling": 332
+    },
+    {
+      "path": "docs/guides/best-practices.md",
+      "ceiling": 275
+    },
+    {
+      "path": "src/lib/convergence/shaders.ts",
+      "ceiling": 203
+    },
+    {
+      "path": "src/layouts/BaseLayout.astro",
+      "ceiling": 201
+    }
   ]
 }
