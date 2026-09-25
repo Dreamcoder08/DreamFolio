@@ -27,6 +27,18 @@ export function findRule(path, rules) {
 }
 
 /**
+ * Line count matching `wc -l` semantics: a trailing newline does not count
+ * as an extra empty line, an empty file is 0, and a file with content but no
+ * trailing newline still counts its last (partial) line.
+ * @param {string} text
+ * @returns {number}
+ */
+export function countLines(text) {
+  if (text.length === 0) return 0;
+  return text.split("\n").length - (text.endsWith("\n") ? 1 : 0);
+}
+
+/**
  * @param {FileInfo[]} files
  * @param {BudgetConfig} config
  * @returns {{
@@ -58,6 +70,14 @@ export function checkBudget(files, config) {
 
   const staleAllowlist = [];
   for (const entry of allowlist) {
+    const rule = findRule(entry.path, rules);
+    if (!rule) {
+      staleAllowlist.push({
+        path: entry.path,
+        reason: "matches no budget rule — check the path/extension",
+      });
+      continue;
+    }
     const file = byPath.get(entry.path);
     if (!file) {
       staleAllowlist.push({
@@ -66,8 +86,7 @@ export function checkBudget(files, config) {
       });
       continue;
     }
-    const rule = findRule(entry.path, rules);
-    if (!rule || file.lines <= rule.max) {
+    if (file.lines <= rule.max) {
       staleAllowlist.push({
         path: entry.path,
         reason: "file is now within its rule budget",
@@ -83,4 +102,31 @@ export function checkBudget(files, config) {
   }
 
   return { violations, staleAllowlist };
+}
+
+/**
+ * The ratchet: returns the allowlist the config *should* hold, given the
+ * current tree. Each surviving entry's ceiling is lowered to the current
+ * line count (via Math.min, so it can never rise even if the file grew).
+ * An entry is dropped when its file is missing, matches no rule, or now
+ * fits its rule's own max unaided. Never adds a new entry — a genuinely
+ * new offender is a config edit a human makes on purpose.
+ * @param {FileInfo[]} files
+ * @param {BudgetConfig} config
+ * @returns {AllowlistEntry[]}
+ */
+export function updateAllowlist(files, config) {
+  const { rules, allowlist } = config;
+  const byPath = new Map(files.map((file) => [file.path, file]));
+
+  const next = [];
+  for (const entry of allowlist) {
+    const rule = findRule(entry.path, rules);
+    if (!rule) continue;
+    const file = byPath.get(entry.path);
+    if (!file) continue;
+    if (file.lines <= rule.max) continue;
+    next.push({ ...entry, ceiling: Math.min(entry.ceiling, file.lines) });
+  }
+  return next;
 }

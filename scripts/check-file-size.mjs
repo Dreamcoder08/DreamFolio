@@ -6,63 +6,90 @@
 //
 // Usage: node scripts/check-file-size.mjs [--update-allowlist]
 //   --update-allowlist rewrites ceilings down to current counts and drops
-//   entries now within budget. It never raises a ceiling or adds a new
-//   entry — a genuinely new offender requires a human to edit the config.
+//   entries now within budget, missing, or matching no rule. It never
+//   raises a ceiling or adds a new entry, and it still exits 1 if
+//   violations remain after the rewrite.
 import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { lstatSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { checkBudget, findRule } from "./lib/file-budget.mjs";
+import {
+  checkBudget,
+  countLines,
+  findRule,
+  updateAllowlist,
+} from "./lib/file-budget.mjs";
 
-const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const CONFIG_PATH = new URL("./file-size-budget.json", import.meta.url);
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(SCRIPT_DIR, "..");
+const CONFIG_PATH = join(SCRIPT_DIR, "file-size-budget.json");
 
-function countLines(path) {
-  const text = readFileSync(new URL(path, `file://${ROOT}`), "utf8");
-  if (text.length === 0) return 0;
-  return text.split("\n").length - (text.endsWith("\n") ? 1 : 0);
+function listTrackedPaths() {
+  // -z gives raw, NUL-separated paths: normal `git ls-files` output quotes
+  // non-ASCII names (core.quotePath) into escape sequences that would
+  // corrupt them if read as plain text, so this is the only safe split.
+  const out = execSync("git ls-files -z", {
+    cwd: ROOT,
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  return out.toString("utf8").split("\0").filter(Boolean);
 }
 
-function loadFiles() {
-  const tracked = execSync("git ls-files", { cwd: ROOT })
-    .toString()
-    .split("\n")
-    .filter(Boolean);
-  return tracked.map((path) => ({ path, lines: countLines(path) }));
+/**
+ * Reads only files that match a budget rule — never touches the filesystem
+ * for an unbudgeted path. lstat first and skip anything that isn't a plain
+ * file (a symlink, a submodule gitlink, or a path missing from the working
+ * tree even though it's tracked); a read failure on a file that *did* lstat
+ * as regular is collected as a reported error instead of throwing.
+ */
+function readBudgetedFiles(paths, rules) {
+  const files = [];
+  const errors = [];
+  for (const path of paths) {
+    if (!findRule(path, rules)) continue;
+    const abs = join(ROOT, path);
+    let stat;
+    try {
+      stat = lstatSync(abs);
+    } catch {
+      continue; // tracked but absent from the working tree
+    }
+    if (!stat.isFile()) continue; // symlink, gitlink/submodule, etc.
+    try {
+      files.push({ path, lines: countLines(readFileSync(abs, "utf8")) });
+    } catch (error) {
+      errors.push({ path, message: error.message });
+    }
+  }
+  return { files, errors };
 }
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, "utf8"));
-const files = loadFiles();
-const { violations, staleAllowlist } = checkBudget(files, config);
+const paths = listTrackedPaths();
+const { files, errors } = readBudgetedFiles(paths, config.rules);
 
-const updateAllowlist = process.argv.includes("--update-allowlist");
-
-if (updateAllowlist) {
-  const byPath = new Map(files.map((file) => [file.path, file]));
-  // Lower each ceiling to the current line count (never raise it), drop
-  // entries for files that vanished, and drop entries whose file now fits
-  // its rule's own max unaided. Never adds a new entry.
-  const kept = config.allowlist
-    .filter((entry) => byPath.has(entry.path))
-    .map((entry) => ({
-      ...entry,
-      ceiling: Math.min(entry.ceiling, byPath.get(entry.path).lines),
-    }))
-    .filter((entry) => {
-      const rule = findRule(entry.path, config.rules);
-      const lines = byPath.get(entry.path).lines;
-      return rule ? lines > rule.max : false;
-    });
-  const next = { ...config, allowlist: kept };
-  writeFileSync(CONFIG_PATH, `${JSON.stringify(next, null, 2)}\n`);
-  console.log(
-    `Updated allowlist: ${config.allowlist.length} -> ${kept.length} entries.`,
-  );
-  process.exit(0);
+if (errors.length > 0) {
+  console.error(`\nCould not read ${errors.length} budgeted file(s):`);
+  for (const e of errors) console.error(`  ${e.path}: ${e.message}`);
 }
 
-if (violations.length === 0 && staleAllowlist.length === 0) {
+const updating = process.argv.includes("--update-allowlist");
+if (updating) {
+  const kept = updateAllowlist(files, config);
+  config.allowlist = kept;
+  writeFileSync(CONFIG_PATH, `${JSON.stringify(config, null, 2)}\n`);
+  console.log(`Updated allowlist: ${kept.length} entries remain.`);
+}
+
+const { violations, staleAllowlist } = checkBudget(files, config);
+
+if (
+  violations.length === 0 &&
+  staleAllowlist.length === 0 &&
+  errors.length === 0
+) {
   console.log(
-    `file-size-budget: all ${files.length} tracked files are within budget.`,
+    `file-size-budget: all ${files.length} budgeted files are within budget.`,
   );
   process.exit(0);
 }
@@ -70,21 +97,22 @@ if (violations.length === 0 && staleAllowlist.length === 0) {
 if (violations.length > 0) {
   console.error(`\nFile size budget violations (${violations.length}):`);
   for (const v of violations) {
-    const over = v.lines - (v.ceiling ?? v.max);
+    const hasCeiling = v.ceiling != null;
+    const over = v.lines - (hasCeiling ? v.ceiling : v.max);
     console.error(
-      `  ${v.path}: ${v.lines} lines (budget ${v.max}${v.ceiling ? `, ceiling ${v.ceiling}` : ""}), ${over} over`,
+      `  ${v.path}: ${v.lines} lines (budget ${v.max}${hasCeiling ? `, ceiling ${v.ceiling}` : ""}), ${over} over`,
     );
   }
 }
 
 if (staleAllowlist.length > 0) {
   console.error(`\nStale allowlist entries (${staleAllowlist.length}):`);
-  for (const s of staleAllowlist) {
-    console.error(`  ${s.path}: ${s.reason}`);
+  for (const s of staleAllowlist) console.error(`  ${s.path}: ${s.reason}`);
+  if (!updating) {
+    console.error(
+      "\nRun `node scripts/check-file-size.mjs --update-allowlist` to lower or remove these.",
+    );
   }
-  console.error(
-    "\nRun `node scripts/check-file-size.mjs --update-allowlist` to lower or remove these.",
-  );
 }
 
 process.exit(1);
