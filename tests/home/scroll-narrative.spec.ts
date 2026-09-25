@@ -76,13 +76,17 @@ test.describe("Homepage — HUD progress rail", () => {
         await fill.evaluate((el) => getComputedStyle(el).transform),
       );
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      const atBottom = scaleYOf(
-        await fill.evaluate((el) => getComputedStyle(el).transform),
-      );
-      expect(
-        atBottom,
-        `rail fill must grow with scroll — top scaleY=${atTop}, bottom scaleY=${atBottom}`,
-      ).toBeGreaterThan(atTop);
+      // Scroll timelines are sampled once per frame, so a synchronous read
+      // right after scrollTo can still see the pre-scroll value: poll.
+      await expect
+        .poll(
+          async () =>
+            scaleYOf(
+              await fill.evaluate((el) => getComputedStyle(el).transform),
+            ),
+          { message: `rail fill must grow with scroll from scaleY=${atTop}` },
+        )
+        .toBeGreaterThan(atTop);
     },
   );
 });
@@ -177,6 +181,52 @@ test.describe("Homepage — scroll-driven section narrative", () => {
               cards.nth(index).evaluate((el) => getComputedStyle(el).opacity),
             )
             .toBe("1");
+        }
+      }
+    },
+  );
+});
+
+test.describe("Homepage — scroll narrative stagger", () => {
+  test(
+    "cards within each group start their entrance progressively later",
+    { tag: ["@e2e", "@scroll-narrative", "@SCROLL-STAGGER-001"] },
+    async ({ page }) => {
+      test.skip(
+        !(await supportsScrollTimelines(page)),
+        "browser lacks animation-timeline: view()/scroll() support",
+      );
+      // The stagger that `transition-delay` used to carry now lives in each
+      // card's `animation-range` start offset, so it is asserted there: a
+      // regression that gives every card the same range would make a group
+      // enter as one block and would pass every opacity check above.
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await new HomePage(page).goto();
+
+      for (const group of [
+        "#projects",
+        "#architecture .principles",
+        "#services",
+        "#process .principles",
+      ]) {
+        const starts = await page
+          .locator(`${group} .scene-card`)
+          .evaluateAll((cards) =>
+            cards.map((card) => {
+              // Chrome serializes `entry 0%` as a bare `entry` (the default
+              // offset is dropped), so a missing number means 0.
+              const offset = /-?\d+(\.\d+)?/.exec(
+                getComputedStyle(card).animationRangeStart,
+              );
+              return offset ? Number.parseFloat(offset[0]) : 0;
+            }),
+          );
+        expect(starts.length, `${group} has a staggered group`).toBe(3);
+        for (let index = 1; index < starts.length; index += 1) {
+          expect(
+            starts[index],
+            `${group} card ${index + 1} must start after card ${index}`,
+          ).toBeGreaterThan(starts[index - 1]);
         }
       }
     },
