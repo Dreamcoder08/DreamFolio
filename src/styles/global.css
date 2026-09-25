@@ -73,6 +73,10 @@
   --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-stagger: 80ms;
   --motion-hero-step: 90ms;
+  /* Cross-document view transition (phase 2, T1): a fast wipe, quicker than
+     --motion-reveal since it gates a navigation the visitor is waiting on,
+     slower than --motion-fast since it is the whole viewport, not a hover. */
+  --motion-transition: 440ms;
 
   /* ---- SHADOWS (also generates Tailwind `shadow-*`) ---- */
   --shadow-edge: inset 0 1px 0 rgba(255, 255, 255, 0.04);
