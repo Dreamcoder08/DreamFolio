@@ -550,24 +550,51 @@ async function traceReveal(
           translateY.push(Number.parseFloat(matrix[matrix.length - 1]));
         };
         sample();
-        // `smooth`, not `instant`: T2's `.scene-card` elements (see below)
-        // are revealed by a scroll-driven `animation-timeline: view()`
-        // animation whose progress ties directly to scroll position, with
-        // no time-based interpolation of its own — an instant scroll jump
-        // therefore produces an instant progress jump (measured: opacity
-        // goes straight from 0 to 1 in a single sampled frame), which looks
-        // exactly like a cut even though the mechanism is working correctly.
-        // A smooth scroll actually takes visible time to complete, so the
-        // timeline's progress — and this trace — moves through it gradually,
-        // which is the only way to observe "not a cut" for this mechanism.
-        // A plain CSS-transition-driven reveal (any `[data-reveal]` element
-        // outside T2's scope) is unaffected by this: its own
-        // `--motion-reveal` transition supplies the gradualness regardless
-        // of how the triggering scroll got there.
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Scroll in fixed steps, one per frame, instead of `smooth`: T2's
+        // `.scene-card` reveals are scroll-driven (`animation-timeline:
+        // view()`), so their progress follows scroll position, not time. An
+        // instant jump — or a smooth scroll that skips frames under load —
+        // crosses the entry range in a single frame and looks exactly like a
+        // cut even though the mechanism works. Stepping guarantees frames
+        // inside the range whatever the machine's load. A plain
+        // transition-driven reveal still gets its gradualness from
+        // `--motion-reveal`; sampling continues for 700 ms after the last
+        // step (longer than the 640 ms reveal) so it finishes too.
+        const rect = el.getBoundingClientRect();
+        const docTop = window.scrollY + rect.top;
+        const targetY = Math.max(
+          0,
+          docTop + rect.height / 2 - window.innerHeight / 2,
+        );
+        // Jump (instantly) to just before the element starts entering, then
+        // cross the entry range in small steps: a row's entry range is only a
+        // few dozen pixels tall, so coarse steps would skip straight over it.
+        const startY = Math.max(
+          0,
+          Math.min(targetY, docTop - window.innerHeight - 40),
+        );
+        window.scrollTo({ top: startY, behavior: "instant" });
+        const STEP_PX = 8;
+        const STEPS = Math.max(1, Math.ceil((targetY - startY) / STEP_PX));
+        let stepIndex = 0;
+        let doneAt = Number.POSITIVE_INFINITY;
         const step = (): void => {
+          if (stepIndex < STEPS) {
+            stepIndex += 1;
+            // `instant`: the site sets `scroll-behavior: smooth`, which
+            // would turn every step into a fresh smooth scroll that barely
+            // moves before the next step restarts it.
+            window.scrollTo({
+              top: startY + ((targetY - startY) * stepIndex) / STEPS,
+              behavior: "instant",
+            });
+            if (stepIndex === STEPS) doneAt = performance.now();
+          }
           sample();
-          if (performance.now() - started < 1_100) requestAnimationFrame(step);
+          const now = performance.now();
+          const stillStepping = stepIndex < STEPS || now - doneAt < 700;
+          if (stillStepping && now - started < 6_000)
+            requestAnimationFrame(step);
           else resolve({ opacity, translateY });
         };
         requestAnimationFrame(step);
@@ -645,6 +672,15 @@ test.describe("Motion coverage — .module-row", () => {
       tag: ["@critical", "@e2e", "@motion", "@MOTION-MODULE-ROW-MERGE"],
     },
     async ({ page }) => {
+      // This contract only holds under the scroll-driven narrative's
+      // `@supports (animation-timeline: view())` gate; without it the plain
+      // IntersectionObserver reveal owns opacity/transform again.
+      test.skip(
+        !(await page.evaluate(() =>
+          CSS.supports("animation-timeline", "view()"),
+        )),
+        "browser lacks animation-timeline: view() support",
+      );
       const ui = TARGETS.find((target) => target.selector === ".module-row");
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
       await prepare(page, ui, DARK);
@@ -695,6 +731,15 @@ test.describe("Motion coverage — .module-row", () => {
     "the transition-delay stagger is retired for the two interaction properties this rule still owns",
     { tag: ["@critical", "@e2e", "@motion", "@MOTION-MODULE-ROW-STAGGER"] },
     async ({ page }) => {
+      // This contract only holds under the scroll-driven narrative's
+      // `@supports (animation-timeline: view())` gate; without it the plain
+      // IntersectionObserver reveal owns opacity/transform again.
+      test.skip(
+        !(await page.evaluate(() =>
+          CSS.supports("animation-timeline", "view()"),
+        )),
+        "browser lacks animation-timeline: view() support",
+      );
       const ui = TARGETS.find((target) => target.selector === ".module-row");
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
       await prepare(page, ui, DARK);
@@ -736,6 +781,15 @@ test.describe("Motion coverage — .module-row", () => {
     "the reveal still animates for it and for another scroll-narrated [data-reveal] element, with no leftover transition underneath",
     { tag: ["@critical", "@e2e", "@motion", "@MOTION-REVEAL-INTACT"] },
     async ({ page }) => {
+      // This contract only holds under the scroll-driven narrative's
+      // `@supports (animation-timeline: view())` gate; without it the plain
+      // IntersectionObserver reveal owns opacity/transform again.
+      test.skip(
+        !(await page.evaluate(() =>
+          CSS.supports("animation-timeline", "view()"),
+        )),
+        "browser lacks animation-timeline: view() support",
+      );
       const ui = TARGETS.find((target) => target.selector === ".module-row");
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
 
