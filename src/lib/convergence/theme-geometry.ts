@@ -87,7 +87,7 @@ export function readThemeColors(): ThemeColors {
   );
 }
 
-/** Particle budget for the field: fewer on narrow layouts, halved again on
+/** Particle budget for the field: fewer on narrow layouts, cut to 60% on
  * low-core-count hardware. `hardwareConcurrency` is passed in rather than
  * read from `navigator` here so the decision stays a pure function of its
  * inputs — `controller.ts` reads `navigator.hardwareConcurrency` at the one

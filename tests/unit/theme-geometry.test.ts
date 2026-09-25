@@ -40,7 +40,7 @@ test("resolveThemeColors dims the accent for the light-mode neutral instead of r
   ]);
 });
 
-test("pickParticleCount halves the budget on low-core hardware", () => {
+test("pickParticleCount cuts the budget to 60% on low-core hardware", () => {
   assert.equal(pickParticleCount(false, 8), 2600);
   assert.equal(pickParticleCount(false, 4), Math.round(2600 * 0.6));
   assert.equal(pickParticleCount(true, 8), 1100);
