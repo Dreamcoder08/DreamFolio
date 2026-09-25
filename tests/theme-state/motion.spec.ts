@@ -58,16 +58,6 @@ const THEME_STORAGE_KEY = "dreamfolio-theme";
 const DARK: Theme = THEME.DARK;
 
 /**
- * `--motion-stagger`, pinned rather than derived from the token.
- *
- * The duration assertions in this file pin their design values the same way
- * (180 and 640), and for the same reason: a test that reads the token it is
- * checking cannot notice the token changing. The second row doubles it through
- * `calc(var(--motion-stagger) * 2)`, so 160 is the value under test, not 80 twice.
- */
-const STAGGER_MS = 80;
-
-/**
  * The properties a state can signal through, and the computed name each is read
  * back as. `border-radius` is included because a state-driven radius mutation is
  * the same defect class; `outline-*` is excluded (see the header).
@@ -560,7 +550,21 @@ async function traceReveal(
           translateY.push(Number.parseFloat(matrix[matrix.length - 1]));
         };
         sample();
-        el.scrollIntoView({ behavior: "instant", block: "center" });
+        // `smooth`, not `instant`: T2's `.scene-card` elements (see below)
+        // are revealed by a scroll-driven `animation-timeline: view()`
+        // animation whose progress ties directly to scroll position, with
+        // no time-based interpolation of its own — an instant scroll jump
+        // therefore produces an instant progress jump (measured: opacity
+        // goes straight from 0 to 1 in a single sampled frame), which looks
+        // exactly like a cut even though the mechanism is working correctly.
+        // A smooth scroll actually takes visible time to complete, so the
+        // timeline's progress — and this trace — moves through it gradually,
+        // which is the only way to observe "not a cut" for this mechanism.
+        // A plain CSS-transition-driven reveal (any `[data-reveal]` element
+        // outside T2's scope) is unaffected by this: its own
+        // `--motion-reveal` transition supplies the gradualness regardless
+        // of how the triggering scroll got there.
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
         const step = (): void => {
           sample();
           if (performance.now() - started < 1_100) requestAnimationFrame(step);
@@ -636,7 +640,7 @@ for (const target of TARGETS) {
 
 test.describe("Motion coverage — .module-row", () => {
   test(
-    "its winning declaration merges the reveal's opacity with the interaction properties",
+    "its winning declaration keeps the interaction properties once the scroll-driven narrative owns the reveal",
     {
       tag: ["@critical", "@e2e", "@motion", "@MOTION-MODULE-ROW-MERGE"],
     },
@@ -645,24 +649,33 @@ test.describe("Motion coverage — .module-row", () => {
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
       await prepare(page, ui, DARK);
 
+      // Through phase 1, this rule's four-property merge (background-color,
+      // color, transform, opacity) was the fix for `.module-row`'s own
+      // specificity conflict with the plain IO reveal (see the "Motion"
+      // section's comment in portfolio.css). Phase 2 (T2) changes what
+      // "the reveal" means for `.module-row` in a browser that supports
+      // `animation-timeline: view()` (this one does, per `CSS.supports`
+      // checks elsewhere in this repo's e2e suite): `opacity`/`transform`
+      // are now the scroll-driven narrative's job (see portfolio.css's
+      // "Scroll-driven section narrative" section's `.module-row.scene-card`
+      // override), so the winning declaration only needs to keep carrying
+      // what it still owns — the hover/press interaction colours.
       const rest = await readState(page, ".module-row");
       expect(
         rest.properties,
         "`.module-row` carries `data-reveal`, so `.motion-ready [data-reveal]` " +
-          "(0,2,0) outranks a declaration on `.module-row` (0,1,0). Its winning " +
-          "declaration must therefore name the state it needs to win in; when it " +
-          "does not, these four entries collapse back to the reveal's " +
-          "`opacity, transform` and the hover/press colours snap",
-      ).toEqual(["background-color", "color", "transform", "opacity"]);
+          "(0,2,0) still outranks a declaration on `.module-row` (0,1,0) alone; " +
+          "the T2 override that wins here must therefore keep naming the state " +
+          "it needs to win in for the two properties it still owns",
+      ).toEqual(["background-color", "color"]);
       expect(
         rest.durationsMs,
-        "the two interaction properties keep --motion-fast (180ms) and the " +
-          "reveal's opacity keeps --motion-reveal (640ms): the reveal rule is not " +
-          "going away, so the merged list has to carry both",
-      ).toEqual([180, 180, 180, 640]);
+        "both interaction properties keep --motion-fast (180ms); neither " +
+          "opacity nor transform belongs to this declaration any more",
+      ).toEqual([180, 180]);
       expect(
         rest.values["opacity"],
-        "the row is read once its entrance has settled, so the reveal is at rest",
+        "the row is read once its (now scroll-driven) entrance has settled",
       ).toBe("1");
 
       const hover = await readHover(page, ".module-row");
@@ -679,30 +692,28 @@ test.describe("Motion coverage — .module-row", () => {
   );
 
   test(
-    "the nth-child stagger delays the fade only, never the interaction properties",
+    "the transition-delay stagger is retired for the two interaction properties this rule still owns",
     { tag: ["@critical", "@e2e", "@motion", "@MOTION-MODULE-ROW-STAGGER"] },
     async ({ page }) => {
       const ui = TARGETS.find((target) => target.selector === ".module-row");
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
       await prepare(page, ui, DARK);
 
-      // The merged declaration lists four properties in this order:
-      // background-color, color, transform, opacity. Only the last one is the
-      // reveal's fade. The stagger must land on that slot alone, so the two
-      // interaction properties and the reveal's slide stay immediate — the
-      // whole point of merging the lists was that a delayed press is the
-      // defect this change fixed.
+      // Through phase 1, `--motion-stagger` delayed only the reveal's own
+      // `opacity` slot, never the two interaction properties (a delayed
+      // press was exactly the defect that design fixed). T2 moves
+      // `.module-row`'s entrance stagger to the scroll-driven narrative's
+      // own mechanism — an `animation-range` offset per `:nth-child`, in
+      // portfolio.css's "Scroll-driven section narrative" section — which
+      // has no `transition-delay` at all, so there is no longer an
+      // `opacity` slot here to carry a stagger. What must still hold is the
+      // narrower half of the original guarantee: neither interaction
+      // property is ever delayed, regardless of row position.
       for (const child of [1, 2, 3] as const) {
         const read = await readState(
           page,
           `.module-list .module-row:nth-child(${child})`,
         );
-        const staggered = child === 1 ? 0 : STAGGER_MS * (child - 1);
-        // Assert the *pairing*, not the position. A delay list is aligned with
-        // the property list by index, so an assertion that pinned the bare array
-        // would still pass if both lists were reordered in step and the delay
-        // landed on an interaction property. Naming the property beside each delay
-        // makes that drift fail.
         const delays = read.properties.map((property, index) => ({
           property,
           delayMs: read.delaysMs[index] ?? Number.NaN,
@@ -710,28 +721,36 @@ test.describe("Motion coverage — .module-row", () => {
         expect(
           delays,
           `.module-list .module-row:nth-child(${child}) [${describeRead(read)}]: ` +
-            `only the reveal's fade may be delayed, by ${staggered}ms, and every ` +
-            `interaction property by nothing. A zero on opacity means the reveal ` +
-            `lost its stagger again; a non-zero on background-color, color or ` +
-            `transform means a hover or a press is being delayed, which is worse ` +
-            `than losing the stagger`,
+            "neither interaction property may ever be delayed — a non-zero " +
+            "delay here means a hover or a press is being staggered, which is " +
+            "worse than not staggering at all",
         ).toEqual([
           { property: "background-color", delayMs: 0 },
           { property: "color", delayMs: 0 },
-          { property: "transform", delayMs: 0 },
-          { property: "opacity", delayMs: staggered },
         ]);
       }
     },
   );
 
   test(
-    "the reveal still animates for it and for the other [data-reveal] elements",
+    "the reveal still animates for it and for another scroll-narrated [data-reveal] element, with no leftover transition underneath",
     { tag: ["@critical", "@e2e", "@motion", "@MOTION-REVEAL-INTACT"] },
     async ({ page }) => {
       const ui = TARGETS.find((target) => target.selector === ".module-row");
       if (ui === undefined) throw new Error(".module-row is not in TARGETS");
 
+      // Both witnesses here (`#process article`, `.module-list .module-row`)
+      // carry T2's `.scene-card` class: in this browser (this repo's e2e
+      // suite confirms `animation-timeline: view()` support elsewhere),
+      // there is no `[data-reveal]` element left on the homepage that is
+      // *not* now scroll-narrated — the whole point of T2 is that it takes
+      // over every entrance this page has. So this test no longer proves
+      // "the plain IO/transition reveal survives elsewhere"; it proves the
+      // scroll-driven reveal that replaced it still behaves like a real
+      // animation (not a cut) for two independent elements, and leaves no
+      // conflicting transition underneath (see the "double animation" note
+      // in portfolio.css's "Scroll-driven section narrative" section).
+      //
       // One fresh navigation per traced element: the reveal is triggered by the
       // scroll that brings the element into view, and `prepare` deliberately
       // settles `.module-row`'s entrance, so reusing a single page would trace an
@@ -759,14 +778,18 @@ test.describe("Motion coverage — .module-row", () => {
         ).toBe(0);
       }
 
+      // No leftover IO/transition mechanism fighting the scroll-driven one:
+      // `#process article` is neutralized to `transition: none` exactly
+      // because it is `.scene-card` (portfolio.css's `.motion-ready
+      // [data-reveal].scene-card` override) — a stray `opacity, transform`
+      // transition surviving here would mean the two mechanisms could both
+      // animate the same element at once.
       const other = await readState(page, "#process article");
       expect(
         other.properties,
-        "`.module-row` is not the only `data-reveal` element: the generic reveal " +
-          "declaration must still be `opacity, transform` at --motion-reveal for " +
-          "every other one",
-      ).toEqual(["opacity", "transform"]);
-      expect(other.durationsMs).toEqual([640, 640]);
+        "a taken-over element must have no transition left to fight its " +
+          "scroll-driven animation over opacity/transform",
+      ).toEqual(["none"]);
     },
   );
 });

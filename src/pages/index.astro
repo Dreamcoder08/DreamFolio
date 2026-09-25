@@ -16,6 +16,9 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
   <Navbar />
 
   <main id="main-content" class="portfolio">
+    <div class="scroll-rail" aria-hidden="true">
+      <div class="scroll-rail-fill"></div>
+    </div>
     <section class="hero" aria-labelledby="hero-title">
       <ConvergenceField />
       <div class="hero-content wrap">
@@ -88,8 +91,8 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
     >
       <header class="section-heading">
         <div>
-          <p class="eyebrow">01 / TRABAJO SELECCIONADO</p>
-          <h2 id="work-title">
+          <p class="eyebrow scene-kicker">01 / TRABAJO SELECCIONADO</p>
+          <h2 id="work-title" class="scene-heading">
             Tres proyectos.
             <br />
             <span>Una práctica en evolución.</span>
@@ -101,7 +104,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
       </header>
 
       <div class="project-bento">
-        <article class="project-card project-card--lead" data-reveal>
+        <article class="project-card project-card--lead scene-card" data-reveal>
           <a
             class="project-image"
             href={withBase("/projects/drenyra-fiscal-command-center/")}
@@ -158,7 +161,10 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
           </div>
         </article>
 
-        <article class="project-card project-card--workbench" data-reveal>
+        <article
+          class="project-card project-card--workbench scene-card"
+          data-reveal
+        >
           <div class="compact-heading">
             <span class="project-number">02</span>
             <p class="eyebrow">
@@ -204,7 +210,10 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
           </div>
         </article>
 
-        <article class="project-card project-card--civic" data-reveal>
+        <article
+          class="project-card project-card--civic scene-card"
+          data-reveal
+        >
           <div class="compact-heading">
             <span class="project-number">03</span>
             <p class="eyebrow">
@@ -248,8 +257,8 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
     <section id="about" class="about-section" data-reveal>
       <div class="wrap about-grid">
         <div class="about-title">
-          <p class="eyebrow">02 / DETRÁS DEL CÓDIGO</p>
-          <h2>
+          <p class="eyebrow scene-kicker">02 / DETRÁS DEL CÓDIGO</p>
+          <h2 class="scene-heading">
             Autodidacta.
             <br />
             Curioso por naturaleza.
@@ -289,8 +298,8 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
     <section id="architecture" class="principles-section wrap" data-reveal>
       <header class="section-heading">
         <div>
-          <p class="eyebrow">03 / FORMA DE TRABAJAR</p>
-          <h2>
+          <p class="eyebrow scene-kicker">03 / FORMA DE TRABAJAR</p>
+          <h2 class="scene-heading">
             La ambición necesita
             <br />
             <span>criterio técnico.</span>
@@ -303,7 +312,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
         </p>
       </header>
       <div class="principles">
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="layers" size={25} />
@@ -316,7 +325,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
             los límites. Elegir la complejidad que el producto necesita.
           </p>
         </article>
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="agents" size={25} />
@@ -329,7 +338,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
             sensibles para reglas verificables y revisión humana.
           </p>
         </article>
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="evidence" size={25} />
@@ -360,8 +369,8 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
     >
       <header class="section-heading">
         <div>
-          <p class="eyebrow">04 / SERVICIOS</p>
-          <h2 id="services-title">
+          <p class="eyebrow scene-kicker">04 / SERVICIOS</p>
+          <h2 id="services-title" class="scene-heading">
             Construyo software.
             <br />
             <span>Tú defines el alcance.</span>
@@ -374,7 +383,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
       <div class="module-list">
         <a
           href={mailto("Servicio: Producto web")}
-          class="module-row"
+          class="module-row scene-card"
           data-reveal
         >
           <span class="module-index mono">01</span>
@@ -391,7 +400,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
         </a>
         <a
           href={mailto("Servicio: Automatización con IA")}
-          class="module-row"
+          class="module-row scene-card"
           data-reveal
         >
           <span class="module-index mono">02</span>
@@ -408,7 +417,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
         </a>
         <a
           href={mailto("Servicio: Revisión de arquitectura")}
-          class="module-row"
+          class="module-row scene-card"
           data-reveal
         >
           <span class="module-index mono">03</span>
@@ -429,8 +438,8 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
     <section id="process" class="principles-section wrap" data-reveal>
       <header class="section-heading">
         <div>
-          <p class="eyebrow">05 / CÓMO TRABAJO</p>
-          <h2>
+          <p class="eyebrow scene-kicker">05 / CÓMO TRABAJO</p>
+          <h2 class="scene-heading">
             Un proceso claro.
             <br />
             <span>Sin sorpresas en el camino.</span>
@@ -443,7 +452,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
         </p>
       </header>
       <div class="principles">
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="mail" size={25} />
@@ -456,7 +465,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
             bastan para entender el alcance real.
           </p>
         </article>
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="evidence" size={25} />
@@ -469,7 +478,7 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
             antes de empezar. Sin sorpresas a mitad del camino.
           </p>
         </article>
-        <article data-reveal>
+        <article class="scene-card" data-reveal>
           <div class="principle-top">
             <span class="principle-icon">
               <Icon name="layers" size={25} />
@@ -490,10 +499,10 @@ import ConvergenceField from "../components/ui/ConvergenceField.astro";
 
     <section id="connect" class="contact-section wrap" data-reveal>
       <div class="contact-top">
-        <p class="eyebrow">06 / SIGUIENTE CONVERSACIÓN</p>
+        <p class="eyebrow scene-kicker">06 / SIGUIENTE CONVERSACIÓN</p>
         <span class="mono">PERÚ · UTC−5</span>
       </div>
-      <h2>
+      <h2 class="scene-heading">
         ¿Algo interesante
         <br />
         por <span>construir?</span>

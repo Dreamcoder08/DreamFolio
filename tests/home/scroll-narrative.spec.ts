@@ -1,0 +1,184 @@
+import { test, expect, type Page } from "@playwright/test";
+import { HomePage } from "./home-page";
+
+/**
+ * Scroll-driven section narrative + HUD progress rail (phase 2, T2) — a
+ * CSS-only contract (`animation-timeline: view()`/`scroll()`), no script.
+ *
+ * Every test here first confirms the browser actually supports scroll-driven
+ * animations (`CSS.supports`) and skips otherwise: the feature is gated
+ * behind `@supports (animation-timeline: view())` in `portfolio.css`, so a
+ * browser without it is a legitimate "nothing here to test" case rather than
+ * a failure — this suite is about the gated behavior, not about forcing
+ * support that does not exist. Default Chromium (this repo's `chromium`
+ * Playwright project) does support it, so in the ordinary case nothing here
+ * is skipped.
+ */
+
+async function supportsScrollTimelines(page: Page): Promise<boolean> {
+  return page.evaluate(() => CSS.supports("animation-timeline", "view()"));
+}
+
+/** Elements the design "takes over" from the IO reveal — one representative
+ * per group is enough to prove the mechanism, not an exhaustive census. */
+const SCENE_SELECTORS = [
+  ".scene-kicker",
+  ".scene-heading",
+  ".scene-card",
+] as const;
+
+test.describe("Homepage — HUD progress rail", () => {
+  test(
+    "is present, aria-hidden, visible on desktop and hidden below the 900px breakpoint",
+    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-RAIL-001"] },
+    async ({ page }) => {
+      test.skip(
+        !(await supportsScrollTimelines(page)),
+        "browser lacks animation-timeline: view()/scroll() support",
+      );
+      const home = new HomePage(page);
+      const rail = page.locator(".scroll-rail");
+
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await home.goto();
+      await expect(rail).toHaveAttribute("aria-hidden", "true");
+      await expect(rail).toBeVisible();
+      await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
+
+      await page.setViewportSize({ width: 800, height: 900 });
+      await page.reload();
+      await expect(rail).toBeHidden();
+    },
+  );
+
+  test(
+    "its fill scales with scroll position",
+    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-RAIL-002"] },
+    async ({ page }) => {
+      test.skip(
+        !(await supportsScrollTimelines(page)),
+        "browser lacks animation-timeline: view()/scroll() support",
+      );
+      await page.setViewportSize({ width: 1280, height: 900 });
+      const home = new HomePage(page);
+      await home.goto();
+
+      const scaleYOf = (transform: string): number => {
+        // `matrix(a, b, c, d, tx, ty)` — `d` is the Y scale.
+        const match = /matrix\(([^)]+)\)/.exec(transform);
+        if (!match) return transform === "none" ? 1 : Number.NaN;
+        const parts = match[1].split(",").map((n) => Number.parseFloat(n));
+        return parts[3];
+      };
+
+      const fill = page.locator(".scroll-rail-fill");
+      const atTop = scaleYOf(
+        await fill.evaluate((el) => getComputedStyle(el).transform),
+      );
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      const atBottom = scaleYOf(
+        await fill.evaluate((el) => getComputedStyle(el).transform),
+      );
+      expect(
+        atBottom,
+        `rail fill must grow with scroll — top scaleY=${atTop}, bottom scaleY=${atBottom}`,
+      ).toBeGreaterThan(atTop);
+    },
+  );
+});
+
+test.describe("Homepage — scroll-driven section narrative", () => {
+  test(
+    "under reduced motion, every taken-over element is visible immediately, without scrolling",
+    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-NARRATIVE-RM"] },
+    async ({ page }) => {
+      test.skip(
+        !(await supportsScrollTimelines(page)),
+        "browser lacks animation-timeline: view()/scroll() support",
+      );
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      const home = new HomePage(page);
+      await home.goto();
+
+      for (const selector of SCENE_SELECTORS) {
+        const opacities = await page
+          .locator(selector)
+          .evaluateAll((elements) =>
+            elements.map((el) => getComputedStyle(el).opacity),
+          );
+        expect(
+          opacities,
+          `${selector}: reduced motion must never leave content hidden`,
+        ).toEqual(opacities.map(() => "1"));
+      }
+    },
+  );
+
+  test(
+    "scrolling to each section leaves its kicker, heading and cards visible",
+    {
+      tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-NARRATIVE-001"],
+    },
+    async ({ page }) => {
+      test.skip(
+        !(await supportsScrollTimelines(page)),
+        "browser lacks animation-timeline: view()/scroll() support",
+      );
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      const home = new HomePage(page);
+      await home.goto();
+
+      // Before any scroll, at least one below-the-fold section's content
+      // must still be genuinely hidden — otherwise this test could pass
+      // even if the scroll-timeline wiring were entirely broken and
+      // everything just rendered statically visible.
+      const connectKickerOpacity = await page
+        .locator("#connect .scene-kicker")
+        .evaluate((el) => getComputedStyle(el).opacity);
+      expect(
+        Number(connectKickerOpacity),
+        "the last section's kicker must start hidden — this is the " +
+          "scroll-driven half of the contract; a value of 1 here means " +
+          "the animation never ran, and the reduced-motion test above " +
+          "already covers the always-visible fallback",
+      ).toBeLessThan(1);
+
+      for (const id of [
+        "projects",
+        "about",
+        "architecture",
+        "services",
+        "process",
+        "connect",
+      ]) {
+        await page.locator(`#${id}`).scrollIntoViewIfNeeded({ timeout: 5_000 });
+        // One scroll-linked frame settles synchronously with scroll, but a
+        // frame boundary still has to pass for the browser to have
+        // recomputed style.
+        await page.evaluate(
+          () =>
+            new Promise<void>((resolve) =>
+              requestAnimationFrame(() => resolve()),
+            ),
+        );
+        for (const selector of [".scene-kicker", ".scene-heading"]) {
+          const locator = page.locator(`#${id} ${selector}`);
+          if ((await locator.count()) === 0) continue;
+          await expect
+            .poll(() => locator.evaluate((el) => getComputedStyle(el).opacity))
+            .toBe("1");
+        }
+        const cards = page.locator(`#${id} .scene-card`);
+        const cardCount = await cards.count();
+        for (let index = 0; index < cardCount; index += 1) {
+          await expect
+            .poll(() =>
+              cards.nth(index).evaluate((el) => getComputedStyle(el).opacity),
+            )
+            .toBe("1");
+        }
+      }
+    },
+  );
+});

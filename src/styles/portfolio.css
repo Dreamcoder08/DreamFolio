@@ -815,7 +815,24 @@ a:hover {
 
 /* About */
 .about-section {
-  overflow: hidden;
+  /* `overflow: clip`, not `overflow: hidden`: both clip the bleeding
+     `.about-mark` watermark below to this box's edges and both keep that
+     bleed out of the page's scrollable area (unlike `clip-path`, which
+     only clips at paint time and was measured to let the watermark's
+     negative offset still widen the document's scrollable width at narrow
+     viewports). `hidden` differs from `clip` in one load-bearing way: an
+     element with `overflow: hidden` still counts as a CSS *scroll
+     container*, which silently becomes the reference scroller for any
+     descendant's `animation-timeline: view()` (T2's `.scene-kicker`/
+     `.scene-heading` in this section) instead of the real document
+     scroller — measured: with `hidden` the animation reports 100% progress
+     regardless of actual scroll position, since relative to a container
+     that itself never scrolls, the subject is always "fully entered".
+     `clip` forbids scrolling entirely and was measured to not establish a
+     scroll container, so the descendants' timeline resolves against the
+     document as intended — matching the same reasoning `body`'s and
+     `.hero-stage`'s existing `overflow-x: clip` already rely on. */
+  overflow: clip;
   padding-block: clamp(90px, 10vw, 140px);
   color: var(--portfolio-yellow-ink);
   background: var(--portfolio-yellow);
@@ -1012,7 +1029,12 @@ a:hover {
 /* Contact and footer */
 .contact-section {
   position: relative;
-  overflow: hidden;
+  /* `overflow: clip`, not `overflow: hidden` — same reasoning as
+     `.about-section` above: this clips the bleeding "↗" glyph below and
+     keeps it out of the page's scrollable area, without turning the
+     section into a scroll container that would hijack its
+     `.scene-kicker`/`.scene-heading` descendants' `view()` timeline. */
+  overflow: clip;
   margin-bottom: 60px;
   padding: clamp(34px, 5vw, 64px);
   color: var(--portfolio-yellow-ink);
@@ -1969,5 +1991,223 @@ a:hover {
   ::view-transition-group(project-art-digital-public-peru) {
     animation-duration: var(--motion-transition);
     animation-timing-function: var(--motion-ease);
+  }
+}
+
+/* ============================================
+   Scroll-driven section narrative + HUD progress rail (phase 2, T2)
+
+   Hidden by default, unconditionally: a browser that never reaches the gate
+   below (no `animation-timeline` support, or reduced motion) must not see
+   an unstyled, unpositioned `<div>` sitting in normal flow.
+   ============================================ */
+.scroll-rail {
+  display: none;
+}
+
+/* Gated on both axes the design requires: `@supports (animation-timeline:
+   view())` is this file's one proxy for "the browser understands CSS
+   scroll-driven animations at all" — `scroll()` timelines landed in the
+   same browser releases as `view()`, so one feature query covers both
+   mechanisms below — and the `no-preference` media query is the motion
+   opt-in itself. Outside this block every element styled here renders
+   exactly as it did before this section existed: the `.scene-*` classes are
+   otherwise inert (no base rule gives them an initial hidden state), so a
+   browser that fails either check, or has JavaScript disabled entirely,
+   shows today's plain content — the `[data-reveal]` IO reveal covers the
+   JS-but-no-scroll-timelines case, unaffected by anything here. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Neutralizes the IO-driven reveal exactly where the scroll-timeline
+       animation below takes over, so the two mechanisms never both animate
+       opacity/transform on the same pixels. Two different shapes, because
+       the IO reveal itself is applied at two different levels:
+
+       `.scene-card` elements (`.project-card`, `.principles article`,
+       `.module-row`) carry `[data-reveal]` directly, so they need the same
+       trick the design already uses for `.module-row` in the "Motion"
+       section above: match `.motion-ready [data-reveal]` (0,2,0) with
+       equal-or-higher specificity. `.module-row` is named explicitly
+       because its own merged (0,3,0) override would otherwise tie in
+       specificity with the general (0,3,0) rule here and depend on source
+       order alone to win.
+
+       `.scene-kicker`/`.scene-heading` do NOT carry `[data-reveal]`
+       themselves — only their enclosing `<section data-reveal>` does, which
+       fades/rises as one block and would otherwise compound with (fade
+       inside a fade, rise inside a rise) the animation each of these gets
+       individually below. So the six homepage sections after the hero are
+       neutralized by id instead: an ID selector (1,2,0) always outranks the
+       (0,2,0) base rule regardless of source order. This also means any
+       content in those sections that is *not* named below (`.about-copy`,
+       `.toolbelt`, `.contact-bottom`/`.contact-social`, …) renders plainly
+       visible rather than IO-revealed once this gate is active — an
+       accepted tradeoff, since the alternative is exactly the double
+       animation this rule exists to prevent. */
+    .motion-ready [data-reveal].scene-card,
+    .motion-ready #projects[data-reveal],
+    .motion-ready #about[data-reveal],
+    .motion-ready #architecture[data-reveal],
+    .motion-ready #services[data-reveal],
+    .motion-ready #process[data-reveal],
+    .motion-ready #connect[data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    /* `.module-row` on its own, because unlike every other `.scene-card` it
+       has real hover/press states of its own (`background-color`, `color`
+       — see the "Motion" section's merged declaration above): dropping its
+       transition entirely, the way the general rule above does, would
+       silence that interaction feedback along with the reveal it is meant
+       to replace. `opacity`/`transform` are still handed to the
+       scroll-timeline below (dropped from this list, exactly like every
+       other `.scene-card`); `background-color`/`color` keep their
+       `--motion-fast` transition so hover/press still animate smoothly. */
+    .motion-ready [data-reveal].module-row.scene-card {
+      opacity: 1;
+      transform: none;
+      transition:
+        background-color var(--motion-fast),
+        color var(--motion-fast);
+    }
+
+    @keyframes scene-rise {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes scene-scan {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    /* Kicker labels ("01 / TRABAJO SELECCIONADO", …): a quick fade/rise on
+       the label itself, plus an accent scanline that sweeps in from the
+       left as the section enters. `currentColor` rather than a hardcoded
+       accent so the line reads correctly on `.contact-top .eyebrow`, whose
+       color is inverted to the ink token against that section's solid
+       accent background. `scaleX` from a fixed-width element, never
+       `width`, to stay compositor-only.
+
+       Every rule below spells out `animation-name`/`-timing-function`/
+       `-fill-mode`/`-timeline` as separate longhands instead of the
+       `animation` shorthand: a browser can support the `animation-timeline`
+       *property* (what `@supports` below tests) before it supports
+       `animation-timeline` as a component of the `animation` *shorthand* —
+       measured on the Chromium this repo's own tooling ships — and the
+       build's CSS minifier folds a shorthand-plus-longhand pair like
+       `animation: … both; animation-timeline: view();` back into one
+       shorthand declaration on its own. On a browser past `@supports` but
+       short of full shorthand support, that folded declaration is invalid
+       and the whole rule is dropped silently, which is indistinguishable
+       from "never entered" — the opposite of "never leaves content
+       hidden". Longhands cannot be folded this way, so they survive
+       minification unchanged. */
+    .scene-kicker {
+      position: relative;
+      animation-name: scene-rise;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+    .scene-kicker::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 1px;
+      background: currentColor;
+      transform-origin: left center;
+      animation-name: scene-scan;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+
+    /* Headings rise and fade a beat behind their kicker (a later range
+       start), reusing the same keyframes at a plainer entrance. */
+    .scene-heading {
+      animation-name: scene-rise;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 40%;
+    }
+
+    /* Cards/articles: the same rise, staggered by nudging each one's own
+       range forward instead of a time-based `animation-delay` — a delay is
+       a duration, and a scroll-driven animation's "duration" is the whole
+       range, so offsetting the range is the scroll-linked equivalent of the
+       IO reveal's `--motion-stagger`. Covers `.project-card` (3),
+       `.principles article` (3, on both #architecture and #process) and
+       `.module-row` (3) — every group is the only children of its own
+       container, so plain `:nth-child` does not cross between them. */
+    .scene-card {
+      animation-name: scene-rise;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+    .scene-card:nth-child(2) {
+      animation-range: entry 6% entry 46%;
+    }
+    .scene-card:nth-child(3) {
+      animation-range: entry 12% entry 52%;
+    }
+
+    /* HUD progress rail: desktop only (the hero's own portrait/ticker
+       already crowd a narrow viewport), a fixed accent fill scaling with
+       whole-document scroll position. `scaleY`/`transform-origin` only —
+       compositor-only, no layout or paint work per frame — and `right:
+       18px` with a fixed `2px` width keeps it inside the viewport, so it
+       cannot itself introduce horizontal overflow. */
+    @media (min-width: 900px) {
+      .scroll-rail {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 18px;
+        z-index: 40;
+        width: 2px;
+        height: 100vh;
+        background: var(--color-border);
+        pointer-events: none;
+      }
+      .scroll-rail-fill {
+        width: 100%;
+        height: 100%;
+        background: var(--color-accent);
+        transform-origin: top center;
+        /* Longhands, not the `animation` shorthand — see `.scene-kicker`'s
+           comment above for why. */
+        animation-name: scroll-rail-progress;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+      }
+      @keyframes scroll-rail-progress {
+        from {
+          transform: scaleY(0);
+        }
+        to {
+          transform: scaleY(1);
+        }
+      }
+    }
   }
 }
