@@ -112,13 +112,38 @@ test.describe("Cross-document view transitions — opt-in", () => {
           `${path}: the reduced-motion guard itself is missing from the ` +
             "shipped CSS",
         ).not.toBeNull();
-        const guardIndex = guardMatch!.index;
-        const optInIndex = css.indexOf("@view-transition", guardIndex);
+        const optInIndex = css.indexOf("@view-transition");
         expect(
           optInIndex,
-          `${path}: @view-transition must appear after (nested inside) the ` +
+          `${path}: @view-transition is missing`,
+        ).toBeGreaterThan(-1);
+        // Prove nesting, not just order: walk back from the opt-in to the
+        // block that encloses it and check that block's own header is the
+        // no-preference guard.
+        let depth = 0;
+        let openIndex = -1;
+        for (let index = optInIndex - 1; index >= 0; index -= 1) {
+          if (css[index] === "}") depth += 1;
+          else if (css[index] === "{") {
+            if (depth === 0) {
+              openIndex = index;
+              break;
+            }
+            depth -= 1;
+          }
+        }
+        const headerStart = Math.max(
+          css.lastIndexOf("}", openIndex),
+          css.lastIndexOf(";", openIndex),
+        );
+        const enclosingHeader = css.slice(headerStart + 1, openIndex + 1);
+        expect(
+          enclosingHeader,
+          `${path}: @view-transition must be nested directly inside the ` +
             "no-preference guard, not floating unguarded elsewhere",
-        ).toBeGreaterThan(guardIndex);
+        ).toMatch(
+          /^\s*@media\s*\([^()]*prefers-reduced-motion\s*:\s*no-preference[^()]*\)\s*\{$/,
+        );
         expect(css.slice(optInIndex, optInIndex + 60)).toMatch(
           /navigation\s*:\s*auto/,
         );
