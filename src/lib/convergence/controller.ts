@@ -22,6 +22,11 @@ import {
   MAX_PROTECT_RECTS,
   type ConvergenceRenderer,
 } from "./renderer.ts";
+import {
+  domRectToFieldAnchor,
+  pickParticleCount,
+  readThemeColors,
+} from "./theme-geometry.ts";
 
 export interface ConvergenceHandle {
   dispose(): void;
@@ -33,9 +38,6 @@ const FIELD_SEED = 0x5f3759df;
 
 const NARROW_BREAKPOINT = 720;
 const DPR_CAP = 1.75;
-const WIDE_PARTICLE_COUNT = 2600;
-const NARROW_PARTICLE_COUNT = 1100;
-const LOW_POWER_FACTOR = 0.6;
 const POINTER_SMOOTHING = 0.12;
 const POINTER_IDLE_TIMEOUT_MS = 220;
 /** Below this, a progress/pointer delta is visually imperceptible — the
@@ -57,90 +59,22 @@ export const MOUNT_IDLE_TIMEOUT_MS = 1500;
 const WIDE_ALPHA = 0.8;
 const NARROW_ALPHA = 0.5;
 
-const DEFAULT_ACCENT: readonly [number, number, number] = [1, 0.478, 0.094];
-const DEFAULT_NEUTRAL: readonly [number, number, number] = [
-  0.718, 0.722, 0.702,
-];
-
-/** Parses a `#rgb`/`#rrggbb` custom-property value into normalized [0,1] RGB. */
-function parseHexColor(
-  value: string,
-  fallback: readonly [number, number, number],
-): readonly [number, number, number] {
-  const hex = value.trim().replace(/^#/, "");
-  if (hex.length === 3) {
-    const r = parseInt(hex[0] + hex[0], 16);
-    const g = parseInt(hex[1] + hex[1], 16);
-    const b = parseInt(hex[2] + hex[2], 16);
-    if ([r, g, b].every((n) => !Number.isNaN(n)))
-      return [r / 255, g / 255, b / 255];
-  } else if (hex.length >= 6) {
-    const r = parseInt(hex.slice(0, 2), 16);
-    const g = parseInt(hex.slice(2, 4), 16);
-    const b = parseInt(hex.slice(4, 6), 16);
-    if ([r, g, b].every((n) => !Number.isNaN(n)))
-      return [r / 255, g / 255, b / 255];
-  }
-  return fallback;
-}
-
-interface ThemeColors {
-  accent: readonly [number, number, number];
-  neutral: readonly [number, number, number];
-}
-
-function readThemeColors(): ThemeColors {
-  const styles = getComputedStyle(document.documentElement);
-  const isLight = document.documentElement.dataset.theme === "light";
-  const accent = parseHexColor(
-    styles.getPropertyValue("--color-accent"),
-    DEFAULT_ACCENT,
-  );
-  // Light theme's --color-text-secondary and --color-accent are both muted
-  // browns close in hue on a cream surface — mixing them read as dust/dirt
-  // rather than a system. Render every "neutral" particle as a dimmed
-  // accent instead, so the field stays legibly warm/amber in both themes.
-  const neutral = isLight
-    ? ([accent[0] * 0.5, accent[1] * 0.5, accent[2] * 0.5] as const)
-    : parseHexColor(
-        styles.getPropertyValue("--color-text-secondary"),
-        DEFAULT_NEUTRAL,
-      );
-  return { accent, neutral };
-}
-
-function pickParticleCount(isNarrow: boolean): number {
-  const base = isNarrow ? NARROW_PARTICLE_COUNT : WIDE_PARTICLE_COUNT;
-  const lowPower =
-    typeof navigator !== "undefined" &&
-    typeof navigator.hardwareConcurrency === "number" &&
-    navigator.hardwareConcurrency > 0 &&
-    navigator.hardwareConcurrency <= 4;
-  return Math.round(lowPower ? base * LOW_POWER_FACTOR : base);
-}
-
-/** Converts a DOM rect (in viewport CSS pixels) into the field's own
- * logical (pre-aspect-scale) coordinate space — the inverse of the
- * `pos * uAspect` the vertex shader applies. `canvasBox` and `scale` must
- * come from the same moment, since both change on resize. */
-function domRectToFieldAnchor(
-  rect: DOMRect,
-  canvasBox: DOMRect,
-  scale: readonly [number, number],
-): Rect {
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
-  const ndcX = ((cx - canvasBox.left) / canvasBox.width) * 2 - 1;
-  const ndcY = -(((cy - canvasBox.top) / canvasBox.height) * 2 - 1);
-  const w = (rect.width / canvasBox.width) * 2;
-  const h = (rect.height / canvasBox.height) * 2;
-  return {
-    x: ndcX / scale[0],
-    y: ndcY / scale[1],
-    w: w / scale[0],
-    h: h / scale[1],
-  };
-}
+// `parseHexColor`, `readThemeColors`, `pickParticleCount` and
+// `domRectToFieldAnchor` used to live here. They are pure functions of
+// plain inputs (a color string, a rect, a particle-count decision) that
+// only touched the DOM by convenience, so T0 of the sci-fi scroll narrative
+// phase moved them to `theme-geometry.ts` for standalone unit tests and
+// imports them above. What stays below — `measureRect`, `buildField`,
+// `computeExclusions`, `updateProtectUniform`, `applyResize`, the render
+// loop, every listener — is deliberately still one large closure rather
+// than a further-split module: each of those functions reads or mutates
+// mount-local state (`canvas`, `heroEl`, `layout`, `aspectScale`,
+// `protectRectsUniform`, `renderer`, `disposed`, …) that only exists once
+// `mountUnsafe` has started running, and splitting them out would mean
+// threading that whole bag of mutable fields through an explicit context
+// object on every call instead of a closure capturing it for free. That
+// is a real refactor with its own risk/benefit tradeoff, not a mechanical
+// extraction, so it stays out of scope here.
 
 /**
  * Returns a `Promise` (T4f): `renderer.ts`'s `createRenderer` now runs the
@@ -244,7 +178,12 @@ async function mountUnsafe(
       (box.width || heroEl.clientWidth || 1) /
       Math.max(1, box.height || heroEl.clientHeight || 1);
     return createField({
-      count: pickParticleCount(isNarrow),
+      count: pickParticleCount(
+        isNarrow,
+        typeof navigator !== "undefined"
+          ? navigator.hardwareConcurrency
+          : undefined,
+      ),
       seed: FIELD_SEED,
       aspect,
       layout,
