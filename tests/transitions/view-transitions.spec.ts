@@ -41,7 +41,11 @@ const SHARED_ART_PROJECTS = [
 /** A project with no cover image on either end — the negative case: it must
  * carry no view-transition-name, proving the gating in `[id].astro` is
  * scoped to `SHARED_ART_PROJECT_IDS` and not applied blindly. */
-const UNSHARED_PROJECT = "elect-validate";
+/** A project WITH a detail-page cover image but no homepage card: the only
+ * kind of page where the `SHARED_ART_PROJECT_IDS` gate in `[id].astro`
+ * actually decides something (a project without a cover never renders the
+ * gated element at all, so it cannot prove the gate). */
+const UNSHARED_PROJECT = { id: "edge-traz-agro", slug: "edgetraz-agro" };
 
 /** Concatenates the raw text of every stylesheet reachable from the current
  * page — linked sheets by `fetch`ing their `href` (so this sees the exact
@@ -192,24 +196,31 @@ test.describe("Cross-document view transitions — shared-element names", () => 
   }
 
   test(
-    "a project with no shared art carries no view-transition-name on its detail page",
+    "a project with a cover but no homepage card gets no shared art name",
     { tag: ["@critical", "@e2e", "@transitions", "@VT-UNSHARED"] },
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "no-preference" });
-      await page.goto(`/projects/${UNSHARED_PROJECT}/`);
-      const heading = page.getByRole("heading", { level: 1 });
-      await expect(heading).toBeVisible();
-      const name = await heading.evaluate(
-        (el) =>
-          (getComputedStyle(el) as unknown as Record<string, string>)[
-            "viewTransitionName"
-          ],
+      await page.goto(`/projects/${UNSHARED_PROJECT.slug}/`);
+      const cover = page.locator("main img").first();
+      await expect(
+        cover,
+        `${UNSHARED_PROJECT.id} must render a cover, or this test cannot ` +
+          "exercise the SHARED_ART_PROJECT_IDS gate at all",
+      ).toBeVisible();
+      // The class is what the gate controls; the CSS only names the three
+      // shared-art ids, so the computed name alone would stay `none` even
+      // with the gate removed. Assert both.
+      await expect(cover).not.toHaveClass(/\bvt-art-/);
+      const named = await page.evaluate(() =>
+        [...document.querySelectorAll("body *")]
+          .map((el) => getComputedStyle(el).viewTransitionName)
+          .filter((name) => name !== "none" && name !== "site-header"),
       );
       expect(
-        name,
-        `${UNSHARED_PROJECT} has no homepage counterpart art, so its ` +
-          "heading must not be given a shared view-transition-name",
-      ).toBe("none");
+        named,
+        `${UNSHARED_PROJECT.id} has no homepage counterpart, so nothing on ` +
+          "its page may carry a shared view-transition-name",
+      ).toEqual([]);
     },
   );
 
