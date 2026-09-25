@@ -2262,8 +2262,9 @@ a:hover {
          zero-padded to 3 digits. Positioned to the rail's left with
          `right: calc(100% + 8px)` (100% of its 2px-wide containing block,
          i.e. flush with the rail's left edge, plus an 8px gap) and moved
-         down by `1cqh` per progress point, so it reaches the rail's
-         bottom exactly when the fill does. `aria-hidden` is inherited
+         down by `1cqh` minus a hundredth of its own line box (`lh`) per
+         progress point, so its bottom meets the rail's bottom at 100%
+         instead of overshooting it by one line. `aria-hidden` is inherited
          from the `.scroll-rail` wrapper in the markup, same as the fill. */
       .scroll-rail-readout {
         position: absolute;
@@ -2280,7 +2281,7 @@ a:hover {
         animation-timing-function: linear;
         animation-fill-mode: both;
         animation-timeline: scroll(root);
-        transform: translateY(calc(var(--scroll-progress) * 1cqh));
+        transform: translateY(calc(var(--scroll-progress) * (1cqh - 0.01lh)));
       }
       .scroll-rail-readout::after {
         content: counter(scroll-progress, scroll-progress-padded) "%";
