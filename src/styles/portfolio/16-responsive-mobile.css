@@ -1,0 +1,243 @@
+@media (max-width: 720px) {
+  .wrap,
+  .nav-wrap {
+    width: calc(100% - 36px);
+  }
+  .nav-wrap {
+    height: 70px;
+  }
+  .desktop-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-flex;
+  }
+  .hero {
+    min-height: auto;
+    padding-top: 92px;
+  }
+  .hero-kicker {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hero-stage {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 42px;
+    padding-block: 34px 46px;
+  }
+  .hero h1 {
+    font-size: clamp(4rem, 19vw, 7rem);
+    line-height: 0.8;
+  }
+  .hero-brief {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .hero-brief > p {
+    max-width: 480px;
+  }
+  .actions {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .hero-portrait {
+    width: min(88%, 390px);
+    margin-inline: auto;
+  }
+  .hero-portrait::before {
+    inset: 6% -10% 6% 15%;
+  }
+  .hero-portrait::after {
+    right: -7%;
+  }
+  .portrait-orbit {
+    left: -24px;
+    width: 55px;
+    height: 55px;
+  }
+  .portrait-note {
+    right: -8%;
+    bottom: 4%;
+    font-size: 0.6rem;
+  }
+  .profile-card {
+    transform: rotate(-1.5deg);
+  }
+  .profile-portrait {
+    aspect-ratio: 5 / 5.5;
+  }
+  .profile-bio {
+    padding: 15px;
+  }
+  .profile-project {
+    padding: 14px 15px;
+  }
+  .hero-ticker {
+    gap: 12px 22px;
+    padding-block: 18px;
+  }
+  .hero-ticker > span {
+    font-size: 0.62rem;
+  }
+  .work-section,
+  .principles-section {
+    padding-block: 78px;
+  }
+  .section-flush-top {
+    padding-bottom: 78px;
+  }
+  .section-heading {
+    display: block;
+    margin-bottom: 32px;
+  }
+  .section-heading .quiet-link,
+  .heading-note {
+    margin-top: 20px;
+  }
+  .portfolio h2 {
+    font-size: clamp(2.6rem, 12vw, 4.5rem);
+  }
+  .project-bento {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .project-card--lead {
+    grid-column: auto;
+    display: block;
+  }
+  .project-image {
+    padding: 54px 16px 42px;
+  }
+  .card-meta {
+    inset-inline: 14px;
+  }
+  .image-caption {
+    left: 16px;
+  }
+  .project-story {
+    padding: 26px 21px 30px;
+  }
+  .project-story h3 {
+    font-size: 3.8rem;
+  }
+  .project-card--workbench,
+  .project-card--civic {
+    padding: 24px 21px;
+  }
+  .project-card--workbench h3,
+  .project-card--civic h3 {
+    font-size: 2.6rem;
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .about-section h2 {
+    font-size: clamp(3rem, 13vw, 5rem);
+  }
+  .about-copy {
+    padding-top: 0;
+  }
+  .about-mark {
+    right: -20%;
+    bottom: -15%;
+  }
+  .principles {
+    grid-template-columns: 1fr;
+  }
+  .principles article,
+  .principles article:first-child,
+  .principles article:last-child {
+    padding: 28px 0 32px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .principles article:last-child {
+    border-bottom: 0;
+  }
+  .principles h3 {
+    margin-top: 22px;
+  }
+  .toolbelt {
+    display: block;
+    margin-top: 35px;
+  }
+  .toolbelt p {
+    margin-top: 12px;
+    line-height: 2;
+  }
+  .toolbelt p span {
+    padding-inline: 6px;
+  }
+  .module-row {
+    grid-template-columns: 28px 42px minmax(0, 1fr) 18px;
+    gap: 10px 12px;
+    padding-right: 4px;
+  }
+  .module-row .module-index {
+    grid-row: 1 / 3;
+  }
+  .module-row .module-icon {
+    grid-row: 1 / 3;
+  }
+  .module-row h3 {
+    overflow-wrap: anywhere;
+  }
+  .module-row .module-label {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .module-row p {
+    grid-column: 2 / 5;
+    grid-row: 3;
+    padding-left: 54px;
+  }
+  .module-row > .icon:last-child {
+    grid-column: 4;
+    grid-row: 1;
+  }
+  .contact-section {
+    width: calc(100% - 36px);
+    padding: 29px 22px;
+  }
+  .contact-top {
+    display: block;
+  }
+  .contact-top .mono {
+    display: block;
+    margin-top: 8px;
+  }
+  .contact-section h2 {
+    font-size: clamp(2.75rem, 12vw, 5.5rem);
+    line-height: 1.05;
+    margin-block: 30px;
+  }
+  .contact-bottom {
+    display: block;
+  }
+  .contact-bottom p br {
+    display: none;
+  }
+  .contact-bottom .solid-link {
+    margin-top: 24px;
+  }
+  .contact-social {
+    flex-wrap: wrap;
+    gap: 10px 20px;
+  }
+  .site-footer {
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
+  .site-footer p {
+    width: 100%;
+    order: 3;
+  }
+  .site-footer > a:last-child {
+    margin-left: auto;
+  }
+  .project-pair {
+    grid-template-columns: 1fr;
+  }
+}

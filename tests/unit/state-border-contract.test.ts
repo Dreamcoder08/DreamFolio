@@ -43,10 +43,8 @@ import { readCssInlined } from "./support/css-imports.ts";
 const at = (rel: string) =>
   readFileSync(new URL(`../../${rel}`, import.meta.url), "utf8");
 
-/**
- * Blank out comments while keeping every byte offset (and therefore every line
- * number) intact, so a failure can point at the real line of the real file.
- */
+/** Blank out comments while keeping every byte offset (and therefore every
+ *  line number) intact, so a failure can point at the real line of the file. */
 const blind = (css: string): string =>
   css.replace(/\/\*[\s\S]*?\*\//g, (comment) => comment.replace(/[^\n]/g, " "));
 
@@ -118,10 +116,6 @@ function declarations(
   return out;
 }
 
-// portfolio.css is only an ordered `@import` list of partials;
-// readCssInlined resolves them recursively so this is the exact same
-// effective text as before the split, and `lineOf` below reports a line
-// number in that inlined text rather than in any one partial file.
 const PORTFOLIO = blind(readCssInlined("src/styles/portfolio.css"));
 const GLOBAL = blind(at("src/styles/global.css"));
 

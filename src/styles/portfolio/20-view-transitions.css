@@ -1,0 +1,95 @@
+/* ============================================
+   Cross-document view transitions (phase 2, T1)
+
+   Native CSS view transitions: no script, so this section is pure
+   progressive enhancement. A browser without support ignores every rule
+   below (`@view-transition` and `::view-transition-*` are simply unknown to
+   it) and falls back to today's plain navigation; so does a visitor with
+   `prefers-reduced-motion: reduce`, because the opt-in itself lives inside
+   the `no-preference` guard rather than relying on the UA to skip the
+   animation on its own — every `view-transition-name` assignment below is
+   then inert too, since the pseudo-element tree those names target never
+   gets created without the opt-in.
+   ============================================ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* Root transition: a fast horizontal wipe (a classic scene-change cut)
+     instead of the UA's default cross-fade. The old page's frame is held
+     static underneath (`animation: none`) while the new page's frame wipes
+     over it left-to-right via `clip-path`; the UA stylesheet already
+     stacks `::view-transition-new(root)` above `::view-transition-old(root)`
+     for the root group, so no z-index is needed here. `mix-blend-mode:
+     normal` replaces the UA's `plus-lighter` default, which exists to make
+     a crossfade of two full-opacity layers look correct — with a wipe, only
+     one layer is ever visible at a given pixel, so blending should not
+     double-expose the seam between them. No blur: an expensive filter
+     across the full viewport on every navigation is not worth it for a
+     440ms wipe. */
+  ::view-transition-old(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-new(root) {
+    animation: vt-wipe-in var(--motion-transition) var(--motion-ease) both;
+    mix-blend-mode: normal;
+  }
+  @keyframes vt-wipe-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* The fixed glass header must not get caught in the root wipe — it would
+     visibly tear, since the old header belongs to the old-root snapshot and
+     the new header to the new-root snapshot, and the wipe would sweep
+     across the seam between them. Naming it gives it its own snapshot/
+     group, which the UA morphs in place; since the header renders
+     identically before and after on every route, that "morph" is a no-op
+     and the header just stays put underneath the wipe. */
+  .site-header {
+    view-transition-name: site-header;
+  }
+
+  /* Shared project art, for the three projects with art on both the
+     homepage card and the detail page (drenyra, dreamcoder-workbench,
+     digital-public-peru — see odd/tasks/scifi-scroll-narrative.md's scope
+     note; the other projects have no cover image on one end or the other).
+     Names are unique per document by construction rather than by
+     convention: the homepage renders at most one element per class (one
+     card each), and the detail page only ever renders the single project it
+     routes to, so only that project's class is ever present there. Duration
+     and easing are tuned to match the root wipe; the position/size morph
+     itself is the UA's own group animation and is left alone.
+
+     Title is deliberately NOT part of this group. The homepage card title
+     and the detail page's `<h1>` are different strings for every one of
+     these projects (e.g. drenyra's card reads "Drenyra", its detail `<h1>`
+     reads "Drenyra — Fiscal Command Center") — a group `view-transition-name`
+     morphs the old text box into the new one over the transition duration,
+     so pairing two different strings stretches/scales the text and leaves a
+     faint ghost of the old string showing through mid-transition. The art
+     morph reads well because the image content is the same on both ends;
+     the title morph does not, so it is left as an ordinary (non-shared,
+     unnamed) heading on each page instead. */
+  .vt-art-drenyra {
+    view-transition-name: project-art-drenyra;
+  }
+  .vt-art-dreamcoder-workbench {
+    view-transition-name: project-art-dreamcoder-workbench;
+  }
+  .vt-art-digital-public-peru {
+    view-transition-name: project-art-digital-public-peru;
+  }
+  ::view-transition-group(project-art-drenyra),
+  ::view-transition-group(project-art-dreamcoder-workbench),
+  ::view-transition-group(project-art-digital-public-peru) {
+    animation-duration: var(--motion-transition);
+    animation-timing-function: var(--motion-ease);
+  }
+}

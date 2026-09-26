@@ -1,0 +1,89 @@
+/* About */
+.about-section {
+  /* `overflow: clip`, not `overflow: hidden`: both clip the bleeding
+     `.about-mark` watermark below to this box's edges and both keep that
+     bleed out of the page's scrollable area (unlike `clip-path`, which
+     only clips at paint time and was measured to let the watermark's
+     negative offset still widen the document's scrollable width at narrow
+     viewports). `hidden` differs from `clip` in one load-bearing way: an
+     element with `overflow: hidden` still counts as a CSS *scroll
+     container*, which silently becomes the reference scroller for any
+     descendant's `animation-timeline: view()` (T2's `.scene-kicker`/
+     `.scene-heading` in this section) instead of the real document
+     scroller — measured: with `hidden` the animation reports 100% progress
+     regardless of actual scroll position, since relative to a container
+     that itself never scrolls, the subject is always "fully entered".
+     `clip` forbids scrolling entirely and was measured to not establish a
+     scroll container, so the descendants' timeline resolves against the
+     document as intended — matching the same reasoning `body`'s and
+     `.hero-stage`'s existing `overflow-x: clip` already rely on. */
+  overflow: clip;
+  padding-block: clamp(90px, 10vw, 140px);
+  color: var(--portfolio-yellow-ink);
+  background: var(--portfolio-yellow);
+}
+.about-section .eyebrow {
+  color: currentColor;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: clamp(55px, 10vw, 150px);
+}
+.about-title {
+  position: relative;
+}
+.about-section h2 {
+  color: currentColor;
+  font-size: clamp(3.2rem, 6vw, 6.4rem);
+}
+.about-section h2 span {
+  color: currentColor;
+  opacity: 0.66;
+}
+.about-mark {
+  position: absolute;
+  right: -7%;
+  bottom: -36%;
+  color: color-mix(in srgb, var(--color-on-accent) 7%, transparent);
+  font-size: clamp(10rem, 24vw, 23rem);
+  font-weight: 900;
+  letter-spacing: -0.12em;
+  line-height: 1;
+  pointer-events: none;
+}
+.about-mark span {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+.about-copy {
+  position: relative;
+  z-index: 1;
+  padding-top: 42px;
+}
+.about-copy p {
+  margin-bottom: 20px;
+  color: currentColor;
+  opacity: 0.8;
+  font-size: 0.98rem;
+}
+.about-copy .about-lead {
+  margin-bottom: 28px;
+  opacity: 1;
+  font:
+    italic clamp(1.5rem, 2.4vw, 2.15rem) / 1.3 Georgia,
+    serif;
+}
+.about-copy strong,
+.about-copy a {
+  color: currentColor;
+}
+.about-copy a:not(.quiet-link) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.about-copy .quiet-link {
+  margin-top: 8px;
+  color: currentColor;
+  border-bottom: 1px solid currentColor;
+}

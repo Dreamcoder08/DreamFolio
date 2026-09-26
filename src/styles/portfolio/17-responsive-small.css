@@ -1,0 +1,73 @@
+@media (max-width: 380px) {
+  .wrap,
+  .nav-wrap {
+    width: calc(100% - 28px);
+  }
+  .hero h1 {
+    font-size: 3.75rem;
+  }
+  .hero-portrait {
+    width: 91%;
+  }
+  .profile-signature {
+    display: block;
+    margin: 3px 0 0;
+  }
+  .profile-project small {
+    display: block;
+  }
+  .portrait-note {
+    right: -4%;
+  }
+  .solid-link {
+    padding-inline: 15px;
+  }
+  .project-story h3 {
+    font-size: 3.25rem;
+  }
+  .contact-section {
+    width: calc(100% - 28px);
+  }
+  .contact-bottom .solid-link {
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The universal guard moved to global.css (unlayered) so it no longer depends
+     on this file being imported. What stays here is portfolio-owned: the reveal
+     reset and the eight component transform neutralisations. */
+  .motion-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  .project-image:hover img,
+  .compact-image:hover img,
+  .module-row:hover,
+  .solid-link:hover > .icon:last-child,
+  .quiet-link:hover > .icon:last-child,
+  .circle-link:hover .icon,
+  .project-links a:hover > .icon:last-child,
+  .module-row:hover > .icon:last-child {
+    transform: none;
+  }
+  /* The press states added below are motion-bearing, so a reduced-motion user
+         must not get the movement. Every one of them also carries a fill, border
+         or underline signal, so the press state survives `transform: none`. */
+  /* The press states added below are motion-bearing, so a reduced-motion user
+     must not get the movement. Every one of them also carries a fill, border or
+     underline signal, so the press state survives `transform: none`. `!important`
+     is load-bearing here: this list sits *before* the `:active` rules it must
+     override and has equal specificity, so source order alone would let them win. */
+  .theme-toggle:active,
+  .menu-toggle:active,
+  .module-row:active,
+  .quiet-link:active > .icon:last-child,
+  .project-links a:active > .icon:last-child,
+  .contact-social a:active,
+  .nav-contact:active,
+  .circle-link:active,
+  .mobile-nav a:active {
+    transform: none !important;
+  }
+}
