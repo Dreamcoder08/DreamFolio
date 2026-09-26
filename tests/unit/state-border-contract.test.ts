@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { readCssInlined } from "./support/css-imports.ts";
 
 /**
  * The exempted element's border contract (`theme-state-hardening`, amended
@@ -42,10 +43,8 @@ import { readFileSync } from "node:fs";
 const at = (rel: string) =>
   readFileSync(new URL(`../../${rel}`, import.meta.url), "utf8");
 
-/**
- * Blank out comments while keeping every byte offset (and therefore every line
- * number) intact, so a failure can point at the real line of the real file.
- */
+/** Blank out comments while keeping every byte offset (and therefore every
+ *  line number) intact, so a failure can point at the real line of the file. */
 const blind = (css: string): string =>
   css.replace(/\/\*[\s\S]*?\*\//g, (comment) => comment.replace(/[^\n]/g, " "));
 
@@ -117,7 +116,7 @@ function declarations(
   return out;
 }
 
-const PORTFOLIO = blind(at("src/styles/portfolio.css"));
+const PORTFOLIO = blind(readCssInlined("src/styles/portfolio.css"));
 const GLOBAL = blind(at("src/styles/global.css"));
 
 const lineOf = (css: string, offset: number): number =>

@@ -45,10 +45,6 @@
   ],
   "allowlist": [
     {
-      "path": "src/styles/portfolio.css",
-      "ceiling": 2299
-    },
-    {
       "path": "tests/theme-state/motion.spec.ts",
       "ceiling": 925
     },
@@ -86,7 +82,7 @@
     },
     {
       "path": "tests/unit/state-border-contract.test.ts",
-      "ceiling": 351
+      "ceiling": 350
     },
     {
       "path": "tests/theme-state/theme-state-page.ts",

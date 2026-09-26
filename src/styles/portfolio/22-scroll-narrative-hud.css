@@ -1,0 +1,102 @@
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* HUD progress rail: desktop only (the hero's own portrait/ticker
+       already crowd a narrow viewport), a fixed accent fill scaling with
+       whole-document scroll position, plus a small mono readout that
+       climbs alongside it. `scaleY`/`transform-origin`/`translateY` only —
+       compositor-only, no layout or paint work per scroll frame for the
+       positioning itself — and `right: 18px` with a fixed `2px` width
+       keeps the rail line inside the viewport, so it cannot itself
+       introduce horizontal overflow. */
+    @media (min-width: 900px) {
+      .scroll-rail {
+        display: block;
+        position: fixed;
+        /* Starts below the fixed glass header instead of running under
+           it. No shared header-height token exists elsewhere in this
+           file, so this is derived straight from the header's own rules
+           rather than a disconnected magic number: `.nav-wrap`'s
+           `height: 82px` ("Navigation" section, near the top of this
+           file) plus `.site-header`'s own `border-bottom: 1px solid`. If
+           either changes, this must move with it. */
+        top: calc(82px + 1px);
+        right: 18px;
+        z-index: 40;
+        width: 2px;
+        /* Reuses the same 18px as `right`, so the rail reads as one
+           consistent margin: it stops 18px short of the viewport bottom
+           instead of running flush to the edge. */
+        height: calc(100vh - (82px + 1px) - 18px);
+        background: var(--color-border);
+        pointer-events: none;
+        /* A size query container, so the readout below can move by `cqh`
+           (a percentage of *this* element's own content height) instead
+           of duplicating the height calc above a second time. */
+        container-type: size;
+      }
+      .scroll-rail-fill {
+        width: 100%;
+        height: 100%;
+        background: var(--color-accent);
+        transform-origin: top center;
+        /* Longhands, not the `animation` shorthand — see `.scene-kicker`'s
+           comment above for why. */
+        animation-name: scroll-rail-progress;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+      }
+      @keyframes scroll-rail-progress {
+        from {
+          transform: scaleY(0);
+        }
+        to {
+          transform: scaleY(1);
+        }
+      }
+
+      /* HUD readout: a small mono "042%" label that climbs the rail in
+         lockstep with the fill above, both driven by the same
+         `scroll(root)` timeline. `counter-reset`'s value is read straight
+         from the animated `--scroll-progress` integer (registered at this
+         file's top, with `scroll-progress-padded` — both are spec'd
+         top-level-only, so they cannot live inside this guard), and
+         `content: counter(...)` on the pseudo-element renders it
+         zero-padded to 3 digits. Positioned to the rail's left with
+         `right: calc(100% + 8px)` (100% of its 2px-wide containing block,
+         i.e. flush with the rail's left edge, plus an 8px gap) and moved
+         down by `1cqh` minus a hundredth of its own line box (`lh`) per
+         progress point, so its bottom meets the rail's bottom at 100%
+         instead of overshooting it by one line. `aria-hidden` is inherited
+         from the `.scroll-rail` wrapper in the markup, same as the fill. */
+      .scroll-rail-readout {
+        position: absolute;
+        top: 0;
+        right: calc(100% + 8px);
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.06em;
+        color: var(--color-accent);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        counter-reset: scroll-progress var(--scroll-progress);
+        animation-name: scroll-progress-count;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+        transform: translateY(calc(var(--scroll-progress) * (1cqh - 0.01lh)));
+      }
+      .scroll-rail-readout::after {
+        content: counter(scroll-progress, scroll-progress-padded) "%";
+      }
+      @keyframes scroll-progress-count {
+        from {
+          --scroll-progress: 0;
+        }
+        to {
+          --scroll-progress: 100;
+        }
+      }
+    }
+  }
+}
