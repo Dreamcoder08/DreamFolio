@@ -74,6 +74,43 @@ test.describe("MU-TH-UR terminal — composing a transmission", () => {
   );
 });
 
+test.describe("MU-TH-UR terminal — narrow screens", () => {
+  test.use({ viewport: { width: 375, height: 812 }, colorScheme: "light" });
+
+  test(
+    "every boot message fits inside the terminal after motion settles",
+    { tag: ["@terminal", "@TERMINAL-007"] },
+    async ({ page }) => {
+      const terminal = new TerminalPage(page);
+      await terminal.goto();
+      await expect(terminal.bootLines).toHaveCount(3);
+      await page.evaluate(() => document.fonts.ready);
+
+      for (const line of await terminal.bootLines.all()) {
+        await expect(line).toHaveCSS("animation-name", "none");
+        expect(
+          await line.evaluate((element) => {
+            const screen = element.closest(".mu-terminal");
+            if (!screen) return false;
+            const bounds = screen.getBoundingClientRect();
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            const textBounds = range.getBoundingClientRect();
+            return (
+              textBounds.width > 0 &&
+              textBounds.left >= bounds.left &&
+              textBounds.right <= bounds.right &&
+              textBounds.top >= bounds.top &&
+              textBounds.bottom <= bounds.bottom &&
+              element.scrollWidth <= element.clientWidth
+            );
+          }),
+        ).toBe(true);
+      }
+    },
+  );
+});
+
 test.describe("MU-TH-UR terminal — reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
