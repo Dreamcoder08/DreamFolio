@@ -112,6 +112,7 @@
 /* Narrow screens need the full boot message, not a clipped typing reveal. */
 @media (max-width: 600px) {
   .mu-terminal-line {
+    width: 100%;
     overflow: visible;
     white-space: normal;
     overflow-wrap: anywhere;
