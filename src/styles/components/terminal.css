@@ -109,6 +109,16 @@
   }
 }
 
+/* Narrow screens need the full boot message, not a clipped typing reveal. */
+@media (max-width: 600px) {
+  .mu-terminal-line {
+    overflow: visible;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    animation: none;
+  }
+}
+
 .mu-terminal-composer {
   margin-top: 16px;
   display: flex;
