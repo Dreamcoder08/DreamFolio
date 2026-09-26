@@ -78,7 +78,7 @@
     },
     {
       "path": "src/lib/convergence/field.ts",
-      "ceiling": 380
+      "ceiling": 232
     },
     {
       "path": "tests/unit/state-border-contract.test.ts",

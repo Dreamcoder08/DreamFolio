@@ -27,6 +27,7 @@
  */
 
 import { clamp, createRng, type SeededRng } from "./random.ts";
+import { buildGraph } from "./graph.ts";
 
 export type FieldLayoutMode = "wide" | "narrow";
 
@@ -95,38 +96,10 @@ const HUB_FRACTION = 0.22;
 const BOUNDS = 1;
 const HUB_JITTER_RADIUS = 0.055;
 const EDGE_JITTER = 0.02;
-/** How many of its nearest neighbours each hub links to — enough to read as
- * a cross-linked network diagram rather than a bare chain, deduplicated so
- * a mutual nearest-neighbour pair does not produce two parallel edges. */
-const HUB_NEIGHBOR_COUNT = 2;
-/** Rejection-sampling retries for one hub before it is skipped — bounded so
- * a pathological set of exclusions (covering nearly the whole domain)
- * degrades to fewer hubs instead of looping forever. */
-const MAX_HUB_ATTEMPTS = 40;
-/** Clearance kept between a hub CENTER and any exclusion rect's edge. Must
- * comfortably exceed `HUB_JITTER_RADIUS`: a hub's own jitter-cluster
- * particles can land up to that far from its center in any direction, so a
- * margin only slightly bigger than the jitter radius still let a cluster
- * visibly spill back over the excluded content (observed spilling onto the
- * headline's underline during visual review). */
-const EXCLUSION_MARGIN = 0.13;
-/** Poisson-disk-style target spacing coefficient: with hubs spread over a
- * domain of a given area, this keeps them roughly evenly spaced regardless
- * of how many are requested or how wide/tall the domain is. */
-const SPACING_COEFFICIENT = 0.8;
 /** Caps how far `domainExtent` stretches the sampling domain on an extreme
  * aspect ratio (very wide or very tall window), so the field never spreads
  * absurdly thin looking for pixels the canvas cannot usefully show. */
 const MAX_DOMAIN_EXTENT = 2.4;
-
-const HUB_COUNT_RANGE: Record<FieldLayoutMode, readonly [number, number]> = {
-  wide: [9, 13],
-  narrow: [6, 8],
-};
-
-function edgeKey(a: number, b: number): string {
-  return a < b ? `${a}:${b}` : `${b}:${a}`;
-}
 
 /** Inverse of `renderer.ts`'s `computeAspectScale`: how far the sampling
  * domain needs to stretch on the wider axis so that, after `uAspect`
@@ -140,127 +113,6 @@ export function domainExtent(aspect: number): [number, number] {
     return [clamp(safeAspect, 1, MAX_DOMAIN_EXTENT), 1];
   }
   return [1, clamp(1 / safeAspect, 1, MAX_DOMAIN_EXTENT)];
-}
-
-function insideExclusion(x: number, y: number, rect: Rect): boolean {
-  const halfW = rect.w / 2 + EXCLUSION_MARGIN;
-  const halfH = rect.h / 2 + EXCLUSION_MARGIN;
-  return Math.abs(x - rect.x) < halfW && Math.abs(y - rect.y) < halfH;
-}
-
-function violatesExclusions(x: number, y: number, exclusions: Rect[]): boolean {
-  for (const rect of exclusions) {
-    if (insideExclusion(x, y, rect)) return true;
-  }
-  return false;
-}
-
-function farEnoughFromExisting(
-  x: number,
-  y: number,
-  hubs: HubNode[],
-  minSpacing: number,
-): boolean {
-  const minSpacingSq = minSpacing * minSpacing;
-  for (const hub of hubs) {
-    const dx = x - hub.x;
-    const dy = y - hub.y;
-    if (dx * dx + dy * dy < minSpacingSq) return false;
-  }
-  return true;
-}
-
-/**
- * Rejection-samples up to `targetCount` hub centers across the full
- * `[-extentX, extentX] x [-extentY, extentY]` domain: every candidate is
- * uniform-random, then rejected if it falls inside (plus padding) any
- * exclusion rect or too close to an already-placed hub. This replaces the
- * previous "push hubs radially out to the anchor's border" approach, which
- * piled hubs up along whichever edge of the anchor happened to fall inside
- * the (unextended) domain, reading as a thin strip rather than a graph
- * distributed through the actual empty space around the content.
- *
- * A hub that fails every attempt is skipped rather than retried forever or
- * placed somewhere invalid — the caller ends up with `hubs.length <=
- * targetCount`, which every downstream step (edges, particle assignment)
- * already handles gracefully down to zero hubs.
- */
-function sampleHubs(
-  targetCount: number,
-  extentX: number,
-  extentY: number,
-  exclusions: Rect[],
-  rng: SeededRng,
-): HubNode[] {
-  const hubs: HubNode[] = [];
-  if (targetCount <= 0) return hubs;
-
-  const domainArea = 2 * extentX * BOUNDS * (2 * extentY * BOUNDS);
-  const minSpacing = SPACING_COEFFICIENT * Math.sqrt(domainArea / targetCount);
-
-  for (let i = 0; i < targetCount; i += 1) {
-    let placed: HubNode | null = null;
-    for (let attempt = 0; attempt < MAX_HUB_ATTEMPTS && !placed; attempt += 1) {
-      const x = rng.range(-extentX, extentX) * BOUNDS;
-      const y = rng.range(-extentY, extentY) * BOUNDS;
-      if (violatesExclusions(x, y, exclusions)) continue;
-      if (!farEnoughFromExisting(x, y, hubs, minSpacing)) continue;
-      placed = { x, y };
-    }
-    if (placed) hubs.push(placed);
-  }
-  return hubs;
-}
-
-/** Connects every hub to its `HUB_NEIGHBOR_COUNT` nearest neighbours,
- * deduplicated. Unlike a spanning tree this does not guarantee the whole
- * graph is connected, but it does guarantee every hub (with >= 2 hubs
- * total) has at least one edge, and it reads as a cross-linked network
- * rather than a bare chain or a hub-and-spoke tree. */
-function buildNearestNeighborEdges(hubs: HubNode[]): [number, number][] {
-  const n = hubs.length;
-  const edges: [number, number][] = [];
-  if (n < 2) return edges;
-
-  const edgeSet = new Set<string>();
-  for (let i = 0; i < n; i += 1) {
-    const distances: { j: number; distSq: number }[] = [];
-    for (let j = 0; j < n; j += 1) {
-      if (j === i) continue;
-      const dx = hubs[i].x - hubs[j].x;
-      const dy = hubs[i].y - hubs[j].y;
-      distances.push({ j, distSq: dx * dx + dy * dy });
-    }
-    distances.sort((a, b) => a.distSq - b.distSq);
-
-    for (
-      let k = 0;
-      k < Math.min(HUB_NEIGHBOR_COUNT, distances.length);
-      k += 1
-    ) {
-      const j = distances[k].j;
-      const key = edgeKey(i, j);
-      if (edgeSet.has(key)) continue;
-      edgeSet.add(key);
-      edges.push(i < j ? [i, j] : [j, i]);
-    }
-  }
-  return edges;
-}
-
-function buildGraph(
-  layout: FieldLayoutMode,
-  extentX: number,
-  extentY: number,
-  rng: SeededRng,
-  exclusions: Rect[],
-): FieldGraph {
-  const [minHubs, maxHubs] = HUB_COUNT_RANGE[layout];
-  const targetHubCount =
-    minHubs + Math.floor(rng.next() * (maxHubs - minHubs + 1));
-  const hubs = sampleHubs(targetHubCount, extentX, extentY, exclusions, rng);
-  const edges = buildNearestNeighborEdges(hubs);
-  return { hubs, edges };
 }
 
 function pickWeightedEdge(

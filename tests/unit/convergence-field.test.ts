@@ -20,6 +20,36 @@ test("createField is deterministic for the same seed", () => {
   assert.deepEqual(a.graph, b.graph);
 });
 
+test("seeded graph and particle sampling retain their output sequence", () => {
+  const field = createField({
+    count: 3,
+    seed: 20260924,
+    aspect: 16 / 9,
+    layout: "wide",
+  });
+  assert.equal(field.graph.hubs.length, 11);
+  assert.deepEqual(field.graph.hubs[0], {
+    x: 0.6141953460044332,
+    y: 0.6391416257247329,
+  });
+  assert.deepEqual(field.graph.edges.slice(0, 3), [
+    [0, 10],
+    [0, 2],
+    [1, 4],
+  ]);
+  assert.deepEqual(
+    Array.from(field.orderPositions),
+    [
+      -0.14546366035938263, 0.036783281713724136, 1.5420161485671997,
+      0.41090473532676697, -0.42276906967163086, -0.12008526176214218,
+    ],
+  );
+  assert.deepEqual(
+    Array.from(field.delays),
+    [0.2142847776412964, 0.7621847987174988, 0.5409227013587952],
+  );
+});
+
 test("createField differs for a different seed", () => {
   const a = createField({ ...BASE_OPTIONS, seed: 1, layout: "wide" });
   const b = createField({ ...BASE_OPTIONS, seed: 2, layout: "wide" });
