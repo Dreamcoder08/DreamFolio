@@ -9,12 +9,7 @@
  * so the hero renders exactly as it does with JavaScript disabled.
  */
 
-import {
-  createField,
-  type Rect,
-  type Field,
-  type FieldLayoutMode,
-} from "./field.ts";
+import { createField, type Field, type FieldLayoutMode } from "./field.ts";
 import { combineProgress, introProgress, scrollProgress } from "./progress.ts";
 import {
   computeAspectScale,
@@ -22,11 +17,12 @@ import {
   MAX_PROTECT_RECTS,
   type ConvergenceRenderer,
 } from "./renderer.ts";
+import { pickParticleCount, readThemeColors } from "./theme-geometry.ts";
 import {
-  domRectToFieldAnchor,
-  pickParticleCount,
-  readThemeColors,
-} from "./theme-geometry.ts";
+  computeExclusions,
+  updateProtectUniform,
+  type GeometryElements,
+} from "./controller-geometry.ts";
 
 export interface ConvergenceHandle {
   dispose(): void;
@@ -59,22 +55,8 @@ export const MOUNT_IDLE_TIMEOUT_MS = 1500;
 const WIDE_ALPHA = 0.8;
 const NARROW_ALPHA = 0.5;
 
-// `parseHexColor`, `readThemeColors`, `pickParticleCount` and
-// `domRectToFieldAnchor` used to live here. They are pure functions of
-// plain inputs (a color string, a rect, a particle-count decision) that
-// only touched the DOM by convenience, so T0 of the sci-fi scroll narrative
-// phase moved them to `theme-geometry.ts` for standalone unit tests and
-// imports them above. What stays below — `measureRect`, `buildField`,
-// `computeExclusions`, `updateProtectUniform`, `applyResize`, the render
-// loop, every listener — is deliberately still one large closure rather
-// than a further-split module: each of those functions reads or mutates
-// mount-local state (`canvas`, `heroEl`, `layout`, `aspectScale`,
-// `protectRectsUniform`, `renderer`, `disposed`, …) that only exists once
-// `mountUnsafe` has started running, and splitting them out would mean
-// threading that whole bag of mutable fields through an explicit context
-// object on every call instead of a closure capturing it for free. That
-// is a real refactor with its own risk/benefit tradeoff, not a mechanical
-// extraction, so it stays out of scope here.
+// DOM-to-field exclusions and protect-uniform packing live in
+// controller-geometry.ts; event and renderer ownership remain here.
 
 /**
  * Returns a `Promise` (T4f): `renderer.ts`'s `createRenderer` now runs the
@@ -144,33 +126,17 @@ async function mountUnsafe(
   // at MAX_PROTECT_RECTS, which the shader's uProtect array is sized to;
   // the hero has 4 today, comfortably under the 6-slot budget.
   const PROTECT_ELEMENTS = [kickerEl, introEl, briefEl, tickerEl];
+  const geometryElements: GeometryElements = {
+    portrait: portraitEl,
+    headline: headlineEl,
+    protected: PROTECT_ELEMENTS,
+  };
 
   const initialCanvasBox = canvas.getBoundingClientRect();
   let aspectScale = computeAspectScale(
     initialCanvasBox.width || heroEl.clientWidth || 1,
     initialCanvasBox.height || heroEl.clientHeight || 1,
   );
-
-  function measureRect(el: HTMLElement | null): Rect | undefined {
-    if (!el) return undefined;
-    const canvasBox = canvas.getBoundingClientRect();
-    if (canvasBox.width <= 0 || canvasBox.height <= 0) return undefined;
-    const rect = el.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return undefined;
-    return domRectToFieldAnchor(rect, canvasBox, aspectScale);
-  }
-
-  function computeExclusions(): Rect[] {
-    const candidates = isNarrow
-      ? [headlineEl, ...PROTECT_ELEMENTS]
-      : [portraitEl, headlineEl, ...PROTECT_ELEMENTS];
-    const rects: Rect[] = [];
-    for (const el of candidates) {
-      const rect = measureRect(el);
-      if (rect) rects.push(rect);
-    }
-    return rects;
-  }
 
   function buildField(): Field {
     const box = canvas.getBoundingClientRect();
@@ -187,7 +153,12 @@ async function mountUnsafe(
       seed: FIELD_SEED,
       aspect,
       layout,
-      exclusions: computeExclusions(),
+      exclusions: computeExclusions(
+        geometryElements,
+        isNarrow,
+        canvas,
+        aspectScale,
+      ),
     });
   }
 
@@ -201,19 +172,14 @@ async function mountUnsafe(
   const protectRectsUniform = new Float32Array(MAX_PROTECT_RECTS * 4);
   let protectCountUniform = 0;
 
-  function updateProtectUniform() {
-    let count = 0;
-    for (const el of PROTECT_ELEMENTS) {
-      if (count >= MAX_PROTECT_RECTS) break;
-      const rect = measureRect(el);
-      if (!rect) continue;
-      protectRectsUniform[count * 4] = rect.x;
-      protectRectsUniform[count * 4 + 1] = rect.y;
-      protectRectsUniform[count * 4 + 2] = rect.w / 2;
-      protectRectsUniform[count * 4 + 3] = rect.h / 2;
-      count += 1;
-    }
-    protectCountUniform = count;
+  function syncProtectUniform() {
+    protectCountUniform = updateProtectUniform(
+      PROTECT_ELEMENTS,
+      canvas,
+      aspectScale,
+      protectRectsUniform,
+      MAX_PROTECT_RECTS,
+    );
   }
 
   // buildField is passed as a thunk, not called here: createRenderer only
@@ -337,7 +303,7 @@ async function mountUnsafe(
       degradeToFallback();
       return false;
     }
-    updateProtectUniform();
+    syncProtectUniform();
     return true;
   }
 
@@ -361,7 +327,7 @@ async function mountUnsafe(
   }
 
   let currentDpr = applyResize();
-  updateProtectUniform();
+  syncProtectUniform();
   measureHeroGeometry();
 
   function toLogicalPointer(clientX: number, clientY: number) {
