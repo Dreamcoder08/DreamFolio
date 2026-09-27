@@ -66,7 +66,7 @@
     },
     {
       "path": "src/lib/convergence/renderer.ts",
-      "ceiling": 648
+      "ceiling": 534
     },
     {
       "path": "tests/home/convergence-forced.spec.ts",
