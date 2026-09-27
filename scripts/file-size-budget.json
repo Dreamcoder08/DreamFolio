@@ -54,7 +54,7 @@
     },
     {
       "path": "src/lib/convergence/controller.ts",
-      "ceiling": 725
+      "ceiling": 691
     },
     {
       "path": "tests/theme-state/state-evidence.spec.ts",
