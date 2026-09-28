@@ -20,8 +20,11 @@ Reduce the three oversized `src/lib/convergence/` modules into cohesive, small u
 
 - [x] T1 Extract field graph/hub sampling while preserving RNG call order and `createField` API. Route: delegated writer; commit `d51036e`, PR #68 merged into `main` as `9aa05a5`; independent sampled parity, unit/CI E2E and Pages deployment passed.
 - [x] T2 Extract renderer low-level shader/program/buffer helpers without changing lifecycle/restore semantics. Route: delegated writer; commit `7c60eb7`, PR #70 merged as `0968f83`, unit/CI E2E and Pages run passed.
-- [ ] T3 Extract controller geometry preparation and uniform synchronization without moving rAF/listener ownership. Route: delegated writer; branch `refactor/convergence-controller-geometry` from `main` at `0968f83`, in progress.
-- [ ] T4 Confirm exceptions shrink, CI E2E and deployed behavior; record remaining debt truthfully. Route: parent.
+- [x] T3 Extract controller geometry preparation and uniform synchronization without moving rAF/listener ownership. Route: delegated writer; PR #72 merged as `80ee33c`.
+- [x] T4 Confirm exceptions shrink, CI E2E and deployed behavior; record remaining debt truthfully. Route: parent. Evidence below (2026-09-27).
+- [ ] T5 Split `controller.ts` (691) behind an explicit mount-context object: scheduling (on-demand rAF), DOM listener wiring, reduced-motion/static path; public `mountConvergenceField` unchanged. Route: delegated writer; CI E2E (incl. forced WebGL) as behavior proof.
+- [ ] T6 Split `renderer.ts` (534): context loss/restore lifecycle vs draw/uniform upload. Route: delegated writer.
+- [ ] T7 Bring `field.ts` (232) and `shaders.ts` (203) under 200 (shader sources per program; field sampling helpers). Route: delegated writer.
 
 ## Acceptance and evidence
 
@@ -39,3 +42,5 @@ Reduce the three oversized `src/lib/convergence/` modules into cohesive, small u
 - T2 native review approved; PR #70 merged and Pages run `36290498656` succeeded for SHA `0968f83` (incl. E2E); homepage returned HTTP 200. No byte-level or live GPU observation claimed.
 - T3 code prepared: `controller.ts` 725→691 lines; new `controller-geometry.ts` (60) centralizes DOM-to-field measurement, exclusions and protection-uniform packing; unit test (61) covers narrow/wide exclusions and uniform capacity/reuse. The controller ceiling drops 725→691. Writer checks: `pnpm test:unit` 126/126, `pnpm run check`, focused Prettier and tracked diff check passed. The first unit run caught an exact-decimal expectation in the new test, which was corrected. No local browser/build/E2E due heat.
 - Next: independent ordering readback, index new paths and verify budgets, native review, then issue/PR and remote CI E2E/deployment before marking T3 complete. The controller remains 691 lines, so its remaining debt must be recorded rather than called solved.
+- T3/T4 closure (parent, 2026-09-27): PR #72 merged (`80ee33c`); main CI and Pages deploy passed. Actual sizes: field 232, renderer 534, controller 691 (all still over the 200-line TypeScript budget and ratcheted); helpers graph 60, hubs 64, gl-resources 118, controller-geometry 60. No byte-level GPU equivalence or live visual check is claimed. Later, PR #78's CI ran the forced-WebGL suite 8/8 on the first attempt.
+- Next: T5–T7 as independent PRs; local checks limited to unit/type/format/size (no local browser while the laptop overheats); E2E evidence from CI.
