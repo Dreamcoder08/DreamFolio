@@ -92,8 +92,10 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
 </dialog>
 {/* Outside the dialog: a closed <dialog>'s content isn't in the
     accessibility tree, so a load failure before the console ever opens
-    needs its own always-present, genuinely visible (not sr-only) status. */}
-<p id="console-load-status" role="status" aria-live="assertive"></p>
+    needs its own always-present, genuinely visible (not sr-only) status.
+    role="alert" alone (implicitly assertive): the failure answers the
+    visitor's own ⌘K, so it should interrupt — role="status" is polite. */}
+<p id="console-load-status" role="alert"></p>
 
 <script
   type="application/json"
@@ -104,7 +106,10 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
   // Eager and tiny: detects the platform, reveals the trigger (hidden
   // without JS), and lazily loads the console on first use — same-origin
   // module, already allowed by script-src 'self'.
-  import { shouldReload } from "../../lib/console/chunk-recovery.ts";
+  import {
+    clearReloadFlag,
+    shouldReload,
+  } from "../../lib/console/chunk-recovery.ts";
 
   (function setup() {
     const trigger = document.getElementById("console-trigger");
@@ -119,24 +124,38 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
 
     let openConsole: (() => void) | null = null;
 
+    const loadStatus = document.getElementById("console-load-status");
+    const reportLoad = (message: string): void => {
+      if (loadStatus) loadStatus.textContent = message;
+    };
+
     // A stale hashed chunk (common right after a redeploy) makes this
     // import() reject. One silent reload usually fixes it; a second
-    // failure fails visibly instead of looping.
+    // failure fails visibly instead of looping. Only the import() is
+    // guarded: a mountConsole() throw is a bug a reload can't fix.
     async function ensureLoaded(): Promise<(() => void) | null> {
       if (openConsole) return openConsole;
+      let mod: typeof import("../../lib/console/driver.ts");
       try {
-        const mod = await import("../../lib/console/driver.ts");
-        openConsole = mod.mountConsole();
-        return openConsole;
+        mod = await import("../../lib/console/driver.ts");
       } catch {
         if (shouldReload()) {
           window.location.reload();
           return null;
         }
-        const status = document.getElementById("console-load-status");
-        if (status)
-          status.textContent =
-            "No se pudo cargar la consola. Recarga la página.";
+        reportLoad("No se pudo cargar la consola. Recarga la página.");
+        return null;
+      }
+      // The chunk arrived, so any stale-chunk episode is over: drop its
+      // error text and re-arm the one-time reload for a future redeploy.
+      clearReloadFlag();
+      reportLoad("");
+      try {
+        openConsole = mod.mountConsole();
+        return openConsole;
+      } catch (error) {
+        console.error(error);
+        reportLoad("No se pudo iniciar la consola.");
         return null;
       }
     }
