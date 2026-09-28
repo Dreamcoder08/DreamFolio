@@ -45,24 +45,12 @@
   ],
   "allowlist": [
     {
-      "path": "tests/theme-state/motion.spec.ts",
-      "ceiling": 925
-    },
-    {
       "path": "tests/unit/tokens.test.ts",
       "ceiling": 624
     },
     {
       "path": "src/lib/convergence/controller.ts",
       "ceiling": 691
-    },
-    {
-      "path": "tests/theme-state/state-evidence.spec.ts",
-      "ceiling": 691
-    },
-    {
-      "path": "tests/theme-state/theme-state.spec.ts",
-      "ceiling": 666
     },
     {
       "path": "src/lib/convergence/renderer.ts",
@@ -83,10 +71,6 @@
     {
       "path": "tests/unit/state-border-contract.test.ts",
       "ceiling": 350
-    },
-    {
-      "path": "tests/theme-state/theme-state-page.ts",
-      "ceiling": 332
     },
     {
       "path": "docs/guides/best-practices.md",
