@@ -47,10 +47,6 @@
     {
       "path": "src/styles/global.css",
       "ceiling": 302
-    },
-    {
-      "path": "docs/guides/best-practices.md",
-      "ceiling": 275
     }
   ]
 }
