@@ -216,8 +216,10 @@
   background: var(--terminal-accent-active);
   border-color: var(--terminal-accent-active);
 }
-/* Manual-open fallback: hidden until a transmission is composed (see the
-   component), a real link so it works with no JS-driven navigation at all. */
+/* Manual-open fallback: hidden in markup, then filled with the composed
+   mailto and revealed by the component's script on submit. Once shown it is
+   a plain link, so it still works when the script's own mailto navigation
+   finds no mail handler. */
 .mu-terminal-fallback-link {
   align-self: flex-start;
   color: var(--terminal-accent);

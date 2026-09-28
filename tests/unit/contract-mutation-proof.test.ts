@@ -42,10 +42,10 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 
-/** The stylesheets both contracts read, directly or (for transition-contract,
- *  via the shared support module, which reads every SHEETS-listed file at
- *  module-evaluation time regardless of which export a checker imports) so
- *  the temp tree has to carry all of them. src/styles/portfolio.css is now
+/** The stylesheets both contracts read, so the temp tree has to carry all
+ *  of them. transition-contract reads them indirectly, through the shared
+ *  support module, which loads every SHEETS-listed file at module-evaluation
+ *  time regardless of which export a checker imports. src/styles/portfolio.css is now
  *  only an ordered `@import` list; portfolioPartials() below discovers the
  *  actual partials it pulls in and copies those alongside it. */
 const SHEETS = [
