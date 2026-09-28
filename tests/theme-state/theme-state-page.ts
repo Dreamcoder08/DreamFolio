@@ -1,107 +1,19 @@
 import type { Locator, Page } from "@playwright/test";
 import { BasePage } from "../base-page";
+import { backgroundChain, resolveBackground, toCss } from "../support/contrast";
+import { pinTheme, twoFrames } from "./support/page-levers";
 import {
-  backgroundChain,
-  composite,
-  formatRatio,
-  parseColor,
-  ratio,
-  resolveBackground,
-  toCss,
-} from "../support/contrast";
-
-/** The key `public/theme-init.js` reads before the first paint. */
-const THEME_STORAGE_KEY = "dreamfolio-theme";
+  STATE,
+  VIEWPORT_SIZE,
+  type InteractionState,
+  type StateRead,
+  type Theme,
+  type Viewport,
+} from "./support/state-model";
+import { readComputedState } from "./support/state-snapshot";
 
 const MAX_TAB_PRESSES = 80;
 const POINTER_REST = { x: 2, y: 2 };
-
-export const THEME = { DARK: "dark", LIGHT: "light" } as const;
-export type Theme = (typeof THEME)[keyof typeof THEME];
-
-export const STATE = {
-  REST: "rest",
-  HOVER: "hover",
-  ACTIVE: "active",
-  FOCUS: "focus",
-} as const;
-export type InteractionState = (typeof STATE)[keyof typeof STATE];
-
-export const VIEWPORT = { DESKTOP: "desktop", MOBILE: "mobile" } as const;
-export type Viewport = (typeof VIEWPORT)[keyof typeof VIEWPORT];
-
-export const VIEWPORT_SIZE: Record<
-  Viewport,
-  { width: number; height: number }
-> = {
-  [VIEWPORT.DESKTOP]: { width: 1280, height: 900 },
-  [VIEWPORT.MOBILE]: { width: 390, height: 844 },
-};
-
-/** The four computed border colours: the border is a state signal, and its side varies. */
-export interface BorderSet {
-  top: string;
-  right: string;
-  bottom: string;
-  left: string;
-}
-
-export interface StateRead {
-  selector: string;
-  state: InteractionState;
-  /** The computed label colour, with its alpha if it carries one. */
-  color: string;
-  /** The label composited over `surface` — what the eye receives. */
-  label: string;
-  /** The effective opaque surface behind the element, `rgb(...)`. */
-  surface: string;
-  /** `label` against `surface`, WCAG 2.x. */
-  ratio: number;
-  borders: BorderSet;
-  outlineColor: string;
-  outlineStyle: string;
-  outlineWidth: string;
-  outlineOffset: string;
-  borderRadius: string;
-  textDecorationLine: string;
-  transform: string;
-  transitionDuration: string;
-  opacity: string;
-}
-
-const COMPARED: readonly (keyof StateRead)[] = [
-  "color",
-  "label",
-  "surface",
-  "ratio",
-  "borders",
-  "outlineColor",
-  "outlineStyle",
-  "outlineWidth",
-  "outlineOffset",
-  "borderRadius",
-  "textDecorationLine",
-  "transform",
-  "transitionDuration",
-  "opacity",
-];
-
-/** The computed properties in which two reads of the same element differ. */
-export function stateDifferences(
-  before: StateRead,
-  after: StateRead,
-): string[] {
-  return COMPARED.filter(
-    (field) => JSON.stringify(before[field]) !== JSON.stringify(after[field]),
-  );
-}
-
-export function describeRead(read: StateRead): string {
-  return (
-    `${read.selector} [${read.state}] ${formatRatio(read.ratio)}:1 ` +
-    `(label ${read.label} on ${read.surface})`
-  );
-}
 
 /**
  * The per-state reader for the theme-state spec.
@@ -110,6 +22,9 @@ export function describeRead(read: StateRead): string {
  * `localStorage` before the first paint, reduced motion emulated before
  * navigation, and focus reached with the keyboard rather than a click. See
  * `theme-state.spec.ts` for why each lever is mandatory.
+ *
+ * This class owns how a state is *reached*; the vocabulary lives in
+ * `support/state-model.ts` and the computed read in `support/state-snapshot.ts`.
  */
 export class ThemeStatePage extends BasePage {
   constructor(page: Page) {
@@ -126,18 +41,9 @@ export class ThemeStatePage extends BasePage {
     await super.goto(path);
   }
 
-  /**
-   * Pins the theme the way the site stores it, through an init script so the value
-   * is in `localStorage` before `theme-init.js` runs. Playwright's default
-   * `prefers-color-scheme` is light, so without this every "dark" read would
-   * silently measure the light theme.
-   */
+  /** See `pinTheme` in `support/page-levers.ts`. */
   async pinTheme(theme: Theme): Promise<void> {
-    await this.page.addInitScript(
-      ([key, value]: readonly [string, Theme]) =>
-        localStorage.setItem(key, value),
-      [THEME_STORAGE_KEY, theme] as const,
-    );
+    await pinTheme(this.page, theme);
   }
 
   async setViewport(viewport: Viewport): Promise<void> {
@@ -192,7 +98,7 @@ export class ThemeStatePage extends BasePage {
       await this.focusByKeyboard(selector);
     }
 
-    const read = await this.snapshot(selector, locator, state);
+    const read = await readComputedState(locator, selector, state);
     if (state === STATE.ACTIVE) await this.releaseWithoutActivating(locator);
     return read;
   }
@@ -233,16 +139,7 @@ export class ThemeStatePage extends BasePage {
    */
   private async settle(locator: Locator): Promise<void> {
     await locator.scrollIntoViewIfNeeded();
-    await this.page.evaluate(
-      () =>
-        new Promise<void>((resolve) => {
-          requestAnimationFrame(() =>
-            requestAnimationFrame(() => {
-              resolve();
-            }),
-          );
-        }),
-    );
+    await twoFrames(this.page);
   }
 
   /** Parks the pointer off every interactive element, so `:hover` cannot leak between reads. */
@@ -260,73 +157,5 @@ export class ThemeStatePage extends BasePage {
     await locator.evaluate(() =>
       (document.activeElement as HTMLElement | null)?.blur(),
     );
-  }
-
-  private async snapshot(
-    selector: string,
-    locator: Locator,
-    state: InteractionState,
-  ): Promise<StateRead> {
-    const layers = await locator.evaluate(backgroundChain);
-    const styles = await locator.evaluate((el) => {
-      const style = getComputedStyle(el);
-      return {
-        color: style.color,
-        opacity: style.opacity,
-        borderTop: style.borderTopColor,
-        borderRight: style.borderRightColor,
-        borderBottom: style.borderBottomColor,
-        borderLeft: style.borderLeftColor,
-        outlineColor: style.outlineColor,
-        outlineStyle: style.outlineStyle,
-        outlineWidth: style.outlineWidth,
-        outlineOffset: style.outlineOffset,
-        borderRadius: style.borderRadius,
-        textDecorationLine: style.textDecorationLine,
-        transform: style.transform,
-        transitionDuration: style.transitionDuration,
-      };
-    });
-
-    // An element's own `opacity` attenuates its whole box, so both its background
-    // layer and its label carry that alpha; the ancestors' opacities do not, which
-    // is the one part of the composited chain this harness does not model.
-    const elementOpacity = Number.parseFloat(styles.opacity);
-    const own = parseColor(layers[0]);
-    const surface = composite(
-      { ...own, a: own.a * elementOpacity },
-      resolveBackground(layers.slice(1)),
-    );
-    const label = composite(
-      {
-        ...parseColor(styles.color),
-        a: parseColor(styles.color).a * elementOpacity,
-      },
-      surface,
-    );
-
-    return {
-      selector,
-      state,
-      color: styles.color,
-      label: toCss(label),
-      surface: toCss(surface),
-      ratio: ratio(label, surface),
-      borders: {
-        top: styles.borderTop,
-        right: styles.borderRight,
-        bottom: styles.borderBottom,
-        left: styles.borderLeft,
-      },
-      outlineColor: styles.outlineColor,
-      outlineStyle: styles.outlineStyle,
-      outlineWidth: styles.outlineWidth,
-      outlineOffset: styles.outlineOffset,
-      borderRadius: styles.borderRadius,
-      textDecorationLine: styles.textDecorationLine,
-      transform: styles.transform,
-      transitionDuration: styles.transitionDuration,
-      opacity: styles.opacity,
-    };
   }
 }
