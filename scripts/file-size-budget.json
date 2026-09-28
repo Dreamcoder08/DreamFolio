@@ -49,16 +49,8 @@
       "ceiling": 302
     },
     {
-      "path": "src/lib/convergence/field.ts",
-      "ceiling": 232
-    },
-    {
       "path": "docs/guides/best-practices.md",
       "ceiling": 275
-    },
-    {
-      "path": "src/lib/convergence/shaders.ts",
-      "ceiling": 203
     }
   ]
 }

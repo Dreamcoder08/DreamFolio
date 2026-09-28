@@ -1,5 +1,5 @@
 import type { SeededRng } from "./random.ts";
-import type { HubNode, Rect } from "./field.ts";
+import type { HubNode, Rect } from "./field-types.ts";
 
 const BOUNDS = 1;
 const MAX_HUB_ATTEMPTS = 40;
