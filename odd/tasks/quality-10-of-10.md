@@ -24,7 +24,7 @@ Gaps found by audit: Lighthouse not re-measured after phases 2–3; three depend
 - [ ] T1 Re-measure Lighthouse (mobile) on the live site; compare with the phase-1 baseline (95); fix regressions — route: parent, single run under safe-run when cool
 - [ ] T2 Triage dependabot #49/#50/#48: CI + changelog read, merge what is safe — route: parent
 - [ ] T3 Split `global.css` into ordered partials (byte-identical compiled CSS) — route: delegated writer
-- [ ] T4 Split `docs/guides/best-practices.md` into focused guides with an index — route: delegated writer
+- [x] T4 Split `docs/guides/best-practices.md` into focused guides with an index — route: delegated writer. Evidence: `0aab03a` (index 35 + six guides 48–129 lines, 11-line pointer kept; stale claims fixed against the tree), `19b2710` (allowlist entry dropped, nothing raised); `check-file-size` 190/190, `format:check` pass, no dangling links. Branch `docs/split-best-practices`, not pushed.
 - [ ] T5 Close #80 (teardown unit tests), #75 (console/terminal follow-ups), #77 (describe titles + probe type), #61 (safe-run liveness) — route: delegated writers, one PR each
 - [ ] T6 Page transition on real GPU — needs the user's foreground Chrome; record as user-verifiable, provide a 1-minute checklist — route: parent
 - [ ] T7 Final audit against this list; update README/docs; record what is verified vs not — route: parent
