@@ -45,10 +45,6 @@
   ],
   "allowlist": [
     {
-      "path": "tests/unit/tokens.test.ts",
-      "ceiling": 624
-    },
-    {
       "path": "src/lib/convergence/controller.ts",
       "ceiling": 691
     },
@@ -57,20 +53,12 @@
       "ceiling": 534
     },
     {
-      "path": "tests/home/convergence-forced.spec.ts",
-      "ceiling": 417
-    },
-    {
       "path": "src/styles/global.css",
       "ceiling": 302
     },
     {
       "path": "src/lib/convergence/field.ts",
       "ceiling": 232
-    },
-    {
-      "path": "tests/unit/state-border-contract.test.ts",
-      "ceiling": 350
     },
     {
       "path": "docs/guides/best-practices.md",

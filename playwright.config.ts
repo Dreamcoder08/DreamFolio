@@ -33,7 +33,7 @@ export default defineConfig({
       // Runs everything except the forced-WebGL suite below, which needs a
       // different browser launch (see that project's own comment) and
       // would otherwise also run here, doubling every one of its tests.
-      testIgnore: /convergence-forced\.spec\.ts/,
+      testIgnore: /convergence-forced-[\w-]+\.spec\.ts/,
     },
     {
       // Headless Chromium's default WebGL2 implementation (SwiftShader) is
@@ -43,8 +43,8 @@ export default defineConfig({
       // "removed" fallback branch of the hero convergence field, never the
       // actual running WebGL path. This project launches with
       // `FORCE_WEBGL_ARGS` (see scripts/lib/force-webgl.mjs) so
-      // tests/home/convergence-forced.spec.ts can cover that path too.
-      // Scoped to that one file via `testMatch`, not a describe-level
+      // tests/home/convergence-forced-*.spec.ts can cover that path too.
+      // Scoped to those files via `testMatch`, not a describe-level
       // `test.use({ launchOptions })`, because Playwright refuses a
       // launchOptions override inside a describe block (it would force a
       // new worker) — only a project/file boundary can do it.
@@ -53,7 +53,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: { args: FORCE_WEBGL_ARGS },
       },
-      testMatch: /convergence-forced\.spec\.ts/,
+      testMatch: /convergence-forced-[\w-]+\.spec\.ts/,
     },
   ],
 });

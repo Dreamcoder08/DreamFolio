@@ -13,7 +13,7 @@
    that follows the page's own surface/text pairing 1:1. Every value is
    still derived from the already-declared --color-* palette via var()
    (never a new raw literal), so it stays inside the same design system and
-   the A1/A3-A5/A11 token contract in tests/unit/tokens.test.ts (which only
+   the A1/A3-A5/A11 token contract in tests/unit/tokens-*.test.ts (which only
    scans --color-* declarations and color-mix() compositions) never needs to
    know about this namespace. Dark mode: reuses the site's own near-black/
    phosphor pairing as-is — the terminal already *is* what dark mode looks

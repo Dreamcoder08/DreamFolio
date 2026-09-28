@@ -69,14 +69,16 @@ function portfolioPartials(): readonly string[] {
 
 /** Same-repo modules a checker imports beyond SHEETS/itself. transition-
  *  contract.test.ts reads GLOBAL/PORTFOLIO from the shared support module
- *  instead of re-reading files itself; state-border-contract.test.ts reads
- *  portfolio.css's own `@import` chain through css-imports.ts directly.
+ *  instead of re-reading files itself; state-border-provenance.test.ts reads
+ *  its scanner and portfolio.css's own `@import` chain through
+ *  state-border.ts, which in turn imports css-imports.ts and css-parsing.ts.
  *  Copying all of these for every checker is harmless and needs no
  *  per-guard field. */
 const SUPPORT_FILES = [
   "tests/unit/support/stylesheets.ts",
   "tests/unit/support/css-parsing.ts",
   "tests/unit/support/css-imports.ts",
+  "tests/unit/support/state-border.ts",
 ] as const;
 
 /** `node --experimental-strip-types` needs the package type in the temp tree too. */
@@ -100,7 +102,7 @@ interface Guard {
 const GUARDS: readonly Guard[] = [
   {
     name: "the border contract rejects currentColor on the ceiling-exempt element",
-    checker: "tests/unit/state-border-contract.test.ts",
+    checker: "tests/unit/state-border-provenance.test.ts",
     // The winning (last-in-source-order) hover/press declarations for
     // `.contact-section .solid-link` live in the "Interaction states"
     // partial, not in the entry-point file, which is now only `@import`s.

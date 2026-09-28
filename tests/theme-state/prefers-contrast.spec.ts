@@ -12,7 +12,7 @@
  * case (the light civic card). It proves nothing about a real operating
  * system's high-contrast setting, and nothing about the ratios those literals
  * were chosen for; the ratios live in the design record and in
- * `tests/unit/tokens.test.ts`.
+ * `tests/unit/tokens-contrast.test.ts`.
  *
  * Run with `SITE_BASE=/ pnpm run build && npx playwright test
  * tests/theme-state/`. Like the rest of this suite, the root-base build is part of
