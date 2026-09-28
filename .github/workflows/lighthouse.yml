@@ -56,10 +56,15 @@ jobs:
       - name: Lighthouse CI
         run: pnpm dlx @lhci/cli@0.15.1 autorun
 
+      # lhci prints only failures; this shows the numbers on every run.
+      - name: Summarize scores
+        if: always()
+        run: node scripts/lighthouse-summary.mjs
+
       - name: Upload Lighthouse reports
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: lighthouse-reports
-          path: .lighthouseci/
+          path: lighthouse-reports/
           retention-days: 14
