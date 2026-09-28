@@ -183,7 +183,7 @@ function isSoftwareRenderer(gl: WebGL2RenderingContext): boolean {
  * `onRestored` is called after a `webglcontextrestored` event has been
  * handled: with `true` once programs are recompiled and the field
  * re-uploaded (the caller should request a fresh frame — see
- * `controller.ts`'s `refreshFrame`), or `false` if that rebuild itself
+ * `controller-scheduler.ts`'s `refreshFrame`), or `false` if that rebuild itself
  * failed, in which case this renderer has already disposed itself and the
  * caller must degrade to the no-field fallback instead of expecting further
  * frames.
@@ -445,7 +445,7 @@ export async function createRenderer(
     // A failed re-upload (e.g. buffer allocation) would otherwise leave
     // `render()` drawing the old `particleCount`/`lineVertexCount` against
     // buffers that are missing or hold the wrong field's data — dispose
-    // immediately instead, so the caller (controller.ts's `rebuildField`)
+    // immediately instead, so the caller (controller-field.ts's `rebuildField`)
     // sees `false` and degrades to the fallback rather than drawing stale
     // or mismatched geometry.
     if (!uploaded) dispose();
