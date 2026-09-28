@@ -1,5 +1,10 @@
 import type { SeededRng } from "./random.ts";
-import type { FieldGraph, FieldLayoutMode, HubNode, Rect } from "./field.ts";
+import type {
+  FieldGraph,
+  FieldLayoutMode,
+  HubNode,
+  Rect,
+} from "./field-types.ts";
 import { sampleHubs } from "./hubs.ts";
 
 const HUB_NEIGHBOR_COUNT = 2;
