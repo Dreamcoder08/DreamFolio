@@ -45,10 +45,6 @@
   ],
   "allowlist": [
     {
-      "path": "src/lib/convergence/controller.ts",
-      "ceiling": 691
-    },
-    {
       "path": "src/lib/convergence/renderer.ts",
       "ceiling": 534
     },
