@@ -36,3 +36,4 @@ There is no `src/components/sections/` directory, and no `.tsx` file.
 - [Component catalog](./components/README.md)
 - [Library helpers](./lib/README.md)
 - [Getting started](./guides/getting-started.md)
+- [Best practices](./guides/best-practices/README.md)
