@@ -1,5 +1,5 @@
 /** Yields the main thread back to the browser for one turn — the unit this
- * module's chunked mount (see `build` in `createRenderer`) is split into.
+ * module's chunked mount (see `build` in `renderer-build.ts`) is split into.
  * Prefers the standardized `scheduler.yield()` where available (resumes at
  * normal task priority as soon as the queue is clear); falls back to a
  * plain `setTimeout(0)` macrotask everywhere else. Never `requestAnimation
