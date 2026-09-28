@@ -28,7 +28,7 @@ import { readCssInlined } from "./support/css-imports.ts";
  *    outrank this order, and this scanner would not see it.
  *  - It says nothing about whether the token's *value* keeps the border legible
  *    against the element's fill. That is measured on the composed value in
- *    `tests/theme-state/state-evidence.spec.ts`.
+ *    `tests/theme-state/border-provenance.spec.ts`.
  *
  * Known tree fact this file has to model: `portfolio.css` carries **two** rules
  * with the selector `.contact-section .solid-link:hover`. The later one declares
