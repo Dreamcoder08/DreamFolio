@@ -9,11 +9,11 @@ import { join } from "node:path";
 
 const dir = process.argv[2] ?? "lighthouse-reports";
 const reports = readdirSync(dir)
-  .filter((name) => /^lhr-.*\.json$/.test(name))
+  .filter((name) => /\.report\.json$/.test(name))
   .map((name) => JSON.parse(readFileSync(join(dir, name), "utf8")));
 
 if (reports.length === 0) {
-  console.error(`No lhr-*.json reports in ${dir}`);
+  console.error(`No *.report.json reports in ${dir}`);
   process.exit(1);
 }
 
