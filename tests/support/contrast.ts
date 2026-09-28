@@ -8,7 +8,7 @@
  * sRGB byte-space source-over the design's figures were hand-computed with — and
  * only then applies the WCAG 2.x relative-luminance ratio.
  *
- * Both runners import this module: `tests/unit/tokens.test.ts` for the declared
+ * Both runners import this module: `tests/unit/tokens-contrast.test.ts` for the declared
  * literals and `tests/theme-state/*` for the computed styles. The filename carries
  * neither `.test.` nor `.spec.`, so neither runner's glob collects it as a test.
  */
