@@ -1,0 +1,77 @@
+---
+// Renders the canvas the hero convergence field paints into and mounts the
+// WebGL driver on it. Layering (`position`, `z-index`, `isolation`) for the
+// surrounding hero content lives in `portfolio.css` next to the rest of the
+// hero rules — the Astro scoped-style boundary means this component's own
+// <style> can only ever reach the canvas it renders, never a sibling
+// rendered by the parent page (see the astro-scoped-style-child-component
+// note in project memory).
+---
+
+<canvas class="convergence-field" aria-hidden="true" data-state="idle"></canvas>
+
+<style>
+  .convergence-field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 900ms var(--motion-ease);
+  }
+  /* No-JS and pre-first-frame: fully transparent, so the plain hero shows
+     through with zero layout impact and zero flash of an empty canvas. */
+  .convergence-field[data-state="running"],
+  .convergence-field[data-state="paused"],
+  .convergence-field[data-state="static"],
+  .convergence-field[data-state="idle-settled"] {
+    opacity: 1;
+  }
+
+  /* No column-wide CSS mask: contrast protection is now targeted at the
+     content itself — controller.ts excludes the portrait card, headline
+     and brief block from hub placement, and shaders.ts dims particles
+     specifically near the small-text .hero-brief block. This lets the
+     converged system actually occupy the empty space around that content
+     instead of being confined to a thin strip alongside it. */
+</style>
+
+<script>
+  import {
+    mountConvergenceField,
+    MOUNT_IDLE_TIMEOUT_MS,
+  } from "../../lib/convergence/controller.ts";
+
+  const canvas =
+    document.querySelector<HTMLCanvasElement>(".convergence-field");
+  const heroEl = canvas?.closest<HTMLElement>(".hero") ?? null;
+
+  if (canvas && heroEl) {
+    // Mount is deferred off the critical path in two steps: wait for the
+    // `load` event (so the field never competes with LCP/first paint —
+    // the hero text and portrait image are what the visitor is actually
+    // waiting for), then `requestIdleCallback` (so it only runs once the
+    // main thread is otherwise free, with a bounded timeout so a
+    // permanently busy page still gets the field eventually rather than
+    // never). `requestIdleCallback` doesn't exist in Safari, hence the
+    // `setTimeout` fallback.
+    const mount = () => mountConvergenceField(canvas, heroEl);
+    const scheduleIdle: (cb: () => void) => void =
+      typeof window.requestIdleCallback === "function"
+        ? (cb) =>
+            window.requestIdleCallback(cb, { timeout: MOUNT_IDLE_TIMEOUT_MS })
+        : (cb) => window.setTimeout(cb, MOUNT_IDLE_TIMEOUT_MS);
+
+    if (document.readyState === "complete") {
+      scheduleIdle(mount);
+    } else {
+      window.addEventListener("load", () => scheduleIdle(mount), {
+        once: true,
+      });
+    }
+  } else {
+    canvas?.remove();
+  }
+</script>

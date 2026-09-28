@@ -1,0 +1,172 @@
+---
+import { withBase } from "../../lib/site";
+import Icon from "../ui/Icon.astro";
+---
+
+<section
+  id="projects"
+  class="work-section wrap"
+  aria-labelledby="work-title"
+  data-reveal
+>
+  <header class="section-heading">
+    <div>
+      <p class="eyebrow scene-kicker">01 / TRABAJO SELECCIONADO</p>
+      <h2 id="work-title" class="scene-heading">
+        Tres proyectos.
+        <br />
+        <span>Una práctica en evolución.</span>
+      </h2>
+    </div>
+    <a class="quiet-link" href={withBase("/projects/")}>
+      Índice completo <Icon name="arrow" size={18} />
+    </a>
+  </header>
+
+  <div class="project-bento">
+    <article class="project-card project-card--lead scene-card" data-reveal>
+      <a
+        class="project-image"
+        href={withBase("/projects/drenyra-fiscal-command-center/")}
+        aria-label="Explorar el proyecto Drenyra"
+      >
+        <div class="card-meta">
+          <span>01 / PRODUCTO PRINCIPAL</span>
+          <span>REVISIÓN HUMANA</span>
+        </div>
+        <img
+          class="vt-art-drenyra"
+          src={withBase("/images/projects/fiscal-workspace.jpg")}
+          width="1920"
+          height="1080"
+          alt="Interfaz de trabajo asistida por IA en una etapa anterior del proyecto"
+          loading="lazy"
+        />
+        <span class="image-caption mono">
+          ARCHIVO DEL PROTOTIPO / INTERFAZ ANTERIOR
+        </span>
+      </a>
+      <div class="project-story">
+        <div class="project-title-line">
+          <p class="eyebrow">IA + CONTABILIDAD</p>
+          <span class="project-number">01</span>
+        </div>
+        <h3>Drenyra</h3>
+        <p class="project-lead">
+          Un espacio de trabajo para la contabilidad con IA.
+        </p>
+        <p>
+          Conecta agentes, contexto y revisión profesional para asistir el
+          trabajo contable en Perú y Latinoamérica.
+        </p>
+        <blockquote>
+          <Icon name="evidence" size={20} />{" "}
+          <span>
+            La IA asiste. El sistema valida.
+            <br />
+            El profesional revisa.
+          </span>
+        </blockquote>
+        <div class="tags">
+          <span>Contabilidad</span>
+          <span>IA supervisada</span>
+          <span>Trazabilidad</span>
+          <span>Revisión humana</span>
+        </div>
+        <div class="project-links">
+          <a class="quiet-link" href="#connect">
+            Solicitar información <Icon name="arrow" size={17} />
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article
+      class="project-card project-card--workbench scene-card"
+      data-reveal
+    >
+      <div class="compact-heading">
+        <span class="project-number">02</span>
+        <p class="eyebrow">
+          <Icon name="terminal" size={16} /> DEVELOPER EXPERIENCE
+        </p>
+      </div>
+      <h3>
+        Dreamcoder
+        <br />
+        Workbench
+      </h3>
+      <p>
+        Mi entorno Arch Linux: configuración, terminal y herramientas adaptadas
+        a cómo construyo software.
+      </p>
+      <a
+        class="compact-image"
+        href={withBase("/projects/dreamcoder-workbench/")}
+        aria-label="Explorar Dreamcoder Workbench"
+      >
+        <img
+          class="vt-art-dreamcoder-workbench"
+          src={withBase("/images/projects/dreamcoder-workbench.webp")}
+          alt="Entorno de terminal de Dreamcoder Workbench sobre Arch Linux"
+          width="1600"
+          height="900"
+          loading="lazy"
+        />
+      </a>
+      <div class="compact-footer">
+        <div class="tags">
+          <span>Arch Linux</span>
+          <span>Shell</span>
+          <span>Lua</span>
+        </div>
+        <a
+          href="https://github.com/Dreamcoder08/Dreamcoder-Workbench"
+          class="circle-link"
+          aria-label="Código de Dreamcoder Workbench"
+        >
+          <Icon name="arrow" size={20} />
+        </a>
+      </div>
+    </article>
+
+    <article class="project-card project-card--civic scene-card" data-reveal>
+      <div class="compact-heading">
+        <span class="project-number">03</span>
+        <p class="eyebrow">
+          <Icon name="globe" size={16} /> TECNOLOGÍA CÍVICA
+        </p>
+      </div>
+      <a
+        class="compact-image"
+        href={withBase("/projects/digital-public-peru/")}
+        aria-label="Explorar Digital Public Peru"
+      >
+        <img
+          class="vt-art-digital-public-peru"
+          src={withBase("/images/projects/digital-public-peru-desktop.png")}
+          alt="Interfaz del proyecto Digital Public Peru"
+          width="1600"
+          height="900"
+          loading="lazy"
+        />
+      </a>
+      <h3>Digital Public Peru</h3>
+      <p>Exploración de información pública y transparencia en Perú.</p>
+      <div class="compact-footer">
+        <div class="tags">
+          <span>Información pública</span>
+          <span>Transparencia</span>
+          <span>Datos abiertos</span>
+        </div>
+        <a
+          href={withBase("/projects/digital-public-peru/")}
+          class="circle-link"
+          aria-label="Explorar Digital Public Peru"
+        >
+          <Icon name="arrow" size={20} />
+        </a>
+      </div>
+    </article>
+  </div>
+</section>

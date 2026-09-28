@@ -1,0 +1,82 @@
+/* Registered at the top level on purpose, not inside the scroll-narrative
+   `@supports`/`@media` guard further down this file (the "Scroll-driven
+   section narrative + HUD progress rail" section): `@property` is spec'd
+   as a top-level-only at-rule — a browser that sees it nested inside a
+   conditional group rule like `@supports` or `@media` drops the whole
+   rule as invalid. Registering `--scroll-progress` unconditionally is
+   still safe in a browser that never reaches that guarded block: an
+   unused, unreferenced custom-property registration has no rendered
+   effect on its own. */
+@property --scroll-progress {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Same top-level requirement as `@property` above. Zero-pads the HUD
+   scroll readout to exactly 3 digits ("000".."100"); the built-in
+   `decimal-leading-zero` counter style only pads to 2 ("00".."99"), which
+   would render single- and double-digit progress as "5%"/"42%" instead of
+   the "005%"/"042%" the HUD design calls for. */
+@counter-style scroll-progress-padded {
+  system: numeric;
+  symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+  pad: 3 "0";
+}
+
+:root {
+  --portfolio-yellow: var(--color-accent);
+  --portfolio-yellow-ink: var(--color-on-accent);
+  --portfolio-cream: var(--color-surface-alt);
+}
+
+html {
+  scroll-padding-top: 100px;
+}
+body {
+  background: var(--color-surface);
+  overflow-x: clip;
+}
+a {
+  transition:
+    color var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    opacity var(--motion-fast);
+}
+a:hover {
+  opacity: 1;
+}
+/* The `a`/`button` focus ring used to live here at 3px/5px, outranking
+   global.css's layered `:focus-visible`. It now lives there alone, at the same
+   3px/5px, so the ring is identical and only one declaration exists. The ink
+   variant stays because an accent ring on an accent-filled background would be
+   1:1; it consumes `--color-on-focus`, which aliases `--color-on-accent`, so the
+   resolved colour is unchanged from the `--portfolio-yellow-ink` alias it
+   replaced. */
+.about-section a:focus-visible,
+.contact-section a:focus-visible {
+  outline-color: var(--color-on-focus);
+}
+.wrap {
+  width: min(1320px, calc(100% - 96px));
+  margin-inline: auto;
+}
+.mono,
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.105em;
+}
+.eyebrow {
+  color: var(--portfolio-yellow);
+  margin-bottom: 18px;
+}
+.portfolio p {
+  line-height: 1.7;
+}
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}

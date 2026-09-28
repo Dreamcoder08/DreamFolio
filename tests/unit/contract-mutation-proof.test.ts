@@ -4,6 +4,7 @@ import { spawnSync } from "node:child_process";
 import {
   mkdirSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -41,8 +42,44 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 
-/** The stylesheets both contracts read. The temp tree has to carry both. */
-const SHEETS = ["src/styles/global.css", "src/styles/portfolio.css"] as const;
+/** The stylesheets both contracts read, so the temp tree has to carry all
+ *  of them. transition-contract reads them indirectly, through the shared
+ *  support module, which loads every SHEETS-listed file at module-evaluation
+ *  time regardless of which export a checker imports. src/styles/portfolio.css is now
+ *  only an ordered `@import` list; portfolioPartials() below discovers the
+ *  actual partials it pulls in and copies those alongside it. */
+const SHEETS = [
+  "src/styles/global.css",
+  "src/styles/base.css",
+  "src/styles/portfolio.css",
+  "src/styles/components/console.css",
+  "src/styles/components/terminal.css",
+] as const;
+
+const PORTFOLIO_PARTIALS_DIR = "src/styles/portfolio";
+
+/** Every partial under src/styles/portfolio/, discovered at test time so this
+ *  list can never drift from the real split the way a hardcoded filename
+ *  list would. */
+function portfolioPartials(): readonly string[] {
+  return readdirSync(join(ROOT, PORTFOLIO_PARTIALS_DIR))
+    .filter((name) => name.endsWith(".css"))
+    .map((name) => `${PORTFOLIO_PARTIALS_DIR}/${name}`);
+}
+
+/** Same-repo modules a checker imports beyond SHEETS/itself. transition-
+ *  contract.test.ts reads GLOBAL/PORTFOLIO from the shared support module
+ *  instead of re-reading files itself; state-border-provenance.test.ts reads
+ *  its scanner and portfolio.css's own `@import` chain through
+ *  state-border.ts, which in turn imports css-imports.ts and css-parsing.ts.
+ *  Copying all of these for every checker is harmless and needs no
+ *  per-guard field. */
+const SUPPORT_FILES = [
+  "tests/unit/support/stylesheets.ts",
+  "tests/unit/support/css-parsing.ts",
+  "tests/unit/support/css-imports.ts",
+  "tests/unit/support/state-border.ts",
+] as const;
 
 /** `node --experimental-strip-types` needs the package type in the temp tree too. */
 const PACKAGE_JSON = `${JSON.stringify({ type: "module", private: true }, null, 2)}\n`;
@@ -65,8 +102,11 @@ interface Guard {
 const GUARDS: readonly Guard[] = [
   {
     name: "the border contract rejects currentColor on the ceiling-exempt element",
-    checker: "tests/unit/state-border-contract.test.ts",
-    sheet: "src/styles/portfolio.css",
+    checker: "tests/unit/state-border-provenance.test.ts",
+    // The winning (last-in-source-order) hover/press declarations for
+    // `.contact-section .solid-link` live in the "Interaction states"
+    // partial, not in the entry-point file, which is now only `@import`s.
+    sheet: "src/styles/portfolio/18-interaction-states.css",
     inject: (css) => {
       const clean = "border-color: var(--color-surface-active);";
       assert.ok(
@@ -101,7 +141,7 @@ function buildTree(
   const tree = mkdtempSync(join(tmpdir(), "contract-mutation-"));
   writeFileSync(join(tree, "package.json"), PACKAGE_JSON);
 
-  for (const rel of SHEETS) {
+  for (const rel of [...SHEETS, ...portfolioPartials()]) {
     const target = join(tree, rel);
     mkdirSync(dirname(target), { recursive: true });
     const original = readFileSync(join(ROOT, rel), "utf8");
@@ -109,6 +149,12 @@ function buildTree(
       target,
       inject !== undefined && rel === sheet ? inject(original) : original,
     );
+  }
+
+  for (const rel of SUPPORT_FILES) {
+    const target = join(tree, rel);
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, readFileSync(join(ROOT, rel)));
   }
 
   const checkerFile = join(tree, checker);

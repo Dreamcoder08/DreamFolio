@@ -1,0 +1,37 @@
+---
+import { siteConfig, mailto } from "../../lib/site";
+import Icon from "../ui/Icon.astro";
+import MuTerminal from "../ui/MuTerminal.astro";
+---
+
+<section id="connect" class="contact-section wrap" data-reveal>
+  <div class="contact-top">
+    <p class="eyebrow scene-kicker">06 / SIGUIENTE CONVERSACIÓN</p>
+    <span class="mono">PERÚ · UTC−5</span>
+  </div>
+  <h2 class="scene-heading">
+    ¿Algo interesante
+    <br />
+    por <span>construir?</span>
+  </h2>
+  <div class="contact-bottom">
+    <p>
+      Conversemos sobre oportunidades en desarrollo,
+      <br />
+      productos con IA o colaboraciones técnicas.
+    </p>
+    <a class="solid-link" href={mailto("Contacto desde el portafolio")}>
+      <Icon name="mail" size={20} /> Hablemos por correo{" "}
+      <Icon name="arrow" size={18} />
+    </a>
+  </div>
+  <div class="contact-social">
+    <a href={siteConfig.social.github}>
+      <Icon name="github" size={18} /> GitHub <Icon name="arrow" size={15} />
+    </a>
+    <a href={siteConfig.social.x}>
+      <Icon name="x" size={17} /> X / Twitter <Icon name="arrow" size={15} />
+    </a>
+  </div>
+  <MuTerminal />
+</section>

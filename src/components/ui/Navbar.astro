@@ -2,6 +2,7 @@
 import { withBase } from "../../lib/site";
 import Icon from "./Icon.astro";
 import "../../styles/portfolio.css";
+import "../../styles/components/console.css";
 
 const items: [string, string][] = [
   ["Proyectos", "projects"],
@@ -28,6 +29,19 @@ const mobileItems: [string, string][] = [...items, ["Hablemos", "connect"]];
       </a>
     </div>
     <div class="nav-controls">
+      <button
+        id="console-trigger"
+        class="console-trigger"
+        type="button"
+        hidden
+        aria-haspopup="dialog"
+        aria-label="Abrir consola de navegación"
+      >
+        <Icon name="terminal" size={18} />
+        <kbd id="console-trigger-hint" class="console-trigger-hint">
+          Ctrl K
+        </kbd>
+      </button>
       <button
         id="theme-toggle"
         class="theme-toggle"

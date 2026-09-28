@@ -81,6 +81,9 @@ jobs:
       - name: Typecheck
         run: pnpm run check
 
+      - name: File size budget
+        run: pnpm run check:size
+
       - name: Unit tests
         run: pnpm run test:unit
 

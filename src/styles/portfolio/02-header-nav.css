@@ -1,0 +1,109 @@
+/* Navigation */
+.site-header {
+  position: fixed;
+  z-index: 50;
+  inset: 0 0 auto;
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 89%, transparent);
+  backdrop-filter: blur(18px);
+}
+.nav-wrap {
+  width: min(1320px, calc(100% - 96px));
+  height: 82px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.wordmark {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: -8px -10px;
+  padding: 8px 10px;
+  color: var(--color-text);
+  font-size: 1.12rem;
+  font-weight: 650;
+  letter-spacing: -0.045em;
+}
+.brand-seal {
+  display: inline-flex;
+  color: var(--portfolio-yellow);
+}
+.wordmark .wordmark-dot {
+  color: var(--portfolio-yellow);
+  font-size: 1rem;
+  margin-left: -8px;
+}
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 29px;
+}
+.desktop-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+}
+.desktop-nav a:hover {
+  color: var(--color-text);
+}
+.desktop-nav .nav-contact {
+  gap: 10px;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-pill);
+  padding-inline: 18px;
+  margin-left: 6px;
+}
+.desktop-nav .nav-contact:hover {
+  color: var(--portfolio-yellow-ink);
+  background: var(--portfolio-yellow);
+  border-color: var(--portfolio-yellow);
+}
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.theme-toggle,
+.menu-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-circle);
+  padding: 8px;
+}
+.theme-toggle:hover,
+.menu-toggle:hover {
+  color: var(--color-text);
+  border-color: var(--portfolio-yellow);
+}
+.menu-toggle {
+  display: none;
+}
+.mobile-nav {
+  padding: 16px 24px 22px;
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+}
+.mobile-nav[hidden] {
+  display: none;
+}
+.mobile-nav a {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}

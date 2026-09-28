@@ -1,0 +1,41 @@
+@media (max-width: 1050px) {
+  .wrap,
+  .nav-wrap {
+    width: calc(100% - 56px);
+  }
+  .hero-stage {
+    grid-template-columns: minmax(0, 1.25fr) minmax(285px, 0.75fr);
+    gap: 45px;
+  }
+  .hero h1 {
+    font-size: clamp(5rem, 10.8vw, 7.5rem);
+  }
+  .hero-brief {
+    width: 90%;
+  }
+  .portrait-note {
+    right: -4%;
+  }
+  .hero-ticker {
+    flex-wrap: wrap;
+  }
+  .hero-index {
+    display: none;
+  }
+  .project-bento {
+    grid-template-columns: 1fr 1fr;
+  }
+  .project-card--lead {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    grid-template-columns: 1.08fr 0.92fr;
+    grid-template-rows: none;
+  }
+  .project-story h3 {
+    font-size: clamp(3.3rem, 7vw, 5.6rem);
+  }
+  .module-row {
+    grid-template-columns: 30px 44px minmax(150px, 1fr) 100px 1fr 18px;
+    gap: 14px;
+  }
+}

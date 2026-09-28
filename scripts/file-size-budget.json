@@ -1,0 +1,56 @@
+{
+  "rules": [
+    {
+      "match": {
+        "prefix": "src/",
+        "ext": [".ts", ".astro"]
+      },
+      "max": 200
+    },
+    {
+      "match": {
+        "prefix": "src/",
+        "ext": [".css"]
+      },
+      "max": 250
+    },
+    {
+      "match": {
+        "prefix": "tests/",
+        "ext": [".ts"]
+      },
+      "max": 300
+    },
+    {
+      "match": {
+        "prefix": "scripts/",
+        "ext": [".mjs", ".sh", ".js"]
+      },
+      "max": 150
+    },
+    {
+      "match": {
+        "prefix": "odd/",
+        "ext": [".md"]
+      },
+      "max": 200
+    },
+    {
+      "match": {
+        "prefix": "docs/",
+        "ext": [".md"]
+      },
+      "max": 200
+    }
+  ],
+  "allowlist": [
+    {
+      "path": "src/styles/global.css",
+      "ceiling": 302
+    },
+    {
+      "path": "docs/guides/best-practices.md",
+      "ceiling": 275
+    }
+  ]
+}

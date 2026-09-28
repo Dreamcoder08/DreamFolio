@@ -1,0 +1,43 @@
+/* Progressive enhancement: content is visible until JavaScript explicitly opts in. */
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--motion-reveal) var(--motion-ease),
+    transform var(--motion-reveal) var(--motion-ease);
+}
+.motion-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.motion-ready .principles article:nth-child(2) {
+  transition-delay: var(--motion-stagger);
+}
+.motion-ready .principles article:nth-child(3) {
+  transition-delay: calc(var(--motion-stagger) * 2);
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-kicker,
+.hero-copy,
+.hero-portrait,
+.hero-ticker {
+  animation: hero-rise var(--motion-reveal) var(--motion-ease) both;
+}
+.hero-copy {
+  animation-delay: var(--motion-stagger);
+}
+.hero-portrait {
+  animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step));
+}
+.hero-ticker {
+  animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step) * 2);
+}

@@ -1,0 +1,207 @@
+/* ============================================
+   ⌘K ship console (phase 3, T1)
+   Trigger lives in Navbar's .nav-controls; the
+   dialog + list are mounted once from BaseLayout.
+   ============================================ */
+.console-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 12px;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+.console-trigger:hover {
+  color: var(--color-text);
+  border-color: var(--portfolio-yellow);
+}
+.console-trigger[hidden] {
+  display: none;
+}
+.console-trigger-hint {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-thumb);
+  color: var(--color-text-tertiary);
+}
+@media (max-width: 900px) {
+  .console-trigger-hint {
+    display: none;
+  }
+}
+
+.ship-console {
+  /* Tailwind's preflight resets `margin: 0` on every element (incl.
+     dialog), which kills the UA stylesheet's `margin: auto` centering —
+     re-enable it explicitly for left/right (not `transform`: the open
+     entrance animation below settles on `transform: none`, which would
+     silently cancel a transform-based centering trick). */
+  position: fixed;
+  top: 12vh;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(70vh, 560px);
+  /* Glow: a one-pixel accent-tinted ring, not a blur (no heavy blur rule). */
+  box-shadow:
+    var(--shadow-image),
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+/* Same composition as .site-header's glass surface, just opaque enough to
+   read as a scrim: --color-surface is black in dark mode and cream in
+   light mode, so this needs no separate light-mode override. */
+.ship-console::backdrop {
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+}
+.ship-console-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: min(70vh, 560px);
+}
+.ship-console-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+.ship-console-field-icon {
+  flex: 0 0 auto;
+  color: var(--color-accent);
+}
+.ship-console-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 24px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+.ship-console-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+.ship-console-esc {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-thumb);
+  color: var(--color-text-tertiary);
+}
+.ship-console-list {
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  list-style: none;
+}
+.ship-console-group {
+  padding: 10px 10px 4px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.ship-console-option {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: var(--radius-control);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.ship-console-option mark {
+  background: none;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.ship-console-option[aria-selected="true"] {
+  color: var(--color-text);
+  background: var(--color-accent-muted);
+  outline: 1px solid var(--color-border-interactive);
+  outline-offset: -1px;
+}
+.ship-console-empty {
+  padding: 20px 18px 26px;
+  color: var(--color-text-secondary);
+  font-size: 0.88rem;
+}
+.ship-console-copy-fallback {
+  padding: 12px 18px 18px;
+  border-top: 1px solid var(--color-border);
+}
+.ship-console-copy-fallback label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--color-text-tertiary);
+}
+.ship-console-copy-fallback input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+/* A closed <dialog>'s content isn't in the accessibility tree, so a chunk
+   load failure (before the console ever opens) announces here instead —
+   fixed, since this sits at the end of <body> in normal flow and could
+   otherwise land below the footer, invisible without scrolling. Empty
+   (the normal case) means no content, so :empty removes it entirely. */
+#console-load-status {
+  position: fixed;
+  inset-block-end: 16px;
+  inset-inline: 16px;
+  z-index: 60;
+  margin: 0 auto;
+  max-width: 360px;
+  padding: 10px 14px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-align: center;
+}
+#console-load-status:empty {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ship-console[open] {
+    animation: ship-console-in var(--motion-fast) var(--motion-ease);
+  }
+  @keyframes ship-console-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

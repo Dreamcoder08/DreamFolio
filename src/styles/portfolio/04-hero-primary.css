@@ -1,0 +1,161 @@
+/* Hero */
+.hero {
+  min-height: min(980px, 100svh);
+  padding-top: 118px;
+  display: flex;
+  flex-direction: column;
+  /* Own stacking context for the convergence field: the canvas is an
+     absolutely positioned first child, full-bleed (unlike everything else
+     in the hero — see .hero-content). isolation keeps its z-index from
+     leaking into/out of any later section's own stacking. */
+  position: relative;
+  isolation: isolate;
+}
+/* Everything else in the hero stays wrap-width and centered, exactly like
+   every other section on the page — only .hero itself is full-bleed, so
+   the canvas can span the full viewport width behind it. This single
+   wrapper is also the one thing that needs a z-index above the canvas:
+   nothing nested inside it (.hero-kicker, .hero-stage, .hero-portrait,
+   .hero-copy, .hero-ticker, ...) needs its own, since they never share a
+   stacking context with the canvas directly. */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* A flex item's default min-height:auto can refuse to shrink below its
+     content's natural size; 0 lets this nested column behave exactly like
+     .hero itself used to before this wrapper existed. */
+  min-height: 0;
+}
+.hero-kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-secondary);
+  padding-block: 17px;
+  border-bottom: 1px solid var(--color-border);
+}
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+}
+.location .icon {
+  color: var(--portfolio-yellow);
+}
+.hero-stage {
+  flex: 1;
+  min-height: 650px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(330px, 0.55fr);
+  align-items: center;
+  gap: clamp(35px, 6vw, 100px);
+  padding-block: 38px;
+  overflow-x: clip;
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+}
+.hero-intro {
+  margin-bottom: 12px;
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+}
+.hero h1 {
+  margin-left: -0.075em;
+  color: var(--color-text);
+  font-size: clamp(5.4rem, 10.7vw, 10.4rem);
+  font-weight: 820;
+  letter-spacing: -0.09em;
+  line-height: 0.77;
+}
+.hero h1 span {
+  position: relative;
+  z-index: 0;
+  color: var(--portfolio-yellow);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.075em;
+  white-space: nowrap;
+}
+.hero h1 span::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 0.08em;
+  left: 0.04em;
+  right: -0.02em;
+  bottom: 0.05em;
+  background: currentColor;
+  opacity: 0.25;
+  transform: rotate(-1deg);
+}
+.hero-brief {
+  width: min(540px, 78%);
+  margin: 36px 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+}
+.hero-brief > p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.hero-brief .actions {
+  grid-column: 1 / -1;
+}
+.hero-portrait {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.hero-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 8% -22% 8% 16%;
+  background: var(--portfolio-yellow);
+  border-radius: var(--radius-arch);
+  transform: rotate(4deg);
+}
+.hero-portrait::after {
+  content: "+";
+  position: absolute;
+  top: 7%;
+  right: -8%;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid
+    color-mix(in srgb, var(--portfolio-yellow-ink) 35%, transparent);
+  border-radius: var(--radius-circle);
+  color: var(--portfolio-yellow-ink);
+  font: 1.8rem / 1 var(--font-mono);
+}
+.portrait-orbit {
+  position: absolute;
+  z-index: 3;
+  top: 13%;
+  left: -31px;
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  color: var(--portfolio-yellow);
+  background: var(--color-surface);
+  border: 1px solid var(--portfolio-yellow);
+  border-radius: var(--radius-circle);
+  font: 0.8rem var(--font-mono);
+}
