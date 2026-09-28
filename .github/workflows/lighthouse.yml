@@ -3,8 +3,9 @@ name: Lighthouse
 # Lighthouse on a clean CI machine, against the production build. Local runs
 # on the development laptop are not trustworthy: its thermal throttling
 # inflated first paint from ~0.4 s to ~3.4 s in a controlled comparison. This
-# workflow is the reference measurement; the performance score is a warning
-# until a few runs establish the floor, everything else already fails the job.
+# workflow is the reference measurement. Median of three runs on the first
+# clean-runner build: performance 96, FCP 1.4 s, LCP 2.7 s, TBT 0 ms, CLS
+# 0.002, accessibility / best-practices / SEO 100 — the budgets sit under that.
 on:
   pull_request:
     paths:
