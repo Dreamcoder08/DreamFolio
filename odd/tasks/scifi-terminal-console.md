@@ -109,14 +109,13 @@ stylesheet-loading block in the test suite. See commits `d86201c`,
 `ae7dbbf`, `67094e8`, `a6b52b4`.
 
 Re-verified: `pnpm check` pass; `pnpm test:unit` 115/115 (101 baseline
-
-- 14 new, incl. 4 chunk-recovery unit tests — also fixed a pre-existing
-  gap in the mutation-proof harness left by the base-layer split, unrelated
-  to these findings, that was silently failing `pnpm test:unit`);
-  `pnpm run format:check` pass; `node scripts/check-file-size.mjs` — 108
-  files, all within budget; affected specs (console + terminal, 22/22);
-  full `scripts/safe-run.sh pnpm test:e2e` — 138/139, one unrelated flake
-  (`THEME-STATE-FORCED-PRESSED`, a `locator.hover()` 30s timeout landing
-  right after back-to-back thermal freezes) confirmed non-reproducing in
-  isolation (15.6s). PR / merge / live check remain pending, owned by the
-  parent.
+plus 14 new, incl. 4 chunk-recovery unit tests — also fixed a pre-existing
+gap in the mutation-proof harness left by the base-layer split, unrelated
+to these findings, that was silently failing `pnpm test:unit`);
+`pnpm run format:check` pass; `node scripts/check-file-size.mjs` — 108
+files, all within budget; affected specs (console + terminal, 22/22);
+full `scripts/safe-run.sh pnpm test:e2e` — 138/139, one unrelated flake
+(`THEME-STATE-FORCED-PRESSED`, a `locator.hover()` 30s timeout landing
+right after back-to-back thermal freezes) confirmed non-reproducing in
+isolation (15.6s). PR / merge / live check remain pending, owned by the
+parent.

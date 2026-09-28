@@ -10,6 +10,7 @@ export class ConsolePage extends BasePage {
   readonly empty: Locator;
   readonly status: Locator;
   readonly copyFallbackInput: Locator;
+  readonly loadStatus: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -21,6 +22,7 @@ export class ConsolePage extends BasePage {
     this.empty = page.locator("#console-empty");
     this.status = page.locator("#console-status");
     this.copyFallbackInput = page.locator("#console-copy-input");
+    this.loadStatus = page.locator("#console-load-status");
   }
 
   async openWithShortcut(): Promise<void> {

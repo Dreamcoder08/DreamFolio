@@ -14,3 +14,14 @@ export function shouldReload(): boolean {
     return false;
   }
 }
+
+/** Re-arms the one-time reload once a chunk has actually loaded, so a later
+ *  redeploy in the same session gets its own silent retry. A storage failure
+ *  here is harmless: shouldReload() already treats it as "already tried." */
+export function clearReloadFlag(): void {
+  try {
+    sessionStorage.removeItem(RELOAD_FLAG);
+  } catch {
+    // Nothing to clear when storage is unavailable.
+  }
+}

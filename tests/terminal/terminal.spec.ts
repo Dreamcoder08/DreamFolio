@@ -35,26 +35,31 @@ test.describe("MU-TH-UR terminal — progressive enhancement", () => {
 
 test.describe("MU-TH-UR terminal — composing a transmission", () => {
   test(
-    "submitting builds the expected mailto URL, exposes it via a visible fallback link, and announces it",
+    "submitting navigates to the composed mailto URL, exposes it via a visible fallback link, and announces it",
     { tag: ["@critical", "@terminal", "@TERMINAL-003"] },
     async ({ page }) => {
       const terminal = new TerminalPage(page);
       await terminal.goto();
 
+      const expected =
+        "mailto:dreamcoder.dev08%40gmail.com?subject=Prueba%20desde%20e2e&body=Hola%2C%20este%20es%20un%20mensaje%20de%20prueba.";
       await terminal.subjectInput.fill("Prueba desde e2e");
       await terminal.bodyInput.fill("Hola, este es un mensaje de prueba.");
+      // Chromium reports a script-initiated mailto: navigation as a request
+      // (it never commits — the OS protocol handler would take it), so this
+      // observes the real `location.href` assignment with no test-only seam
+      // shipped in the component. Filtering on "mailto:" keeps the fallback
+      // link's href (an attribute, not a navigation) from satisfying it.
+      const navigation = page.waitForRequest((request) =>
+        request.url().startsWith("mailto:"),
+      );
       await terminal.submitButton.click();
+      expect((await navigation).url()).toBe(expected);
 
       await expect(terminal.status).toHaveText(/Abriendo tu cliente de correo/);
-      // location.href = "mailto:..." never completes a real, observable
-      // navigation in Playwright — the fallback link is a real DOM
-      // attribute this test can assert on directly, and it's also what a
-      // visitor without a mail handler configured actually clicks.
+      // The visible fallback for visitors with no mail handler configured.
       await expect(terminal.fallbackLink).toBeVisible();
-      await expect(terminal.fallbackLink).toHaveAttribute(
-        "href",
-        "mailto:dreamcoder.dev08%40gmail.com?subject=Prueba%20desde%20e2e&body=Hola%2C%20este%20es%20un%20mensaje%20de%20prueba.",
-      );
+      await expect(terminal.fallbackLink).toHaveAttribute("href", expected);
     },
   );
 

@@ -34,29 +34,45 @@ async function copyToClipboard(
   }
 }
 
-export async function runAction(
+async function perform(
   command: CommandDefinition,
   ctx: ActionContext,
 ): Promise<void> {
   const { action } = command;
+  // Every close() runs after its side effect, not before: if the side
+  // effect throws, the dialog (and its live region) stays open to report it.
   switch (action.kind) {
     case "navigate":
-      ctx.close();
       window.location.href = action.href;
+      ctx.close();
       break;
     case "external":
-      ctx.close();
       window.open(action.href, "_blank", "noopener");
+      ctx.close();
       break;
     case "theme": {
-      ctx.close();
       const toggle = document.getElementById("theme-toggle");
       if (toggle instanceof HTMLElement) toggle.click();
+      ctx.close();
       ctx.announce("Tema actualizado.");
       break;
     }
     case "copy":
       await copyToClipboard(action.text, ctx);
       break;
+  }
+}
+
+/** Never rejects: the driver fires this with `void`, so an escaped error
+ *  would surface as an unhandled rejection with nothing announced. */
+export async function runAction(
+  command: CommandDefinition,
+  ctx: ActionContext,
+): Promise<void> {
+  try {
+    await perform(command, ctx);
+  } catch (error) {
+    console.error(error);
+    ctx.announce("No se pudo ejecutar el comando.");
   }
 }
