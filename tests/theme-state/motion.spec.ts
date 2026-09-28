@@ -48,7 +48,7 @@ import {
   VIEWPORT_SIZE,
   type Theme,
   type Viewport,
-} from "./theme-state-page";
+} from "./support/state-model";
 
 const HOME = "/";
 const PROJECT_DETAIL = "/projects/digital-public-peru/";

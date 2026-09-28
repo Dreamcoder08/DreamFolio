@@ -54,7 +54,7 @@ import {
   stateDifferences,
   type Theme,
   type Viewport,
-} from "./theme-state-page";
+} from "./support/state-model";
 import { ThemeStatePage } from "./theme-state-page";
 import { composite, formatRatio, parseColor, ratio } from "../support/contrast";
 

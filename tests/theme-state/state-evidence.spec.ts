@@ -74,13 +74,13 @@ import {
   THEME,
   VIEWPORT,
   VIEWPORT_SIZE,
-  ThemeStatePage,
   describeRead,
   stateDifferences,
   type InteractionState,
   type StateRead,
   type Theme,
-} from "./theme-state-page";
+} from "./support/state-model";
+import { ThemeStatePage } from "./theme-state-page";
 import {
   backgroundChain,
   composite,
