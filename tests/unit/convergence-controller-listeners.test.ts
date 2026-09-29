@@ -147,7 +147,8 @@ test("teardown is idempotent: a second run adds nothing and throws nothing", () 
   assert.deepEqual(stillAttached(targets), []);
 });
 
-test("teardown clears a pending pointer-idle timer", () => {
+test("teardown clears a pending pointer-idle timer", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
   const { ctx, teardown, targets } = wire();
   Object.assign(ctx.canvas, {
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 100, height: 100 }),
@@ -158,12 +159,9 @@ test("teardown clears a pending pointer-idle timer", () => {
   assert.equal(ctx.pointerTarget.strength, 1);
   teardown();
   // A cleared timer never fires: the strength would drop to 0 if it did.
-  return new Promise<void>((resolve) =>
-    setTimeout(() => {
-      assert.equal(ctx.pointerTarget.strength, 1);
-      resolve();
-    }, 260),
-  );
+  // Tick well past the 220ms idle timeout on the mocked clock.
+  t.mock.timers.tick(1000);
+  assert.equal(ctx.pointerTarget.strength, 1);
 });
 
 test("missing observers, matchMedia and media queries wire and tear down safely", () => {

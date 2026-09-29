@@ -47,19 +47,24 @@ function writeReports(dir: string, runs: FakeRun[]): void {
   });
 }
 
+/**
+ * Runs the script hermetically: the child gets PATH and nothing else from
+ * this process (no GITHUB_STEP_SUMMARY, NODE_OPTIONS or other CI leftovers),
+ * plus only the variables a test passes in `env`.
+ */
 function runSummary(dir: string, env: Record<string, string> = {}) {
-  const { GITHUB_STEP_SUMMARY: _ignored, ...base } = process.env;
   return spawnSync(process.execPath, [SCRIPT, dir], {
-    env: { ...base, ...env },
+    env: { PATH: process.env.PATH ?? "", ...env },
     encoding: "utf8",
   });
 }
 
+/** The value cell of the `| metric | value |` table row, if present. */
 function valueOf(stdout: string, metric: string): string | undefined {
-  const row = stdout
-    .split("\n")
-    .find((line) => line.startsWith(`| ${metric} |`));
-  return row?.split("|")[2]?.trim();
+  const prefix = `| ${metric} |`;
+  const row = stdout.split("\n").find((line) => line.startsWith(prefix));
+  const [, , value] = row?.split("|") ?? [];
+  return value?.trim();
 }
 
 describe("lighthouse-summary", () => {

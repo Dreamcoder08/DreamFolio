@@ -12,13 +12,14 @@ interface MinimalStorage {
   removeItem?(key: string): void;
 }
 
-let restoreStorage: (() => void) | undefined;
+// Every install pushes its own restore, and afterEach runs them newest first,
+// so a test that swaps storage twice still ends on the original global.
+const restorers: Array<() => void> = [];
 function setSessionStorage(storage: MinimalStorage | undefined): void {
-  restoreStorage = installGlobals({ sessionStorage: storage });
+  restorers.push(installGlobals({ sessionStorage: storage }));
 }
 afterEach(() => {
-  restoreStorage?.();
-  restoreStorage = undefined;
+  while (restorers.length > 0) restorers.pop()?.();
 });
 
 test("returns true the first time in a session, then false", () => {
