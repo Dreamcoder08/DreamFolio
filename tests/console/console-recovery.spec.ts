@@ -1,12 +1,13 @@
 import { test, expect, type Page } from "@playwright/test";
 import { HomePage } from "../home/home-page";
 import { ConsolePage } from "./console-page";
+import { ACTION_FAILED, LOAD_FAILED } from "../../src/lib/console/messages";
+import { RELOAD_FLAG } from "../../src/lib/console/chunk-recovery";
 
 // The lazily imported console chunk (src/lib/console/driver.ts, hashed by
 // the build). Aborting it is exactly what a stale chunk after a redeploy
 // looks like to the eager script: a rejected import().
 const DRIVER_CHUNK = "**/_astro/driver.*.js";
-const RELOAD_FLAG = "console-chunk-reload";
 
 function countMainFrameNavigations(page: Page): () => number {
   let count = 0;
@@ -22,9 +23,7 @@ async function failTwice(page: Page, console_: ConsolePage): Promise<number> {
   await console_.openWithTrigger();
   await reloaded;
   await console_.openWithTrigger();
-  await expect(console_.loadStatus).toHaveText(
-    "No se pudo cargar la consola. Recarga la página.",
-  );
+  await expect(console_.loadStatus).toHaveText(LOAD_FAILED);
   return navigations();
 }
 
@@ -92,9 +91,7 @@ test.describe("Ship console — action failures", () => {
       await console_.typeQuery("GitHub");
       await console_.input.press("Enter");
 
-      await expect(console_.status).toHaveText(
-        "No se pudo ejecutar el comando.",
-      );
+      await expect(console_.status).toHaveText(ACTION_FAILED);
       await expect(console_.dialog).toBeVisible();
       expect(errors).toEqual([]);
     },

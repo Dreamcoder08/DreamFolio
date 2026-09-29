@@ -37,7 +37,15 @@ test.describe("MU-TH-UR terminal — composing a transmission", () => {
   test(
     "submitting navigates to the composed mailto URL, exposes it via a visible fallback link, and announces it",
     { tag: ["@critical", "@terminal", "@TERMINAL-003"] },
-    async ({ page }) => {
+    async ({ page, browserName }) => {
+      // Only Chromium reports a script-initiated mailto: navigation as a
+      // request; elsewhere this would hang instead of asserting. The built
+      // URL stays covered on every browser through the visible fallback
+      // link's href (here and in TERMINAL-004).
+      test.skip(
+        browserName !== "chromium",
+        "only Chromium surfaces a mailto: navigation as a request",
+      );
       const terminal = new TerminalPage(page);
       await terminal.goto();
 
@@ -50,8 +58,9 @@ test.describe("MU-TH-UR terminal — composing a transmission", () => {
       // observes the real `location.href` assignment with no test-only seam
       // shipped in the component. Filtering on "mailto:" keeps the fallback
       // link's href (an attribute, not a navigation) from satisfying it.
-      const navigation = page.waitForRequest((request) =>
-        request.url().startsWith("mailto:"),
+      const navigation = page.waitForRequest(
+        (request) => request.url().startsWith("mailto:"),
+        { timeout: 10_000 },
       );
       await terminal.submitButton.click();
       expect((await navigation).url()).toBe(expected);
