@@ -58,7 +58,7 @@ jobs:
           NODE_ENV: production
 
       - name: Lighthouse CI
-        run: pnpm dlx @lhci/cli@0.15.1 autorun
+        run: pnpm exec lhci autorun
 
       # lhci prints only failures; this shows the numbers on every run.
       - name: Summarize scores
