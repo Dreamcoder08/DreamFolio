@@ -1,0 +1,95 @@
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+@layer utilities {
+  .container-wide {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-container);
+  }
+
+  .section-padding {
+    padding: var(--space-section) 0;
+  }
+
+  /* ---- RESPONSIVE GRID UTILITY ---- */
+  .grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ---- GLASS CARD ---- */
+  .card {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius-panel);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    transition:
+      border-color var(--motion-fast) ease,
+      transform var(--motion-fast) ease;
+  }
+  .card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  /* ---- TAG / CHIP ---- */
+  .tag {
+    display: inline-flex;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    background: var(--color-accent-muted);
+    color: var(--color-accent);
+    border-radius: var(--radius-pill);
+  }
+
+  /* ---- BTN PRIMARY ---- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 600;
+    border-radius: var(--radius-control);
+    transition: background-color var(--motion-fast);
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* State-preserving hover: the fill moves, the ink does not, and no `opacity`
+     remains anywhere in the pair. The transition targets `background-color`
+     because that is the property the state actually changes. */
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+  }
+  .btn-primary:active {
+    background: var(--color-accent-active);
+  }
+
+  /* ---- SECTION LABEL (accent mono label) ---- */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  /* ---- STAT NUMBER ---- */
+  .stat-number {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.25rem;
+  }
+}

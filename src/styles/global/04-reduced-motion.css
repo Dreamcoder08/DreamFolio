@@ -1,0 +1,18 @@
+/* Universal reduced-motion guard, relocated from portfolio.css: it must stay
+   unlayered so no layered rule can reintroduce motion, and it must not depend on a
+   portfolio.css import. It is a different rule from the universal transition unit 4
+   deleted, and it is now load-bearing for every explicit per-selector transition
+   those replacements introduced. portfolio.css keeps only its own component
+   exceptions. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

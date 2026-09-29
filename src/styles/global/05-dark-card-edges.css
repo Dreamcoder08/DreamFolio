@@ -1,0 +1,29 @@
+/* ============================================
+   OLED CARD EDGES (dark)
+   Drop shadows vanish on pure black, so card
+   edges rely on a stronger border plus a
+   subtle inset highlight.
+   ============================================ */
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .compact-image,
+[data-theme="dark"] .tags span {
+  border-color: var(--color-border-strong);
+}
+
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .compact-image {
+  box-shadow: var(--shadow-edge);
+}
+
+[data-theme="dark"] .profile-card {
+  box-shadow: var(--shadow-profile-dark);
+}
+
+@media (prefers-contrast: more) {
+  [data-theme="dark"] .tags span,
+  [data-theme="dark"] .module-row,
+  [data-theme="dark"] .principles article,
+  [data-theme="dark"] .compact-image {
+    border-color: var(--color-border-strong);
+  }
+}

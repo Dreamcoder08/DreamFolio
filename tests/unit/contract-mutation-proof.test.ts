@@ -108,7 +108,9 @@ const GUARDS: readonly Guard[] = [
   {
     name: "the transition contract rejects a reintroduced universal transition",
     checker: "tests/unit/transition-contract.test.ts",
-    sheet: "src/styles/global.css",
+    // global.css is now only `@import`s; inject into the partial that holds
+    // the reduced-motion guard, so the proof also covers the import chain.
+    sheet: "src/styles/global/04-reduced-motion.css",
     inject: (css) =>
       `${css}\n*, *::before, *::after { transition: opacity var(--motion-fast); }\n`,
     marker: "*::before",
