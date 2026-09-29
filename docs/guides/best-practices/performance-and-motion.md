@@ -13,6 +13,11 @@
 | **TTFB** | < 600ms | Static files served from the GitHub Pages or Vercel CDN                     |
 
 The Lighthouse goal is mobile Performance ≥ 95 and 100 for Accessibility, Best Practices, and SEO.
+The reference measurement is the `Lighthouse` workflow (`.github/workflows/lighthouse.yml`,
+`lighthouserc.json`): three runs on a clean runner against the production build, failing on
+category scores below the budget, CLS above 0.05 or TBT above 300 ms, with a score table in the
+job summary. On the development laptop, a local run measured a 3.4 s first paint against 0.4 s
+in a plain headless load, so treat local Lighthouse numbers as indicative only.
 
 ## Client JavaScript
 
@@ -64,7 +69,7 @@ import { withBaseAsset } from "../lib/site";
 - WebGL work (`ConvergenceField`) must degrade: software renderers are rejected, and the
   forced-WebGL Playwright project covers the running, reduced-motion, and recovery paths.
 
-## Measure
+## Measure locally
 
 ```bash
 SITE_BASE=/ pnpm build             # the lighthouse script audits the site root
