@@ -32,6 +32,7 @@ const THRESHOLDS = {
   SAFE_TEMP_HARD: "88000",
   SAFE_MAX_FREEZE: "2",
   SAFE_GRACE: "60",
+  SAFE_POLL: "1",
 };
 
 async function withZone(
@@ -48,28 +49,33 @@ async function withZone(
   }
 }
 
-test(
-  "a zone stuck above PAUSE (below HARD) still lets the run finish",
-  { skip },
-  () =>
-    withZone("85000", async (zone) => {
-      const started = Date.now();
-      const { child, out } = spawnSafeRun(STEPS, {
-        ...THRESHOLDS,
-        SAFE_THERMAL_GLOB: zone,
-      });
-      try {
-        // Freeze cap (2 s) + 5 s of steps + margin; the grace (60 s) covers it.
-        const code = await Promise.race([exitOf(child), sleep(14_000)]);
-        assert.equal(code, 0, `run did not finish in time:\n${out.text}`);
-        assert.ok(Date.now() - started < 14_000);
-        assert.equal(count(out.text, /paused until below/g), 1, out.text);
-        assert.match(out.text, /never fell.*60s grace/);
-      } finally {
-        await killAndWait(child);
-      }
-    }),
-);
+// 1 s is the tick the other tests assume; 0.1 s proves the freeze cap and
+// grace are wall-clock based, not counted in polls.
+for (const poll of ["1", "0.1"]) {
+  test(
+    `a zone stuck above PAUSE (below HARD) still lets the run finish (poll ${poll}s)`,
+    { skip },
+    () =>
+      withZone("85000", async (zone) => {
+        const started = Date.now();
+        const { child, out } = spawnSafeRun(STEPS, {
+          ...THRESHOLDS,
+          SAFE_POLL: poll,
+          SAFE_THERMAL_GLOB: zone,
+        });
+        try {
+          // Freeze cap (2 s) + 5 s of steps + margin; the 60 s grace covers it.
+          const code = await Promise.race([exitOf(child), sleep(14_000)]);
+          assert.equal(code, 0, `run did not finish in time:\n${out.text}`);
+          assert.ok(Date.now() - started < 14_000);
+          assert.equal(count(out.text, /paused until below/g), 1, out.text);
+          assert.match(out.text, /never fell.*60s grace/);
+        } finally {
+          await killAndWait(child);
+        }
+      }),
+  );
+}
 
 test(
   "a zone that fell while frozen gets no grace and re-pauses at PAUSE",

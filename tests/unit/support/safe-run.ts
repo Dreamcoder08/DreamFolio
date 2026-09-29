@@ -89,13 +89,17 @@ export async function killAndWait(child: ChildProcess): Promise<void> {
   await exited;
 }
 
-/** Spawns safe-run with `env` layered over the test's environment. */
+/**
+ * Spawns safe-run with `env` layered over the test's environment. Polls at
+ * 1 s unless `env` says otherwise, so waits written in seconds stay
+ * deterministic regardless of the script's faster default.
+ */
 export function spawnSafeRun(
   args: string[],
   env: Record<string, string>,
 ): { child: ChildProcess; out: { text: string } } {
   const child = spawn("bash", [SCRIPT, ...args], {
-    env: { ...process.env, ...env },
+    env: { ...process.env, SAFE_POLL: "1", ...env },
     stdio: ["ignore", "ignore", "pipe"],
   });
   return { child, out: collectStderr(child) };

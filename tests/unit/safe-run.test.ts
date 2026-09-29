@@ -53,6 +53,7 @@ test(
           SAFE_THERMAL_GLOB: join(dir, "zone_*"),
           SAFE_TEMP_PAUSE: "80000",
           SAFE_TEMP_RESUME: "70000",
+          SAFE_POLL: "1",
         },
         encoding: "utf8",
         timeout: 15_000,
@@ -76,6 +77,9 @@ test("invalid settings exit 2 with a clear message, never run unguarded", () => 
     [{ SAFE_TEMP_HARD: "x" }, /SAFE_TEMP_HARD/],
     [{ SAFE_MAX_FREEZE: "0" }, /SAFE_MAX_FREEZE must be at least 1/],
     [{ SAFE_GRACE: "-1" }, /SAFE_GRACE/],
+    [{ SAFE_POLL: "0" }, /SAFE_POLL must be a positive number/],
+    [{ SAFE_POLL: "-0.5" }, /SAFE_POLL/],
+    [{ SAFE_POLL: "fast" }, /SAFE_POLL/],
   ];
   for (const [env, message] of cases) {
     const result = spawnSync("bash", [SCRIPT, "true"], {
@@ -93,7 +97,7 @@ test(
   async () => {
     const dir = tmpDir();
     const zone = join(dir, "temp");
-    writeFileSync(zone, "85000"); // hot from the start, below the hard ceiling
+    writeFileSync(zone, "82000"); // hot from the start, below the hard ceiling
     const { child, out } = spawnSafeRun(["sleep", "3"], {
       SAFE_THERMAL_GLOB: zone,
       SAFE_TEMP_PAUSE: "80000",
