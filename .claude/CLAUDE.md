@@ -19,16 +19,17 @@ React, Motion, Supabase, and Zod were removed from the project (see commits `842
 ```
 src/
 ├── components/
-│   └── ui/            # Astro components (Icon, Navbar, ProfileCard)
+│   ├── sections/      # Homepage sections (Hero, About, Services, Projects, ...)
+│   └── ui/            # Shared Astro components (Navbar, ProfileCard, ConvergenceField, CommandConsole, ...)
 ├── layouts/            # BaseLayout.astro
-├── lib/                # icons.ts, site.ts, project-case-studies.ts, project-presentation.ts
+├── lib/                # site.ts, icons.ts, project-*.ts; convergence/ (WebGL hero), console/, terminal/
 ├── pages/              # Astro pages
 │   ├── index.astro
 │   ├── 404.astro
 │   └── projects/
 │       ├── index.astro
 │       └── [id].astro
-├── styles/             # global.css (design tokens + theme), portfolio.css
+├── styles/             # global.css and portfolio.css are ordered @import lists over global/, portfolio/, tokens/
 ├── data/               # projects.json
 └── content.config.ts
 tests/                  # Playwright e2e specs
@@ -37,7 +38,7 @@ tests/                  # Playwright e2e specs
 ## Key Files
 
 - `astro.config.mjs`: Astro config — Tailwind Vite plugin, base path switches between GitHub Pages and Vercel
-- `src/styles/global.css`: Design tokens (`@theme`) and `[data-theme="light"]` overrides
+- `src/styles/global/01-theme-tokens.css`, `02-theme-modes.css`: design tokens (`@theme`) and `[data-theme="light"]` overrides
 - `src/lib/site.ts`, `src/lib/icons.ts`: Site metadata and icon registry
 - `src/data/projects.json`: Portfolio project entries
 
@@ -56,7 +57,7 @@ tests/                  # Playwright e2e specs
 
 ### Visual Style
 - Dual theme (dark default, light opt-in)
-- The fixed site header is a glass surface: `backdrop-filter: blur(18px)` over a translucent canvas (`portfolio.css`)
+- The fixed site header is a glass surface: `backdrop-filter: blur(18px)` over a translucent canvas (`src/styles/portfolio/02-header-nav.css`)
 - Responsive design (mobile-first)
 
 ## Development Commands
@@ -67,7 +68,7 @@ pnpm build        # Build for production
 pnpm preview      # Preview production build
 pnpm check        # astro sync + tsc --noEmit
 pnpm test:e2e     # Build + run Playwright suite
-pnpm verify       # Build + check
+pnpm verify       # Build + check + file-size budget
 pnpm deploy       # Deploy to Vercel (production)
 pnpm lighthouse   # Run Lighthouse audit
 ```
@@ -91,29 +92,7 @@ pnpm lighthouse   # Run Lighthouse audit
 
 ---
 
-## AI Models - February 2026
-
-### Claude (Anthropic)
-- **Claude Opus 4.6** (Feb 5, 2026): Flagship model, 1M token context (beta), 65.4% Terminal-Bench 2.0, 80.8% SWE-bench
-- **Claude Sonnet 4.6** (Feb 17, 2026): Default model, improved coding, 1M token context (beta), near-Opus performance
-- **Adaptive Thinking**: Dynamic effort levels (low/medium/high/max)
-
-### OpenAI
-- **GPT-5.3-Codex** (Feb 5, 2026): Agentic coding, 25% faster, 56.8% SWE-Bench, self-generating
-- **GPT-5.3-Codex-Spark** (Feb 12, 2026): Ultra-fast, >1000 tokens/sec on Cerebras
-- **GPT-5.2** (Dec 2025): Knowledge cutoff August 2025
-
-### Google Gemini
-- **Gemini 3.1 Pro** (Feb 19, 2026): Advanced reasoning, complex problem-solving
-- **Gemini 3 Deep Think** (Feb 12, 2026): Research-grade reasoning
-- **Gemini 2.5 Pro** (Mar 2025): 1M token context, thinking model, SOTA on coding benchmarks
-
-### Framework Updates
-- **Astro 6 Beta** (Jan 2026): Redesigned dev server, native CSP, Zod 4, Cloudflare Workers support
-
----
-
-## Skills for Portfolio (Feb 2026)
+## Skills for Portfolio
 
 ### Cybersecurity Engineer
 - Cloud Security (AWS/Azure/GCP + zero-trust)
