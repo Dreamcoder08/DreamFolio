@@ -33,7 +33,8 @@ import { readCssInlined } from "./css-imports.ts";
  * with the selector `.contact-section .solid-link:hover`. The later one declares
  * `color`, `background` and `border-color` and therefore shadows the earlier one
  * for all three properties, so only the later block can decide the computed
- * border. The contract below is deliberately written against the *winning*
+ * border. The contract clauses in `state-border-provenance.test.ts` and
+ * `state-border-cascade.test.ts` are deliberately written against the *winning*
  * declaration for that reason: an "every block must be tokenised" clause would
  * be unsatisfiable in the current tree without an edit the change did not
  * authorise, and would fail for a reason the browser never observes.

@@ -13,7 +13,7 @@ import {
  * Setup and probes live in `./forced-webgl.ts`.
  */
 
-test.describe("Home — hero convergence field (forced WebGL, running path)", () => {
+test.describe("Home — hero convergence field (forced WebGL, reduced motion)", () => {
   installForcedWebglProbes();
 
   test(

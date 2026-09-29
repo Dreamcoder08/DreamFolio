@@ -94,7 +94,9 @@ const CAPTURE_NONBLANK_INIT = `(() => {
   };
 })();`;
 
-interface NonBlankWindow {
+/** The probe's in-page flag, for specs that must reset it inside their own
+ * `page.evaluate` (where `resetNonBlankFlag`'s separate round trip is too late). */
+export interface NonBlankWindow {
   __convergenceNonBlank?: boolean;
 }
 
