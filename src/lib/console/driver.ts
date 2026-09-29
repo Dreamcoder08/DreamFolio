@@ -9,6 +9,7 @@ import { filterCommands, type FilteredCommand } from "./filter.ts";
 import { renderOptions } from "./render.ts";
 import { runAction, type ActionContext } from "./actions.ts";
 import type { CommandDefinition } from "./types.ts";
+import { NO_RESULTS, resultCount } from "./messages.ts";
 
 function readCommands(): CommandDefinition[] {
   const el = document.getElementById("console-data");
@@ -99,7 +100,7 @@ export function mountConsole(): () => void {
       if (empty) empty.hidden = false;
       listbox!.innerHTML = "";
       updateActiveDescendant();
-      announce("Sin resultados.");
+      announce(NO_RESULTS);
       return;
     }
     if (empty) empty.hidden = true;
@@ -112,7 +113,7 @@ export function mountConsole(): () => void {
       },
     });
     updateActiveDescendant();
-    announce(`${visible.length} resultado${visible.length === 1 ? "" : "s"}.`);
+    announce(resultCount(visible.length));
   }
 
   function moveActive(delta: number): void {

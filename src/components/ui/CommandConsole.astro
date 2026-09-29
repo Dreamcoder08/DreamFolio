@@ -110,6 +110,7 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
     clearReloadFlag,
     shouldReload,
   } from "../../lib/console/chunk-recovery.ts";
+  import { LOAD_FAILED, MOUNT_FAILED } from "../../lib/console/messages.ts";
 
   (function setup() {
     const trigger = document.getElementById("console-trigger");
@@ -143,7 +144,7 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
           window.location.reload();
           return null;
         }
-        reportLoad("No se pudo cargar la consola. Recarga la página.");
+        reportLoad(LOAD_FAILED);
         return null;
       }
       // The chunk arrived, so any stale-chunk episode is over: drop its
@@ -155,7 +156,7 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
         return openConsole;
       } catch (error) {
         console.error(error);
-        reportLoad("No se pudo iniciar la consola.");
+        reportLoad(MOUNT_FAILED);
         return null;
       }
     }

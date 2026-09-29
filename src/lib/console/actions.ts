@@ -1,6 +1,12 @@
 /** Interprets a CommandActionDescriptor against the live DOM — the only
  *  place that touches navigation, the clipboard, or the theme toggle. */
 import type { CommandDefinition } from "./types.ts";
+import {
+  ACTION_FAILED,
+  THEME_UPDATED,
+  copyFallback,
+  emailCopied,
+} from "./messages.ts";
 
 export interface ActionContext {
   announce: (message: string) => void;
@@ -22,15 +28,13 @@ async function copyToClipboard(
       throw new Error("Clipboard API unavailable");
     }
     await navigator.clipboard.writeText(text);
-    ctx.announce(`Correo copiado al portapapeles: ${text}`);
+    ctx.announce(emailCopied(text));
     ctx.close();
   } catch {
     // Stay open: showCopyFallback unhides and focuses an input that lives
     // inside this dialog — closing first would make it invisible.
     ctx.showCopyFallback(text);
-    ctx.announce(
-      `No se pudo copiar automáticamente. Correo seleccionado: ${text}`,
-    );
+    ctx.announce(copyFallback(text));
   }
 }
 
@@ -54,7 +58,7 @@ async function perform(
       const toggle = document.getElementById("theme-toggle");
       if (toggle instanceof HTMLElement) toggle.click();
       ctx.close();
-      ctx.announce("Tema actualizado.");
+      ctx.announce(THEME_UPDATED);
       break;
     }
     case "copy":
@@ -73,6 +77,6 @@ export async function runAction(
     await perform(command, ctx);
   } catch (error) {
     console.error(error);
-    ctx.announce("No se pudo ejecutar el comando.");
+    ctx.announce(ACTION_FAILED);
   }
 }
