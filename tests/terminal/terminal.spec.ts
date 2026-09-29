@@ -38,14 +38,15 @@ test.describe("MU-TH-UR terminal — composing a transmission", () => {
     "submitting navigates to the composed mailto URL, exposes it via a visible fallback link, and announces it",
     { tag: ["@critical", "@terminal", "@TERMINAL-003"] },
     async ({ page, browserName }) => {
-      // Only Chromium reports a script-initiated mailto: navigation as a
-      // request; elsewhere this would hang instead of asserting. The built
-      // URL stays covered on every browser through the visible fallback
+      // Guard first, before any page work: the navigation assertion below
+      // relies on Chromium-only behavior and would hang elsewhere. The
+      // built URL stays covered on every browser through the fallback
       // link's href (here and in TERMINAL-004).
       test.skip(
         browserName !== "chromium",
         "only Chromium surfaces a mailto: navigation as a request",
       );
+
       const terminal = new TerminalPage(page);
       await terminal.goto();
 
@@ -53,11 +54,11 @@ test.describe("MU-TH-UR terminal — composing a transmission", () => {
         "mailto:dreamcoder.dev08%40gmail.com?subject=Prueba%20desde%20e2e&body=Hola%2C%20este%20es%20un%20mensaje%20de%20prueba.";
       await terminal.subjectInput.fill("Prueba desde e2e");
       await terminal.bodyInput.fill("Hola, este es un mensaje de prueba.");
-      // Chromium reports a script-initiated mailto: navigation as a request
-      // (it never commits — the OS protocol handler would take it), so this
-      // observes the real `location.href` assignment with no test-only seam
-      // shipped in the component. Filtering on "mailto:" keeps the fallback
-      // link's href (an attribute, not a navigation) from satisfying it.
+      // Chromium reports the script-initiated mailto: navigation as a
+      // request that never commits (the OS protocol handler would take it),
+      // so this observes the real `location.href` assignment with no
+      // test-only seam in the component. Filtering on "mailto:" keeps the
+      // fallback link's href (an attribute, not a navigation) out of it.
       const navigation = page.waitForRequest(
         (request) => request.url().startsWith("mailto:"),
         { timeout: 10_000 },
