@@ -29,7 +29,6 @@ const median = (values) => {
   const mid = sorted.length >> 1;
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 };
-[...values].sort((a, b) => a - b)[values.length >> 1];
 const pick = (read) => median(reports.map(read));
 
 const rows = [
