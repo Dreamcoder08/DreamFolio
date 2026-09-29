@@ -14,10 +14,11 @@ Astro static shell  (output: 'static', zero islands)
 ├── Typed content               src/content.config.ts over src/data/projects.json
 ├── Presentation helpers        src/lib/{site,icons,project-presentation,project-case-studies}.ts
 ├── Build helpers               src/lib/{analytics,astro-mode}.ts
-└── Styles                      src/styles/global.css (Tailwind 4 @theme tokens) · portfolio.css
+└── Styles                      src/styles/ — global.css and portfolio.css are ordered @import lists
+                                (global/ tokens and modes, portfolio/ sections), plus base.css, tokens/, components/
 ```
 
-There is no `src/components/sections/` directory, and no `.tsx` file.
+Homepage sections live in `src/components/sections/`; there is no `.tsx` file.
 
 ## Quality rules
 
@@ -36,3 +37,4 @@ There is no `src/components/sections/` directory, and no `.tsx` file.
 - [Component catalog](./components/README.md)
 - [Library helpers](./lib/README.md)
 - [Getting started](./guides/getting-started.md)
+- [Best practices](./guides/best-practices/README.md)

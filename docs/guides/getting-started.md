@@ -174,7 +174,7 @@ Verifica que Vercel use `pnpm install` y `pnpm build`, como está definido en `v
 
 ## 📚 Próximos Pasos
 
-- [Mejores Prácticas](./best-practices.md) - Convenciones del stack real
+- [Mejores Prácticas](./best-practices/README.md) - Convenciones del stack real, por tema
 - [Arquitectura](../architecture/README.md) - Decisiones técnicas
 - [Componentes](../components/README.md) - Catálogo de UI
 - [Helpers de librería](../lib/README.md) - Qué hay en `src/lib/`
