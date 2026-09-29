@@ -6,6 +6,16 @@
 # freeze_min, ...) is read, by safe-run.sh.
 # shellcheck shell=bash disable=SC2154,SC2034
 
+# How far back rose_fast looks (ms): ~1 s, plus slack so a 1 s poll still
+# sees its previous reading.
+readonly RISE_WINDOW_MS=1250
+# A rise this large (m°C) within RISE_WINDOW_MS pauses before PAUSE.
+readonly RISE_DELTA=8000
+# A freeze that cooled the zone this much (m°C) marks it load-related: no grace.
+readonly FALL_DELTA=2000
+# Exit status when the hard ceiling never clears (sysexits.h EX_TEMPFAIL).
+readonly EX_TEMPFAIL=75
+
 is_uint() { [[ "$1" =~ ^[0-9]+$ ]]; }
 
 die_config() {
@@ -25,6 +35,7 @@ validate_config() {
   check_uint SAFE_TEMP_HARD "$hard_at"
   check_uint SAFE_MAX_FREEZE "$max_freeze"
   check_uint SAFE_GRACE "$grace"
+  check_uint SAFE_HARD_ABORT "$hard_abort"
   [ "$pause_at" -gt "$resume_at" ] ||
     die_config "SAFE_TEMP_PAUSE ($pause_at) must be greater than SAFE_TEMP_RESUME ($resume_at)"
   [ "$hard_at" -gt "$pause_at" ] ||
@@ -33,6 +44,8 @@ validate_config() {
     die_config "SAFE_POLL must be a positive number of seconds (got '$poll')"
   [ "$max_freeze" -ge 1 ] ||
     die_config "SAFE_MAX_FREEZE must be at least 1 second (got '$max_freeze')"
+  [ "$hard_abort" -ge 1 ] ||
+    die_config "SAFE_HARD_ABORT must be at least 1 second (got '$hard_abort')"
 }
 
 # Sets $temp to the hottest readable zone in millidegrees, or to "".
@@ -64,21 +77,20 @@ tick_clock() {
   now_ms=$((us / 1000))
 }
 
-# The last ~1 s of readings. The window is 1.25 s so that even a 1 s poll
-# still compares against its previous reading; rose_fast then means "8 °C
+# The readings of the last RISE_WINDOW_MS, so rose_fast means "RISE_DELTA
 # within about a second" at any SAFE_POLL.
 hist_ms=() hist_temp=()
 remember_reading() {
   [ -n "$temp" ] || return 0
   hist_ms+=("$now_ms") hist_temp+=("$temp")
-  while [ $((now_ms - hist_ms[0])) -gt 1250 ]; do
+  while [ $((now_ms - hist_ms[0])) -gt "$RISE_WINDOW_MS" ]; do
     hist_ms=("${hist_ms[@]:1}") hist_temp=("${hist_temp[@]:1}")
   done
 }
 rose_fast() {
   local old
   for old in "${hist_temp[@]}"; do
-    [ $((temp - old)) -ge 8000 ] && return 0
+    [ $((temp - old)) -ge "$RISE_DELTA" ] && return 0
   done
   return 1
 }
@@ -87,7 +99,7 @@ rose_fast() {
 # retries every poll, and a message per tick would bury the output.
 freeze_scope() {
   if systemctl --user freeze "$unit" >/dev/null 2>&1; then
-    frozen=1 frozen_since=$now_ms freeze_temp=$temp freeze_min=$temp
+    frozen=1 frozen_since=$now_ms freeze_temp=$temp freeze_min=$temp hard_since=0
     pauses=$((pauses + 1)) freeze_fails=0
     echo "safe-run: ${temp} m°C${1:+ ($1)} — paused until below ${resume_at}" >&2
   else
@@ -104,4 +116,23 @@ thaw_scope() {
     echo "safe-run: systemctl --user thaw failed — still paused, retrying" >&2
     thaw_warned=1
   fi
+}
+
+# Fail closed, but never hang the caller: while frozen, a reading that stays
+# at or above SAFE_TEMP_HARD for SAFE_HARD_ABORT seconds straight kills the
+# scope without ever thawing it, and safe-run exits EX_TEMPFAIL.
+check_hard_abort() {
+  if [ "$temp" -lt "$hard_at" ]; then
+    hard_since=0
+    return 0
+  fi
+  [ "$hard_since" != 0 ] || hard_since=$now_ms
+  [ $((now_ms - hard_since)) -ge $((hard_abort * 1000)) ] || return 0
+  aborted=1
+  disown "$child" 2>/dev/null || true # no "Killed" job notice from bash
+  # SIGKILL reaches frozen tasks, so the scope dies without running again.
+  systemctl --user kill --signal=KILL "$unit" >/dev/null 2>&1 || true
+  systemctl --user stop "$unit" >/dev/null 2>&1 || true
+  echo "safe-run: thermal guard: temperature stayed ≥ hard ceiling for ${hard_abort} s; command aborted" >&2
+  exit "$EX_TEMPFAIL"
 }

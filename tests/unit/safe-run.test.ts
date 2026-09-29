@@ -80,6 +80,8 @@ test("invalid settings exit 2 with a clear message, never run unguarded", () => 
     [{ SAFE_POLL: "0" }, /SAFE_POLL must be a positive number/],
     [{ SAFE_POLL: "-0.5" }, /SAFE_POLL/],
     [{ SAFE_POLL: "fast" }, /SAFE_POLL/],
+    [{ SAFE_HARD_ABORT: "0" }, /SAFE_HARD_ABORT must be at least 1/],
+    [{ SAFE_HARD_ABORT: "abc" }, /SAFE_HARD_ABORT/],
   ];
   for (const [env, message] of cases) {
     const result = spawnSync("bash", [SCRIPT, "true"], {

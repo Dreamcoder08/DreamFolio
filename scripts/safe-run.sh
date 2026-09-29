@@ -18,15 +18,18 @@
 # run forever. After SAFE_MAX_FREEZE the scope thaws anyway; if the reading
 # did not fall by 2 °C while frozen (not load-related), a SAFE_GRACE window
 # follows in which only SAFE_TEMP_HARD re-freezes, so the run always makes
-# progress. At or above SAFE_TEMP_HARD there is no forced thaw and no grace.
+# progress. At or above SAFE_TEMP_HARD there is no forced thaw and no grace;
+# it fails closed but never hangs the caller: SAFE_HARD_ABORT seconds frozen
+# at or above HARD kills the scope (never thawed) and exits 75 (EX_TEMPFAIL).
 #
 # Usage: scripts/safe-run.sh <command...>
 #   SAFE_MEM (3G), SAFE_CPU (100%; builds take longer, 200% restores two
 #   cores), SAFE_THERMAL_GLOB (/sys/class/thermal/thermal_zone*/temp).
 #   Millidegrees: SAFE_TEMP_PAUSE (80000), SAFE_TEMP_RESUME (70000),
 #   SAFE_TEMP_HARD (85000). Seconds: SAFE_POLL (0.25), SAFE_MAX_FREEZE (180),
-#   SAFE_GRACE (60), all wall-clock. Falls back to plain `nice` where a user
+#   SAFE_GRACE (60), SAFE_HARD_ABORT (600), all wall-clock. Falls back to plain `nice` where a user
 #   systemd manager is unavailable (CI, SSH).
+# shellcheck disable=SC2329 # on_signal and on_exit run from traps
 set -euo pipefail
 # shellcheck source-path=SCRIPTDIR source=lib/safe-run-lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/safe-run-lib.sh"
@@ -39,6 +42,7 @@ hard_at="${SAFE_TEMP_HARD:-85000}"
 max_freeze="${SAFE_MAX_FREEZE:-180}"
 grace="${SAFE_GRACE:-60}"
 poll="${SAFE_POLL:-0.25}"
+hard_abort="${SAFE_HARD_ABORT:-600}"
 thermal_glob="${SAFE_THERMAL_GLOB:-/sys/class/thermal/thermal_zone*/temp}"
 props=(-p MemoryMax="$mem" -p MemorySwapMax=0 -p CPUQuota="$cpu")
 validate_config
@@ -53,7 +57,7 @@ fi
 unit="safe-run-$$-$RANDOM.scope"
 systemd-run --user --scope --quiet --unit="$unit" "${props[@]}" \
   nice -n 10 "$@" &
-child=$!
+child=$! aborted=0
 
 # A signal must stop the whole scope, not just $child: $child is only the
 # systemd-run wrapper, it runs as a background job of this non-interactive
@@ -70,11 +74,12 @@ trap 'on_signal 2' INT
 trap 'on_signal 15' TERM
 
 # Fires on a normal finish, a `set -e` failure, or on_signal's `exit`.
-# Always thaw; stop the unit only if it's somehow still around — the normal
-# path below already waited for it, and on_signal already stopped it.
+# Thaw unless a hard-ceiling abort (which must never run the command again);
+# stop the unit only if it's somehow still around — the normal path below
+# already waited for it, and on_signal / check_hard_abort already stopped it.
 on_exit() {
   local status=$?
-  systemctl --user thaw "$unit" >/dev/null 2>&1 || true
+  [ "$aborted" = 1 ] || systemctl --user thaw "$unit" >/dev/null 2>&1 || true
   systemctl --user is-active --quiet "$unit" 2>/dev/null &&
     systemctl --user stop "$unit" >/dev/null 2>&1
   exit "$status"
@@ -82,7 +87,7 @@ on_exit() {
 trap on_exit EXIT
 
 frozen=0 frozen_since=0 freeze_temp=0 freeze_min=0 pauses=0
-freeze_fails=0 thaw_warned=0 grace_until=0
+freeze_fails=0 thaw_warned=0 grace_until=0 hard_since=0
 
 while kill -0 "$child" 2>/dev/null; do
   read_hottest
@@ -93,10 +98,11 @@ while kill -0 "$child" 2>/dev/null; do
     thaw_scope "thermal sensors unreadable while paused — resuming (fail open)"
   elif [ "$frozen" = 1 ]; then
     [ "$temp" -lt "$freeze_min" ] && freeze_min=$temp
+    check_hard_abort
     if [ "$temp" -le "$resume_at" ]; then
       thaw_scope "${temp} m°C — resumed"
     elif [ "$temp" -lt "$hard_at" ] && [ $((now_ms - frozen_since)) -ge $((max_freeze * 1000)) ]; then
-      if [ $((freeze_temp - freeze_min)) -ge 2000 ]; then
+      if [ $((freeze_temp - freeze_min)) -ge "$FALL_DELTA" ]; then
         # Load-related zone: resume, and let PAUSE re-freeze it as usual.
         thaw_scope "paused over ${max_freeze}s at ${temp} m°C — resuming anyway"
       else

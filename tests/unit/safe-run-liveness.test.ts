@@ -8,6 +8,7 @@ import {
   exitOf,
   hasExited,
   killAndWait,
+  listSafeRunUnits,
   skip,
   sleep,
   spawnSafeRun,
@@ -18,8 +19,9 @@ import {
 /**
  * Liveness of the thermal watchdog (issue #61): a stuck-hot zone must not
  * pause a run forever, yet a zone at the hard ceiling must keep it frozen,
- * a fast rise below PAUSE must pause early, and a failing thaw must warn
- * once instead of every tick. All against a fake zone file, never real
+ * unless it stays there past SAFE_HARD_ABORT (then abort with 75), a fast
+ * rise below PAUSE must pause early, and a failing thaw must warn once
+ * instead of every tick. All against a fake zone file, never real
  * hardware; every test needs a real user systemd manager and skips without.
  */
 
@@ -88,7 +90,7 @@ test(
       });
       try {
         await waitUntil(() => /paused until/.test(out.text), 5_000, "pause");
-        writeFileSync(zone, "83000"); // fell 3 °C: load-related, still hot
+        writeFileSync(zone, "83000"); // cooled past the fall check: load-related, still hot
         await waitUntil(
           () => count(out.text, /paused until below/g) === 2,
           8_000,
@@ -125,6 +127,37 @@ test(
     }),
 );
 
+test(
+  "a zone stuck at the hard ceiling aborts with 75 after SAFE_HARD_ABORT",
+  { skip },
+  () =>
+    withZone("90000", async (zone) => {
+      const { child, out } = spawnSafeRun(["sleep", "60"], {
+        ...THRESHOLDS,
+        SAFE_HARD_ABORT: "2",
+        SAFE_THERMAL_GLOB: zone,
+      });
+      const ownUnit = `safe-run-${child.pid}-*.scope`;
+      try {
+        // Abort window (2 s) + a couple of 1 s polls, far below `sleep 60`.
+        const code = await Promise.race([exitOf(child), sleep(10_000)]);
+        assert.equal(code, 75, `expected EX_TEMPFAIL:\n${out.text}`);
+        assert.match(
+          out.text,
+          /thermal guard: temperature stayed ≥ hard ceiling for 2 s; command aborted/,
+        );
+        assert.doesNotMatch(out.text, /resum/, "must never thaw first");
+        await waitUntil(
+          () => listSafeRunUnits(ownUnit).length === 0,
+          5_000,
+          "the aborted scope to be gone",
+        );
+      } finally {
+        await killAndWait(child);
+      }
+    }),
+);
+
 test("a fast rise below PAUSE pauses early", { skip }, () =>
   withZone("71000", async (zone) => {
     const { child, out } = spawnSafeRun(["sleep", "30"], {
@@ -134,7 +167,7 @@ test("a fast rise below PAUSE pauses early", { skip }, () =>
     try {
       await sleep(2_500); // let the watchdog record a steady history
       assert.doesNotMatch(out.text, /paused/);
-      writeFileSync(zone, "79500"); // +8.5 °C, still below PAUSE
+      writeFileSync(zone, "79500"); // a jump past the rise guard, still below PAUSE
       await waitUntil(
         () => /79500 m°C \(rising fast\)/.test(out.text),
         4_000,
