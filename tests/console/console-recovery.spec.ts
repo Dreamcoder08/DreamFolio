@@ -2,12 +2,12 @@ import { test, expect, type Page } from "@playwright/test";
 import { HomePage } from "../home/home-page";
 import { ConsolePage } from "./console-page";
 import { ACTION_FAILED, LOAD_FAILED } from "../../src/lib/console/messages";
+import { RELOAD_FLAG } from "../../src/lib/console/chunk-recovery";
 
 // The lazily imported console chunk (src/lib/console/driver.ts, hashed by
 // the build). Aborting it is exactly what a stale chunk after a redeploy
 // looks like to the eager script: a rejected import().
 const DRIVER_CHUNK = "**/_astro/driver.*.js";
-const RELOAD_FLAG = "console-chunk-reload";
 
 function countMainFrameNavigations(page: Page): () => number {
   let count = 0;

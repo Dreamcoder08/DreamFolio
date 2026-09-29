@@ -3,7 +3,7 @@
  *  never caught in a reload loop: any failure to read or write the guard
  *  flag (storage unavailable, private mode, quota) is treated as "already
  *  tried," since that's the only way to keep the guarantee without it. */
-const RELOAD_FLAG = "console-chunk-reload";
+export const RELOAD_FLAG = "console-chunk-reload";
 
 export function shouldReload(): boolean {
   try {
