@@ -147,6 +147,9 @@ test("teardown is idempotent: a second run adds nothing and throws nothing", () 
   assert.deepEqual(stillAttached(targets), []);
 });
 
+/** Comfortably past the controller's pointer-idle timeout (220 ms). */
+const PAST_POINTER_IDLE_TIMEOUT_MS = 1000;
+
 test("teardown clears a pending pointer-idle timer", (t) => {
   t.mock.timers.enable({ apis: ["setTimeout"] });
   const { ctx, teardown, targets } = wire();
@@ -159,8 +162,7 @@ test("teardown clears a pending pointer-idle timer", (t) => {
   assert.equal(ctx.pointerTarget.strength, 1);
   teardown();
   // A cleared timer never fires: the strength would drop to 0 if it did.
-  // Tick well past the 220ms idle timeout on the mocked clock.
-  t.mock.timers.tick(1000);
+  t.mock.timers.tick(PAST_POINTER_IDLE_TIMEOUT_MS);
   assert.equal(ctx.pointerTarget.strength, 1);
 });
 
