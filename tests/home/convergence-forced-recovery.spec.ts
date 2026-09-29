@@ -4,6 +4,7 @@ import {
   MOUNT_SETTLE_TIMEOUT,
   hasDrawnNonBlankFrame,
   installForcedWebglProbes,
+  type NonBlankWindow,
 } from "./forced-webgl";
 
 /**
@@ -13,7 +14,7 @@ import {
  * and probes live in `./forced-webgl.ts`.
  */
 
-test.describe("Home — hero convergence field (forced WebGL, running path)", () => {
+test.describe("Home — hero convergence field (forced WebGL, context loss and recovery)", () => {
   installForcedWebglProbes();
 
   test(
@@ -50,9 +51,7 @@ test.describe("Home — hero convergence field (forced WebGL, running path)", ()
         const ext = gl.getExtension("WEBGL_lose_context");
         ext?.loseContext();
         await new Promise((resolve) => setTimeout(resolve, 200));
-        (
-          window as unknown as { __convergenceNonBlank?: boolean }
-        ).__convergenceNonBlank = false;
+        (window as unknown as NonBlankWindow).__convergenceNonBlank = false;
         ext?.restoreContext();
       });
 
