@@ -43,10 +43,5 @@
       "max": 200
     }
   ],
-  "allowlist": [
-    {
-      "path": "src/styles/global.css",
-      "ceiling": 302
-    }
-  ]
+  "allowlist": []
 }

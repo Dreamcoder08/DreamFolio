@@ -1,7 +1,9 @@
 // The parsed `--color-*` token maps of both themes, shared by the token
-// contract tests. Reads the `@theme` block and the `--color-*`-declaring
-// `[data-theme="light"]` block — never the second light block that only sets
-// `color-scheme`, which a naive regex would pick up.
+// contract tests. Reads the `@theme` block and the `[data-theme="light"]`
+// block that each *declare* `--color-surface:` — never the light block that
+// only sets `color-scheme`, nor the --terminal-* token partial's own
+// `@theme`/light blocks (inlined from tokens/components.css), which only
+// reference `var(--color-*)`.
 import { blocks } from "./css-parsing.ts";
 import { GLOBAL } from "./stylesheets.ts";
 
@@ -15,11 +17,23 @@ function tokens(css: string): Map<string, string> {
   return map;
 }
 
-export const dark = tokens(blocks(GLOBAL, /@theme\s*\{/g)[0]);
+const declaresPalette = (block: string) => block.includes("--color-surface:");
+
+// A missing palette block (a partial renamed or dropped) must fail loudly here,
+// not become an empty map that makes every token contract look like it lost keys.
+function paletteBlock(pattern: RegExp, label: string): string {
+  const block = blocks(GLOBAL, pattern).find(declaresPalette);
+  if (block === undefined) {
+    throw new Error(
+      `no ${label} block declares --color-surface in global.css or its imports`,
+    );
+  }
+  return block;
+}
+
+export const dark = tokens(paletteBlock(/@theme\s*\{/g, "dark (@theme)"));
 export const light = tokens(
-  blocks(GLOBAL, /\[data-theme="light"\]\s*\{/g).find((b) =>
-    b.includes("--color-"),
-  ) ?? "",
+  paletteBlock(/\[data-theme="light"\]\s*\{/g, "light ([data-theme=light])"),
 );
 
 export const KEYS =

@@ -1,0 +1,85 @@
+/* ============================================
+   DreamFolio Design System — Senior Architect
+   Tokens · Typography · Spacing · Components
+   ============================================ */
+
+@theme {
+  /* ---- SURFACES ---- */
+  --color-surface: #000000;
+  --color-surface-alt: #0d0d10;
+  --color-surface-elevated: #17171c;
+  --color-surface-hover: #1e1e24;
+  --color-surface-active: #26262e;
+
+  /* ---- TEXT ---- */
+  --color-text: #ededeb;
+  --color-text-secondary: #b7b8b3;
+  --color-text-tertiary: #7f7f7a;
+
+  /* ---- ACCENTS ---- */
+  --color-accent: #ff7a18;
+  --color-accent-muted: rgba(255, 122, 24, 0.08);
+  --color-accent-hover: #ff8f42;
+  --color-accent-active: #ffa25e;
+  --color-on-accent: #0a0a0a;
+
+  /* ---- BORDERS ---- */
+  --color-border: rgba(255, 255, 255, 0.16);
+  --color-border-strong: rgba(255, 255, 255, 0.28);
+  --color-border-interactive: rgba(255, 255, 255, 0.4);
+  --color-border-interactive-hover: rgba(255, 255, 255, 0.56);
+
+  /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
+  --color-focus: #ff7a18;
+  --color-on-focus: #0a0a0a;
+
+  /* ---- SEMANTIC ---- */
+  --color-danger: #ff6b6b;
+  --color-on-danger: #0a0a0a;
+
+  /* ---- TYPOGRAPHY ---- */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* ---- SPACING SCALE ---- */
+  --space-section: clamp(4rem, 10vw, 8rem);
+  --space-container: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* ---- FLUID TYPOGRAPHY ---- */
+  --text-h1: clamp(2.4rem, 6vw, 5rem);
+  --text-h2: clamp(1.8rem, 3.5vw, 3rem);
+  --text-h3: clamp(1.25rem, 2vw, 1.75rem);
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-xs: 0.75rem;
+
+  /* ---- RADIUS SCALE (also generates Tailwind `rounded-*`) ---- */
+  --radius-sharp: 2px;
+  --radius-thumb: 3px;
+  --radius-control: 0.5rem;
+  --radius-panel: 1rem;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+  --radius-arch: 48% 48% 8px 8px;
+
+  /* ---- MOTION (one system; portfolio.css aliases resolve from here) ---- */
+  --motion-none: 0s;
+  --motion-fast: 180ms;
+  --motion-image: 350ms;
+  --motion-reveal: 640ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-stagger: 80ms;
+  --motion-hero-step: 90ms;
+  /* Cross-document view transition (phase 2, T1): a fast wipe, quicker than
+     --motion-reveal since it gates a navigation the visitor is waiting on,
+     slower than --motion-fast since it is the whole viewport, not a hover. */
+  --motion-transition: 440ms;
+
+  /* ---- SHADOWS (also generates Tailwind `shadow-*`) ---- */
+  --shadow-edge: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-profile: 0 34px 80px #0003;
+  --shadow-profile-dark:
+    0 34px 80px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-image: 0 24px 48px #0006;
+  --shadow-inset-ring: inset 0 0 0 1px #fff2;
+}

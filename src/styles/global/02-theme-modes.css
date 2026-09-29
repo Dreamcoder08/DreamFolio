@@ -1,0 +1,32 @@
+/* ---- LIGHT MODE (unlayered: it must keep beating the layered `@theme`) ---- */
+[data-theme="light"] {
+  --color-surface: #f3eadc;
+  --color-surface-alt: #fff7ea;
+  --color-surface-elevated: #fffdf6;
+  --color-surface-hover: #fbf6ec;
+  --color-surface-active: #fffdf8;
+  --color-text: #17120d;
+  --color-text-secondary: #6b5947;
+  --color-text-tertiary: #746555;
+  --color-accent: #8a4e26;
+  --color-accent-muted: rgba(138, 78, 38, 0.1);
+  --color-accent-hover: #7a4522;
+  --color-accent-active: #6b3c1c;
+  --color-on-accent: #fff7ea;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-strong: rgba(0, 0, 0, 0.22);
+  --color-border-interactive: rgba(0, 0, 0, 0.18);
+  --color-border-interactive-hover: rgba(0, 0, 0, 0.3);
+  --color-focus: #8a4e26;
+  --color-on-focus: #fff7ea;
+  --color-danger: #b3261e;
+  --color-on-danger: #fff7ea;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}

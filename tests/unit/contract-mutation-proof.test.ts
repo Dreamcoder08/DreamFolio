@@ -4,7 +4,6 @@ import { spawnSync } from "node:child_process";
 import {
   mkdirSync,
   mkdtempSync,
-  readdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -12,6 +11,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { walk } from "./support/fs-tree.ts";
 
 /**
  * Mutation proof for the two static contracts.
@@ -42,35 +42,22 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 
-/** The stylesheets both contracts read, so the temp tree has to carry all
- *  of them. transition-contract reads them indirectly, through the shared
- *  support module, which loads every SHEETS-listed file at module-evaluation
- *  time regardless of which export a checker imports. src/styles/portfolio.css is now
- *  only an ordered `@import` list; portfolioPartials() below discovers the
- *  actual partials it pulls in and copies those alongside it. */
-const SHEETS = [
-  "src/styles/global.css",
-  "src/styles/base.css",
-  "src/styles/portfolio.css",
-  "src/styles/components/console.css",
-  "src/styles/components/terminal.css",
-] as const;
-
-const PORTFOLIO_PARTIALS_DIR = "src/styles/portfolio";
-
-/** Every partial under src/styles/portfolio/, discovered at test time so this
- *  list can never drift from the real split the way a hardcoded filename
- *  list would. */
-function portfolioPartials(): readonly string[] {
-  return readdirSync(join(ROOT, PORTFOLIO_PARTIALS_DIR))
-    .filter((name) => name.endsWith(".css"))
-    .map((name) => `${PORTFOLIO_PARTIALS_DIR}/${name}`);
+/** Every stylesheet under src/styles/, discovered at test time. Both
+ *  contracts read their sheets through css-imports.ts, which follows each
+ *  entry point's `@import` chain (global.css and portfolio.css are ordered
+ *  lists of partials), so the temp tree has to carry the whole directory.
+ *  Walking it means this list can never drift from the real split the way a
+ *  hardcoded filename list would. transition-contract reads them indirectly,
+ *  through the shared support module, which loads every sheet at
+ *  module-evaluation time regardless of which export a checker imports. */
+function stylesheets(): readonly string[] {
+  return walk("src/styles").filter((path) => path.endsWith(".css"));
 }
 
-/** Same-repo modules a checker imports beyond SHEETS/itself. transition-
- *  contract.test.ts reads GLOBAL/PORTFOLIO from the shared support module
- *  instead of re-reading files itself; state-border-provenance.test.ts reads
- *  its scanner and portfolio.css's own `@import` chain through
+/** Same-repo modules a checker imports beyond the stylesheets and itself.
+ *  transition-contract.test.ts reads GLOBAL/PORTFOLIO from the shared support
+ *  module instead of re-reading files itself; state-border-provenance.test.ts
+ *  reads its scanner and both sheets' `@import` chains through
  *  state-border.ts, which in turn imports css-imports.ts and css-parsing.ts.
  *  Copying all of these for every checker is harmless and needs no
  *  per-guard field. */
@@ -121,7 +108,9 @@ const GUARDS: readonly Guard[] = [
   {
     name: "the transition contract rejects a reintroduced universal transition",
     checker: "tests/unit/transition-contract.test.ts",
-    sheet: "src/styles/global.css",
+    // global.css is now only `@import`s; inject into the partial that holds
+    // the reduced-motion guard, so the proof also covers the import chain.
+    sheet: "src/styles/global/04-reduced-motion.css",
     inject: (css) =>
       `${css}\n*, *::before, *::after { transition: opacity var(--motion-fast); }\n`,
     marker: "*::before",
@@ -141,7 +130,7 @@ function buildTree(
   const tree = mkdtempSync(join(tmpdir(), "contract-mutation-"));
   writeFileSync(join(tree, "package.json"), PACKAGE_JSON);
 
-  for (const rel of [...SHEETS, ...portfolioPartials()]) {
+  for (const rel of stylesheets()) {
     const target = join(tree, rel);
     mkdirSync(dirname(target), { recursive: true });
     const original = readFileSync(join(ROOT, rel), "utf8");
