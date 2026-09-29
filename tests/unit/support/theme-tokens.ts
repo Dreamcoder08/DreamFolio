@@ -19,11 +19,21 @@ function tokens(css: string): Map<string, string> {
 
 const declaresPalette = (block: string) => block.includes("--color-surface:");
 
-export const dark = tokens(
-  blocks(GLOBAL, /@theme\s*\{/g).find(declaresPalette) ?? "",
-);
+// A missing palette block (a partial renamed or dropped) must fail loudly here,
+// not become an empty map that makes every token contract look like it lost keys.
+function paletteBlock(pattern: RegExp, label: string): string {
+  const block = blocks(GLOBAL, pattern).find(declaresPalette);
+  if (block === undefined) {
+    throw new Error(
+      `no ${label} block declares --color-surface in global.css or its imports`,
+    );
+  }
+  return block;
+}
+
+export const dark = tokens(paletteBlock(/@theme\s*\{/g, "dark (@theme)"));
 export const light = tokens(
-  blocks(GLOBAL, /\[data-theme="light"\]\s*\{/g).find(declaresPalette) ?? "",
+  paletteBlock(/\[data-theme="light"\]\s*\{/g, "light ([data-theme=light])"),
 );
 
 export const KEYS =
