@@ -106,11 +106,7 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
   // Eager and tiny: detects the platform, reveals the trigger (hidden
   // without JS), and lazily loads the console on first use — same-origin
   // module, already allowed by script-src 'self'.
-  import {
-    clearReloadFlag,
-    shouldReload,
-  } from "../../lib/console/chunk-recovery.ts";
-  import { LOAD_FAILED, MOUNT_FAILED } from "../../lib/console/messages.ts";
+  import { createConsoleLoader } from "../../lib/console/loader.ts";
 
   (function setup() {
     const trigger = document.getElementById("console-trigger");
@@ -123,43 +119,16 @@ const commandsJson = JSON.stringify(commands).replace(/</g, "\\u003c");
     if (hint) hint.textContent = isApple ? "⌘K" : "Ctrl K";
     trigger.hidden = false;
 
-    let openConsole: (() => void) | null = null;
-
     const loadStatus = document.getElementById("console-load-status");
-    const reportLoad = (message: string): void => {
-      if (loadStatus) loadStatus.textContent = message;
-    };
-
-    // A stale hashed chunk (common right after a redeploy) makes this
-    // import() reject. One silent reload usually fixes it; a second
-    // failure fails visibly instead of looping. Only the import() is
-    // guarded: a mountConsole() throw is a bug a reload can't fix.
-    async function ensureLoaded(): Promise<(() => void) | null> {
-      if (openConsole) return openConsole;
-      let mod: typeof import("../../lib/console/driver.ts");
-      try {
-        mod = await import("../../lib/console/driver.ts");
-      } catch {
-        if (shouldReload()) {
-          window.location.reload();
-          return null;
-        }
-        reportLoad(LOAD_FAILED);
-        return null;
-      }
-      // The chunk arrived, so any stale-chunk episode is over: drop its
-      // error text and re-arm the one-time reload for a future redeploy.
-      clearReloadFlag();
-      reportLoad("");
-      try {
-        openConsole = mod.mountConsole();
-        return openConsole;
-      } catch (error) {
-        console.error(error);
-        reportLoad(MOUNT_FAILED);
-        return null;
-      }
-    }
+    // The literal import() stays here so the bundler still emits the driver
+    // as its own lazy chunk; failure handling lives in loader.ts.
+    const ensureLoaded = createConsoleLoader({
+      importDriver: () => import("../../lib/console/driver.ts"),
+      report: (message) => {
+        if (loadStatus) loadStatus.textContent = message;
+      },
+      reload: () => window.location.reload(),
+    });
 
     trigger.addEventListener("click", () => {
       void ensureLoaded().then((open) => open?.());

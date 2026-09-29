@@ -57,8 +57,10 @@ async function perform(
     case "theme": {
       const toggle = document.getElementById("theme-toggle");
       if (toggle instanceof HTMLElement) toggle.click();
-      ctx.close();
+      // Announce first: the live region lives inside the dialog, and a
+      // closed <dialog>'s content leaves the accessibility tree.
       ctx.announce(THEME_UPDATED);
+      ctx.close();
       break;
     }
     case "copy":

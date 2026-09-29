@@ -156,45 +156,45 @@ export function mountConsole(): () => void {
     if (dialog!.open) dialog!.close();
   }
 
-  input.addEventListener("input", () => render(input.value));
-  input.addEventListener("keydown", (event) => {
-    switch (event.key) {
-      case "ArrowDown":
+  // One shared signal: if wiring throws part-way, aborting it detaches what
+  // was already attached (and loader.ts never mounts again).
+  const wiring = new AbortController();
+  const { signal } = wiring;
+  const keyActions: Record<string, () => void> = {
+    ArrowDown: () => moveActive(1),
+    ArrowUp: () => moveActive(-1),
+    Home: () => moveToEdge("start"),
+    End: () => moveToEdge("end"),
+    Enter: execute,
+  };
+  try {
+    input.addEventListener("input", () => render(input.value), { signal });
+    input.addEventListener(
+      "keydown",
+      (event) => {
+        const run = keyActions[event.key];
+        if (!run) return;
         event.preventDefault();
-        moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        moveToEdge("start");
-        break;
-      case "End":
-        event.preventDefault();
-        moveToEdge("end");
-        break;
-      case "Enter":
-        event.preventDefault();
-        execute();
-        break;
-      default:
-        break;
-    }
-  });
-
-  // <dialog> already closes on Esc and dispatches "close"; only focus
-  // restore is left to do here.
-  dialog.addEventListener("close", () => {
-    if (returnFocusTo) returnFocusTo.focus();
-  });
-
-  // No built-in "click backdrop to dismiss" — target === dialog means the
-  // click landed on the backdrop, since the panel is a child element.
-  dialog.addEventListener("click", (event) => {
-    if (event.target === dialog) close();
-  });
+        run();
+      },
+      { signal },
+    );
+    // <dialog> already closes on Esc and dispatches "close"; only focus
+    // restore is left to do here.
+    dialog.addEventListener("close", () => returnFocusTo?.focus(), { signal });
+    // No built-in "click backdrop to dismiss" — target === dialog means the
+    // click landed on the backdrop, since the panel is a child element.
+    dialog.addEventListener(
+      "click",
+      (event) => {
+        if (event.target === dialog) close();
+      },
+      { signal },
+    );
+  } catch (error) {
+    wiring.abort();
+    throw error;
+  }
 
   return open;
 }
