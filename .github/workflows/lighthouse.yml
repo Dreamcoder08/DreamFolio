@@ -6,6 +6,9 @@ name: Lighthouse
 # workflow is the reference measurement. Median of three runs on the first
 # clean-runner build: performance 96, FCP 1.4 s, LCP 2.7 s, TBT 0 ms, CLS
 # 0.002, accessibility / best-practices / SEO 100 — the budgets sit under that.
+# Category scores and CLS/TBT fail the job. LCP only warns: it is the noisiest
+# metric on shared runners (network and CPU contention), and the performance
+# score already weights it, so a real LCP regression still trips the 0.9 floor.
 on:
   pull_request:
     paths:

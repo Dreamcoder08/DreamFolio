@@ -4,10 +4,16 @@
 // prints assertion failures, so a passing run would otherwise show no numbers.
 //
 // Usage: node scripts/lighthouse-summary.mjs [reportsDir]
-import { appendFileSync, readdirSync, readFileSync } from "node:fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const dir = process.argv[2] ?? "lighthouse-reports";
+if (!existsSync(dir)) {
+  console.error(
+    `No reports folder ${dir}: lhci failed before writing anything`,
+  );
+  process.exit(1);
+}
 const reports = readdirSync(dir)
   .filter((name) => /\.report\.json$/.test(name))
   .map((name) => JSON.parse(readFileSync(join(dir, name), "utf8")));
@@ -17,8 +23,13 @@ if (reports.length === 0) {
   process.exit(1);
 }
 
-const median = (values) =>
-  [...values].sort((a, b) => a - b)[values.length >> 1];
+// True median: the mean of the two middle values for an even number of runs.
+const median = (values) => {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = sorted.length >> 1;
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+};
+[...values].sort((a, b) => a - b)[values.length >> 1];
 const pick = (read) => median(reports.map(read));
 
 const rows = [
