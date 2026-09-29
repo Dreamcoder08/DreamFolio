@@ -1,30 +1,20 @@
-import { test } from "node:test";
+import { afterEach, test } from "node:test";
 import assert from "node:assert/strict";
 import type { MountContext } from "../../src/lib/convergence/controller-context.ts";
 import { createScheduler } from "../../src/lib/convergence/controller-scheduler.ts";
+import { installFakeFrames as installSharedFakeFrames } from "./support/fake-globals.ts";
 
-type FrameCallback = (now: number) => void;
-
-/** Fake rAF queue plus a minimal window, installed on globalThis. */
+/** Each test installs its own fake frames; the hook always restores them. */
+let restoreFrames: (() => void) | undefined;
 function installFakeFrames() {
-  const queue = new Map<number, FrameCallback>();
-  let nextId = 1;
-  const g = globalThis as Record<string, unknown>;
-  g.window = { scrollY: 0, innerHeight: 800 };
-  g.requestAnimationFrame = (cb: FrameCallback) => {
-    queue.set(nextId, cb);
-    return nextId++;
-  };
-  g.cancelAnimationFrame = (id: number) => queue.delete(id);
-  return {
-    queue,
-    flush(now: number) {
-      const pending = [...queue.values()];
-      queue.clear();
-      for (const cb of pending) cb(now);
-    },
-  };
+  const frames = installSharedFakeFrames();
+  restoreFrames = frames.restore;
+  return frames;
 }
+afterEach(() => {
+  restoreFrames?.();
+  restoreFrames = undefined;
+});
 
 function fakeContext(reducedMotion = false) {
   const renders: { progress: number; time: number }[] = [];
@@ -133,4 +123,11 @@ test("a disposed mount never schedules another frame", () => {
   scheduler.requestFrame();
   assert.equal(frames.queue.size, 0);
   assert.equal(ctx.canvas.dataset.state, "idle");
+});
+
+test("the fake frame globals do not outlive the test that installed them", () => {
+  const g = globalThis as Record<string, unknown>;
+  assert.equal(g.window, undefined);
+  assert.equal(g.requestAnimationFrame, undefined);
+  assert.equal(g.cancelAnimationFrame, undefined);
 });

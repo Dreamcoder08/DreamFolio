@@ -1,9 +1,10 @@
-import { test } from "node:test";
+import { afterEach, test } from "node:test";
 import assert from "node:assert/strict";
 import {
   clearReloadFlag,
   shouldReload,
 } from "../../src/lib/console/chunk-recovery.ts";
+import { installGlobals } from "./support/fake-globals.ts";
 
 interface MinimalStorage {
   getItem(key: string): string | null;
@@ -11,9 +12,14 @@ interface MinimalStorage {
   removeItem?(key: string): void;
 }
 
+let restoreStorage: (() => void) | undefined;
 function setSessionStorage(storage: MinimalStorage | undefined): void {
-  (globalThis as { sessionStorage?: MinimalStorage }).sessionStorage = storage;
+  restoreStorage = installGlobals({ sessionStorage: storage });
 }
+afterEach(() => {
+  restoreStorage?.();
+  restoreStorage = undefined;
+});
 
 test("returns true the first time in a session, then false", () => {
   const store = new Map<string, string>();
