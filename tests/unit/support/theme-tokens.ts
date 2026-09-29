@@ -1,7 +1,9 @@
 // The parsed `--color-*` token maps of both themes, shared by the token
-// contract tests. Reads the `@theme` block and the `--color-*`-declaring
-// `[data-theme="light"]` block — never the second light block that only sets
-// `color-scheme`, which a naive regex would pick up.
+// contract tests. Reads the `@theme` block and the `[data-theme="light"]`
+// block that each *declare* `--color-surface:` — never the light block that
+// only sets `color-scheme`, nor the --terminal-* token partial's own
+// `@theme`/light blocks (inlined from tokens/components.css), which only
+// reference `var(--color-*)`.
 import { blocks } from "./css-parsing.ts";
 import { GLOBAL } from "./stylesheets.ts";
 
@@ -15,11 +17,13 @@ function tokens(css: string): Map<string, string> {
   return map;
 }
 
-export const dark = tokens(blocks(GLOBAL, /@theme\s*\{/g)[0]);
+const declaresPalette = (block: string) => block.includes("--color-surface:");
+
+export const dark = tokens(
+  blocks(GLOBAL, /@theme\s*\{/g).find(declaresPalette) ?? "",
+);
 export const light = tokens(
-  blocks(GLOBAL, /\[data-theme="light"\]\s*\{/g).find((b) =>
-    b.includes("--color-"),
-  ) ?? "",
+  blocks(GLOBAL, /\[data-theme="light"\]\s*\{/g).find(declaresPalette) ?? "",
 );
 
 export const KEYS =

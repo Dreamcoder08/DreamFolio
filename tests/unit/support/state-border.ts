@@ -1,4 +1,3 @@
-import { at } from "./css-parsing.ts";
 import { readCssInlined } from "./css-imports.ts";
 
 /**
@@ -119,7 +118,7 @@ export function ruleDeclarations(
 }
 
 export const PORTFOLIO = blind(readCssInlined("src/styles/portfolio.css"));
-export const GLOBAL = blind(at("src/styles/global.css"));
+export const GLOBAL = blind(readCssInlined("src/styles/global.css"));
 
 export const lineOf = (css: string, offset: number): number =>
   css.slice(0, offset).split("\n").length;

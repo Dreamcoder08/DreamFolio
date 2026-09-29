@@ -90,12 +90,12 @@ function declarations(body: string, names: Set<string>) {
   return out;
 }
 
-// GLOBAL/PORTFOLIO (global.css + base.css, and portfolio.css, comments
+// GLOBAL/PORTFOLIO (global.css and portfolio.css, imports inlined, comments
 // stripped) come from the shared support module so this file doesn't
 // re-read and re-strip the same sources the token/composition contracts
 // already load.
 const SHEETS = [
-  ["src/styles/global.css + base.css", GLOBAL],
+  ["src/styles/global.css (imports inlined)", GLOBAL],
   ["src/styles/portfolio.css", PORTFOLIO],
 ] as const;
 
