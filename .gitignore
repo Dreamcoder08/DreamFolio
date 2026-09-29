@@ -56,3 +56,4 @@ lighthouse-report.*
 # metadato Title, así que el patrón cubre cualquier export futuro.
 # La fuente mantenida es docs/anexo-capacidades.html, ya neutralizada.
 docs/*.pdf
+lighthouse-reports/
