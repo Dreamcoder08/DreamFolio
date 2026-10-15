@@ -1,5 +1,5 @@
 ---
-import { siteConfig, mailto, whatsapp } from "../../lib/site";
+import { siteConfig, mailto, whatsapp, withBase } from "../../lib/site";
 import Icon from "../ui/Icon.astro";
 import MuTerminal from "../ui/MuTerminal.astro";
 
@@ -56,6 +56,12 @@ const whatsappHref = whatsapp(
       <span>Correo</span>
       <a href={mailto("Contacto desde el portafolio")}>
         {siteConfig.contact.email}
+      </a>
+    </li>
+    <li>
+      <span>Agenda</span>
+      <a href={withBase("/dreamcoder.vcf")} download="dreamcoder.vcf">
+        Guardar contacto (.vcf)
       </a>
     </li>
   </ul>

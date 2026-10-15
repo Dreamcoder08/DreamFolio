@@ -75,3 +75,45 @@ test.describe("Contact — WhatsApp", () => {
     },
   );
 });
+
+test.describe("Contact — save contact and install", () => {
+  test(
+    "the .vcf link serves a vCard with the WhatsApp number and email",
+    { tag: ["@critical", "@contact", "@CONTACT-VCARD-001"] },
+    async ({ page, request }) => {
+      await new HomePage(page).goto();
+      const link = page.getByRole("link", { name: /Guardar contacto/ });
+      await expect(link).toHaveAttribute("download", "dreamcoder.vcf");
+      const href = await link.getAttribute("href");
+      const response = await request.get(href!);
+      expect(response.ok()).toBe(true);
+      const body = await response.text();
+      expect(body).toMatch(/^BEGIN:VCARD\r\n/);
+      expect(body).toContain("TEL;TYPE=CELL:+51926437404");
+      expect(body).toContain("EMAIL;TYPE=INTERNET:dreamcoder.dev08@gmail.com");
+    },
+  );
+
+  test(
+    "the web manifest and every icon it lists resolve",
+    { tag: ["@critical", "@seo", "@MANIFEST-001"] },
+    async ({ page, request }) => {
+      await new HomePage(page).goto();
+      const href = await page
+        .locator('link[rel="manifest"]')
+        .getAttribute("href");
+      const manifest = await (await request.get(href!)).json();
+      expect(manifest.short_name).toBe("Dreamcoder");
+      expect(manifest.icons.length).toBeGreaterThanOrEqual(3);
+      for (const icon of manifest.icons) {
+        const res = await request.get(icon.src);
+        expect(res.ok(), `${icon.src} must load`).toBe(true);
+        expect(res.headers()["content-type"]).toContain("image/png");
+      }
+      const touch = await page
+        .locator('link[rel="apple-touch-icon"]')
+        .getAttribute("href");
+      expect((await request.get(touch!)).ok()).toBe(true);
+    },
+  );
+});

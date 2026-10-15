@@ -31,6 +31,9 @@ User request (2026-10-15): "Crea ODD para que mi portafolio web profesional sea 
 - [x] T5 ⌘K console: "Escribir por WhatsApp" in Acciones (keywords whatsapp, wsp, chat, celular…); registry test updated.
 - [x] T6 SEO: JSON-LD `Person` gains `email`, `telephone`, `address.addressCountry: PE`, `contactPoint` (WhatsApp URL, es/en), `sameAs` GitHub + X + Instagram; `og:locale es_PE`.
 - [x] T7 E2E `tests/home/whatsapp.spec.ts`: button on `/`, `/projects/` and the 404 page with the right href/target/rel and accessible name; contact CTA order; inside the viewport with a 44px+ target at 320/390/1280px and no horizontal overflow; hidden while the console is open.
+- [x] T9 "Guardar contacto (.vcf)" in `#connect`: build-time vCard 3.0 (`src/lib/vcard.ts`, RFC 6350 escaping, CRLF) served at `/dreamcoder.vcf`; unit + e2e tested.
+- [x] T10 Web app manifest (`/manifest.webmanifest`) with 192/512 and maskable icons plus `apple-touch-icon`, so "add to home screen" shows the real mark instead of a screenshot; e2e checks every listed icon loads.
+- [x] T11 og:image tags describe the real file: `fiscal-workspace.jpg` is a PNG, so the old extension guess announced `image/jpeg`. `src/lib/image-meta.ts` reads type and size from the header (PNG/JPEG/WebP) and the layout now emits `og:image:type/width/height`; image alt text is Spanish on Spanish pages. JSON-LD and image helpers moved to `src/lib/seo.ts` to keep `BaseLayout` in budget.
 - [ ] T8 User-only: send yourself a message from the live site on a phone and on desktop (WhatsApp Web) and confirm the pre-filled text arrives.
 
 ## Next round (proposed, not started — needs content only the owner has)
