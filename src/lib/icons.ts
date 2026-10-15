@@ -24,6 +24,11 @@ export const icons = {
   // GitHub's conventional outline keeps its brand recognizable.
   github:
     '<path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-2.5c3.3-.4 6.8-1.6 6.8-7.3a5.7 5.7 0 0 0-1.6-4 5.3 5.3 0 0 0-.1-3.9S17.8.9 15 2.8a14 14 0 0 0-6 0C6.2.9 4.9 1.3 4.9 1.3a5.3 5.3 0 0 0-.1 3.9 5.7 5.7 0 0 0-1.6 4c0 5.7 3.5 6.9 6.8 7.3A3.5 3.5 0 0 0 9 19v3" transform="translate(1 1) scale(.9)"/>',
+  // WhatsApp's speech-bubble-with-handset outline, drawn on this grid.
+  whatsapp:
+    '<path d="M3.5 20.5 4.8 16A8.5 8.5 0 1 1 8 19.2Z"/><path d="M9 8.6c.2-.4.5-.5.8-.5h.5l1 2.2-.7.9a6 6 0 0 0 2.6 2.6l.9-.7 2.2 1v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.4.1a9 9 0 0 1-4.6-4.6c-.4-.9-.3-1.8.2-2.3Z"/>',
+  instagram:
+    '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
   x: '<path d="m4 4 12 16h4L8 4H4Zm16 0-7 8m-2 2-7 6"/>',
   mark: '<path d="m12 1 2 7 5-3-3 5 7 2-7 2 3 5-5-3-2 7-2-7-5 3 3-5-7-2 7-2-3-5 5 3 2-7Z" fill="currentColor" stroke="none"/><path d="m12 8 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" fill="var(--color-surface)" stroke="none"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M4.22 4.22l2.12 2.12m11.32 11.32 2.12 2.12M2 12h3m14 0h3M4.22 19.78l2.12-2.12m11.32-11.32 2.12-2.12"/>',

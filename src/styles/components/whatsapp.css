@@ -1,0 +1,83 @@
+/* Floating WhatsApp button (src/components/ui/WhatsAppButton.astro).
+   WhatsApp green is a brand cue, so it stays the same in both themes; the
+   dark ink on it keeps text and glyph above 4.5:1 (#25d366 vs #062a14). */
+:root {
+  /* Room the desktop HUD rail leaves at the bottom so its line and
+     readout never run under this button (see 22-scroll-narrative-hud.css). */
+  --rail-bottom-clearance: 96px;
+}
+.whatsapp-fab {
+  position: fixed;
+  z-index: 45;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  min-width: 56px;
+  height: 56px;
+  padding: 0 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #062a14;
+  background: #25d366;
+  border: 1px solid color-mix(in srgb, #062a14 18%, transparent);
+  box-shadow:
+    0 10px 30px -10px rgb(0 0 0 / 0.55),
+    0 0 0 0 rgb(37 211 102 / 0.45);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.whatsapp-fab-label {
+  display: none;
+}
+.whatsapp-fab:hover {
+  background: #2ee874;
+}
+.whatsapp-fab:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: 3px;
+}
+@media (min-width: 900px) {
+  .whatsapp-fab {
+    padding-inline: 16px 20px;
+  }
+  .whatsapp-fab-label {
+    display: inline;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .whatsapp-fab {
+    transition:
+      transform var(--motion-fast) var(--motion-ease),
+      background-color var(--motion-fast) var(--motion-ease);
+    animation: whatsapp-pulse 2.4s ease-out 1.2s 3;
+  }
+  .whatsapp-fab:hover {
+    transform: translateY(-2px);
+  }
+  @keyframes whatsapp-pulse {
+    to {
+      box-shadow:
+        0 10px 30px -10px rgb(0 0 0 / 0.55),
+        0 0 0 14px rgb(37 211 102 / 0);
+    }
+  }
+}
+/* The console dialog is modal; keep the button out of its way. */
+body:has(.ship-console[open]) .whatsapp-fab {
+  visibility: hidden;
+}
+@media (forced-colors: active) {
+  .whatsapp-fab {
+    border: 2px solid ButtonText;
+  }
+}
+@media print {
+  .whatsapp-fab {
+    display: none;
+  }
+}

@@ -1,7 +1,11 @@
 ---
-import { siteConfig, mailto } from "../../lib/site";
+import { siteConfig, mailto, whatsapp } from "../../lib/site";
 import Icon from "../ui/Icon.astro";
 import MuTerminal from "../ui/MuTerminal.astro";
+
+const whatsappHref = whatsapp(
+  "Hola Dreamcoder, vi tu portafolio y me gustaría conversar sobre un proyecto.",
+);
 ---
 
 <section id="connect" class="contact-section wrap" data-reveal>
@@ -20,17 +24,51 @@ import MuTerminal from "../ui/MuTerminal.astro";
       <br />
       productos con IA o colaboraciones técnicas.
     </p>
-    <a class="solid-link" href={mailto("Contacto desde el portafolio")}>
-      <Icon name="mail" size={20} /> Hablemos por correo{" "}
-      <Icon name="arrow" size={18} />
-    </a>
+    <div class="contact-actions">
+      <a
+        class="solid-link contact-whatsapp"
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-contact="whatsapp"
+      >
+        <Icon name="whatsapp" size={20} /> Escríbeme por WhatsApp{" "}
+        <Icon name="arrow" size={18} />
+      </a>
+      <a
+        class="solid-link contact-email"
+        href={mailto("Contacto desde el portafolio")}
+        data-contact="email"
+      >
+        <Icon name="mail" size={20} /> Hablemos por correo{" "}
+        <Icon name="arrow" size={18} />
+      </a>
+    </div>
   </div>
+  <ul class="contact-channels mono" aria-label="Datos de contacto">
+    <li>
+      <span>WhatsApp</span>
+      <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+        {siteConfig.contact.whatsappDisplay}
+      </a>
+    </li>
+    <li>
+      <span>Correo</span>
+      <a href={mailto("Contacto desde el portafolio")}>
+        {siteConfig.contact.email}
+      </a>
+    </li>
+  </ul>
   <div class="contact-social">
-    <a href={siteConfig.social.github}>
+    <a href={siteConfig.social.github} rel="me">
       <Icon name="github" size={18} /> GitHub <Icon name="arrow" size={15} />
     </a>
-    <a href={siteConfig.social.x}>
+    <a href={siteConfig.social.x} rel="me">
       <Icon name="x" size={17} /> X / Twitter <Icon name="arrow" size={15} />
+    </a>
+    <a href={siteConfig.social.instagram} rel="me">
+      <Icon name="instagram" size={17} /> Instagram{" "}
+      <Icon name="arrow" size={15} />
     </a>
   </div>
   <MuTerminal />

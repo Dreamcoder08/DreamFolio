@@ -1,0 +1,29 @@
+---
+// Floating click-to-chat button, mounted once in BaseLayout so it is
+// reachable from every page. A plain link: no script, no third-party
+// widget, nothing for the CSP to allow — wa.me opens the app on mobile
+// and WhatsApp Web on desktop.
+import { siteConfig, whatsapp } from "../../lib/site";
+import Icon from "./Icon.astro";
+import "../../styles/components/whatsapp.css";
+
+const href = whatsapp(
+  "Hola Dreamcoder, vi tu portafolio y me gustaría conversar.",
+);
+const label = `Escríbeme por WhatsApp (${siteConfig.contact.whatsappDisplay})`;
+---
+
+<a
+  class="whatsapp-fab"
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={label}
+  title={label}
+  data-whatsapp-fab
+>
+  <Icon name="whatsapp" size={26} />
+  <span class="whatsapp-fab-label" aria-hidden="true">
+    WhatsApp
+  </span>
+</a>

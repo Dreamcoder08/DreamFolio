@@ -1,3 +1,5 @@
+import { buildWhatsAppUrl } from "./whatsapp";
+
 export const siteConfig = {
   title: "Dreamcoder — Software, IA & sistemas",
   description:
@@ -6,6 +8,9 @@ export const siteConfig = {
   author: "Dreamcoder08",
   contact: {
     email: "dreamcoder.dev08@gmail.com",
+    // E.164 digits without "+", the form wa.me expects (Peru, +51).
+    whatsapp: "51926437404",
+    whatsappDisplay: "+51 926 437 404",
   },
   profile: {
     image: "/images/profile/dreamcoder-portrait.webp",
@@ -46,6 +51,11 @@ export function withBaseAsset(path: string): string {
 export function mailto(subject?: string): string {
   const base = `mailto:${siteConfig.contact.email}`;
   return subject ? `${base}?subject=${encodeURIComponent(subject)}` : base;
+}
+
+/** Click-to-chat link; `text` pre-fills the visitor's first message. */
+export function whatsapp(text?: string): string {
+  return buildWhatsAppUrl(siteConfig.contact.whatsapp, text);
 }
 
 export function toAbsoluteSiteUrl(path: string, site: string): string {

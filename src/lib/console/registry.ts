@@ -24,6 +24,7 @@ export interface BuildCommandsInput {
   xHref: string;
   mailtoHref: string;
   email: string;
+  whatsappHref: string;
 }
 
 /** Builds the full command list from plain data. Called at build time from
@@ -52,6 +53,13 @@ export function buildCommands(input: BuildCommandsInput): CommandDefinition[] {
       group: "Acciones",
       keywords: ["correo", "mailto", "escribir", "email"],
       action: { kind: "external", href: input.mailtoHref },
+    },
+    {
+      id: "open-whatsapp",
+      label: "Escribir por WhatsApp",
+      group: "Acciones",
+      keywords: ["whatsapp", "wsp", "chat", "telefono", "celular", "mensaje"],
+      action: { kind: "external", href: input.whatsappHref },
     },
   ];
 
