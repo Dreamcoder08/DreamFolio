@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
+import { localImageMeta, personJsonLd } from "../lib/seo";
 import { siteConfig, toAbsoluteSiteUrl, withBaseAsset } from "../lib/site";
 import { resolveAnalytics } from "../lib/analytics.ts";
 import CommandConsole from "../components/ui/CommandConsole.astro";
+import WhatsAppButton from "../components/ui/WhatsAppButton.astro";
 
 export interface Props {
   title: string;
@@ -27,6 +29,9 @@ const siteOrigin = Astro.site?.toString() ?? "https://dreamcoder08.github.io";
 // src/lib/analytics.ts.
 const analytics = resolveAnalytics(import.meta.env);
 
+const imageAlt =
+  lang === "es" ? `Vista previa de ${title}` : `${title} preview image`;
+
 const canonical = new URL(
   Astro.url.pathname,
   Astro.site ?? siteOrigin,
@@ -36,28 +41,9 @@ const imageUrl = /^https?:\/\//.test(image)
   ? image
   : toAbsoluteSiteUrl(image, siteOrigin);
 
-const imageType = imageUrl.endsWith(".png")
-  ? "image/png"
-  : imageUrl.endsWith(".webp")
-    ? "image/webp"
-    : "image/jpeg";
+const imageMeta = localImageMeta(image);
 
-const defaultJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Dreamcoder",
-  url: canonical,
-  jobTitle: "Systems Architect",
-  knowsAbout: [
-    "Arquitectura de sistemas",
-    "Sistemas de IA con supervisión humana",
-    "Producto digital",
-    "Trazabilidad y evidencia",
-  ],
-  sameAs: ["https://github.com/dreamcoder08"],
-};
-
-const structuredData = jsonLd ?? defaultJsonLd;
+const structuredData = jsonLd ?? personJsonLd(canonical);
 ---
 
 <!doctype html>
@@ -72,6 +58,11 @@ const structuredData = jsonLd ?? defaultJsonLd;
       type="image/svg+xml"
       href={withBaseAsset("/favicon.svg")}
     />
+    <link
+      rel="apple-touch-icon"
+      href={withBaseAsset("/icons/apple-touch-icon.png")}
+    />
+    <link rel="manifest" href={withBaseAsset("/manifest.webmanifest")} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
@@ -84,8 +75,14 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:type" content={imageType} />
-    <meta property="og:image:alt" content={`${title} preview image`} />
+    {imageMeta && (
+      <>
+        <meta property="og:image:type" content={imageMeta.type} />
+        <meta property="og:image:width" content={String(imageMeta.width)} />
+        <meta property="og:image:height" content={String(imageMeta.height)} />
+      </>
+    )}
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:site_name" content="DreamFolio" />
 
     <!-- Twitter -->
@@ -99,8 +96,9 @@ const structuredData = jsonLd ?? defaultJsonLd;
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={imageUrl} />
-    <meta name="twitter:image:alt" content={`${title} preview image`} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <meta name="theme-color" content="#000000" />
+    <meta property="og:locale" content="es_PE" />
 
     <!-- Applies the stored theme before paint. It is an external blocking
          script rather than an inline one because Astro does not hash
@@ -149,6 +147,7 @@ const structuredData = jsonLd ?? defaultJsonLd;
          data + the eager listener that lazily loads the driver. See
          src/components/ui/CommandConsole.astro. -->
     <CommandConsole />
+    <WhatsAppButton />
     <!-- Bundled by Astro, so it is an external same-origin module that
          `script-src 'self'` already allows and that needs no hash. See
          src/scripts/reveal.ts. -->

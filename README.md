@@ -36,6 +36,7 @@ DreamFolio es el portafolio público de Dreamcoder08: una superficie de evidenci
 - **Tema dual claro/oscuro** — tokens definidos en `src/styles/global.css`, oscuro por defecto (superficie `#000000` pura con capas `#0d0d10` / `#17171c` y acento `#ff7a18`) con overrides `[data-theme="light"]` (`#f3eadc` / `#8a4e26`). El modo oscuro respeta `prefers-contrast: more`.
 - **Cobertura e2e con Playwright** — specs en `tests/` para home, listado de proyectos y detalle de proyecto (Page Object Model), corridos en CI.
 - **Tipografías autohospedadas** — Inter y JetBrains Mono variables (subset latin) servidas desde `/fonts/`. Ninguna visita contacta a Google Fonts.
+- **Contacto directo por WhatsApp** — botón flotante en todas las páginas, CTA principal en la sección de contacto y comando en la consola ⌘K, todos enlaces `wa.me` sin widget de terceros. El número vive en `siteConfig.contact.whatsapp` (`src/lib/site.ts`).
 - **Analítica opcional** — Umami se controla con `PUBLIC_UMAMI_SRC` y `PUBLIC_UMAMI_WEBSITE_ID`. Apuntar la primera a una instancia propia elimina el tercero; dejar la segunda vacía desactiva la analítica.
 - **Despliegue automatizado** — CI/CD vía GitHub Actions a GitHub Pages: typecheck (`astro sync` + `tsc`), e2e y build antes de publicar.
 

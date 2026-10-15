@@ -23,6 +23,7 @@ const baseInput = {
   xHref: "https://x.com/Dreamcoder08",
   mailtoHref: "mailto:dreamcoder.dev08@gmail.com",
   email: "dreamcoder.dev08@gmail.com",
+  whatsappHref: "https://wa.me/51926437404",
 };
 
 test("builds one navigate command per section, in order", () => {
@@ -48,7 +49,7 @@ test("includes the all-projects index and one command per project", () => {
   });
 });
 
-test("includes theme, copy-email, github, x and mailto commands", () => {
+test("includes theme, copy-email, github, x, mailto and whatsapp commands", () => {
   const commands = buildCommands(baseInput);
   const byId = Object.fromEntries(commands.map((c) => [c.id, c]));
 
@@ -68,6 +69,11 @@ test("includes theme, copy-email, github, x and mailto commands", () => {
   assert.deepEqual(byId["write-email"]?.action, {
     kind: "external",
     href: "mailto:dreamcoder.dev08@gmail.com",
+  });
+  assert.equal(byId["open-whatsapp"]?.group, "Acciones");
+  assert.deepEqual(byId["open-whatsapp"]?.action, {
+    kind: "external",
+    href: "https://wa.me/51926437404",
   });
 });
 

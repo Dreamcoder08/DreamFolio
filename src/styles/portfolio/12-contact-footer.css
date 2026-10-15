@@ -73,6 +73,69 @@
   background: transparent;
   border-color: currentColor;
 }
+/* WhatsApp is the primary, fastest channel; email sits beside it as the
+   outlined secondary action. */
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.contact-section .contact-email {
+  color: currentColor;
+  background: transparent;
+  border-color: currentColor;
+}
+.contact-section .contact-email:hover {
+  color: var(--color-surface);
+  background: var(--color-text);
+  border-color: var(--color-text);
+}
+.contact-channels {
+  position: relative;
+  z-index: 1;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  list-style: none;
+  font-size: 0.74rem;
+}
+.contact-channels li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.contact-channels span {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.contact-channels a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 720px) {
+  .contact-actions {
+    margin-top: 24px;
+    display: grid;
+    justify-content: stretch;
+  }
+  /* Beats 16-responsive-mobile's `.contact-bottom .solid-link` margin,
+     which would otherwise space every stacked button. */
+  .contact-bottom .contact-actions .solid-link {
+    margin-top: 0;
+  }
+  .contact-channels {
+    display: grid;
+  }
+}
 .contact-social {
   margin-top: 36px;
   padding-top: 20px;

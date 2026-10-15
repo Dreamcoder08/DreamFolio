@@ -23,10 +23,10 @@
         right: 18px;
         z-index: 40;
         width: 2px;
-        /* Reuses the same 18px as `right`, so the rail reads as one
-           consistent margin: it stops 18px short of the viewport bottom
-           instead of running flush to the edge. */
-        height: calc(100vh - (82px + 1px) - 18px);
+        /* Stops short of the viewport bottom by the room the floating
+           WhatsApp button reserves (components/whatsapp.css); the 18px
+           fallback matches `right`, so the rail reads as one margin. */
+        height: calc(100vh - (82px + 1px) - var(--rail-bottom-clearance, 18px));
         background: var(--color-border);
         pointer-events: none;
         /* A size query container, so the readout below can move by `cqh`

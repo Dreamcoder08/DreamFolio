@@ -6,7 +6,7 @@
 // on first use (see the eager script below), so this costs nothing until a
 // visitor actually opens it.
 import { getCollection } from "astro:content";
-import { siteConfig, withBase, mailto } from "../../lib/site";
+import { siteConfig, withBase, mailto, whatsapp } from "../../lib/site";
 import { getProjectSlug } from "../../lib/project-presentation";
 import { buildCommands } from "../../lib/console/registry";
 import { CONSOLE_SECTIONS } from "../../lib/console/sections";
@@ -31,6 +31,7 @@ const commands = buildCommands({
   xHref: siteConfig.social.x,
   mailtoHref: mailto("Contacto desde la consola"),
   email: siteConfig.contact.email,
+  whatsappHref: whatsapp("Hola Dreamcoder, te escribo desde tu portafolio."),
 });
 
 // A JSON script block is never executed, so the CSP script-src policy (and
