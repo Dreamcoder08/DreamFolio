@@ -19,7 +19,7 @@ export class TerminalPage extends BasePage {
     this.submitButton = page.locator("#terminal-submit");
     this.status = page.locator("#terminal-status");
     this.bootLines = page.locator(".mu-terminal-line");
-    this.mailtoButton = page.locator(".contact-bottom .solid-link");
+    this.mailtoButton = page.locator(".contact-bottom .contact-email");
     this.fallbackLink = page.locator("#terminal-fallback-link");
   }
 
