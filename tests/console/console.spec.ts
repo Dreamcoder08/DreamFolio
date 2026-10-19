@@ -262,7 +262,7 @@ test.describe("Ship console — accessibility", () => {
       const home = new HomePage(page);
       const console_ = new ConsolePage(page);
       await home.goto();
-      await console_.openWithTrigger();
+      await console_.openWithShortcut();
       await expect(console_.dialog).toBeVisible();
 
       await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);

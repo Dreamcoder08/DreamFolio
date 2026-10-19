@@ -9,16 +9,7 @@
   .hero-portrait {
     width: 91%;
   }
-  .profile-signature {
-    display: block;
-    margin: 3px 0 0;
-  }
-  .profile-project small {
-    display: block;
-  }
-  .portrait-note {
-    right: -4%;
-  }
+
   .solid-link {
     padding-inline: 15px;
   }
@@ -60,14 +51,11 @@
      is load-bearing here: this list sits *before* the `:active` rules it must
      override and has equal specificity, so source order alone would let them win. */
   .theme-toggle:active,
-  .menu-toggle:active,
   .module-row:active,
   .quiet-link:active > .icon:last-child,
   .project-links a:active > .icon:last-child,
-  .contact-social a:active,
   .nav-contact:active,
-  .circle-link:active,
-  .mobile-nav a:active {
+  .circle-link:active {
     transform: none !important;
   }
 }

@@ -89,9 +89,7 @@
     display: none;
   }
   /* Out of the way when something else owns the bottom of the screen: the
-     open mobile menu, the modal console, or the on-screen keyboard while a
-     field in the contact terminal has focus. */
-  body:has(.mobile-nav:not([hidden])) .mobile-dock,
+     modal console, or the on-screen keyboard while a field has focus. */
   body:has(.ship-console[open]) .mobile-dock,
   body:has(:is(input, textarea):focus) .mobile-dock {
     visibility: hidden;

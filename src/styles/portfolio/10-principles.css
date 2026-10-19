@@ -47,23 +47,3 @@
   color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
-.toolbelt {
-  margin-top: 50px;
-  padding: 22px 0;
-  display: flex;
-  align-items: center;
-  gap: 60px;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-.toolbelt > .mono {
-  color: var(--portfolio-yellow);
-}
-.toolbelt p {
-  color: var(--color-text-secondary);
-  font-size: 0.88rem;
-}
-.toolbelt p span {
-  padding-inline: 12px;
-  color: var(--portfolio-yellow);
-}

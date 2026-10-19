@@ -24,6 +24,7 @@
     "secret:scan": "gitleaks detect --source . --no-banner --redact",
     "check": "astro sync && tsc --noEmit",
     "check:size": "node scripts/check-file-size.mjs",
+    "sync:repos": "node scripts/sync-github-repos.mjs",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",
     "verify": "pnpm run build && pnpm run check && pnpm run check:size",
     "snapshots": "node scripts/visual-snapshots.mjs",

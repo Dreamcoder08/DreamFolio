@@ -108,6 +108,13 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
+      # Refresh the /projects/ GitHub grid from the API. Never fails the
+      # deploy: on any error the committed snapshot is kept (see the script).
+      - name: Sync GitHub repos
+        run: pnpm run sync:repos
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Build site
         run: pnpm run build
         env:

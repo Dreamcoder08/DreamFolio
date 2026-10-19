@@ -15,13 +15,11 @@ export interface Target {
   readonly press: boolean;
   /** Whether the focus ring is read on this element. */
   readonly focus: boolean;
-  readonly openMenu: boolean;
   /** The selector/token pair whose declarations produce the rest ratio. */
   readonly pair: string;
 }
 
 const DESKTOP: Viewport = VIEWPORT.DESKTOP;
-const MOBILE: Viewport = VIEWPORT.MOBILE;
 
 export const TARGETS: readonly Target[] = [
   {
@@ -31,7 +29,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text-secondary on --color-surface",
   },
   {
@@ -41,7 +38,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text on --color-surface, border --color-border-interactive",
   },
   {
@@ -51,7 +47,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text-secondary on --color-surface, dark border --color-border-interactive",
   },
   {
@@ -61,7 +56,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text on --color-surface-alt, border --color-border-interactive",
   },
   {
@@ -71,7 +65,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text-secondary on --color-surface",
   },
   {
@@ -81,17 +74,15 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text on --color-surface (:first-child)",
   },
   {
     id: "07",
-    selector: ".contact-social a",
+    selector: ".contact-channels a",
     path: HOME,
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-on-accent on --color-accent",
   },
   {
@@ -101,7 +92,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-on-accent on --color-accent",
   },
   {
@@ -111,7 +101,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text on --color-surface",
   },
   {
@@ -121,7 +110,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-text on --color-surface-alt",
   },
   {
@@ -131,7 +119,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: true,
     focus: true,
-    openMenu: false,
     pair: "--color-surface on --color-text (the palette ceiling)",
   },
   {
@@ -141,27 +128,6 @@ export const TARGETS: readonly Target[] = [
     viewport: DESKTOP,
     press: false,
     focus: false,
-    openMenu: false,
     pair: "--color-text on --color-surface-alt, hover --color-border-strong",
-  },
-  {
-    id: "13",
-    selector: ".menu-toggle",
-    path: HOME,
-    viewport: MOBILE,
-    press: true,
-    focus: true,
-    openMenu: false,
-    pair: "--color-text-secondary on --color-surface, dark border --color-border-interactive",
-  },
-  {
-    id: "14",
-    selector: ".mobile-nav a",
-    path: HOME,
-    viewport: MOBILE,
-    press: true,
-    focus: true,
-    openMenu: true,
-    pair: "--color-text on --color-surface-alt",
   },
 ];

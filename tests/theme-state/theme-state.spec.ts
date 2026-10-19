@@ -72,7 +72,6 @@ async function prepare(
   await ui.pinTheme(theme);
   await ui.setViewport(target.viewport);
   await ui.goto(target.path);
-  if (target.openMenu) await ui.openMobileMenu();
   await expect
     .poll(() => ui.currentTheme(), {
       message:

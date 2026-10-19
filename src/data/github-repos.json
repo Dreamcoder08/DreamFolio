@@ -1,0 +1,157 @@
+{
+  "repos": [
+    {
+      "owner": "Dreamcoder08",
+      "name": "dreamcoder-dsh",
+      "url": "https://github.com/Dreamcoder08/dreamcoder-dsh",
+      "description": "Gentle-AI engineering operating layer as a DeepSeek Harness out-of-tree bundle: persona, risk-based workflows, role presets, evidence receipts, Engram memory",
+      "language": "TypeScript",
+      "stars": 1,
+      "pushedAt": "2026-10-16T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-command-center",
+      "url": "https://github.com/arkelythex/drenyra-command-center",
+      "description": "Drenyra — command center for ARKELYTHEX: fiscal intelligence dashboard (React 19), API orchestration (Elysia), Go TUI (Bubbletea), agent orchestration (Mastra).",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-19T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-ai",
+      "url": "https://github.com/arkelythex/drenyra-ai",
+      "description": "Verifiable Accounting Agent Ecosystem — Receipt-Driven Accounting, candidates, proportional review, gates, ledger and recovery for Drenyra. Pre-alpha.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-18T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-shell",
+      "url": "https://github.com/arkelythex/drenyra-shell",
+      "description": "Pi-native Accounting Operations Harness — persona, /drenyra:* commands, Pi subagents, RDA chains and pinned drenyra-ai runtime for Pi. Pre-alpha.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-18T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "cominorsa-crm",
+      "url": "https://github.com/Dreamcoder08/cominorsa-crm",
+      "description": "COMINORSA AI-first CRM agent tools and Twenty operations",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-12T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-engram",
+      "url": "https://github.com/arkelythex/drenyra-engram",
+      "description": "Institutional Accounting Memory — scope-first search, relations, lifecycle, provenance and institutional knowledge for Drenyra. Pre-alpha.",
+      "language": "Go",
+      "stars": 0,
+      "pushedAt": "2026-10-11T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "Dreamcoder-Workbench",
+      "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
+      "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
+      "language": "Python",
+      "stars": 0,
+      "pushedAt": "2026-10-05T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-skills",
+      "url": "https://github.com/arkelythex/drenyra-skills",
+      "description": "Versioned accounting, tax, and operational knowledge for the Drenyra ecosystem — content separate from the runtime registry (drenyra-ai/skills). Pre-alpha.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-10-01T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "bcrp-data-sdk",
+      "url": "https://github.com/Dreamcoder08/bcrp-data-sdk",
+      "description": "Unofficial BCRPData TypeScript SDK generated with Voxgig sdkgen; mini task 1",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-09-29T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "aurelia21",
+      "url": "https://github.com/Dreamcoder08/aurelia21",
+      "description": "AURELIA // 21·09 — self-contained cinematic experience page",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-09-28T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "pactyra",
+      "url": "https://github.com/Dreamcoder08/pactyra",
+      "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
+      "language": "Go",
+      "stars": 0,
+      "pushedAt": "2026-09-27T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "CleanSweep",
+      "url": "https://github.com/Dreamcoder08/CleanSweep",
+      "description": "AI-assisted dotfile and development environment manager written in Rust.",
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2026-09-27T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "elect-validate",
+      "url": "https://github.com/arkelythex/elect-validate",
+      "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-09-27T00:00:00Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-guardian-angel",
+      "url": "https://github.com/arkelythex/drenyra-guardian-angel",
+      "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2026-09-27T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "somnyx-tui",
+      "url": "https://github.com/Dreamcoder08/somnyx-tui",
+      "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
+      "language": "Makefile",
+      "stars": 0,
+      "pushedAt": "2026-06-29T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "somnyx-web",
+      "url": "https://github.com/Dreamcoder08/somnyx-web",
+      "description": "SVM-based skill-gap analysis and interview simulation platform",
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2026-06-29T00:00:00Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "pseint-web-interface",
+      "url": "https://github.com/Dreamcoder08/pseint-web-interface",
+      "description": "Modern web interface for PSeInt-inspired pseudocode learning.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-06-21T00:00:00Z"
+    }
+  ]
+}

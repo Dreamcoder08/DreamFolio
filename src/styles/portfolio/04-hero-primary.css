@@ -15,8 +15,8 @@
    every other section on the page — only .hero itself is full-bleed, so
    the canvas can span the full viewport width behind it. This single
    wrapper is also the one thing that needs a z-index above the canvas:
-   nothing nested inside it (.hero-kicker, .hero-stage, .hero-portrait,
-   .hero-copy, .hero-ticker, ...) needs its own, since they never share a
+   nothing nested inside it (.hero-stage, .hero-portrait, .hero-copy, ...)
+   needs its own, since they never share a
    stacking context with the canvas directly. */
 .hero-content {
   position: relative;
@@ -29,23 +29,7 @@
      .hero itself used to before this wrapper existed. */
   min-height: 0;
 }
-.hero-kicker {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--color-text-secondary);
-  padding-block: 17px;
-  border-bottom: 1px solid var(--color-border);
-}
-.location {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.8rem;
-}
-.location .icon {
-  color: var(--portfolio-yellow);
-}
+
 .hero-stage {
   flex: 1;
   min-height: 650px;
@@ -143,19 +127,4 @@
   border-radius: var(--radius-circle);
   color: var(--portfolio-yellow-ink);
   font: 1.8rem / 1 var(--font-mono);
-}
-.portrait-orbit {
-  position: absolute;
-  z-index: 3;
-  top: 13%;
-  left: -31px;
-  width: 66px;
-  height: 66px;
-  display: grid;
-  place-items: center;
-  color: var(--portfolio-yellow);
-  background: var(--color-surface);
-  border: 1px solid var(--portfolio-yellow);
-  border-radius: var(--radius-circle);
-  font: 0.8rem var(--font-mono);
 }

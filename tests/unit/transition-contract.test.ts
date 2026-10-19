@@ -167,12 +167,10 @@ test("(a) the reduced-motion guard still neutralises transition, animation and s
 const INTERACTIVE = [
   "a",
   ".theme-toggle",
-  ".menu-toggle",
   ".nav-contact",
   ".circle-link",
-  ".mobile-nav a",
   ".site-footer > a",
-  ".contact-social a",
+  ".contact-channels a",
   ".quiet-link",
   ".project-links a",
   ".desktop-nav a",

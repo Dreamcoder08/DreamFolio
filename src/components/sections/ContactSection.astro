@@ -1,28 +1,28 @@
 ---
 import { siteConfig, mailto, whatsapp, withBase } from "../../lib/site";
 import Icon from "../ui/Icon.astro";
-import MuTerminal from "../ui/MuTerminal.astro";
 
 const whatsappHref = whatsapp(
   "Hola Dreamcoder, vi tu portafolio y me gustaría conversar sobre un proyecto.",
 );
 ---
 
-<section id="connect" class="contact-section wrap" data-reveal>
-  <div class="contact-top">
-    <p class="eyebrow scene-kicker">06 / SIGUIENTE CONVERSACIÓN</p>
-    <span class="mono">PERÚ · UTC−5</span>
-  </div>
-  <h2 class="scene-heading">
+<section
+  id="connect"
+  class="contact-section wrap"
+  aria-labelledby="contact-title"
+  data-reveal
+>
+  <p class="eyebrow scene-kicker">Contacto</p>
+  <h2 id="contact-title" class="scene-heading">
     ¿Algo interesante
     <br />
     por <span>construir?</span>
   </h2>
   <div class="contact-bottom">
     <p>
-      Conversemos sobre oportunidades en desarrollo,
-      <br />
-      productos con IA o colaboraciones técnicas.
+      Cuéntame la idea o el problema. Te respondo con los siguientes pasos y un
+      alcance claro.
     </p>
     <div class="contact-actions">
       <a
@@ -32,50 +32,37 @@ const whatsappHref = whatsapp(
         rel="noopener noreferrer"
         data-contact="whatsapp"
       >
-        <Icon name="whatsapp" size={20} /> Escríbeme por WhatsApp{" "}
-        <Icon name="arrow" size={18} />
+        <Icon name="whatsapp" size={20} /> Escríbeme por WhatsApp
       </a>
       <a
         class="solid-link contact-email"
         href={mailto("Contacto desde el portafolio")}
         data-contact="email"
       >
-        <Icon name="mail" size={20} /> Hablemos por correo{" "}
-        <Icon name="arrow" size={18} />
+        <Icon name="mail" size={20} /> Enviar un correo
       </a>
     </div>
   </div>
-  <ul class="contact-channels mono" aria-label="Datos de contacto">
+  <ul class="contact-channels" aria-label="Otros datos de contacto">
     <li>
-      <span>WhatsApp</span>
-      <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-        {siteConfig.contact.whatsappDisplay}
-      </a>
-    </li>
-    <li>
-      <span>Correo</span>
-      <a href={mailto("Contacto desde el portafolio")}>
-        {siteConfig.contact.email}
-      </a>
-    </li>
-    <li>
-      <span>Agenda</span>
       <a href={withBase("/dreamcoder.vcf")} download="dreamcoder.vcf">
-        Guardar contacto (.vcf)
+        Guardar contacto
+      </a>
+    </li>
+    <li>
+      <a href={siteConfig.social.github} rel="me">
+        <Icon name="github" size={17} /> GitHub
+      </a>
+    </li>
+    <li>
+      <a href={siteConfig.social.x} rel="me">
+        <Icon name="x" size={16} /> X
+      </a>
+    </li>
+    <li>
+      <a href={siteConfig.social.instagram} rel="me">
+        <Icon name="instagram" size={16} /> Instagram
       </a>
     </li>
   </ul>
-  <div class="contact-social">
-    <a href={siteConfig.social.github} rel="me">
-      <Icon name="github" size={18} /> GitHub <Icon name="arrow" size={15} />
-    </a>
-    <a href={siteConfig.social.x} rel="me">
-      <Icon name="x" size={17} /> X / Twitter <Icon name="arrow" size={15} />
-    </a>
-    <a href={siteConfig.social.instagram} rel="me">
-      <Icon name="instagram" size={17} /> Instagram{" "}
-      <Icon name="arrow" size={15} />
-    </a>
-  </div>
-  <MuTerminal />
 </section>

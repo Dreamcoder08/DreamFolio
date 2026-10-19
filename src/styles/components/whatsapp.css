@@ -1,11 +1,6 @@
 /* Floating WhatsApp button (src/components/ui/WhatsAppButton.astro).
    WhatsApp green is a brand cue, so it stays the same in both themes; the
    dark ink on it keeps text and glyph above 4.5:1 (#25d366 vs #062a14). */
-:root {
-  /* Room the desktop HUD rail leaves at the bottom so its line and
-     readout never run under this button (see 22-scroll-narrative-hud.css). */
-  --rail-bottom-clearance: 96px;
-}
 .whatsapp-fab {
   position: fixed;
   z-index: 45;

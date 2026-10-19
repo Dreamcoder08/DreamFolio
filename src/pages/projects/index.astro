@@ -5,8 +5,17 @@ import Navbar from "../../components/ui/Navbar.astro";
 import { getCollection } from "astro:content";
 import { withBase } from "../../lib/site";
 import { getProjectSlug } from "../../lib/project-presentation";
+import RepoGrid from "../../components/ui/RepoGrid.astro";
 import "../../styles/portfolio.css";
 const projects = await getCollection("projects");
+const caseStudies = new Map(
+  projects
+    .filter(({ data }) => data.githubUrl)
+    .map(({ data }) => [
+      data.githubUrl!.toLowerCase(),
+      "/projects/" + getProjectSlug(data.title) + "/",
+    ]),
+);
 ---
 
 <BaseLayout
@@ -20,11 +29,11 @@ const projects = await getCollection("projects");
       <Icon name="back" size={17} />
       Volver al portafolio
     </a>
-    <p class="eyebrow projects-eyebrow">DREAMCODER / PROYECTOS</p>
+    <p class="eyebrow projects-eyebrow">Proyectos</p>
     <h1 class="projects-title">Código para explorar.</h1>
     <p class="projects-intro">
-      Productos en desarrollo, herramientas y exploraciones técnicas, con su
-      alcance y estado público.
+      Primero los casos con contexto; debajo,{" "}
+      <a href="#github">todos mis repositorios públicos</a> y los de ARKELYTHEX.
     </p>
     <div class="project-pair">
       {projects.map(({ data: p }) => (
@@ -58,5 +67,6 @@ const projects = await getCollection("projects");
         </article>
       ))}
     </div>
+    <RepoGrid caseStudies={caseStudies} />
   </main>
 </BaseLayout>

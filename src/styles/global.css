@@ -9,7 +9,6 @@
    that would silently change which declarations win.
    ============================================ */
 @import "tailwindcss";
-@import "./tokens/components.css";
 @import "./base.css";
 @import "./global/01-theme-tokens.css";
 @import "./global/02-theme-modes.css";

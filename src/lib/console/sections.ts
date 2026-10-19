@@ -19,12 +19,6 @@ export const CONSOLE_SECTIONS: SectionInput[] = [
     keywords: ["sobre mi", "perfil", "bio", "about"],
   },
   {
-    id: "architecture",
-    label: "Enfoque",
-    href: withBase("/#architecture"),
-    keywords: ["arquitectura", "enfoque", "architecture"],
-  },
-  {
     id: "services",
     label: "Servicios",
     href: withBase("/#services"),

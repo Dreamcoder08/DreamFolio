@@ -23,7 +23,7 @@ test.describe("Contact — WhatsApp", () => {
   }
 
   test(
-    "contact section offers WhatsApp first, then email, and shows the number",
+    "contact section offers WhatsApp first, then email, then quiet secondary channels",
     { tag: ["@critical", "@contact", "@WHATSAPP-CONTACT-001"] },
     async ({ page }) => {
       const home = new HomePage(page);
@@ -32,11 +32,13 @@ test.describe("Contact — WhatsApp", () => {
       await expect(actions).toHaveCount(2);
       await expect(actions.nth(0)).toHaveAttribute("href", WA);
       await expect(actions.nth(1)).toHaveAttribute("href", /^mailto:/);
+      const channels = page.locator("#connect .contact-channels");
       await expect(
-        page.locator("#connect .contact-channels").getByRole("link", {
-          name: "+51 926 437 404",
-        }),
-      ).toHaveAttribute("href", WA);
+        channels.getByRole("link", { name: /Guardar contacto/ }),
+      ).toBeVisible();
+      await expect(
+        channels.getByRole("link", { name: /GitHub/ }),
+      ).toHaveAttribute("rel", /\bme\b/);
     },
   );
 

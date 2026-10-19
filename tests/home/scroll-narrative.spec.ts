@@ -2,7 +2,7 @@ import { test, expect, type Page } from "@playwright/test";
 import { HomePage } from "./home-page";
 
 /**
- * Scroll-driven section narrative + HUD progress rail (phase 2, T2) — a
+ * Scroll-driven section narrative (phase 2, T2) — a
  * CSS-only contract (`animation-timeline: view()`/`scroll()`), no script.
  *
  * Every test here first confirms the browser actually supports scroll-driven
@@ -26,126 +26,6 @@ const SCENE_SELECTORS = [
   ".scene-heading",
   ".scene-card",
 ] as const;
-
-test.describe("Homepage — HUD progress rail", () => {
-  test(
-    "is present, aria-hidden, visible on desktop and hidden below the 900px breakpoint",
-    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-RAIL-001"] },
-    async ({ page }) => {
-      test.skip(
-        !(await supportsScrollTimelines(page)),
-        "browser lacks animation-timeline: view()/scroll() support",
-      );
-      const home = new HomePage(page);
-      const rail = page.locator(".scroll-rail");
-
-      await page.setViewportSize({ width: 1280, height: 900 });
-      await home.goto();
-      await expect(rail).toHaveAttribute("aria-hidden", "true");
-      await expect(rail).toBeVisible();
-      await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
-
-      // The rail must clear the fixed glass header, not run under it.
-      const header = page.locator(".site-header");
-      const headerBox = await header.boundingBox();
-      const railBox = await rail.boundingBox();
-      expect(headerBox, "header must have a bounding box").not.toBeNull();
-      expect(railBox, "rail must have a bounding box").not.toBeNull();
-      expect(
-        railBox!.y,
-        `rail top (${railBox!.y}) must be at or below the header's ` +
-          `bottom edge (${headerBox!.y + headerBox!.height})`,
-      ).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height);
-
-      await page.setViewportSize({ width: 800, height: 900 });
-      await page.reload();
-      await expect(rail).toBeHidden();
-    },
-  );
-
-  test(
-    "its fill scales with scroll position",
-    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-RAIL-002"] },
-    async ({ page }) => {
-      test.skip(
-        !(await supportsScrollTimelines(page)),
-        "browser lacks animation-timeline: view()/scroll() support",
-      );
-      await page.setViewportSize({ width: 1280, height: 900 });
-      const home = new HomePage(page);
-      await home.goto();
-
-      const scaleYOf = (transform: string): number => {
-        // `matrix(a, b, c, d, tx, ty)` — `d` is the Y scale.
-        const match = /matrix\(([^)]+)\)/.exec(transform);
-        if (!match) return transform === "none" ? 1 : Number.NaN;
-        const parts = match[1].split(",").map((n) => Number.parseFloat(n));
-        return parts[3];
-      };
-
-      const fill = page.locator(".scroll-rail-fill");
-      const fillScale = async (): Promise<number> =>
-        scaleYOf(await fill.evaluate((el) => getComputedStyle(el).transform));
-      // Poll the baseline too: before the scroll(root) timeline is active
-      // the computed transform is `none`, which reads as scaleY 1 — a value
-      // the fill can never exceed, so the growth check below could not pass.
-      await expect.poll(fillScale).toBeLessThan(0.2);
-      const atTop = await fillScale();
-      await page.evaluate(() =>
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "instant",
-        }),
-      );
-      // Scroll timelines are sampled once per frame, so a synchronous read
-      // right after scrollTo can still see the pre-scroll value: poll.
-      await expect
-        .poll(fillScale, {
-          message: `rail fill must grow with scroll from scaleY=${atTop}`,
-        })
-        .toBeGreaterThan(atTop);
-    },
-  );
-
-  test(
-    "its HUD readout lives inside the aria-hidden rail and tracks --scroll-progress from ~0 to ~100",
-    { tag: ["@critical", "@e2e", "@scroll-narrative", "@SCROLL-RAIL-003"] },
-    async ({ page }) => {
-      test.skip(
-        !(await supportsScrollTimelines(page)),
-        "browser lacks animation-timeline: view()/scroll() support",
-      );
-      await page.setViewportSize({ width: 1280, height: 900 });
-      const home = new HomePage(page);
-      await home.goto();
-
-      const readout = page.locator(".scroll-rail .scroll-rail-readout");
-      await expect(readout).toBeAttached();
-      // `content: counter(...)` on `::after` isn't readable via
-      // getComputedStyle, so this asserts the animated custom property
-      // that drives both the counter and the visible fill instead — see
-      // portfolio.css's "HUD readout" comment.
-      const scrollProgress = () =>
-        readout.evaluate((el) =>
-          Number.parseFloat(
-            getComputedStyle(el).getPropertyValue("--scroll-progress"),
-          ),
-        );
-
-      await expect.poll(scrollProgress).toBeLessThan(5);
-
-      // The site sets `scroll-behavior: smooth`; an instant jump avoids
-      // racing a smooth scroll still in flight when this reads.
-      await page.evaluate(() =>
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "instant",
-        }),
-      );
-      await expect.poll(scrollProgress).toBeGreaterThan(95);
-    },
-  );
-});
 
 test.describe("Homepage — scroll-driven section narrative", () => {
   test(
@@ -213,10 +93,9 @@ test.describe("Homepage — scroll-driven section narrative", () => {
 
       for (const id of [
         "projects",
-        "about",
-        "architecture",
         "services",
         "process",
+        "about",
         "connect",
       ]) {
         await page.locator(`#${id}`).scrollIntoViewIfNeeded({ timeout: 5_000 });
@@ -266,12 +145,7 @@ test.describe("Homepage — scroll narrative stagger", () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await new HomePage(page).goto();
 
-      for (const group of [
-        "#projects",
-        "#architecture .principles",
-        "#services",
-        "#process .principles",
-      ]) {
+      for (const group of ["#projects", "#services", "#process .principles"]) {
         const starts = await page
           .locator(`${group} .scene-card`)
           .evaluateAll((cards) =>

@@ -1,14 +1,3 @@
-/* ============================================
-   Scroll-driven section narrative + HUD progress rail (phase 2, T2)
-
-   Hidden by default, unconditionally: a browser that never reaches the gate
-   below (no `animation-timeline` support, or reduced motion) must not see
-   an unstyled, unpositioned `<div>` sitting in normal flow.
-   ============================================ */
-.scroll-rail {
-  display: none;
-}
-
 /* Gated on both axes the design requires: `@supports (animation-timeline:
    view())` is this file's one proxy for "the browser understands CSS
    scroll-driven animations at all" — `scroll()` timelines landed in the
@@ -40,18 +29,17 @@
        themselves — only their enclosing `<section data-reveal>` does, which
        fades/rises as one block and would otherwise compound with (fade
        inside a fade, rise inside a rise) the animation each of these gets
-       individually below. So the six homepage sections after the hero are
+       individually below. So the five homepage sections after the hero are
        neutralized by id instead: an ID selector (1,2,0) always outranks the
        (0,2,0) base rule regardless of source order. This also means any
        content in those sections that is *not* named below (`.about-copy`,
-       `.toolbelt`, `.contact-bottom`/`.contact-social`, …) renders plainly
+       `.contact-bottom`, `.contact-channels`, …) renders plainly
        visible rather than IO-revealed once this gate is active — an
        accepted tradeoff, since the alternative is exactly the double
        animation this rule exists to prevent. */
     .motion-ready [data-reveal].scene-card,
     .motion-ready #projects[data-reveal],
     .motion-ready #about[data-reveal],
-    .motion-ready #architecture[data-reveal],
     .motion-ready #services[data-reveal],
     .motion-ready #process[data-reveal],
     .motion-ready #connect[data-reveal] {
@@ -157,7 +145,7 @@
        a duration, and a scroll-driven animation's "duration" is the whole
        range, so offsetting the range is the scroll-linked equivalent of the
        IO reveal's `--motion-stagger`. Covers `.project-card` (3),
-       `.principles article` (3, on both #architecture and #process) and
+       `.principles article` (3, on #process) and
        `.module-row` (3) — every group is the only children of its own
        container, so plain `:nth-child` does not cross between them. */
     .scene-card {

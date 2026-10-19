@@ -47,25 +47,7 @@
 .project-image:hover img {
   transform: translateY(-7px) rotate(0.4deg);
 }
-.card-meta {
-  position: absolute;
-  z-index: 2;
-  inset: 18px 22px auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  color: var(--portfolio-yellow-ink);
-  font: 0.64rem var(--font-mono);
-  letter-spacing: 0.07em;
-}
-.image-caption {
-  position: absolute;
-  z-index: 2;
-  bottom: 15px;
-  left: 28px;
-  color: var(--portfolio-yellow-ink);
-  font-size: 0.62rem;
-}
+
 .project-story {
   padding: clamp(26px, 4vw, 48px);
 }
