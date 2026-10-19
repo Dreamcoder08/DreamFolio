@@ -19,6 +19,8 @@ export const icons = {
   globe:
     '<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
   code: '<path d="m7 7-5 5 5 5m10-10 5 5-5 5M14 4l-4 16"/>',
+  home: '<path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1v-8.5Z"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
   menu: '<path d="M4 8h16M4 16h16"/>',
   close: '<path d="m6 6 12 12M6 18 18 6"/>',
   // GitHub's conventional outline keeps its brand recognizable.

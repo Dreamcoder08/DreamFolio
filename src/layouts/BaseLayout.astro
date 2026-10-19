@@ -5,6 +5,7 @@ import { siteConfig, toAbsoluteSiteUrl, withBaseAsset } from "../lib/site";
 import { resolveAnalytics } from "../lib/analytics.ts";
 import CommandConsole from "../components/ui/CommandConsole.astro";
 import WhatsAppButton from "../components/ui/WhatsAppButton.astro";
+import MobileDock from "../components/ui/MobileDock.astro";
 
 export interface Props {
   title: string;
@@ -148,6 +149,7 @@ const structuredData = jsonLd ?? personJsonLd(canonical);
          src/components/ui/CommandConsole.astro. -->
     <CommandConsole />
     <WhatsAppButton />
+    <MobileDock />
     <!-- Bundled by Astro, so it is an external same-origin module that
          `script-src 'self'` already allows and that needs no hash. See
          src/scripts/reveal.ts. -->

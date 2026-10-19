@@ -1,0 +1,125 @@
+/* Mobile tab bar (src/components/ui/MobileDock.astro). A floating glass
+   pill in the thumb zone: four tabs plus the WhatsApp "send" action. */
+.mobile-dock {
+  display: none;
+}
+@media (max-width: 720px) {
+  :root {
+    /* Space the page reserves under its content so the dock never covers
+       the footer; also read by the floating button rule below. */
+    --dock-height: 64px;
+    --dock-gap: max(12px, env(safe-area-inset-bottom));
+  }
+  body {
+    padding-bottom: calc(var(--dock-height) + var(--dock-gap) + 12px);
+  }
+  .mobile-dock {
+    position: fixed;
+    z-index: 48;
+    left: 12px;
+    right: 12px;
+    bottom: var(--dock-gap);
+    height: var(--dock-height);
+    padding: 6px 6px 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: color-mix(
+      in srgb,
+      var(--color-surface-elevated) 82%,
+      transparent
+    );
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow:
+      0 18px 40px -18px rgb(0 0 0 / 0.55),
+      0 1px 0 0 color-mix(in srgb, var(--color-text) 6%, transparent) inset;
+  }
+  .mobile-dock-tabs {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    list-style: none;
+  }
+  .mobile-dock-tabs a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-dock-tabs a[aria-current="true"] {
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--portfolio-yellow) 16%, transparent);
+  }
+  .mobile-dock-tabs a[aria-current="true"] .icon {
+    color: var(--portfolio-yellow);
+  }
+  .mobile-dock-tabs a:focus-visible,
+  .mobile-dock-send:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+  }
+  .mobile-dock-send {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-circle);
+    color: #062a14;
+    background: #25d366;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* The dock carries WhatsApp on phones, so the floating button steps
+     aside instead of stacking a second green circle above it. */
+  .whatsapp-fab {
+    display: none;
+  }
+  /* Out of the way when something else owns the bottom of the screen: the
+     open mobile menu, the modal console, or the on-screen keyboard while a
+     field in the contact terminal has focus. */
+  body:has(.mobile-nav:not([hidden])) .mobile-dock,
+  body:has(.ship-console[open]) .mobile-dock,
+  body:has(:is(input, textarea):focus) .mobile-dock {
+    visibility: hidden;
+  }
+}
+@media (max-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .mobile-dock-tabs a,
+  .mobile-dock-send {
+    transition:
+      transform var(--motion-fast) var(--motion-ease),
+      background-color var(--motion-fast) var(--motion-ease),
+      color var(--motion-fast) var(--motion-ease);
+  }
+  .mobile-dock-tabs a:active,
+  .mobile-dock-send:active {
+    transform: scale(0.92);
+  }
+}
+@media (forced-colors: active) {
+  .mobile-dock {
+    border: 2px solid CanvasText;
+  }
+  .mobile-dock-tabs a[aria-current="true"] {
+    outline: 2px solid Highlight;
+  }
+}
+@media print {
+  .mobile-dock {
+    display: none;
+  }
+}

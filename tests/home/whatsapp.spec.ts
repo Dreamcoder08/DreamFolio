@@ -42,13 +42,21 @@ test.describe("Contact — WhatsApp", () => {
 
   for (const width of [320, 390, 1280]) {
     test(
-      `floating button stays inside the viewport at ${width}px with a 44px+ target`,
+      `the WhatsApp control stays inside the viewport at ${width}px with a 44px+ target`,
       { tag: ["@critical", "@contact", `@WHATSAPP-FAB-${width}`] },
       async ({ page }) => {
         await page.setViewportSize({ width, height: 800 });
         const home = new HomePage(page);
         await home.goto();
-        const box = await page.locator("[data-whatsapp-fab]").boundingBox();
+        // Phones get WhatsApp in the bottom dock; wider screens get the
+        // floating button. Exactly one of the two is ever visible.
+        const [shown, hidden] =
+          width <= 720
+            ? ["[data-dock-whatsapp]", "[data-whatsapp-fab]"]
+            : ["[data-whatsapp-fab]", "[data-dock-whatsapp]"];
+        await expect(page.locator(hidden)).toBeHidden();
+        await expect(page.locator(shown)).toHaveAttribute("href", WA);
+        const box = await page.locator(shown).boundingBox();
         expect(box, "button must render").not.toBeNull();
         expect(box!.x + box!.width).toBeLessThanOrEqual(width);
         expect(box!.y + box!.height).toBeLessThanOrEqual(800);
