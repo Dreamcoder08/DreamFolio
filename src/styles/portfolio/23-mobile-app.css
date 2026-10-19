@@ -1,0 +1,152 @@
+/* ============================================
+   Mobile app layer (≤720px)
+
+   The phone layout borrows the grammar of the best mobile apps of the
+   moment (Claude, ChatGPT): a floating glass header instead of a full
+   bleed bar, navigation in the thumb zone (components/mobile-dock.css),
+   swipeable card rails instead of long stacked columns, and touch feedback
+   on every tappable surface. Appended last so it refines the responsive
+   partials above without reordering them.
+   ============================================ */
+@media (max-width: 720px) {
+  /* ---- Floating header pill ---- */
+  .site-header {
+    inset: max(8px, env(safe-area-inset-top)) 10px auto;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius-panel) + 6px);
+    background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow: 0 14px 36px -22px rgb(0 0 0 / 0.6);
+  }
+  .nav-wrap {
+    width: calc(100% - 20px);
+    height: 58px;
+  }
+  .site-header .theme-toggle,
+  .site-header .menu-toggle,
+  .site-header .console-trigger {
+    border-color: transparent;
+  }
+  /* The menu opens as a sheet inside the pill, not a slab under it. */
+  .mobile-nav {
+    margin: 0 8px 8px;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-panel);
+  }
+  .mobile-nav a:last-child {
+    border-bottom: 0;
+  }
+  html {
+    scroll-padding-top: 84px;
+  }
+  .hero {
+    padding-top: 84px;
+  }
+
+  /* ---- Swipeable rails ----
+     Projects and both principle lists become horizontal, snap-aligned
+     rails with the next card peeking in, which halves the scroll length
+     of the page and reads as "there is more, swipe". */
+  .project-bento,
+  .principles {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    gap: 12px;
+    margin-inline: -18px;
+    padding: 4px 18px 18px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    scrollbar-width: none;
+    border: 0;
+  }
+  .project-bento::-webkit-scrollbar,
+  .principles::-webkit-scrollbar {
+    display: none;
+  }
+  .project-bento > *,
+  .principles > article {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Inside a horizontal rail a block-axis view() timeline has nothing to
+       track; the rail's own swipe is the motion here. */
+    animation: none;
+  }
+  .principles > article,
+  .principles > article:first-child,
+  .principles > article:last-child {
+    padding: 24px 20px 26px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-panel);
+    background: var(--color-surface-alt);
+  }
+  .project-card {
+    border-radius: var(--radius-panel);
+  }
+  .project-story h3 {
+    font-size: clamp(2.6rem, 13vw, 3.4rem);
+  }
+  .project-card--workbench h3,
+  .project-card--civic h3 {
+    font-size: clamp(2rem, 10vw, 2.6rem);
+  }
+
+  /* ---- Touch ergonomics ---- */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .solid-link {
+    border-radius: calc(var(--radius-control) + 6px);
+  }
+}
+
+/* Page dots under each rail where the browser supports CSS scroll markers;
+   elsewhere the peeking next card already signals the swipe. */
+@supports (scroll-marker-group: after) {
+  @media (max-width: 720px) {
+    .project-bento,
+    .principles {
+      scroll-marker-group: after;
+    }
+    .project-bento::scroll-marker-group,
+    .principles::scroll-marker-group {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      grid-column: 1 / -1;
+    }
+    .project-bento > *::scroll-marker,
+    .principles > article::scroll-marker {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: var(--radius-pill);
+      background: var(--color-border-strong);
+    }
+    .project-bento > *::scroll-marker:target-current,
+    .principles > article::scroll-marker:target-current {
+      width: 20px;
+      background: var(--portfolio-yellow);
+    }
+  }
+}
+
+@media (max-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .project-card,
+  .principles > article {
+    transition: transform var(--motion-fast) var(--motion-ease);
+  }
+  .project-card:active,
+  .principles > article:active {
+    transform: scale(0.985);
+  }
+  .solid-link:active {
+    transform: scale(0.97);
+  }
+}

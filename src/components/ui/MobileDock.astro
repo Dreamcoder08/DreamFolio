@@ -1,0 +1,109 @@
+---
+// Thumb-zone tab bar for phones, in the spirit of the Claude and ChatGPT
+// mobile apps: navigation lives at the bottom where the thumb already is,
+// and the one primary action (write on WhatsApp) sits at the end like a
+// composer's send button. Shown only below 721px (components/mobile-dock.css);
+// above that the header's desktop nav and the floating button take over.
+// Plain links work without JS; the script only marks the current section.
+import { siteConfig, whatsapp, withBase } from "../../lib/site";
+import Icon from "./Icon.astro";
+import type { IconName } from "../../lib/icons";
+import "../../styles/components/mobile-dock.css";
+
+const tabs: { label: string; href: string; icon: IconName; id: string }[] = [
+  {
+    label: "Inicio",
+    href: withBase("/#main-content"),
+    icon: "home",
+    id: "top",
+  },
+  {
+    label: "Proyectos",
+    href: withBase("/#projects"),
+    icon: "layers",
+    id: "projects",
+  },
+  { label: "Sobre mí", href: withBase("/#about"), icon: "user", id: "about" },
+  {
+    label: "Contacto",
+    href: withBase("/#connect"),
+    icon: "mail",
+    id: "connect",
+  },
+];
+const href = whatsapp(
+  "Hola Dreamcoder, vi tu portafolio y me gustaría conversar.",
+);
+---
+
+<nav class="mobile-dock" aria-label="Accesos rápidos" data-mobile-dock>
+  <ul class="mobile-dock-tabs">
+    {tabs.map((tab) => (
+      <li>
+        <a href={tab.href} data-dock-target={tab.id}>
+          <Icon name={tab.icon} size={21} />
+          <span>{tab.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a
+    class="mobile-dock-send"
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`Escríbeme por WhatsApp (${siteConfig.contact.whatsappDisplay})`}
+    data-dock-whatsapp
+  >
+    <Icon name="whatsapp" size={24} />
+  </a>
+</nav>
+
+<script>
+  // Marks the tab of the section currently on screen with aria-current,
+  // so the dock reads like an app's tab bar. Only on the homepage, where
+  // the sections exist; elsewhere every tab is a plain link.
+  const links =
+    document.querySelectorAll<HTMLAnchorElement>("[data-dock-target]");
+  // Which tab each homepage section belongs to: the "how I work" sections
+  // after About read as part of it, so a tab is always lit.
+  const tabFor: Record<string, string> = {
+    hero: "top",
+    projects: "projects",
+    about: "about",
+    architecture: "about",
+    services: "about",
+    process: "about",
+    connect: "connect",
+  };
+  const sections = Object.keys(tabFor)
+    .map((id) =>
+      id === "hero"
+        ? document.querySelector<HTMLElement>(".hero")
+        : document.getElementById(id),
+    )
+    .filter((el): el is HTMLElement => el !== null);
+  function mark(tab: string) {
+    links.forEach((link) => {
+      if (link.dataset.dockTarget === tab)
+        link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  }
+  if (sections.length > 1 && "IntersectionObserver" in window) {
+    // A thin band across the middle of the viewport: whichever section
+    // crosses it is the one being read.
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const key = e.target.id || "hero";
+          mark(tabFor[key] ?? "top");
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    sections.forEach((s) => io.observe(s));
+    mark("top");
+  }
+</script>
