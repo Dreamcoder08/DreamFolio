@@ -4,7 +4,10 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navbar from "../../components/ui/Navbar.astro";
 import { siteConfig } from "../../lib/site";
-import { getProjectSlug } from "../../lib/project-presentation";
+import {
+  getProjectSlug,
+  SHARED_ART_PROJECT_IDS,
+} from "../../lib/project-presentation";
 import { getProjectCaseStudy } from "../../lib/project-case-studies";
 import { withBase } from "../../lib/site";
 
@@ -18,15 +21,6 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 
-// The three projects with art on both the homepage card and this detail
-// page (see odd/tasks/scifi-scroll-narrative.md's T1 scope note) — the
-// only ones that get a `view-transition-name`, so the shared-element
-// morph only ever applies where a homepage counterpart actually exists.
-const SHARED_ART_PROJECT_IDS = new Set([
-  "drenyra",
-  "dreamcoder-workbench",
-  "digital-public-peru",
-]);
 const hasSharedArt = SHARED_ART_PROJECT_IDS.has(project.id);
 
 const outboundUrl = project.liveUrl ?? project.githubUrl;

@@ -89,13 +89,13 @@ test.describe("Mobile dock", () => {
 
 test.describe("Mobile rails", () => {
   test(
-    "projects and principles swipe horizontally on phones and stack on desktop",
+    "projects and principles swipe on phones; principles stack on desktop",
     { tag: ["@critical", "@mobile", "@RAILS-001"] },
     async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const home = new HomePage(page);
       await home.goto();
-      for (const selector of [".project-bento", "#process .principles"]) {
+      for (const selector of [".project-track", "#process .principles"]) {
         const rail = page.locator(selector);
         const scrolls = await rail.evaluate(
           (el) =>
@@ -107,7 +107,7 @@ test.describe("Mobile rails", () => {
       await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
       await page.setViewportSize({ width: 1280, height: 900 });
       const desktopScrolls = await page
-        .locator(".project-bento")
+        .locator("#process .principles")
         .evaluate((el) => el.scrollWidth > el.clientWidth + 20);
       expect(desktopScrolls).toBe(false);
     },

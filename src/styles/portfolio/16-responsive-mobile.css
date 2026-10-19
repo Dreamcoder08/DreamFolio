@@ -75,31 +75,6 @@
   .portfolio h2 {
     font-size: clamp(2.6rem, 12vw, 4.5rem);
   }
-  .project-bento {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .project-card--lead {
-    grid-column: auto;
-    display: block;
-  }
-  .project-image {
-    padding: 54px 16px 42px;
-  }
-
-  .project-story {
-    padding: 26px 21px 30px;
-  }
-  .project-story h3 {
-    font-size: 3.8rem;
-  }
-  .project-card--workbench,
-  .project-card--civic {
-    padding: 24px 21px;
-  }
-  .project-card--workbench h3,
-  .project-card--civic h3 {
-    font-size: 2.6rem;
-  }
   .about-grid {
     grid-template-columns: 1fr;
     gap: 32px;

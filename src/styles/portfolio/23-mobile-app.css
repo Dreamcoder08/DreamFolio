@@ -35,10 +35,18 @@
   }
 
   /* ---- Swipeable rails ----
-     Projects and both principle lists become horizontal, snap-aligned
-     rails with the next card peeking in, which halves the scroll length
-     of the page and reads as "there is more, swipe". */
-  .project-bento,
+     The principle list becomes a horizontal, snap-aligned rail with the
+     next card peeking in, like the projects carousel above it. */
+  .project-track {
+    grid-auto-columns: 86%;
+    gap: 12px;
+    margin-inline: -18px;
+    padding: 4px 18px 6px;
+    scroll-padding-inline: 18px;
+  }
+  .project-track > * {
+    scroll-snap-stop: always;
+  }
   .principles {
     display: grid;
     grid-template-columns: none;
@@ -54,11 +62,9 @@
     scrollbar-width: none;
     border: 0;
   }
-  .project-bento::-webkit-scrollbar,
   .principles::-webkit-scrollbar {
     display: none;
   }
-  .project-bento > *,
   .principles > article {
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -77,13 +83,6 @@
   .project-card {
     border-radius: var(--radius-panel);
   }
-  .project-story h3 {
-    font-size: clamp(2.6rem, 13vw, 3.4rem);
-  }
-  .project-card--workbench h3,
-  .project-card--civic h3 {
-    font-size: clamp(2rem, 10vw, 2.6rem);
-  }
 
   /* ---- Touch ergonomics ---- */
   a,
@@ -100,18 +99,15 @@
    elsewhere the peeking next card already signals the swipe. */
 @supports (scroll-marker-group: after) {
   @media (max-width: 720px) {
-    .project-bento,
     .principles {
       scroll-marker-group: after;
     }
-    .project-bento::scroll-marker-group,
     .principles::scroll-marker-group {
       display: flex;
       justify-content: center;
       gap: 8px;
       grid-column: 1 / -1;
     }
-    .project-bento > *::scroll-marker,
     .principles > article::scroll-marker {
       content: "";
       width: 7px;
@@ -119,7 +115,6 @@
       border-radius: var(--radius-pill);
       background: var(--color-border-strong);
     }
-    .project-bento > *::scroll-marker:target-current,
     .principles > article::scroll-marker:target-current {
       width: 20px;
       background: var(--portfolio-yellow);

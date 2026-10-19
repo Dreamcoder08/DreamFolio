@@ -4,6 +4,7 @@ export const icons = {
   down: '<path d="M12 4v16m-6-6 6 6 6-6"/>',
   up: '<path d="M12 20V4m-6 6 6-6 6 6"/>',
   back: '<path d="M20 12H4m6-6-6 6 6 6"/>',
+  next: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
   location:
     '<path d="M18 9c0 5-6 11-6 11S6 14 6 9a6 6 0 0 1 12 0Z"/><circle cx="12" cy="9" r="2"/>',

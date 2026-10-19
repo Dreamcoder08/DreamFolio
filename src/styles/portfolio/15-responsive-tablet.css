@@ -14,17 +14,8 @@
     width: 90%;
   }
 
-  .project-bento {
-    grid-template-columns: 1fr 1fr;
-  }
-  .project-card--lead {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    grid-template-columns: 1.08fr 0.92fr;
-    grid-template-rows: none;
-  }
-  .project-story h3 {
-    font-size: clamp(3.3rem, 7vw, 5.6rem);
+  .project-track {
+    grid-auto-columns: calc((100% - 18px) / 1.6);
   }
   .module-row {
     grid-template-columns: 30px 44px minmax(150px, 1fr) 100px 1fr 18px;
