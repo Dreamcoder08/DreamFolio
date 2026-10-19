@@ -1,0 +1,12 @@
+{
+  "owners": [
+    { "login": "arkelythex", "kind": "org", "label": "ARKELYTHEX" },
+    { "login": "Dreamcoder08", "kind": "user", "label": "Personal" }
+  ],
+  "exclude": [
+    "Dreamcoder08/dreamcoder08",
+    "Dreamcoder08/DreamFolio",
+    "arkelythex/.github",
+    "arkelythex/admin"
+  ]
+}

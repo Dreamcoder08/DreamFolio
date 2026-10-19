@@ -1,9 +1,7 @@
 // The parsed `--color-*` token maps of both themes, shared by the token
 // contract tests. Reads the `@theme` block and the `[data-theme="light"]`
 // block that each *declare* `--color-surface:` — never the light block that
-// only sets `color-scheme`, nor the --terminal-* token partial's own
-// `@theme`/light blocks (inlined from tokens/components.css), which only
-// reference `var(--color-*)`.
+// only sets `color-scheme`.
 import { blocks } from "./css-parsing.ts";
 import { GLOBAL } from "./stylesheets.ts";
 

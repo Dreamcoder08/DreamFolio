@@ -1,0 +1,72 @@
+---
+// Every curated public repo, grouped by owner. The list itself is produced at
+// build time by scripts/sync-github-repos.mjs (src/data/github-repos.json);
+// this component only renders it. A repo that already has a case study on
+// this site links to it as well, so the two lists never compete.
+import Icon from "./Icon.astro";
+import { withBase } from "../../lib/site";
+import { groupByOwner, type GitHubRepo } from "../../lib/github-repos";
+import config from "../../data/github-repos.config.json";
+import snapshot from "../../data/github-repos.json";
+
+interface Props {
+  /** Repo URL (lower-cased) → case-study path on this site. */
+  caseStudies: Map<string, string>;
+}
+const { caseStudies } = Astro.props;
+const owners = config.owners.map((owner) => ({
+  ...owner,
+  kind: owner.kind === "org" ? ("org" as const) : ("user" as const),
+}));
+const groups = groupByOwner(snapshot.repos as GitHubRepo[], owners);
+const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
+---
+
+<section id="github" class="repo-index" aria-labelledby="repo-title">
+  <header class="repo-index-heading">
+    <p class="eyebrow">En GitHub</p>
+    <h2 id="repo-title">Todo el código abierto.</h2>
+    <p>
+      {total} repositorios públicos, sin forks ni archivados. La lista se
+      actualiza sola en cada publicación del sitio.
+    </p>
+  </header>
+  {groups.map((group) => (
+    <div class="repo-group">
+      <h3 class="repo-group-title">
+        <a href={`https://github.com/${group.owner.login}`} rel="me">
+          {group.owner.label}
+          <span class="mono">github.com/{group.owner.login}</span>
+        </a>
+      </h3>
+      <ul class="repo-grid" role="list">
+        {group.repos.map((repo) => {
+          const caseStudy = caseStudies.get(repo.url.toLowerCase());
+          return (
+            <li class="repo-card">
+              <h4>
+                <a class="repo-card-link" href={repo.url}>
+                  {repo.name}
+                </a>
+              </h4>
+              <p>{repo.description}</p>
+              <div class="repo-card-meta mono">
+                {repo.language && <span>{repo.language}</span>}
+                {repo.stars > 0 && (
+                  <span aria-label={`${repo.stars} estrellas`}>
+                    ★ {repo.stars}
+                  </span>
+                )}
+                {caseStudy && (
+                  <a class="repo-card-case" href={withBase(caseStudy)}>
+                    Ver caso <Icon name="arrow" size={14} />
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ))}
+</section>

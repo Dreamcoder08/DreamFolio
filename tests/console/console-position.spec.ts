@@ -16,7 +16,9 @@ test.describe("Ship console — positioning", () => {
         const home = new HomePage(page);
         const console_ = new ConsolePage(page);
         await home.goto();
-        await console_.openWithTrigger();
+        // Phones hide the header trigger (the dock covers navigation), so
+        // the shortcut opens it at every width.
+        await console_.openWithShortcut();
 
         const box = await console_.dialog.boundingBox();
         if (!box) throw new Error("dialog has no bounding box");

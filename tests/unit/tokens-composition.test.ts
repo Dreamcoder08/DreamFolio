@@ -63,13 +63,6 @@ interface Composition {
 const COMPOSITIONS: readonly Composition[] = [
   {
     file: "src/styles/portfolio.css",
-    selector: ".profile-project",
-    property: "background",
-    declaration:
-      "background: color-mix(in srgb, var(--portfolio-yellow) 7%, var(--color-surface-alt))",
-  },
-  {
-    file: "src/styles/portfolio.css",
     selector: ".project-story blockquote",
     property: "background",
     declaration:

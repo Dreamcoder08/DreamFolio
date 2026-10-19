@@ -26,10 +26,8 @@
     transform: translateY(0);
   }
 }
-.hero-kicker,
 .hero-copy,
-.hero-portrait,
-.hero-ticker {
+.hero-portrait {
   animation: hero-rise var(--motion-reveal) var(--motion-ease) both;
 }
 .hero-copy {
@@ -37,7 +35,4 @@
 }
 .hero-portrait {
   animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step));
-}
-.hero-ticker {
-  animation-delay: calc(var(--motion-stagger) + var(--motion-hero-step) * 2);
 }

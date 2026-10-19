@@ -11,7 +11,7 @@ import Icon from "../ui/Icon.astro";
 >
   <header class="section-heading">
     <div>
-      <p class="eyebrow scene-kicker">01 / TRABAJO SELECCIONADO</p>
+      <p class="eyebrow scene-kicker">Proyectos</p>
       <h2 id="work-title" class="scene-heading">
         Tres proyectos.
         <br />
@@ -19,7 +19,7 @@ import Icon from "../ui/Icon.astro";
       </h2>
     </div>
     <a class="quiet-link" href={withBase("/projects/")}>
-      Índice completo <Icon name="arrow" size={18} />
+      Todos los proyectos y repos <Icon name="arrow" size={18} />
     </a>
   </header>
 
@@ -30,10 +30,6 @@ import Icon from "../ui/Icon.astro";
         href={withBase("/projects/drenyra-fiscal-command-center/")}
         aria-label="Explorar el proyecto Drenyra"
       >
-        <div class="card-meta">
-          <span>01 / PRODUCTO PRINCIPAL</span>
-          <span>REVISIÓN HUMANA</span>
-        </div>
         <img
           class="vt-art-drenyra"
           src={withBase("/images/projects/fiscal-workspace.jpg")}
@@ -42,9 +38,6 @@ import Icon from "../ui/Icon.astro";
           alt="Interfaz de trabajo asistida por IA en una etapa anterior del proyecto"
           loading="lazy"
         />
-        <span class="image-caption mono">
-          ARCHIVO DEL PROTOTIPO / INTERFAZ ANTERIOR
-        </span>
       </a>
       <div class="project-story">
         <div class="project-title-line">
@@ -74,8 +67,11 @@ import Icon from "../ui/Icon.astro";
           <span>Revisión humana</span>
         </div>
         <div class="project-links">
-          <a class="quiet-link" href="#connect">
-            Solicitar información <Icon name="arrow" size={17} />
+          <a
+            class="quiet-link"
+            href={withBase("/projects/drenyra-fiscal-command-center/")}
+          >
+            Ver el proyecto <Icon name="arrow" size={17} />
           </a>
         </div>
       </div>

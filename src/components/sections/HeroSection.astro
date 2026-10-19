@@ -1,5 +1,5 @@
 ---
-import { siteConfig } from "../../lib/site";
+import { whatsapp } from "../../lib/site";
 import Icon from "../ui/Icon.astro";
 import ProfileCard from "../ui/ProfileCard.astro";
 import ConvergenceField from "../ui/ConvergenceField.astro";
@@ -8,13 +8,6 @@ import ConvergenceField from "../ui/ConvergenceField.astro";
 <section class="hero" aria-labelledby="hero-title">
   <ConvergenceField />
   <div class="hero-content wrap">
-    <div class="hero-kicker">
-      <span class="mono">DREAMCODER / SOFTWARE & IA</span>
-      <span class="location">
-        <Icon name="location" size={15} /> Perú
-      </span>
-    </div>
-
     <div class="hero-stage">
       <div class="hero-copy">
         <p class="hero-intro">Software, sistemas de IA y producto digital</p>
@@ -31,39 +24,25 @@ import ConvergenceField from "../ui/ConvergenceField.astro";
             y decisiones que se pueden explicar.
           </p>
           <div class="actions">
-            <a class="solid-link" href="#projects">
-              Ver proyectos <Icon name="down" size={18} />
+            <a
+              class="solid-link"
+              href={whatsapp(
+                "Hola Dreamcoder, vi tu portafolio y me gustaría conversar.",
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="whatsapp" size={19} /> Escríbeme por WhatsApp
             </a>
-            <a class="quiet-link" href={siteConfig.social.github}>
-              <Icon name="github" size={19} /> GitHub{" "}
-              <Icon name="arrow" size={17} />
+            <a class="quiet-link" href="#projects">
+              Ver proyectos <Icon name="down" size={17} />
             </a>
           </div>
         </div>
       </div>
       <div class="hero-portrait">
-        <span class="portrait-orbit" aria-hidden="true">
-          {" "}
-          08{" "}
-        </span>
         <ProfileCard />
-        <p class="portrait-note mono">
-          <span>●</span> OPERANDO DESDE PERÚ
-        </p>
       </div>
-    </div>
-
-    <div class="hero-ticker" aria-label="Áreas de trabajo">
-      <span>
-        <Icon name="layers" size={17} /> ARQUITECTURA
-      </span>
-      <span>
-        <Icon name="agents" size={17} /> IA CON SUPERVISIÓN
-      </span>
-      <span>
-        <Icon name="code" size={17} /> PRODUCTO DIGITAL
-      </span>
-      <span class="hero-index">PORTAFOLIO / 2026</span>
     </div>
   </div>
 </section>

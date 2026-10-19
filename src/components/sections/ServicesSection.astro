@@ -1,5 +1,5 @@
 ---
-import { mailto } from "../../lib/site";
+import { whatsapp } from "../../lib/site";
 import Icon from "../ui/Icon.astro";
 ---
 
@@ -11,7 +11,7 @@ import Icon from "../ui/Icon.astro";
 >
   <header class="section-heading">
     <div>
-      <p class="eyebrow scene-kicker">04 / SERVICIOS</p>
+      <p class="eyebrow scene-kicker">Servicios</p>
       <h2 id="services-title" class="scene-heading">
         Construyo software.
         <br />
@@ -19,12 +19,14 @@ import Icon from "../ui/Icon.astro";
       </h2>
     </div>
     <p class="heading-note">
-      Compromisos seleccionados, con alcance y supuestos por escrito.
+      Escríbeme con tu idea: respondo con alcance y supuestos por escrito.
     </p>
   </header>
   <div class="module-list">
     <a
-      href={mailto("Servicio: Producto web")}
+      href={whatsapp("Hola Dreamcoder, me interesa: Producto web.")}
+      target="_blank"
+      rel="noopener noreferrer"
       class="module-row scene-card"
       data-reveal
     >
@@ -41,7 +43,9 @@ import Icon from "../ui/Icon.astro";
       <Icon name="arrow" size={18} />
     </a>
     <a
-      href={mailto("Servicio: Automatización con IA")}
+      href={whatsapp("Hola Dreamcoder, me interesa: Automatización con IA.")}
+      target="_blank"
+      rel="noopener noreferrer"
       class="module-row scene-card"
       data-reveal
     >
@@ -58,7 +62,9 @@ import Icon from "../ui/Icon.astro";
       <Icon name="arrow" size={18} />
     </a>
     <a
-      href={mailto("Servicio: Revisión de arquitectura")}
+      href={whatsapp("Hola Dreamcoder, me interesa: Revisión de arquitectura.")}
+      target="_blank"
+      rel="noopener noreferrer"
       class="module-row scene-card"
       data-reveal
     >

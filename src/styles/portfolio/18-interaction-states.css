@@ -23,8 +23,7 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.theme-toggle:hover,
-.menu-toggle:hover {
+.theme-toggle:hover {
   background: var(--color-surface-hover);
   border-color: var(--color-border-interactive-hover);
 }
@@ -55,15 +54,13 @@
 /* Dark-scoped toggle boundary (task 2.8). At rest the toggles move off
    --color-border (0.16, 1.44:1 on --color-surface) onto the interactive token
    (0.40, 3.66:1). */
-[data-theme="dark"] .theme-toggle,
-[data-theme="dark"] .menu-toggle {
+[data-theme="dark"] .theme-toggle {
   border-color: var(--color-border-interactive);
 }
 
 /* ---- Press ---- */
 /* Controls that carry a fill move to the pressed surface step. */
-.theme-toggle:active,
-.menu-toggle:active {
+.theme-toggle:active {
   background: var(--color-surface-active);
   border-color: var(--color-border-interactive-hover);
   transform: translateY(1px);
@@ -112,9 +109,7 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.contact-social a:active {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.contact-channels a:active {
   transform: translateY(2px);
 }
 .nav-contact:active {
@@ -123,10 +118,6 @@
 .circle-link:active {
   border-color: var(--color-border-interactive-hover);
   transform: scale(0.94);
-}
-.mobile-nav a:active {
-  border-color: var(--color-border-interactive);
-  transform: translateX(2px);
 }
 
 /* ---- forced-colors: targeted non-colour state signals ----
@@ -147,7 +138,6 @@
   .nav-contact:hover,
   .circle-link:hover,
   .theme-toggle:hover,
-  .menu-toggle:hover,
   .solid-link:hover,
   .btn-primary:hover {
     outline: 1px solid CanvasText;
@@ -162,15 +152,13 @@
   }
   .module-row:active,
   .theme-toggle:active,
-  .menu-toggle:active,
   .desktop-nav a:active,
   .quiet-link:active,
   .project-links a:active,
   .site-footer > a:active,
-  .contact-social a:active,
+  .contact-channels a:active,
   .nav-contact:active,
   .circle-link:active,
-  .mobile-nav a:active,
   .btn-primary:active,
   .solid-link:active {
     outline: 2px dashed CanvasText;

@@ -17,9 +17,8 @@ import { composite, formatRatio, parseColor, ratio } from "../support/contrast";
 
 /**
  * The plain focusable selectors — the set that inherited the removed
- * `:focus-visible { border-radius: 4px }` mutation. `.mobile-nav a` is covered by
- * the mobile target above; `.about-copy a:not(.quiet-link)` has no instance in the
- * tree today, so there is nothing to read for it.
+ * `:focus-visible { border-radius: 4px }` mutation. `.about-copy a:not(.quiet-link)`
+ * has no instance in the tree today, so there is nothing to read for it.
  */
 const PLAIN_FOCUSABLE: readonly {
   id: string;
@@ -31,7 +30,7 @@ const PLAIN_FOCUSABLE: readonly {
   { id: "03", selector: ".desktop-nav a", path: HOME },
   { id: "04", selector: ".quiet-link", path: HOME },
   { id: "05", selector: ".project-links a", path: HOME },
-  { id: "06", selector: ".contact-social a", path: HOME },
+  { id: "06", selector: ".contact-channels a", path: HOME },
   { id: "07", selector: ".site-footer > a", path: HOME },
   { id: "08", selector: ".projects-entry-link", path: PROJECTS_INDEX },
 ];
@@ -97,7 +96,7 @@ const INK_VARIANTS: readonly {
   },
   {
     id: "02",
-    selector: ".contact-social a",
+    selector: ".contact-channels a",
     surface: ".contact-section",
     path: HOME,
   },

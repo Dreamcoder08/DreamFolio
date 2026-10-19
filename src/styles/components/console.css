@@ -35,6 +35,13 @@
     display: none;
   }
 }
+/* On phones the bottom dock already covers navigation and contact; a second
+   launcher in the header pill is noise. */
+@media (max-width: 720px) {
+  .console-trigger {
+    display: none;
+  }
+}
 
 .ship-console {
   /* Tailwind's preflight resets `margin: 0` on every element (incl.

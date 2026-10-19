@@ -30,19 +30,7 @@
   object-position: 50% 28%;
   filter: saturate(0.82) contrast(1.05);
 }
-.portrait-caption {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 9px;
-  color: var(--portfolio-yellow-ink);
-  background: var(--portfolio-yellow);
-  font: 0.68rem var(--font-mono);
-  letter-spacing: 0.06em;
-}
+
 .profile-bio {
   padding: 18px 19px 16px;
   border-top: 1px solid var(--color-border);
@@ -54,14 +42,7 @@
   letter-spacing: -0.045em;
   line-height: 1.2 !important;
 }
-.profile-signature {
-  margin-left: 9px;
-  color: var(--portfolio-yellow);
-  font-family: Georgia, serif;
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: 400;
-}
+
 .profile-role {
   margin-top: 9px;
   color: var(--color-text-secondary);
@@ -74,71 +55,4 @@
   gap: 6px;
   color: var(--color-text-secondary);
   font-size: 0.76rem;
-}
-.profile-project {
-  display: grid;
-  grid-template-columns: 34px 1fr 18px;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 18px;
-  color: var(--portfolio-yellow);
-  background: color-mix(
-    in srgb,
-    var(--portfolio-yellow) 7%,
-    var(--color-surface-alt)
-  );
-  border-top: 1px solid var(--color-border);
-}
-.profile-project-label {
-  display: block;
-  color: var(--color-text-secondary);
-  font: 0.65rem var(--font-mono);
-  letter-spacing: 0.07em;
-}
-.profile-project strong {
-  display: block;
-  margin-top: 3px;
-  color: var(--color-text);
-  font-size: 0.94rem;
-}
-.profile-project small {
-  color: var(--color-text-secondary);
-  font-size: 0.68rem;
-  font-weight: 400;
-}
-.portrait-note {
-  position: absolute;
-  z-index: 4;
-  right: -12%;
-  bottom: 5%;
-  padding: 10px 13px;
-  color: var(--color-text);
-  background: var(--portfolio-cream);
-  transform: rotate(2deg);
-}
-.portrait-note span {
-  color: var(--color-accent);
-}
-.hero-ticker {
-  min-height: 66px;
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  padding-block: 16px;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  font: 0.68rem var(--font-mono);
-  letter-spacing: 0.06em;
-}
-.hero-ticker > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.hero-ticker .icon {
-  color: var(--portfolio-yellow);
-}
-.hero-index {
-  margin-left: auto;
 }

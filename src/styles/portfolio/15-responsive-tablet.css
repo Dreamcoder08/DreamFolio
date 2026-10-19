@@ -13,15 +13,7 @@
   .hero-brief {
     width: 90%;
   }
-  .portrait-note {
-    right: -4%;
-  }
-  .hero-ticker {
-    flex-wrap: wrap;
-  }
-  .hero-index {
-    display: none;
-  }
+
   .project-bento {
     grid-template-columns: 1fr 1fr;
   }

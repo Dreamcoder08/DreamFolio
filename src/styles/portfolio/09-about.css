@@ -1,22 +1,8 @@
 /* About */
 .about-section {
-  /* `overflow: clip`, not `overflow: hidden`: both clip the bleeding
-     `.about-mark` watermark below to this box's edges and both keep that
-     bleed out of the page's scrollable area (unlike `clip-path`, which
-     only clips at paint time and was measured to let the watermark's
-     negative offset still widen the document's scrollable width at narrow
-     viewports). `hidden` differs from `clip` in one load-bearing way: an
-     element with `overflow: hidden` still counts as a CSS *scroll
-     container*, which silently becomes the reference scroller for any
-     descendant's `animation-timeline: view()` (T2's `.scene-kicker`/
-     `.scene-heading` in this section) instead of the real document
-     scroller — measured: with `hidden` the animation reports 100% progress
-     regardless of actual scroll position, since relative to a container
-     that itself never scrolls, the subject is always "fully entered".
-     `clip` forbids scrolling entirely and was measured to not establish a
-     scroll container, so the descendants' timeline resolves against the
-     document as intended — matching the same reasoning `body`'s and
-     `.hero-stage`'s existing `overflow-x: clip` already rely on. */
+  /* `clip`, not `hidden`: `hidden` would make this box a scroll container
+     and hijack the `animation-timeline: view()` of the scene headings
+     inside it (measured: stuck at 100% progress). */
   overflow: clip;
   padding-block: clamp(90px, 10vw, 140px);
   color: var(--portfolio-yellow-ink);
@@ -41,21 +27,7 @@
   color: currentColor;
   opacity: 0.66;
 }
-.about-mark {
-  position: absolute;
-  right: -7%;
-  bottom: -36%;
-  color: color-mix(in srgb, var(--color-on-accent) 7%, transparent);
-  font-size: clamp(10rem, 24vw, 23rem);
-  font-weight: 900;
-  letter-spacing: -0.12em;
-  line-height: 1;
-  pointer-events: none;
-}
-.about-mark span {
-  font-family: Georgia, serif;
-  font-style: italic;
-}
+
 .about-copy {
   position: relative;
   z-index: 1;
@@ -86,4 +58,18 @@
   margin-top: 8px;
   color: currentColor;
   border-bottom: 1px solid currentColor;
+}
+.about-stack {
+  margin-block: 26px 22px;
+  padding-top: 18px;
+  border-top: 1px solid
+    color-mix(in srgb, var(--portfolio-yellow-ink) 30%, transparent);
+  font-size: 0.9rem;
+}
+.about-stack .mono {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }

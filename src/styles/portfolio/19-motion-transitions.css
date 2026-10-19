@@ -24,7 +24,7 @@
    from this list, so the underline appeared and its offset jumped in the frame the
    state applied. Both belong to the same declaration as the rest of the set:
    the six selectors that write their decoration (`.desktop-nav a`, `.nav-contact`,
-   `.quiet-link`, `.project-links a`, `.site-footer > a`, `.contact-social a`) all
+   `.quiet-link`, `.project-links a`, `.site-footer > a`, `.contact-channels a`) all
    already share it, and on the selectors that never touch their decoration the two
    entries are inert. `text-decoration-line` is a discrete property — naming it is
    honest about what the state writes, but only the offset can interpolate, and only
@@ -34,12 +34,10 @@
 .quiet-link,
 .project-links a,
 .site-footer > a,
-.contact-social a,
+.contact-channels a,
 .nav-contact,
 .circle-link,
-.mobile-nav a,
 .theme-toggle,
-.menu-toggle,
 .solid-link,
 .btn-primary,
 .skip-link {

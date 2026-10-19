@@ -23,20 +23,10 @@
     height: 58px;
   }
   .site-header .theme-toggle,
-  .site-header .menu-toggle,
   .site-header .console-trigger {
     border-color: transparent;
   }
-  /* The menu opens as a sheet inside the pill, not a slab under it. */
-  .mobile-nav {
-    margin: 0 8px 8px;
-    padding: 6px 14px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-panel);
-  }
-  .mobile-nav a:last-child {
-    border-bottom: 0;
-  }
+
   html {
     scroll-padding-top: 84px;
   }

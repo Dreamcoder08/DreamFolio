@@ -37,24 +37,18 @@ test.describe("Home — navbar", () => {
   );
 
   test(
-    "mobile menu opens, closes on Escape with focus returned, and closes on link click",
+    "on phones the header holds only the brand, theme and contact: the dock is the navigation",
     { tag: ["@critical", "@navbar", "@HOME-NAVBAR-002"] },
     async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const home = new HomePage(page);
       await home.goto();
 
-      await expect(home.mobileNav).toBeHidden();
-      await home.openMobileMenu();
-      await expect(home.mobileNav).toBeVisible();
-
-      await page.keyboard.press("Escape");
-      await expect(home.mobileNav).toBeHidden();
-      await expect(home.menuToggle).toBeFocused();
-
-      await home.openMobileMenu();
-      await home.mobileNav.getByRole("link").first().click();
-      await expect(home.mobileNav).toBeHidden();
+      await expect(page.getByRole("button", { name: /menú/i })).toHaveCount(0);
+      await expect(page.locator("#console-trigger")).toBeHidden();
+      await expect(
+        page.getByRole("navigation", { name: "Accesos rápidos" }),
+      ).toBeVisible();
     },
   );
 });

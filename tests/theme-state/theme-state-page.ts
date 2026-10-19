@@ -50,14 +50,6 @@ export class ThemeStatePage extends BasePage {
     await this.page.setViewportSize(VIEWPORT_SIZE[viewport]);
   }
 
-  /** Opens the mobile navigation, which is the only way `.mobile-nav a` is reachable. */
-  async openMobileMenu(): Promise<void> {
-    await this.page.getByRole("button", { name: /menú/i }).click();
-    await this.page.locator(".mobile-nav a").first().waitFor({
-      state: "visible",
-    });
-  }
-
   async forcedColorsActive(): Promise<boolean> {
     return this.page.evaluate(
       () => window.matchMedia("(forced-colors: active)").matches,

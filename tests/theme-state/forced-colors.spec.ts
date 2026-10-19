@@ -33,7 +33,7 @@ const FORCED_PRESSED: readonly { selector: string; path: string }[] = [
   { selector: ".desktop-nav a", path: HOME },
   { selector: ".nav-contact", path: HOME },
   { selector: ".site-footer > a", path: HOME },
-  { selector: ".contact-social a", path: HOME },
+  { selector: ".contact-channels a", path: HOME },
 ];
 
 test.describe("Forced-colors signals (best practice, not a WCAG requirement)", () => {

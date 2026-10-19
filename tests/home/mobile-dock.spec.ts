@@ -14,7 +14,7 @@ test.describe("Mobile dock", () => {
       await home.goto();
       await expect(dock(page)).toBeVisible();
       await expect(dock(page).getByRole("link")).toHaveCount(5);
-      for (const name of ["Inicio", "Proyectos", "Sobre mí", "Contacto"]) {
+      for (const name of ["Proyectos", "Servicios", "Sobre mí", "Contacto"]) {
         const link = dock(page).getByRole("link", { name });
         await expect(link).toBeVisible();
         const box = await link.boundingBox();
@@ -35,11 +35,18 @@ test.describe("Mobile dock", () => {
       const home = new HomePage(page);
       await home.goto();
       const tab = (name: string) => dock(page).getByRole("link", { name });
-      await expect(tab("Inicio")).toHaveAttribute("aria-current", "true");
+      // Over the hero nothing is lit: no tab claims a section not yet reached.
+      await expect(dock(page).locator('[aria-current="true"]')).toHaveCount(0);
+      await tab("Proyectos").click();
+      await expect(page).toHaveURL(/#projects$/);
+      await expect(tab("Proyectos")).toHaveAttribute("aria-current", "true");
       await tab("Contacto").click();
       await expect(page).toHaveURL(/#connect$/);
       await expect(tab("Contacto")).toHaveAttribute("aria-current", "true");
-      await expect(tab("Inicio")).not.toHaveAttribute("aria-current", "true");
+      await expect(tab("Proyectos")).not.toHaveAttribute(
+        "aria-current",
+        "true",
+      );
     },
   );
 
@@ -64,20 +71,18 @@ test.describe("Mobile dock", () => {
   );
 
   test(
-    "steps aside while the mobile menu is open or a contact field has focus",
+    "steps aside while the console is open",
     { tag: ["@mobile", "@DOCK-004"] },
     async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const home = new HomePage(page);
       await home.goto();
-      await home.openMobileMenu();
-      await expect(dock(page)).toBeHidden();
-      await home.openMobileMenu();
       await expect(dock(page)).toBeVisible();
-      const field = page.locator("#terminal-subject");
-      await expect(field).toBeVisible();
-      await field.focus();
+      await page.keyboard.press("Control+k");
+      await expect(page.locator(".ship-console")).toBeVisible();
       await expect(dock(page)).toBeHidden();
+      await page.keyboard.press("Escape");
+      await expect(dock(page)).toBeVisible();
     },
   );
 });
@@ -90,7 +95,7 @@ test.describe("Mobile rails", () => {
       await page.setViewportSize({ width: 390, height: 844 });
       const home = new HomePage(page);
       await home.goto();
-      for (const selector of [".project-bento", "#architecture .principles"]) {
+      for (const selector of [".project-bento", "#process .principles"]) {
         const rail = page.locator(selector);
         const scrolls = await rail.evaluate(
           (el) =>

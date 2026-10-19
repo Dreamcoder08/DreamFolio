@@ -12,16 +12,16 @@ import "../../styles/components/mobile-dock.css";
 
 const tabs: { label: string; href: string; icon: IconName; id: string }[] = [
   {
-    label: "Inicio",
-    href: withBase("/#main-content"),
-    icon: "home",
-    id: "top",
-  },
-  {
     label: "Proyectos",
     href: withBase("/#projects"),
     icon: "layers",
     id: "projects",
+  },
+  {
+    label: "Servicios",
+    href: withBase("/#services"),
+    icon: "code",
+    id: "services",
   },
   { label: "Sobre mí", href: withBase("/#about"), icon: "user", id: "about" },
   {
@@ -65,15 +65,14 @@ const href = whatsapp(
   // the sections exist; elsewhere every tab is a plain link.
   const links =
     document.querySelectorAll<HTMLAnchorElement>("[data-dock-target]");
-  // Which tab each homepage section belongs to: the "how I work" sections
-  // after About read as part of it, so a tab is always lit.
+  // Which tab each homepage section belongs to; "how I work" reads as part
+  // of Services, and nothing is lit over the hero.
   const tabFor: Record<string, string> = {
-    hero: "top",
+    hero: "none",
     projects: "projects",
+    services: "services",
+    process: "services",
     about: "about",
-    architecture: "about",
-    services: "about",
-    process: "about",
     connect: "connect",
   };
   const sections = Object.keys(tabFor)
@@ -98,12 +97,11 @@ const href = whatsapp(
         entries.forEach((e) => {
           if (!e.isIntersecting) return;
           const key = e.target.id || "hero";
-          mark(tabFor[key] ?? "top");
+          mark(tabFor[key] ?? "none");
         });
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
     sections.forEach((s) => io.observe(s));
-    mark("top");
   }
 </script>

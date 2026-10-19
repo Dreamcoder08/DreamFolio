@@ -150,11 +150,6 @@ async function open(page: Page, target: Target, theme: Theme): Promise<void> {
       page.evaluate(() => document.documentElement.getAttribute("data-theme")),
     )
     .toBe(theme);
-
-  if (target.openMenu) {
-    await page.getByRole("button", { name: /menú/i }).click();
-    await page.locator(".mobile-nav a").first().waitFor({ state: "visible" });
-  }
 }
 
 /**
