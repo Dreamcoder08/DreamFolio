@@ -145,7 +145,7 @@ test.describe("Homepage — scroll narrative stagger", () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await new HomePage(page).goto();
 
-      for (const group of ["#projects", "#services", "#process .principles"]) {
+      for (const group of ["#services", "#process .principles"]) {
         const starts = await page
           .locator(`${group} .scene-card`)
           .evaluateAll((cards) =>

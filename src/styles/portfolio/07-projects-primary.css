@@ -1,105 +1,136 @@
-/* Project bento */
-.project-bento {
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  grid-template-rows: auto auto;
-  gap: 18px;
+/* Projects carousel (ProjectsSection.astro): one row of equal cards that
+   scroll-snaps horizontally at every width. The arrows and counter are
+   added by the section's script; without it the row still swipes and
+   scrolls. */
+.project-carousel {
+  position: relative;
 }
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.carousel-controls[hidden] {
+  display: none;
+}
+.carousel-count {
+  min-width: 64px;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  text-align: center;
+}
+.project-track {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  /* Two cards and a peek of the third: the peek is what says "there is
+     more, move me". */
+  grid-auto-columns: calc((100% - 2 * 18px) / 2.35);
+  gap: 18px;
+  margin: 0;
+  padding: 0 0 6px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.project-track::-webkit-scrollbar {
+  display: none;
+}
+.project-track:focus-visible {
+  outline-offset: 6px;
+}
+
 .project-card {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--color-border);
   background: var(--color-surface-alt);
+  scroll-snap-align: start;
 }
-.project-card--lead {
-  grid-row: 1 / 3;
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
-.project-image {
+.project-cover {
   position: relative;
-  display: block;
-  padding: 54px 28px 45px;
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  padding: 26px 26px 0;
   overflow: hidden;
-  color: var(--color-text);
+  color: var(--portfolio-yellow-ink);
   background: var(--portfolio-yellow);
 }
-.project-image::before {
+.project-cover::before {
   content: "";
   position: absolute;
-  width: 240px;
-  height: 240px;
-  right: -85px;
-  top: -100px;
+  width: 220px;
+  height: 220px;
+  right: -80px;
+  top: -90px;
   border: 1px solid color-mix(in srgb, var(--color-on-accent) 25%, transparent);
   border-radius: var(--radius-circle);
 }
-.project-image img {
+.project-cover img {
   position: relative;
   z-index: 1;
+  align-self: end;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: top;
   border: 1px solid color-mix(in srgb, var(--color-on-accent) 40%, transparent);
+  border-bottom: 0;
   box-shadow: var(--shadow-image);
   transition: transform var(--motion-image) var(--motion-ease);
 }
-.project-image:hover img {
-  transform: translateY(-7px) rotate(0.4deg);
+.project-card:hover .project-cover img {
+  transform: translateY(-6px);
 }
-
-.project-story {
-  padding: clamp(26px, 4vw, 48px);
+/* Projects without a screenshot get a typographic cover in the same frame,
+   so the row keeps one rhythm. */
+.project-cover-mark {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  padding-bottom: 26px;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 760;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  text-align: center;
 }
-.project-title-line,
-.compact-heading {
+.project-body {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  padding: clamp(22px, 2.6vw, 30px);
 }
-.project-title-line .eyebrow,
-.compact-heading .eyebrow {
-  margin: 0;
+.project-body h3 {
+  margin-top: 16px;
+  font-size: clamp(1.7rem, 2.4vw, 2.3rem);
+  font-weight: 720;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+.project-body h3 a {
+  color: var(--color-text);
+}
+.project-body > p {
+  margin-top: 14px;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+.project-body .project-links {
+  margin-top: auto;
+  padding-top: 18px;
 }
 .project-number {
   color: var(--color-text-secondary);
   font: 0.7rem var(--font-mono);
-}
-.project-story h3 {
-  margin-top: 18px;
-  color: var(--color-text);
-  font-size: clamp(3.3rem, 6vw, 6.2rem);
-  line-height: 0.9;
-  font-weight: 760;
-  letter-spacing: -0.075em;
-}
-.project-lead {
-  margin-block: 24px 10px;
-  color: var(--color-text);
-  font:
-    italic 1.45rem / 1.35 Georgia,
-    serif;
-}
-.project-story > p:not(.eyebrow):not(.project-lead) {
-  max-width: 590px;
-  color: var(--color-text-secondary);
-  font-size: 0.95rem;
-}
-.project-story blockquote {
-  margin-top: 25px;
-  display: flex;
-  gap: 13px;
-  align-items: flex-start;
-  padding: 18px;
-  color: var(--portfolio-yellow);
-  background: color-mix(
-    in srgb,
-    var(--portfolio-yellow) 7%,
-    var(--color-surface)
-  );
-  border-left: 3px solid var(--portfolio-yellow);
-  font-size: 0.86rem;
 }
 .tags {
   display: flex;

@@ -179,8 +179,7 @@ const INTERACTIVE = [
   ".skip-link",
   ".card",
   ".module-row",
-  ".project-image img",
-  ".compact-image img",
+  ".project-cover img",
 ];
 
 const MOTION_PROPERTIES = new Set(["transition"]);

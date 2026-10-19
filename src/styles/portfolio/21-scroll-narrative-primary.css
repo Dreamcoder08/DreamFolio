@@ -144,8 +144,7 @@
        range forward instead of a time-based `animation-delay` — a delay is
        a duration, and a scroll-driven animation's "duration" is the whole
        range, so offsetting the range is the scroll-linked equivalent of the
-       IO reveal's `--motion-stagger`. Covers `.project-card` (3),
-       `.principles article` (3, on #process) and
+       IO reveal's `--motion-stagger`. Covers `.principles article` (3, on #process) and
        `.module-row` (3) — every group is the only children of its own
        container, so plain `:nth-child` does not cross between them. */
     .scene-card {

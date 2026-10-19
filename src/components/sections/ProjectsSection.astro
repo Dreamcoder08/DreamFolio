@@ -1,6 +1,28 @@
 ---
+// Every case study from projects.json as one row of cards you move through
+// with the arrows, a swipe or the keyboard. Without JS it is still a plain
+// horizontal scroll-snap list; the script only adds the arrows and counter.
+import { getCollection } from "astro:content";
 import { withBase } from "../../lib/site";
+import {
+  carouselOrder,
+  domainLabel,
+  getProjectSlug,
+  SHARED_ART_PROJECT_IDS,
+} from "../../lib/project-presentation";
 import Icon from "../ui/Icon.astro";
+import source from "../../data/projects.json";
+
+// getCollection() does not promise the file's order, so it is restored
+// from projects.json before the carousel ordering applies.
+const fileOrder = source.map((entry) => entry.id);
+const projects = carouselOrder(
+  (await getCollection("projects"))
+    .map(({ data }) => data)
+    .sort((a, b) => fileOrder.indexOf(a.id) - fileOrder.indexOf(b.id)),
+);
+const pad = (n: number) => String(n).padStart(2, "0");
+const total = pad(projects.length);
 ---
 
 <section
@@ -13,7 +35,7 @@ import Icon from "../ui/Icon.astro";
     <div>
       <p class="eyebrow scene-kicker">Proyectos</p>
       <h2 id="work-title" class="scene-heading">
-        Tres proyectos.
+        Lo que he construido.
         <br />
         <span>Una práctica en evolución.</span>
       </h2>
@@ -23,146 +45,151 @@ import Icon from "../ui/Icon.astro";
     </a>
   </header>
 
-  <div class="project-bento">
-    <article class="project-card project-card--lead scene-card" data-reveal>
-      <a
-        class="project-image"
-        href={withBase("/projects/drenyra-fiscal-command-center/")}
-        aria-label="Explorar el proyecto Drenyra"
+  <div class="project-carousel" data-carousel>
+    <div class="carousel-controls" data-carousel-controls hidden>
+      <button
+        type="button"
+        class="circle-link"
+        data-carousel-prev
+        aria-label="Proyecto anterior"
+        aria-controls="project-track"
       >
-        <img
-          class="vt-art-drenyra"
-          src={withBase("/images/projects/fiscal-workspace.jpg")}
-          width="1920"
-          height="1080"
-          alt="Interfaz de trabajo asistida por IA en una etapa anterior del proyecto"
-          loading="lazy"
-        />
-      </a>
-      <div class="project-story">
-        <div class="project-title-line">
-          <p class="eyebrow">IA + CONTABILIDAD</p>
-          <span class="project-number">01</span>
-        </div>
-        <h3>Drenyra</h3>
-        <p class="project-lead">
-          Un espacio de trabajo para la contabilidad con IA.
-        </p>
-        <p>
-          Conecta agentes, contexto y revisión profesional para asistir el
-          trabajo contable en Perú y Latinoamérica.
-        </p>
-        <blockquote>
-          <Icon name="evidence" size={20} />{" "}
-          <span>
-            La IA asiste. El sistema valida.
-            <br />
-            El profesional revisa.
-          </span>
-        </blockquote>
-        <div class="tags">
-          <span>Contabilidad</span>
-          <span>IA supervisada</span>
-          <span>Trazabilidad</span>
-          <span>Revisión humana</span>
-        </div>
-        <div class="project-links">
-          <a
-            class="quiet-link"
-            href={withBase("/projects/drenyra-fiscal-command-center/")}
-          >
-            Ver el proyecto <Icon name="arrow" size={17} />
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article
-      class="project-card project-card--workbench scene-card"
-      data-reveal
-    >
-      <div class="compact-heading">
-        <span class="project-number">02</span>
-        <p class="eyebrow">
-          <Icon name="terminal" size={16} /> DEVELOPER EXPERIENCE
-        </p>
-      </div>
-      <h3>
-        Dreamcoder
-        <br />
-        Workbench
-      </h3>
-      <p>
-        Mi entorno Arch Linux: configuración, terminal y herramientas adaptadas
-        a cómo construyo software.
+        <Icon name="back" size={20} />
+      </button>
+      <p class="carousel-count mono" aria-live="polite">
+        <span data-carousel-index>01</span> / {total}
       </p>
-      <a
-        class="compact-image"
-        href={withBase("/projects/dreamcoder-workbench/")}
-        aria-label="Explorar Dreamcoder Workbench"
+      <button
+        type="button"
+        class="circle-link"
+        data-carousel-next
+        aria-label="Proyecto siguiente"
+        aria-controls="project-track"
       >
-        <img
-          class="vt-art-dreamcoder-workbench"
-          src={withBase("/images/projects/dreamcoder-workbench.webp")}
-          alt="Entorno de terminal de Dreamcoder Workbench sobre Arch Linux"
-          width="1600"
-          height="900"
-          loading="lazy"
-        />
-      </a>
-      <div class="compact-footer">
-        <div class="tags">
-          <span>Arch Linux</span>
-          <span>Shell</span>
-          <span>Lua</span>
-        </div>
-        <a
-          href="https://github.com/Dreamcoder08/Dreamcoder-Workbench"
-          class="circle-link"
-          aria-label="Código de Dreamcoder Workbench"
-        >
-          <Icon name="arrow" size={20} />
-        </a>
-      </div>
-    </article>
-
-    <article class="project-card project-card--civic scene-card" data-reveal>
-      <div class="compact-heading">
-        <span class="project-number">03</span>
-        <p class="eyebrow">
-          <Icon name="globe" size={16} /> TECNOLOGÍA CÍVICA
-        </p>
-      </div>
-      <a
-        class="compact-image"
-        href={withBase("/projects/digital-public-peru/")}
-        aria-label="Explorar Digital Public Peru"
-      >
-        <img
-          class="vt-art-digital-public-peru"
-          src={withBase("/images/projects/digital-public-peru-desktop.png")}
-          alt="Interfaz del proyecto Digital Public Peru"
-          width="1600"
-          height="900"
-          loading="lazy"
-        />
-      </a>
-      <h3>Digital Public Peru</h3>
-      <p>Exploración de información pública y transparencia en Perú.</p>
-      <div class="compact-footer">
-        <div class="tags">
-          <span>Información pública</span>
-          <span>Transparencia</span>
-          <span>Datos abiertos</span>
-        </div>
-        <a
-          href={withBase("/projects/digital-public-peru/")}
-          class="circle-link"
-          aria-label="Explorar Digital Public Peru"
-        >
-          <Icon name="arrow" size={20} />
-        </a>
-      </div>
-    </article>
+        <Icon name="next" size={20} />
+      </button>
+    </div>
+    <ul
+      id="project-track"
+      class="project-track"
+      role="list"
+      tabindex="0"
+      aria-label="Proyectos, desliza o usa las flechas"
+      data-carousel-track
+    >
+      {projects.map((project, index) => {
+        const href = withBase(`/projects/${getProjectSlug(project.title)}/`);
+        return (
+          <li class="project-card">
+            <a
+              class="project-cover"
+              href={href}
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              {project.coverImage ? (
+                <img
+                  class:list={[
+                    SHARED_ART_PROJECT_IDS.has(project.id) &&
+                      `vt-art-${project.id}`,
+                  ]}
+                  src={withBase(project.coverImage)}
+                  alt=""
+                  width="1600"
+                  height="900"
+                  loading={index < 2 ? "eager" : "lazy"}
+                />
+              ) : (
+                <span class="project-cover-mark">{project.title}</span>
+              )}
+            </a>
+            <div class="project-body">
+              <div class="compact-heading">
+                <p class="eyebrow">{domainLabel(project.domain)}</p>
+                <span class="project-number">{pad(index + 1)}</span>
+              </div>
+              <h3>
+                <a href={href}>{project.title}</a>
+              </h3>
+              <p>{project.summary}</p>
+              <div class="tags">
+                {project.stack.slice(0, 4).map((tag) => (
+                  <span>{tag}</span>
+                ))}
+              </div>
+              <div class="project-links">
+                <a href={href}>
+                  Ver el proyecto <Icon name="arrow" size={17} />
+                </a>
+                {project.githubUrl && (
+                  <a href={project.githubUrl}>
+                    <Icon name="github" size={18} /> GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   </div>
 </section>
+
+<script>
+  // Arrows move one card at a time (wrapping at the ends); the counter follows any scroll (arrow,
+  // swipe, trackpad or keyboard). Smooth only when motion is welcome.
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+    const controls = root.querySelector<HTMLElement>(
+      "[data-carousel-controls]",
+    );
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    const index = root.querySelector<HTMLElement>("[data-carousel-index]");
+    if (!track || !controls || !prev || !next || !index) return;
+    const cards = Array.from(track.children) as HTMLElement[];
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const current = () => {
+      // Cards are positioned against the track (position: relative).
+      const left = track.scrollLeft + cards[0].offsetLeft;
+      let best = 0;
+      cards.forEach((card, i) => {
+        const d = Math.abs(card.offsetLeft - left);
+        if (d < Math.abs(cards[best].offsetLeft - left)) best = i;
+      });
+      return best;
+    };
+    const atEnd = () =>
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    const atStart = () => track.scrollLeft <= 4;
+    const sync = () => {
+      const i = atEnd() ? cards.length - 1 : current();
+      index.textContent = String(i + 1).padStart(2, "0");
+    };
+    // Wraps around at both ends, so neither arrow is ever a dead button.
+    const go = (step: number) => {
+      let i = current() + step;
+      if (step > 0 && atEnd()) i = 0;
+      else if (step < 0 && atStart()) i = cards.length - 1;
+      const target = cards[Math.min(cards.length - 1, Math.max(0, i))];
+      track.scrollTo({
+        left: target.offsetLeft - cards[0].offsetLeft,
+        behavior: calm.matches ? "instant" : "smooth",
+      });
+    };
+
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => go(1));
+    track.addEventListener("keydown", (event) => {
+      if (event.target !== track) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        go(event.key === "ArrowRight" ? 1 : -1);
+      }
+    });
+    track.addEventListener("scroll", sync, { passive: true });
+    controls.hidden = false;
+    sync();
+  });
+</script>

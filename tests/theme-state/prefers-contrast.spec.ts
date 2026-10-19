@@ -8,8 +8,7 @@
  * overridden token is read twice in the same page instance — with
  * `contrast: "no-preference"` and with `contrast: "more"` — and compared
  * against the literal `global.css` declares for that theme. It proves the
- * preference-gated blocks reach custom properties and the one opacity-based
- * case (the light civic card). It proves nothing about a real operating
+ * preference-gated blocks reach custom properties. It proves nothing about a real operating
  * system's high-contrast setting, and nothing about the ratios those literals
  * were chosen for; the ratios live in the design record and in
  * `tests/unit/tokens-contrast.test.ts`.
@@ -23,7 +22,7 @@
 import { test, expect } from "@playwright/test";
 import { sameColour } from "./support/evidence";
 import { HOME, THEMES } from "./support/fixtures";
-import { STATE, THEME, type Theme } from "./support/state-model";
+import { THEME, type Theme } from "./support/state-model";
 import { ThemeStatePage } from "./theme-state-page";
 
 /**
@@ -46,9 +45,6 @@ const CONTRAST_TOKENS: Record<Theme, Record<string, string>> = {
     "--color-border-interactive-hover": "rgba(0, 0, 0, 0.5)",
   },
 };
-
-/** The one opacity-based case: the light civic card's attenuated text goes opaque. */
-const CIVIC_TEXT = ".project-card--civic .project-number";
 
 test(
   "prefers-contrast: more changes the preference-gated declarations in both themes",
@@ -81,7 +77,6 @@ test(
       const names = Object.keys(CONTRAST_TOKENS[theme]);
       const baseline: Record<string, string> = {};
       for (const name of names) baseline[name] = await ui.tokenValue(name);
-      const baselineCivic = await ui.readState(CIVIC_TEXT, STATE.REST);
 
       await page.emulateMedia({ reducedMotion: "reduce", contrast: "more" });
 
@@ -103,9 +98,7 @@ test(
           `${theme}: no-preference ` +
           names.map((name) => `${name}=${baseline[name]}`).join(" ") +
           ` | more ` +
-          names.map((name) => `${name}=${overridden[name]}`).join(" ") +
-          ` | civic number opacity ${baselineCivic.opacity} → ` +
-          `${(await ui.readState(CIVIC_TEXT, STATE.REST)).opacity}`,
+          names.map((name) => `${name}=${overridden[name]}`).join(" "),
       });
 
       for (const name of names) {
@@ -122,31 +115,6 @@ test(
             `prefers-contrast: more (\`${baseline[name]}\`). Either the override did ` +
             `not apply, or the media feature is not live in this context`,
         ).not.toBe(baseline[name]);
-      }
-
-      if (theme === THEME.LIGHT) {
-        // The only opacity-based case, and the only theme that declares one: the
-        // dark block overrides tokens, not this selector.
-        const civic = await ui.readState(CIVIC_TEXT, STATE.REST);
-        const tertiary = await ui.tokenValue("--color-text-tertiary");
-        expect(
-          sameColour(civic.color, tertiary),
-          `${theme}: the civic card's number under prefers-contrast: more must take ` +
-            `--color-text-tertiary (${tertiary}) directly; it measured ` +
-            `${civic.color}, against ${baselineCivic.color} with the media feature off`,
-        ).toBe(true);
-        expect(
-          civic.opacity,
-          `${theme}: the civic card's number must go opaque under ` +
-            `prefers-contrast: more — opacity ${civic.opacity} measured, ` +
-            `${baselineCivic.opacity} without the media feature. An attenuated ` +
-            `label is the one thing the media feature cannot fix by colour alone`,
-        ).toBe("1");
-        expect(
-          civic.opacity,
-          `${theme}: the civic card's number must actually change with the media ` +
-            `feature — both reads measured opacity ${civic.opacity}`,
-        ).not.toBe(baselineCivic.opacity);
       }
     }
   },

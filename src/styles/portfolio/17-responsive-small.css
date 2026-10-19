@@ -13,9 +13,6 @@
   .solid-link {
     padding-inline: 15px;
   }
-  .project-story h3 {
-    font-size: 3.25rem;
-  }
   .contact-section {
     width: calc(100% - 28px);
   }
@@ -32,8 +29,7 @@
     opacity: 1;
     transform: none;
   }
-  .project-image:hover img,
-  .compact-image:hover img,
+  .project-card:hover .project-cover img,
   .module-row:hover,
   .solid-link:hover > .icon:last-child,
   .quiet-link:hover > .icon:last-child,
