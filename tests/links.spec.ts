@@ -5,9 +5,13 @@ test.describe("DreamCoder Links", () => {
     await page.goto("/links/");
   });
 
-  test("renders a working directory without external scripts", async ({ page }) => {
+  test("renders a working directory without external scripts", async ({
+    page,
+  }) => {
     await expect(page).toHaveTitle(/DreamCoder — Links/);
-    await expect(page.getByRole("heading", { name: /DreamCoder/ })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /DreamCoder/ }),
+    ).toBeVisible();
     await expect(page.locator("[data-link-id]")).toHaveCount(8);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
@@ -19,7 +23,9 @@ test.describe("DreamCoder Links", () => {
     );
   });
 
-  test("filters categories, retains accessible pressed state", async ({ page }) => {
+  test("filters categories, retains accessible pressed state", async ({
+    page,
+  }) => {
     const work = page.getByRole("button", { name: "Trabajo" });
     await expect(work).toBeVisible();
     await work.click();
