@@ -66,16 +66,6 @@ export const links: LinkItem[] = [
     external: true,
   },
   {
-    id: "mascli",
-    title: "MASCLI",
-    description: "Software aplicado a operaciones e investigación minera.",
-    label: "SELECTED WORK",
-    icon: "terminal",
-    href: "https://github.com/Dreamcoder08/mascli",
-    kinds: ["work", "build"],
-    external: true,
-  },
-  {
     id: "x",
     title: "X / Twitter",
     description: "Ideas, ingeniería y avances de construcción.",
