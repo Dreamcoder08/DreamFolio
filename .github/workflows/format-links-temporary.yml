@@ -1,8 +1,12 @@
 name: Links format preview (temporary)
 on:
-  push:
-    branches:
-      - feat/dreamcoder-links-20261021
+  pull_request:
+    paths:
+      - 'src/pages/links.astro'
+      - 'src/data/links.ts'
+      - 'src/scripts/links.ts'
+      - 'src/styles/links*.css'
+      - 'tests/links.spec.ts'
 
 permissions:
   contents: read
