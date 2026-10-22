@@ -9,9 +9,9 @@ test.describe("DreamCoder Links", () => {
     page,
   }) => {
     await expect(page).toHaveTitle(/DreamCoder — Links/);
-    await expect(
-      page.getByRole("heading", { name: /DreamCoder/ }),
-    ).toBeVisible();
+    const heroHeading = page.getByRole("heading", { level: 1 });
+    await expect(heroHeading).toBeVisible();
+    await expect(heroHeading).toContainText("Mil conexiones.");
     await expect(page.locator("[data-link-id]")).toHaveCount(8);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
@@ -58,5 +58,40 @@ test.describe("DreamCoder Links", () => {
       () => document.documentElement.scrollWidth > window.innerWidth,
     );
     expect(overflow).toBe(false);
+  });
+
+  test("inherits the portfolio navbar and dark/light design tokens", async ({
+    page,
+  }) => {
+    await expect(page.locator(".site-header")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Dreamcoder, inicio" }),
+    ).toBeVisible();
+    const theme = page.getByRole("button", { name: /Cambiar a tema/ });
+    const initial = await page.locator("html").getAttribute("data-theme");
+    await theme.click();
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-theme",
+      initial === "dark" ? "light" : "dark",
+    );
+    const actualBackground = await page
+      .locator(".links-page")
+      .evaluate((element) => getComputedStyle(element).backgroundColor);
+    expect(actualBackground).toBe(
+      initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
+    );
+    await expect(page.locator("[data-link-id]")).toHaveCount(8);
+  });
+
+  test("reuses the portfolio's thumb-zone mobile navigation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await expect(page.locator(".site-header")).toBeVisible();
+    await expect(page.locator(".mobile-dock")).toBeVisible();
+    await expect(page.locator(".mobile-dock-send")).toHaveAttribute(
+      "href",
+      /wa[.]me[/]/,
+    );
   });
 });
