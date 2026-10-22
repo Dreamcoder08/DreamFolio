@@ -13,7 +13,8 @@ if (page) {
   const empty = page.querySelector<HTMLElement>("[data-links-empty]");
   const feedback = page.querySelector<HTMLElement>("[data-links-feedback]");
   const copyButton = page.querySelector<HTMLButtonElement>("[data-links-copy]");
-  const shareButton = page.querySelector<HTMLButtonElement>("[data-links-share]");
+  const shareButton =
+    page.querySelector<HTMLButtonElement>("[data-links-share]");
 
   const linkToShare = () => {
     const url = new URL(window.location.href);
@@ -73,7 +74,8 @@ if (page) {
         });
         return;
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (error instanceof DOMException && error.name === "AbortError")
+          return;
       }
     }
     await copyLink();
