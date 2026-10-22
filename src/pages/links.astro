@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/ui/Navbar.astro";
 import Icon from "../components/ui/Icon.astro";
-import type { IconName } from "../lib/icons";
 import { siteConfig, withBase, mailto } from "../lib/site";
 import "../styles/links.css";
 import "../styles/links-cards.css";
@@ -15,74 +15,59 @@ import { links, filters } from "../data/links";
   image={siteConfig.profile.image}
   lang="es"
 >
-  <main id="main-content" class="links-page">
-    <div class="links-shell">
-      <header class="links-topbar">
-        <a
-          class="links-wordmark"
-          href={withBase("/")}
-          aria-label="Volver a DreamFolio"
-        >
-          <Icon name="mark" size={19} />
-          <span>
-            dreamcoder<span class="wordmark-dot">.</span>
-          </span>
-        </a>
-        <span class="links-topnote">
-          THE PERSONAL HUB <span aria-hidden="true">/</span> 001
-        </span>
-      </header>
-
+  <Navbar />
+  <main id="main-content" class="portfolio links-page">
+    <div class="links-shell wrap">
       <section class="links-intro" aria-labelledby="links-name">
-        <div class="links-portrait-frame">
-          <img
-            src={withBase(siteConfig.profile.image)}
-            alt={siteConfig.profile.imageAlt}
-            width="108"
-            height="108"
-            decoding="async"
-          />
-          <span class="links-orbit" aria-hidden="true">
-            ✳
-          </span>
+        <div class="links-intro-copy">
+          <p class="eyebrow links-kicker">DREAMCODER / PERSONAL HUB</p>
+          <h1 id="links-name">
+            Un perfil.<br />
+            <span>Mil conexiones.</span>
+          </h1>
+          <p class="links-role">
+            DreamCoder · Arquitecto de software · Fundador de ARKELYTHEX
+          </p>
+          <p class="links-description">
+            Diseño y construyo sistemas de software, productos y agentes de IA.
+            Aquí puedes explorar mi trabajo o contactarme para colaborar.
+          </p>
+          <div class="links-intro-actions">
+            <a
+              class="solid-link"
+              href={mailto("Oportunidad de colaboración — DreamCoder")}
+            >
+              Hablemos de tu proyecto <Icon name="arrow" size={17} />
+            </a>
+            <a class="quiet-link" href={withBase("/")}>
+              Ver portafolio completo <Icon name="arrow" size={17} />
+            </a>
+          </div>
         </div>
-        <p class="links-kicker">
-          INDEPENDENT BUILDER <span aria-hidden="true">·</span> PERÚ → WORLDWIDE
-        </p>
-        <h1 id="links-name">
-          Dream<span>Coder</span>
-          <span class="links-period">.</span>
-        </h1>
-        <p class="links-role">
-          Founder of ARKELYTHEX <span aria-hidden="true">/</span> AI Systems
-          Product Engineer
-        </p>
-        <p class="links-description">
-          I build systems that turn complex ideas into reliable software.
-          Arquitectura, agentes de IA y productos con evidencia.
-        </p>
-        <a
-          class="links-availability"
-          href={mailto("Opportunity for DreamCoder")}
-        >
-          <span class="links-availability-pulse" aria-hidden="true"></span>
-          Open to remote opportunities
-          <Icon name="arrow" size={15} />
-        </a>
+        <figure class="links-portrait-frame">
+          <div class="links-portrait-image">
+            <img
+              src={withBase(siteConfig.profile.image)}
+              alt={siteConfig.profile.imageAlt}
+              width="768"
+              height="768"
+              decoding="async"
+            />
+          </div>
+          <figcaption>PERÚ · UTC−5 / BUILDING WORLDWIDE</figcaption>
+        </figure>
       </section>
 
       <section class="links-index" aria-labelledby="links-section-title">
         <div class="links-section-head">
           <div>
-            <p class="links-section-kicker">
-              THE INDEX <span>01 — 08</span>
-            </p>
+            <p class="eyebrow links-section-kicker">ENLACES / 01 — 08</p>
             <h2 id="links-section-title">
-              Find your way in<span class="links-period">.</span>
+              Explora <span>mis enlaces.</span>
             </h2>
           </div>
           <span class="links-index-count" aria-label="8 enlaces disponibles">
-            08 LINKS
+            08 ENLACES
           </span>
         </div>
 
