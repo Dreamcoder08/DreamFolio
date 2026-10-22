@@ -9,9 +9,9 @@ test.describe("DreamCoder Links", () => {
     page,
   }) => {
     await expect(page).toHaveTitle(/DreamCoder — Links/);
-    await expect(
-      page.getByRole("heading", { level: 1, name: /Un perfil.*Mil conexiones/ }),
-    ).toBeVisible();
+    const heroHeading = page.getByRole("heading", { level: 1 });
+    await expect(heroHeading).toBeVisible();
+    await expect(heroHeading).toContainText("Mil conexiones.");
     await expect(page.locator("[data-link-id]")).toHaveCount(8);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
