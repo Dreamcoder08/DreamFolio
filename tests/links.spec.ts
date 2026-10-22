@@ -10,7 +10,7 @@ test.describe("DreamCoder Links", () => {
   }) => {
     await expect(page).toHaveTitle(/DreamCoder — Links/);
     await expect(
-      page.getByRole("heading", { name: /DreamCoder/ }),
+      page.getByRole("heading", { level: 1, name: /Un perfil.*Mil conexiones/ }),
     ).toBeVisible();
     await expect(page.locator("[data-link-id]")).toHaveCount(8);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
