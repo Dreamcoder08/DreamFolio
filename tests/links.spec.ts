@@ -64,7 +64,9 @@ test.describe("DreamCoder Links", () => {
     page,
   }) => {
     await expect(page.locator(".site-header")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Dreamcoder, inicio" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Dreamcoder, inicio" }),
+    ).toBeVisible();
     const theme = page.getByRole("button", { name: /Cambiar a tema/ });
     const initial = await page.locator("html").getAttribute("data-theme");
     await theme.click();
@@ -72,9 +74,9 @@ test.describe("DreamCoder Links", () => {
       "data-theme",
       initial === "dark" ? "light" : "dark",
     );
-    const actualBackground = await page.locator(".links-page").evaluate(
-      (element) => getComputedStyle(element).backgroundColor,
-    );
+    const actualBackground = await page
+      .locator(".links-page")
+      .evaluate((element) => getComputedStyle(element).backgroundColor);
     expect(actualBackground).toBe(
       initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
     );
