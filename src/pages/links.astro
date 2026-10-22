@@ -18,11 +18,19 @@ import { links, filters } from "../data/links";
   <main id="main-content" class="links-page">
     <div class="links-shell">
       <header class="links-topbar">
-        <a class="links-wordmark" href={withBase("/")} aria-label="Volver a DreamFolio">
+        <a
+          class="links-wordmark"
+          href={withBase("/")}
+          aria-label="Volver a DreamFolio"
+        >
           <Icon name="mark" size={19} />
-          <span>dreamcoder<span class="wordmark-dot">.</span></span>
+          <span>
+            dreamcoder<span class="wordmark-dot">.</span>
+          </span>
         </a>
-        <span class="links-topnote">THE PERSONAL HUB <span aria-hidden="true">/</span> 001</span>
+        <span class="links-topnote">
+          THE PERSONAL HUB <span aria-hidden="true">/</span> 001
+        </span>
       </header>
 
       <section class="links-intro" aria-labelledby="links-name">
@@ -34,16 +42,29 @@ import { links, filters } from "../data/links";
             height="108"
             decoding="async"
           />
-          <span class="links-orbit" aria-hidden="true">✳</span>
+          <span class="links-orbit" aria-hidden="true">
+            ✳
+          </span>
         </div>
-        <p class="links-kicker">INDEPENDENT BUILDER <span aria-hidden="true">·</span> PERÚ → WORLDWIDE</p>
-        <h1 id="links-name">Dream<span>Coder</span><span class="links-period">.</span></h1>
-        <p class="links-role">Founder of ARKELYTHEX <span aria-hidden="true">/</span> AI Systems Product Engineer</p>
+        <p class="links-kicker">
+          INDEPENDENT BUILDER <span aria-hidden="true">·</span> PERÚ → WORLDWIDE
+        </p>
+        <h1 id="links-name">
+          Dream<span>Coder</span>
+          <span class="links-period">.</span>
+        </h1>
+        <p class="links-role">
+          Founder of ARKELYTHEX <span aria-hidden="true">/</span> AI Systems
+          Product Engineer
+        </p>
         <p class="links-description">
           I build systems that turn complex ideas into reliable software.
           Arquitectura, agentes de IA y productos con evidencia.
         </p>
-        <a class="links-availability" href={mailto("Opportunity for DreamCoder")}>
+        <a
+          class="links-availability"
+          href={mailto("Opportunity for DreamCoder")}
+        >
           <span class="links-availability-pulse" aria-hidden="true"></span>
           Open to remote opportunities
           <Icon name="arrow" size={15} />
@@ -53,13 +74,24 @@ import { links, filters } from "../data/links";
       <section class="links-index" aria-labelledby="links-section-title">
         <div class="links-section-head">
           <div>
-            <p class="links-section-kicker">THE INDEX <span>01 — 08</span></p>
-            <h2 id="links-section-title">Find your way in<span class="links-period">.</span></h2>
+            <p class="links-section-kicker">
+              THE INDEX <span>01 — 08</span>
+            </p>
+            <h2 id="links-section-title">
+              Find your way in<span class="links-period">.</span>
+            </h2>
           </div>
-          <span class="links-index-count" aria-label="8 enlaces disponibles">08 LINKS</span>
+          <span class="links-index-count" aria-label="8 enlaces disponibles">
+            08 LINKS
+          </span>
         </div>
 
-        <div class="links-filters" role="group" aria-label="Filtrar enlaces" data-links-filters>
+        <div
+          class="links-filters"
+          role="group"
+          aria-label="Filtrar enlaces"
+          data-links-filters
+        >
           {filters.map((filter) => (
             <button
               type="button"
@@ -75,28 +107,44 @@ import { links, filters } from "../data/links";
         <div class="links-grid" data-links-grid>
           {links.map((link, index) => (
             <a
-              class:list={["links-card", { "links-card-featured": link.featured }]}
+              class:list={[
+                "links-card",
+                { "links-card-featured": link.featured },
+              ]}
               href={link.href}
               data-link-kind={link.kinds.join(" ")}
               data-link-id={link.id}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              aria-label={link.title + ": " + link.description + (link.external ? " (abre en una nueva pestaña)" : "")}
+              aria-label={
+                link.title +
+                ": " +
+                link.description +
+                (link.external ? " (abre en una nueva pestaña)" : "")
+              }
             >
               <span class="links-card-leading">
-                <span class="links-card-icon"><Icon name={link.icon} size={21} /></span>
-                <span class="links-card-number">{String(index + 1).padStart(2, "0")}</span>
+                <span class="links-card-icon">
+                  <Icon name={link.icon} size={21} />
+                </span>
+                <span class="links-card-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </span>
               <span class="links-card-body">
                 <span class="links-card-label">{link.label}</span>
                 <span class="links-card-title">{link.title}</span>
                 <span class="links-card-description">{link.description}</span>
               </span>
-              <span class="links-card-arrow"><Icon name="arrow" size={20} /></span>
+              <span class="links-card-arrow">
+                <Icon name="arrow" size={20} />
+              </span>
             </a>
           ))}
         </div>
-        <p class="links-empty" data-links-empty hidden>No hay enlaces en esta categoría.</p>
+        <p class="links-empty" data-links-empty hidden>
+          No hay enlaces en esta categoría.
+        </p>
       </section>
 
       <div class="links-sharebar">
@@ -105,18 +153,33 @@ import { links, filters } from "../data/links";
           <span>One identity. Multiple worlds.</span>
         </div>
         <div class="links-share-actions">
-          <button type="button" data-links-copy aria-label="Copiar enlace de esta página">
+          <button
+            type="button"
+            data-links-copy
+            aria-label="Copiar enlace de esta página"
+          >
             <Icon name="layers" size={16} /> Copiar link
           </button>
-          <button type="button" data-links-share aria-label="Compartir esta página">
+          <button
+            type="button"
+            data-links-share
+            aria-label="Compartir esta página"
+          >
             <Icon name="arrow" size={16} /> Compartir
           </button>
         </div>
       </div>
-      <p class="links-feedback" role="status" aria-live="polite" data-links-feedback></p>
+      <p
+        class="links-feedback"
+        role="status"
+        aria-live="polite"
+        data-links-feedback
+      ></p>
       <footer class="links-footer">
         <span>© {new Date().getFullYear()} DREAMCODER</span>
-        <a href={withBase("/")}>EXPLORE THE FULL PORTFOLIO <Icon name="arrow" size={15} /></a>
+        <a href={withBase("/")}>
+          EXPLORE THE FULL PORTFOLIO <Icon name="arrow" size={15} />
+        </a>
         <span>DESIGNED TO BUILD WHAT'S NEXT.</span>
       </footer>
     </div>
