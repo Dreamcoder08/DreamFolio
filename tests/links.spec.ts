@@ -12,7 +12,8 @@ test.describe("DreamCoder Links", () => {
     const heroHeading = page.getByRole("heading", { level: 1 });
     await expect(heroHeading).toBeVisible();
     await expect(heroHeading).toContainText("Mil conexiones.");
-    await expect(page.locator("[data-link-id]")).toHaveCount(8);
+    await expect(page.locator("[data-link-id]")).toHaveCount(7);
+    await expect(page.locator("[data-link-id=mascli]")).toHaveCount(0);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
       "/",
@@ -30,23 +31,23 @@ test.describe("DreamCoder Links", () => {
     await expect(work).toBeVisible();
     await work.click();
     await expect(work).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator("[data-link-id]:visible")).toHaveCount(4);
+    await expect(page.locator("[data-link-id]:visible")).toHaveCount(3);
     await expect(page.locator("[data-link-id=arkelythex]")).toBeHidden();
 
     await page.getByRole("button", { name: "Social" }).click();
     await expect(page.locator("[data-link-id]:visible")).toHaveCount(3);
 
     await page.getByRole("button", { name: "Todos" }).click();
-    await expect(page.locator("[data-link-id]:visible")).toHaveCount(8);
+    await expect(page.locator("[data-link-id]:visible")).toHaveCount(7);
   });
 
-  test("preserves all eight links when JavaScript is disabled", async ({
+  test("preserves all seven public links when JavaScript is disabled", async ({
     browser,
   }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto("/links/");
-    await expect(page.locator("[data-link-id]:visible")).toHaveCount(8);
+    await expect(page.locator("[data-link-id]:visible")).toHaveCount(7);
     await expect(page.locator("[data-links-filters]")).toBeHidden();
     await context.close();
   });
@@ -80,7 +81,7 @@ test.describe("DreamCoder Links", () => {
     expect(actualBackground).toBe(
       initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
     );
-    await expect(page.locator("[data-link-id]")).toHaveCount(8);
+    await expect(page.locator("[data-link-id]")).toHaveCount(7);
   });
 
   test("reuses the portfolio's thumb-zone mobile navigation", async ({
