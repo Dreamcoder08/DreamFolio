@@ -59,4 +59,37 @@ test.describe("DreamCoder Links", () => {
     );
     expect(overflow).toBe(false);
   });
+
+  test("inherits the portfolio navbar and dark/light design tokens", async ({
+    page,
+  }) => {
+    await expect(page.locator(".site-header")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Dreamcoder, inicio" })).toBeVisible();
+    const theme = page.getByRole("button", { name: /Cambiar a tema/ });
+    const initial = await page.locator("html").getAttribute("data-theme");
+    await theme.click();
+    await expect(page.locator("html")).toHaveAttribute(
+      "data-theme",
+      initial === "dark" ? "light" : "dark",
+    );
+    const actualBackground = await page.locator(".links-page").evaluate(
+      (element) => getComputedStyle(element).backgroundColor,
+    );
+    expect(actualBackground).toBe(
+      initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
+    );
+    await expect(page.locator("[data-link-id]")).toHaveCount(8);
+  });
+
+  test("reuses the portfolio's thumb-zone mobile navigation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await expect(page.locator(".site-header")).toBeVisible();
+    await expect(page.locator(".mobile-dock")).toBeVisible();
+    await expect(page.locator(".mobile-dock-send")).toHaveAttribute(
+      "href",
+      /wa\\.me\\//,
+    );
+  });
 });
