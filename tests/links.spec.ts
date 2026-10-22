@@ -89,7 +89,7 @@ test.describe("DreamCoder Links", () => {
     await expect(page.locator(".mobile-dock")).toBeVisible();
     await expect(page.locator(".mobile-dock-send")).toHaveAttribute(
       "href",
-      /wa\\.me\\//,
+      /wa[.]me[/]/,
     );
   });
 });
