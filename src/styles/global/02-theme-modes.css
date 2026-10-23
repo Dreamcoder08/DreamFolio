@@ -1,6 +1,7 @@
 /* ---- LIGHT MODE (unlayered: it must keep beating the layered `@theme`) ---- */
 [data-theme="light"] {
   --color-surface: #eef3f8;
+  --technical-ice: #395a73;
   --color-surface-alt: #f8fafc;
   --color-surface-elevated: #ffffff;
   --color-surface-hover: #e4ebf2;
