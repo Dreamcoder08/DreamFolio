@@ -28,9 +28,7 @@ a:hover {
    1:1; it consumes `--color-on-focus`, which aliases `--color-on-accent`, so the
    resolved colour is unchanged from the `--portfolio-yellow-ink` alias it
    replaced. */
-.about-section a:focus-visible {
-  outline-color: var(--color-focus);
-}
+.about-section a:focus-visible,
 .contact-section a:focus-visible {
   outline-color: var(--color-on-focus);
 }

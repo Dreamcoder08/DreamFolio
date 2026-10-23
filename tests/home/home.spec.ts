@@ -88,3 +88,12 @@ test.describe("Home — content security", () => {
     },
   );
 });
+
+test("the former profile card retains its layout without publishing the old photo", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".profile-card")).toBeVisible();
+  await expect(page.locator(".profile-portrait img")).toHaveCount(0);
+  await expect(page.locator(".profile-portrait-mark")).toBeVisible();
+});

@@ -63,6 +63,13 @@ interface Composition {
 const COMPOSITIONS: readonly Composition[] = [
   {
     file: "src/styles/portfolio.css",
+    selector: ".hero-portrait::after",
+    property: "border",
+    declaration:
+      "border: 1px solid color-mix(in srgb, var(--portfolio-yellow-ink) 35%, transparent)",
+  },
+  {
+    file: "src/styles/portfolio.css",
     selector: ".principle-icon",
     property: "border",
     declaration:

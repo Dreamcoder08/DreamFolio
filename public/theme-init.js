@@ -12,8 +12,8 @@
  */
 (() => {
   var KEY = "dreamfolio-theme";
-  var LIGHT = "#eef3f8";
-  var DARK = "#050608";
+  var LIGHT = "#f3eadc";
+  var DARK = "#000000";
 
   var stored = null;
   try {

@@ -14,13 +14,29 @@
     font-size: clamp(3.2rem, 12vw, 5rem);
   }
 
-  .links-identity-slot {
-    margin-top: 36px;
-    max-width: 100%;
+  .links-portrait-frame {
+    position: absolute;
+    top: 90px;
+    right: 4px;
+    width: 71px;
+    margin: 0;
+  }
+
+  .links-portrait-frame::before {
+    inset: -5px -6px 5px 8px;
+  }
+
+  .links-portrait-image {
+    aspect-ratio: 1;
+    transform: rotate(-3deg);
+  }
+
+  .links-portrait-frame figcaption {
+    display: none;
   }
 
   .links-kicker {
-    max-width: 100%;
+    max-width: calc(100% - 92px);
   }
 
   .links-intro-actions {

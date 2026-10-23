@@ -1,4 +1,4 @@
-# Alpine Technical Identity — DreamFolio
+# Alpine Technical Identity — DreamFolio (reverted)
 
 ## Outcome and authorization
 
@@ -75,3 +75,9 @@ Global token changes may trigger strict contrast/pinned-color tests. Correct rea
 - **L2 — Workflow authorization (verbatim):** “Perfecto te autorizo , Pero aplica la filosofía de gentleman ODD para que avanzes todo de forma autónoma , https://github.com/Gentleman-Programming/gentle-ai”.
 - **L3 — Corrections:** first test run exposed two historic pinned styling assumptions. After updating the affected assertions to the intentional visual contract, Playwright found a new strict 320 px overflow threshold inconsistent with the existing HomePage tolerance; it was aligned to the existing shared behavior. All applicable checks later passed.
 - **L4 — Closure:** no pending implementation work. Treat a future visual polish request as a new scoped task, not an unchecked part of this completed feature.
+
+## Reversal — Owner-directed
+
+The owner did not like the Alpine system and explicitly requested restoration of the previous visual design. The rollback restores the prior semantic colors, typography, page/layout styling, navigation and test contracts from commit `178db3112ff342980c2cf3015d0114ad1767b44d` while preserving the user's earlier request not to republish the removed portrait, preserving all seven public links and keeping MASCLI private.
+
+The original illustration remains absent from the present branch and is replaced by a typographic brand mark within the original card/frame layout. The historic delivery records above remain accurate as past events, not current UI assertions. Do not reintroduce the Alpine aesthetic without new authorization.

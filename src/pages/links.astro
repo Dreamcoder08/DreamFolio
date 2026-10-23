@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import Icon from "../components/ui/Icon.astro";
 import { withBase, mailto } from "../lib/site";
-import TechnicalIdentity from "../components/ui/TechnicalIdentity.astro";
 import "../styles/links.css";
 import "../styles/links-cards.css";
 import "../styles/links-mobile.css";
@@ -46,9 +45,19 @@ import { links, filters } from "../data/links";
             </a>
           </div>
         </div>
-        <div class="links-identity-slot">
-          <TechnicalIdentity />
-        </div>
+        <figure class="links-portrait-frame">
+          <div class="links-portrait-image">
+            <div
+              class="links-portrait-monogram"
+              role="img"
+              aria-label="Logotipo de Dreamcoder"
+            >
+              <Icon name="mark" size={84} />
+              <span>DREAMCODER</span>
+            </div>
+          </div>
+          <figcaption>PERÚ · UTC−5 / BUILDING WORLDWIDE</figcaption>
+        </figure>
       </section>
 
       <section class="links-index" aria-labelledby="links-section-title">

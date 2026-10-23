@@ -13,6 +13,7 @@ test.describe("DreamCoder Links", () => {
     await expect(heroHeading).toBeVisible();
     await expect(heroHeading).toContainText("Mil conexiones.");
     await expect(page.locator("[data-link-id]")).toHaveCount(7);
+    await expect(page.locator(".links-portrait-image img")).toHaveCount(0);
     await expect(page.locator("[data-link-id=mascli]")).toHaveCount(0);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
@@ -79,7 +80,7 @@ test.describe("DreamCoder Links", () => {
       .locator(".links-page")
       .evaluate((element) => getComputedStyle(element).backgroundColor);
     expect(actualBackground).toBe(
-      initial === "dark" ? "rgb(238, 243, 248)" : "rgb(5, 6, 8)",
+      initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
     );
     await expect(page.locator("[data-link-id]")).toHaveCount(7);
   });

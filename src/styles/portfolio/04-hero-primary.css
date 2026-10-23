@@ -59,14 +59,26 @@
 }
 .hero h1 span {
   position: relative;
-  color: var(--color-text-secondary);
-  font-family: var(--font-sans);
-  font-weight: 650;
-  font-style: normal;
-  letter-spacing: -0.085em;
+  z-index: 0;
+  color: var(--portfolio-yellow);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.075em;
   white-space: nowrap;
 }
-
+.hero h1 span::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 0.08em;
+  left: 0.04em;
+  right: -0.02em;
+  bottom: 0.05em;
+  background: currentColor;
+  opacity: 0.25;
+  transform: rotate(-1deg);
+}
 .hero-brief {
   width: min(540px, 78%);
   margin: 36px 0 0 auto;
@@ -96,17 +108,23 @@
 .hero-portrait::before {
   content: "";
   position: absolute;
-  inset: 9% -14% 9% 8%;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sharp);
-  background: transparent;
-  pointer-events: none;
+  inset: 8% -22% 8% 16%;
+  background: var(--portfolio-yellow);
+  border-radius: var(--radius-arch);
+  transform: rotate(4deg);
 }
 .hero-portrait::after {
   content: "+";
   position: absolute;
-  top: 3%;
-  right: -10%;
-  color: var(--color-accent);
+  top: 7%;
+  right: -8%;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid
+    color-mix(in srgb, var(--portfolio-yellow-ink) 35%, transparent);
+  border-radius: var(--radius-circle);
+  color: var(--portfolio-yellow-ink);
   font: 1.8rem / 1 var(--font-mono);
 }
