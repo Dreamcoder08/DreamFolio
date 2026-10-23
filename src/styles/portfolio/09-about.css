@@ -25,7 +25,7 @@
 }
 .about-section h2 span {
   color: currentColor;
-  opacity: 0.66;
+  opacity: 0.86;
 }
 
 .about-copy {
@@ -36,7 +36,7 @@
 .about-copy p {
   margin-bottom: 20px;
   color: currentColor;
-  opacity: 0.8;
+  opacity: 0.92;
   font-size: 0.98rem;
 }
 .about-copy .about-lead {
@@ -69,7 +69,7 @@
 .about-stack .mono {
   display: block;
   margin-bottom: 6px;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }

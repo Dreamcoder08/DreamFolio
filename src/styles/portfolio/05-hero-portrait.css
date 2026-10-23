@@ -28,7 +28,7 @@
   /* Framing that keeps the face in view in the short mobile crop. It lives in
      CSS rather than an inline style so the CSP can forbid style attributes. */
   object-position: 50% 28%;
-  filter: saturate(0.82) contrast(1.05);
+  display: block;
 }
 
 .profile-bio {

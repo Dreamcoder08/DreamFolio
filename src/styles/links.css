@@ -50,7 +50,7 @@
 .links-role {
   margin-top: 27px;
   color: var(--color-text);
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.65;
 }
@@ -107,7 +107,6 @@
   display: block;
   object-fit: cover;
   object-position: 50% 28%;
-  filter: saturate(0.82) contrast(1.05);
 }
 
 .links-portrait-frame figcaption {
@@ -115,7 +114,7 @@
   margin-top: 20px;
   color: var(--color-text-secondary);
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.75rem;
   letter-spacing: 0.07em;
   text-align: center;
 }
@@ -152,7 +151,7 @@
 .links-card-number,
 .links-footer {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.07em;
 }
 
