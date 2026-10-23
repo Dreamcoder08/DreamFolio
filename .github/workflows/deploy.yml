@@ -120,6 +120,13 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Verify generated GitHub Pages routes
+        run: |
+          set -euo pipefail
+          test -s dist/index.html || { echo "::error::Missing homepage in dist"; exit 1; }
+          test -s dist/links/index.html || { echo "::error::Missing /links/ page in dist"; exit 1; }
+          grep -Fq "THE PERSONAL HUB" dist/links/index.html || { echo "::error::Incorrect /links/ page output"; exit 1; }
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
