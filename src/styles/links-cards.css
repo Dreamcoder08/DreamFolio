@@ -57,9 +57,9 @@
   flex: none;
   display: grid;
   place-items: center;
-  color: var(--color-accent);
+  color: var(--technical-ice);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-circle);
+  border-radius: var(--radius-control);
 }
 
 .links-card-body {
