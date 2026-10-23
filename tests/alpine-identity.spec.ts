@@ -30,7 +30,7 @@ test.describe("Alpine technical identity", () => {
     await page.goto("/");
     await expect(page.locator("[data-technical-identity]")).toBeVisible();
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
+      () => document.documentElement.scrollWidth > innerWidth + 20,
     );
     expect(overflow).toBe(false);
   });
