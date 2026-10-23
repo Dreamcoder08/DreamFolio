@@ -5,8 +5,9 @@
      inside it (measured: stuck at 100% progress). */
   overflow: clip;
   padding-block: clamp(90px, 10vw, 140px);
-  color: var(--portfolio-yellow-ink);
-  background: var(--portfolio-yellow);
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+  border-block: 1px solid var(--color-border);
 }
 .about-section .eyebrow {
   color: currentColor;
@@ -24,8 +25,8 @@
   font-size: clamp(3.2rem, 6vw, 6.4rem);
 }
 .about-section h2 span {
-  color: currentColor;
-  opacity: 0.66;
+  color: var(--technical-ice);
+  opacity: 1;
 }
 
 .about-copy {
