@@ -1,0 +1,26 @@
+---
+import Icon from "./Icon.astro";
+import "../../styles/components/technical-identity.css";
+---
+
+<aside class="technical-identity" data-technical-identity aria-label="Identidad técnica de Dreamcoder">
+  <div class="technical-identity__top">
+    <span>DC / SYSTEMS</span>
+    <span class="technical-identity__status">OPERATIVE · 01</span>
+  </div>
+  <div class="technical-identity__mark" aria-hidden="true">
+    <Icon name="mark" size={70} />
+    <span class="technical-identity__crosshair">+</span>
+  </div>
+  <div class="technical-identity__main">
+    <p class="technical-identity__eyebrow">INDEPENDENT ENGINEERING / PERÚ</p>
+    <p class="technical-identity__heading">DreamCoder<span>®</span></p>
+    <p class="technical-identity__subtitle">AI / SOFTWARE · PRODUCT SYSTEMS</p>
+  </div>
+  <dl class="technical-identity__specs">
+    <div><dt>FIELD</dt><dd>AI / SOFTWARE</dd></div>
+    <div><dt>METHOD</dt><dd>BUILD · VERIFY</dd></div>
+    <div><dt>BASE</dt><dd>PERÚ / REMOTE</dd></div>
+  </dl>
+  <p class="technical-identity__footer">DESIGNED FOR COMPLEXITY <span aria-hidden="true">↗</span></p>
+</aside>
