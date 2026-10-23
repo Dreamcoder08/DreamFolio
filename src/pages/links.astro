@@ -2,7 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import Icon from "../components/ui/Icon.astro";
-import { siteConfig, withBase, mailto } from "../lib/site";
+import { withBase, mailto } from "../lib/site";
+import TechnicalIdentity from "../components/ui/TechnicalIdentity.astro";
 import "../styles/links.css";
 import "../styles/links-cards.css";
 import "../styles/links-mobile.css";
@@ -13,7 +14,6 @@ import { links, filters } from "../data/links";
 <BaseLayout
   title="DreamCoder — Links · Work & Projects"
   description="Explora el trabajo, productos y canales oficiales de DreamCoder, arquitecto de software y fundador de ARKELYTHEX."
-  image={siteConfig.profile.image}
   lang="es"
 >
   <Navbar />
@@ -46,18 +46,9 @@ import { links, filters } from "../data/links";
             </a>
           </div>
         </div>
-        <figure class="links-portrait-frame">
-          <div class="links-portrait-image">
-            <img
-              src={withBase(siteConfig.profile.image)}
-              alt={siteConfig.profile.imageAlt}
-              width="768"
-              height="768"
-              decoding="async"
-            />
-          </div>
-          <figcaption>PERÚ · UTC−5 / BUILDING WORLDWIDE</figcaption>
-        </figure>
+        <div class="links-identity-slot">
+          <TechnicalIdentity />
+        </div>
       </section>
 
       <section class="links-index" aria-labelledby="links-section-title">

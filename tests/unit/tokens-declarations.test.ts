@@ -144,7 +144,7 @@ test("A1: parity is read from the token-declaring light block, not the color-sch
   );
   assert.match(
     canvasDeclarations[0],
-    /--color-text-tertiary:\s*#746555;/,
+    /--color-text-tertiary:\s*#586879;/,
     "the parity map's tertiary value must be the shipped base light value, not " +
       "the `prefers-contrast: more` gate value #5c4a39",
   );

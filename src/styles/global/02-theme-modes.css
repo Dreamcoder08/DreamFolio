@@ -1,26 +1,27 @@
 /* ---- LIGHT MODE (unlayered: it must keep beating the layered `@theme`) ---- */
 [data-theme="light"] {
-  --color-surface: #f3eadc;
-  --color-surface-alt: #fff7ea;
-  --color-surface-elevated: #fffdf6;
-  --color-surface-hover: #fbf6ec;
-  --color-surface-active: #fffdf8;
-  --color-text: #17120d;
-  --color-text-secondary: #6b5947;
-  --color-text-tertiary: #746555;
-  --color-accent: #8a4e26;
-  --color-accent-muted: rgba(138, 78, 38, 0.1);
-  --color-accent-hover: #7a4522;
-  --color-accent-active: #6b3c1c;
-  --color-on-accent: #fff7ea;
-  --color-border: rgba(0, 0, 0, 0.1);
-  --color-border-strong: rgba(0, 0, 0, 0.22);
-  --color-border-interactive: rgba(0, 0, 0, 0.18);
-  --color-border-interactive-hover: rgba(0, 0, 0, 0.3);
-  --color-focus: #8a4e26;
-  --color-on-focus: #fff7ea;
-  --color-danger: #b3261e;
-  --color-on-danger: #fff7ea;
+  --color-surface: #eef3f8;
+  --technical-ice: #395a73;
+  --color-surface-alt: #f8fafc;
+  --color-surface-elevated: #ffffff;
+  --color-surface-hover: #e4ebf2;
+  --color-surface-active: #dce5ee;
+  --color-text: #0d1520;
+  --color-text-secondary: #425161;
+  --color-text-tertiary: #586879;
+  --color-accent: #a34705;
+  --color-accent-muted: rgba(163, 71, 5, 0.1);
+  --color-accent-hover: #8f3f04;
+  --color-accent-active: #7b3304;
+  --color-on-accent: #f8fafc;
+  --color-border: rgba(15, 28, 42, 0.12);
+  --color-border-strong: rgba(15, 28, 42, 0.25);
+  --color-border-interactive: rgba(15, 28, 42, 0.21);
+  --color-border-interactive-hover: rgba(15, 28, 42, 0.36);
+  --color-focus: #a34705;
+  --color-on-focus: #f8fafc;
+  --color-danger: #9c2a23;
+  --color-on-danger: #f8fafc;
 }
 
 [data-theme="dark"] {

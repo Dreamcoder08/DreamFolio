@@ -90,18 +90,12 @@ const INK_VARIANTS: readonly {
 }[] = [
   {
     id: "01",
-    selector: ".about-section .quiet-link",
-    surface: ".about-section",
-    path: HOME,
-  },
-  {
-    id: "02",
     selector: ".contact-channels a",
     surface: ".contact-section",
     path: HOME,
   },
   {
-    id: "03",
+    id: "02",
     selector: ".contact-section .solid-link",
     surface: ".contact-section",
     path: HOME,
@@ -156,3 +150,14 @@ function toRgbString(value: string): string {
     colour.b,
   )})`;
 }
+
+test("industrial about section uses the normal accent focus ring", async ({
+  page,
+}) => {
+  const ui = new ThemeStatePage(page);
+  await ui.pinTheme("dark");
+  await ui.goto(HOME);
+  const focus = await ui.readState(".about-section .quiet-link", STATE.FOCUS);
+  const focusToken = await ui.tokenValue("--color-focus");
+  expect(focus.outlineColor).toBe(toRgbString(focusToken));
+});

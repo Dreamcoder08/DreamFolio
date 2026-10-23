@@ -25,7 +25,7 @@
     align-items: center;
     gap: 6px;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-panel);
     background: color-mix(
       in srgb,
       var(--color-surface-elevated) 82%,
@@ -53,7 +53,7 @@
     align-items: center;
     justify-content: center;
     gap: 3px;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     color: var(--color-text-secondary);
     font-size: 0.62rem;
     font-weight: 600;
@@ -78,9 +78,10 @@
     height: 52px;
     display: grid;
     place-items: center;
-    border-radius: var(--radius-circle);
-    color: #062a14;
-    background: #25d366;
+    border-radius: var(--radius-control);
+    color: #25d366;
+    background: var(--color-surface-active);
+    border: 1px solid var(--color-border-strong);
     -webkit-tap-highlight-color: transparent;
   }
   /* The dock carries WhatsApp on phones, so the floating button steps
