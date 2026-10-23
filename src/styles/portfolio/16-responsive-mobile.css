@@ -37,24 +37,14 @@
     gap: 14px;
   }
   .hero-portrait {
-    width: min(88%, 390px);
+    width: min(100%, 390px);
     margin-inline: auto;
   }
   .hero-portrait::before {
-    inset: 6% -10% 6% 15%;
+    inset: 7% -5% 7% 5%;
   }
   .hero-portrait::after {
-    right: -7%;
-  }
-
-  .profile-card {
-    transform: rotate(-1.5deg);
-  }
-  .profile-portrait {
-    aspect-ratio: 5 / 5.5;
-  }
-  .profile-bio {
-    padding: 15px;
+    right: -3%;
   }
 
   .work-section,
