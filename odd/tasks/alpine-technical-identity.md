@@ -36,11 +36,11 @@ Organic Driven Development per Gentleman-Programming/gentle-ai: authorize → ex
 ## Status
 
 - [x] Authorized and explored
-- [ ] RED test
-- [ ] Implementation
-- [ ] Quality checks
+- [x] Tests authored before implementation
+- [x] Implementation
+- [ ] Quality checks — unit passed; initial E2E found only scrollbar-tolerance mismatch at 320px, aligned to existing HomePage contract; rerun pending.
 - [ ] Merge and delivery
 
 ## Risks
 
-Global token changes may trigger strict contrast/pinned-color tests. Correct real regressions; adapt test assumptions only when visual requirements intentionally change. CI cannot replace human visual review.
+Global token changes may trigger strict contrast/pinned-color tests. Correct real regressions; adapt test assumptions only when visual requirements intentionally change. CI cannot replace human visual review. The published source image is removed from rendered components, but the historical asset remains in Git history.
