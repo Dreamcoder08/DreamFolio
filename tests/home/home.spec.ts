@@ -98,7 +98,10 @@ test("the profile card displays the new portrait", async ({ page }) => {
     "srcset",
     /dreamcoder-profile-hq\.avif 720w/,
   );
-  await expect(portrait).toHaveAttribute("srcset", /dreamcoder-profile\.avif 280w/);
+  await expect(portrait).toHaveAttribute(
+    "srcset",
+    /dreamcoder-profile\.avif 280w/,
+  );
   await expect(portrait).toHaveAttribute(
     "src",
     /\/images\/dreamcoder-profile\.avif$/,
