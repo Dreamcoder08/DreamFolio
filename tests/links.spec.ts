@@ -79,7 +79,7 @@ test.describe("DreamCoder Links", () => {
       .locator(".links-page")
       .evaluate((element) => getComputedStyle(element).backgroundColor);
     expect(actualBackground).toBe(
-      initial === "dark" ? "rgb(243, 234, 220)" : "rgb(0, 0, 0)",
+      initial === "dark" ? "rgb(238, 243, 248)" : "rgb(5, 6, 8)",
     );
     await expect(page.locator("[data-link-id]")).toHaveCount(7);
   });
