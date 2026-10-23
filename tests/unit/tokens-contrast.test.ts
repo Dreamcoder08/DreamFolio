@@ -72,6 +72,13 @@ const FLOORS: readonly ContrastFloor[] = [
   },
   {
     mode: "dark",
+    foreground: "--color-text-tertiary",
+    background: "--color-surface-elevated",
+    floor: 4.5,
+    role: "tertiary ink on an elevated panel",
+  },
+  {
+    mode: "dark",
     foreground: "--color-focus",
     background: "--color-surface",
     floor: 3,

@@ -16,6 +16,10 @@ test.describe("DreamCoder Links", () => {
     const portrait = page.locator(".links-portrait-image img");
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveAttribute(
+      "srcset",
+      /dreamcoder-profile-hq\.avif 720w/,
+    );
+    await expect(portrait).toHaveAttribute(
       "src",
       /\/images\/dreamcoder-profile\.avif$/,
     );

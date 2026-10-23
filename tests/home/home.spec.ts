@@ -95,6 +95,10 @@ test("the profile card displays the new portrait", async ({ page }) => {
   const portrait = page.locator(".profile-portrait img");
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute(
+    "srcset",
+    /dreamcoder-profile-hq\.avif 720w/,
+  );
+  await expect(portrait).toHaveAttribute(
     "src",
     /\/images\/dreamcoder-profile\.avif$/,
   );
