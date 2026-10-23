@@ -1,17 +1,19 @@
 ---
 import Icon from "./Icon.astro";
+import { withBaseAsset } from "../../lib/site";
 ---
 
 <aside class="profile-card" aria-label="Perfil de Dreamcoder">
   <figure class="profile-portrait">
-    <div
-      class="profile-portrait-mark"
-      role="img"
-      aria-label="Identidad gráfica de Dreamcoder"
-    >
-      <Icon name="mark" size={84} />
-      <span>DREAMCODER / SYSTEMS</span>
-    </div>
+    <img
+      src={withBaseAsset("/images/dreamcoder-profile.avif")}
+      alt="Dreamcoder con chaqueta técnica y gafas frente a un paisaje alpino"
+      width="280"
+      height="350"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
   </figure>
   <div class="profile-bio">
     <p class="profile-name">Dreamcoder</p>

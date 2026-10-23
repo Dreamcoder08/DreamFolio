@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/ui/Navbar.astro";
 import Icon from "../components/ui/Icon.astro";
-import { withBase, mailto } from "../lib/site";
+import { withBase, withBaseAsset, mailto } from "../lib/site";
 import "../styles/links.css";
 import "../styles/links-cards.css";
 import "../styles/links-mobile.css";
@@ -47,14 +47,14 @@ import { links, filters } from "../data/links";
         </div>
         <figure class="links-portrait-frame">
           <div class="links-portrait-image">
-            <div
-              class="links-portrait-monogram"
-              role="img"
-              aria-label="Logotipo de Dreamcoder"
-            >
-              <Icon name="mark" size={84} />
-              <span>DREAMCODER</span>
-            </div>
+            <img
+              src={withBaseAsset("/images/dreamcoder-profile.avif")}
+              alt="Retrato de Dreamcoder con chaqueta técnica y gafas"
+              width="280"
+              height="350"
+              loading="eager"
+              decoding="async"
+            />
           </div>
           <figcaption>PERÚ · UTC−5 / BUILDING WORLDWIDE</figcaption>
         </figure>

@@ -89,11 +89,20 @@ test.describe("Home — content security", () => {
   );
 });
 
-test("the former profile card retains its layout without publishing the old photo", async ({
-  page,
-}) => {
+test("the profile card displays the new portrait", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".profile-card")).toBeVisible();
-  await expect(page.locator(".profile-portrait img")).toHaveCount(0);
-  await expect(page.locator(".profile-portrait-mark")).toBeVisible();
+  const portrait = page.locator(".profile-portrait img");
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute(
+    "src",
+    /\/images\/dreamcoder-profile\.avif$/,
+  );
+  await expect
+    .poll(() =>
+      portrait.evaluate(
+        (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
 });

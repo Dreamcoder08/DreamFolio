@@ -13,7 +13,12 @@ test.describe("DreamCoder Links", () => {
     await expect(heroHeading).toBeVisible();
     await expect(heroHeading).toContainText("Mil conexiones.");
     await expect(page.locator("[data-link-id]")).toHaveCount(7);
-    await expect(page.locator(".links-portrait-image img")).toHaveCount(0);
+    const portrait = page.locator(".links-portrait-image img");
+    await expect(portrait).toBeVisible();
+    await expect(portrait).toHaveAttribute(
+      "src",
+      /\/images\/dreamcoder-profile\.avif$/,
+    );
     await expect(page.locator("[data-link-id=mascli]")).toHaveCount(0);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
