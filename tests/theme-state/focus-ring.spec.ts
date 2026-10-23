@@ -151,7 +151,9 @@ function toRgbString(value: string): string {
   )})`;
 }
 
-test("industrial about section uses the normal accent focus ring", async ({ page }) => {
+test("industrial about section uses the normal accent focus ring", async ({
+  page,
+}) => {
   const ui = new ThemeStatePage(page);
   await ui.pinTheme("dark");
   await ui.goto(HOME);
