@@ -17,7 +17,11 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(145deg, transparent 36%, var(--color-accent-muted));
+  background: linear-gradient(
+    145deg,
+    transparent 36%,
+    var(--color-accent-muted)
+  );
 }
 .technical-identity__top,
 .technical-identity__footer,
@@ -34,7 +38,9 @@
   color: var(--color-text-secondary);
   font-size: 0.62rem;
 }
-.technical-identity__status { color: var(--color-accent); }
+.technical-identity__status {
+  color: var(--color-accent);
+}
 .technical-identity__mark {
   position: relative;
   display: grid;
@@ -43,8 +49,18 @@
   margin-block: 22px;
   border: 1px solid var(--color-border);
   background:
-    linear-gradient(90deg, transparent 49.8%, var(--color-border) 50%, transparent 50.2%),
-    linear-gradient(0deg, transparent 49.8%, var(--color-border) 50%, transparent 50.2%);
+    linear-gradient(
+      90deg,
+      transparent 49.8%,
+      var(--color-border) 50%,
+      transparent 50.2%
+    ),
+    linear-gradient(
+      0deg,
+      transparent 49.8%,
+      var(--color-border) 50%,
+      transparent 50.2%
+    );
   color: var(--color-accent);
 }
 .technical-identity__crosshair {
@@ -54,7 +70,10 @@
   color: var(--color-text-tertiary);
   font: 1.15rem var(--font-mono);
 }
-.technical-identity__eyebrow { color: var(--color-text-secondary); font-size: 0.58rem; }
+.technical-identity__eyebrow {
+  color: var(--color-text-secondary);
+  font-size: 0.58rem;
+}
 .technical-identity__heading {
   margin-top: 6px;
   font-size: clamp(2rem, 3vw, 2.7rem);
@@ -81,9 +100,18 @@
   border-block: 1px solid var(--color-border);
   font-size: 0.61rem;
 }
-.technical-identity__specs div { display: flex; justify-content: space-between; gap: 12px; }
-.technical-identity__specs dt { color: var(--color-text-tertiary); }
-.technical-identity__specs dd { color: var(--color-text); text-align: right; }
+.technical-identity__specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.technical-identity__specs dt {
+  color: var(--color-text-tertiary);
+}
+.technical-identity__specs dd {
+  color: var(--color-text);
+  text-align: right;
+}
 .technical-identity__footer {
   display: flex;
   justify-content: space-between;
@@ -91,9 +119,19 @@
   color: var(--color-text-secondary);
   font-size: 0.58rem;
 }
-.technical-identity__footer span { color: var(--color-accent); }
+.technical-identity__footer span {
+  color: var(--color-accent);
+}
 @media (max-width: 720px) {
-  .technical-identity { max-width: 100%; padding: 16px; }
-  .technical-identity__mark { min-height: 112px; margin-block: 15px; }
-  .technical-identity__heading { font-size: 2rem; }
+  .technical-identity {
+    max-width: 100%;
+    padding: 16px;
+  }
+  .technical-identity__mark {
+    min-height: 112px;
+    margin-block: 15px;
+  }
+  .technical-identity__heading {
+    font-size: 2rem;
+  }
 }
