@@ -12,11 +12,6 @@ export const siteConfig = {
     whatsapp: "51926437404",
     whatsappDisplay: "+51 926 437 404",
   },
-  profile: {
-    image: "/images/profile/dreamcoder-portrait.webp",
-    imageAlt:
-      "Retrato ilustrado de Dreamcoder trabajando en un boceto de arquitectura",
-  },
   social: {
     x: "https://x.com/Dreamcoder08",
     twitterHandle: "@Dreamcoder08",
