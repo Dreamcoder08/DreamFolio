@@ -11,6 +11,8 @@
   --color-surface-hover: #20262e;
   --color-surface-active: #2b3440;
 
+  --technical-ice: #8fb7d9;
+
   /* ---- TEXT ---- */
   --color-text: #eef3f8;
   --color-text-secondary: #aab6c2;
@@ -26,8 +28,8 @@
   /* ---- BORDERS ---- */
   --color-border: rgba(201, 212, 223, 0.16);
   --color-border-strong: rgba(201, 212, 223, 0.28);
-  --color-border-interactive: rgba(201, 212, 223, 0.42);
-  --color-border-interactive-hover: rgba(201, 212, 223, 0.58);
+  --color-border-interactive: rgba(201, 212, 223, 0.5);
+  --color-border-interactive-hover: rgba(201, 212, 223, 0.68);
 
   /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
   --color-focus: #ff6a00;
