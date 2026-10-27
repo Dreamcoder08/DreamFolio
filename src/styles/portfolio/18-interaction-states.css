@@ -28,7 +28,7 @@
   border-color: var(--color-border-interactive-hover);
 }
 /* `.contact-section .solid-link` rests at --color-surface on --color-text =
-   17.91:1, the palette ceiling. No state can exceed it and any fill swap must
+   16.83:1, the palette ceiling. No state can exceed it and any fill swap must
    lower it, so per the design's own rule for max-brightness elements this variant
    signals through geometry rather than colour, and keeps its contrast. */
 .contact-section .solid-link:hover {
@@ -39,8 +39,8 @@
 }
 /* Max-brightness elements must not swap their fill on hover. `.desktop-nav
    .nav-contact` and `.circle-link` rest on `--color-text` over the canvas —
-   17.91:1 dark, 17.49:1 light on a card — and the accent pill their own hover
-   rules applied flipped the ink and dropped the label to 6.17:1 light, below its
+   16.83:1 dark, 17.49:1 light on a card — and the accent pill their own hover
+   rules applied flipped the ink and dropped the label to 6.41:1 light, below its
    own at-rest ratio. The design's rule for these states is to signal through
    border and motion rather than colour, and the icon translate plus the `:active`
    transform already do that. Restating the rest colour keeps the ratio identical
@@ -69,8 +69,8 @@
   color: var(--color-text);
   background: var(--color-surface-active);
 }
-/* The ordinary `.solid-link` press passes on its own terms (rest 7.59:1 ->
-   press 9.98:1), so it keeps the accent fill. */
+/* The ordinary `.solid-link` press passes on its own terms (rest 10.53:1 ->
+   press 15.12:1), so it keeps the accent fill. */
 .solid-link:active {
   background: var(--color-accent-active);
   color: var(--color-on-accent);
