@@ -17,10 +17,10 @@
   --color-text-secondary: #b7b8b3;
   --color-text-tertiary: #96978f;
 
-  /* ---- ACCENTS (Dreamcoder Dark: indigo accent, violet secondary) ---- */
-  --color-accent: #a5b4fc;
-  --color-accent-muted: rgba(165, 180, 252, 0.12);
-  --color-accent-hover: #d4b5fd;
+  /* ---- ACCENTS (Dreamcoder Dark, OLED-tuned: saturated violet accent) ---- */
+  --color-accent: #a78bfa;
+  --color-accent-muted: rgba(167, 139, 250, 0.16);
+  --color-accent-hover: #c4b5fd;
   --color-accent-active: #ddd6fe;
   --color-on-accent: #000000;
 
@@ -31,7 +31,7 @@
   --color-border-interactive-hover: rgba(255, 255, 255, 0.56);
 
   /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
-  --color-focus: #a5b4fc;
+  --color-focus: #a78bfa;
   --color-on-focus: #000000;
 
   /* ---- SEMANTIC ---- */
