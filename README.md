@@ -33,7 +33,7 @@ DreamFolio es el portafolio público de Dreamcoder08: una superficie de evidenci
 ## Características
 
 - **Arquitectura 100% estática** — Astro genera HTML puro; el sitio no envía JavaScript de framework al navegador.
-- **Tema dual claro/oscuro** — tokens definidos en `src/styles/global.css`, oscuro por defecto (superficie `#000000` pura con capas `#0b0b0b` / `#0d0d0f` y acento `#a5b4fc`) con overrides `[data-theme="light"]` (`#f3eadc` / `#824f16`). El modo oscuro respeta `prefers-contrast: more`.
+- **Tema dual claro/oscuro** — tokens definidos en `src/styles/global.css`, oscuro por defecto (superficie `#000000` pura con capas `#0b0b0b` / `#0d0d0f` y acento violeta `#a78bfa`) con overrides `[data-theme="light"]` (`#f3eadc` / `#824f16`). El modo oscuro respeta `prefers-contrast: more`.
 - **Cobertura e2e con Playwright** — specs en `tests/` para home, listado de proyectos y detalle de proyecto (Page Object Model), corridos en CI.
 - **Tipografías autohospedadas** — Inter y JetBrains Mono variables (subset latin) servidas desde `/fonts/`. Ninguna visita contacta a Google Fonts.
 - **Contacto directo por WhatsApp** — botón flotante en todas las páginas, CTA principal en la sección de contacto y comando en la consola ⌘K, todos enlaces `wa.me` sin widget de terceros. El número vive en `siteConfig.contact.whatsapp` (`src/lib/site.ts`).
