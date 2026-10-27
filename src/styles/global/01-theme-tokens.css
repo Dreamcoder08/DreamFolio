@@ -4,24 +4,25 @@
    ============================================ */
 
 @theme {
-  /* ---- SURFACES ---- */
+  /* ---- SURFACES (Dreamcoder Dark: OLED canvas, surface0-3 tiers) ---- */
   --color-surface: #000000;
-  --color-surface-alt: #0d0d10;
-  --color-surface-elevated: #17171c;
-  --color-surface-hover: #1e1e24;
-  --color-surface-active: #26262e;
+  --color-surface-alt: #0b0b0b;
+  --color-surface-elevated: #0d0d0f;
+  --color-surface-hover: #1f1f1f;
+  --color-surface-active: #2e2e2e;
 
-  /* ---- TEXT ---- */
-  --color-text: #ededeb;
+  /* ---- TEXT (Dreamcoder Dark text; secondary/tertiary keep the repo's
+     legibility-tuned ramp, which the press state contract needs) ---- */
+  --color-text: #e6e6e6;
   --color-text-secondary: #b7b8b3;
   --color-text-tertiary: #96978f;
 
-  /* ---- ACCENTS ---- */
-  --color-accent: #ff7a18;
-  --color-accent-muted: rgba(255, 122, 24, 0.08);
-  --color-accent-hover: #ff8f42;
-  --color-accent-active: #ffa25e;
-  --color-on-accent: #0a0a0a;
+  /* ---- ACCENTS (Dreamcoder Dark: indigo accent, violet secondary) ---- */
+  --color-accent: #a5b4fc;
+  --color-accent-muted: rgba(165, 180, 252, 0.12);
+  --color-accent-hover: #d4b5fd;
+  --color-accent-active: #ddd6fe;
+  --color-on-accent: #000000;
 
   /* ---- BORDERS ---- */
   --color-border: rgba(255, 255, 255, 0.16);
@@ -30,12 +31,12 @@
   --color-border-interactive-hover: rgba(255, 255, 255, 0.56);
 
   /* ---- FOCUS (aliases --color-accent / --color-on-accent by value) ---- */
-  --color-focus: #ff7a18;
-  --color-on-focus: #0a0a0a;
+  --color-focus: #a5b4fc;
+  --color-on-focus: #000000;
 
   /* ---- SEMANTIC ---- */
-  --color-danger: #ff6b6b;
-  --color-on-danger: #0a0a0a;
+  --color-danger: #fb8585;
+  --color-on-danger: #000000;
 
   /* ---- TYPOGRAPHY ---- */
   --font-sans: "Inter", system-ui, sans-serif;

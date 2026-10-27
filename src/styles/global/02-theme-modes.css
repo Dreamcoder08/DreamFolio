@@ -8,18 +8,18 @@
   --color-text: #17120d;
   --color-text-secondary: #6b5947;
   --color-text-tertiary: #746555;
-  --color-accent: #8a4e26;
-  --color-accent-muted: rgba(138, 78, 38, 0.1);
-  --color-accent-hover: #7a4522;
-  --color-accent-active: #6b3c1c;
+  --color-accent: #824f16;
+  --color-accent-muted: rgba(130, 79, 22, 0.1);
+  --color-accent-hover: #6f4211;
+  --color-accent-active: #5f380e;
   --color-on-accent: #fff7ea;
   --color-border: rgba(0, 0, 0, 0.1);
   --color-border-strong: rgba(0, 0, 0, 0.22);
   --color-border-interactive: rgba(0, 0, 0, 0.18);
   --color-border-interactive-hover: rgba(0, 0, 0, 0.3);
-  --color-focus: #8a4e26;
+  --color-focus: #824f16;
   --color-on-focus: #fff7ea;
-  --color-danger: #b3261e;
+  --color-danger: #842f24;
   --color-on-danger: #fff7ea;
 }
 
