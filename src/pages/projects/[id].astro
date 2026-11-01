@@ -3,6 +3,7 @@ import Icon from "../../components/ui/Icon.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navbar from "../../components/ui/Navbar.astro";
+import ProjectProof from "../../components/ui/ProjectProof.astro";
 import { siteConfig } from "../../lib/site";
 import {
   getProjectSlug,
@@ -150,6 +151,8 @@ const projectJsonLd = {
             el estado del proyecto.
           </p>
         )}
+
+        <ProjectProof projectId={project.id} liveUrl={project.liveUrl} />
 
         <div class="mt-12">
           {outboundUrl ? (

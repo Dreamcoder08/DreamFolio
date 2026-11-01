@@ -126,6 +126,7 @@ const total = pad(projects.length);
                     <Icon name="github" size={18} /> GitHub
                   </a>
                 )}
+                {project.liveUrl && <a href={project.liveUrl}>Demo</a>}
               </div>
             </div>
           </li>
