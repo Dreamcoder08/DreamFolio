@@ -15,6 +15,7 @@
       "Revisión humana",
       "Trazabilidad"
     ],
+    "githubUrl": "https://github.com/arkelythex/drenyra-ai",
     "coverImage": "/images/projects/fiscal-workspace.jpg",
     "coverImageAlt": "Interfaz de trabajo asistida por IA"
   },
@@ -29,6 +30,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["Información pública", "Transparencia", "Datos abiertos"],
+    "githubUrl": "https://github.com/arkelythex/estado",
     "coverImage": "/images/projects/digital-public-peru-desktop.png",
     "coverImageAlt": "Digital Public Peru — civic transparency interface"
   },
@@ -43,6 +45,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["Validación de datos", "Herramientas CLI", "Civic tech"],
+    "githubUrl": "https://github.com/arkelythex/elect-validate",
     "coverImage": ""
   },
   {
@@ -56,6 +59,7 @@
     "updatedYear": 2026,
     "featured": true,
     "stack": ["Trazabilidad", "Operación en campo", "Sincronización offline"],
+    "githubUrl": "https://github.com/arkelythex/senzar",
     "coverImage": "/images/projects/edgetraz-agro-hero.png",
     "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
   },
@@ -128,6 +132,7 @@
     "featured": false,
     "stack": ["React", "Bun", "TypeScript"],
     "githubUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
-    "coverImage": ""
+    "coverImage": "",
+    "liveUrl": "https://dreamcoder08.github.io/pseint-web-interface/"
   }
 ]

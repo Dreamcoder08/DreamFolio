@@ -115,6 +115,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+      # Refresh project proof (CI status, test files, ADR links). Same
+      # contract: on any error the committed snapshot is kept.
+      - name: Sync project proof
+        run: pnpm run sync:proof
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Build site
         run: pnpm run build
         env:
