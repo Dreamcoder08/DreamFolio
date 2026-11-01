@@ -34,6 +34,7 @@ DreamFolio es el portafolio público de Dreamcoder08: una superficie de evidenci
 
 - **Arquitectura 100% estática** — Astro genera HTML puro; el sitio no envía JavaScript de framework al navegador.
 - **Tema dual claro/oscuro** — tokens definidos en `src/styles/global.css`, oscuro por defecto (superficie `#000000` pura con capas `#0b0b0b` / `#0d0d0f` y acento cian `#38bdf8`) con overrides `[data-theme="light"]` (`#f3eadc` / `#824f16`). El modo oscuro respeta `prefers-contrast: more`.
+- **Evidencia verificable por proyecto** — cada proyecto con repositorio muestra el último CI de su rama principal, los archivos de prueba, sus ADR y su demo, todo enlazado y fechado. Lo genera `pnpm run sync:proof` desde la API de GitHub (`src/data/project-proof.json`); un CI en rojo se muestra en rojo. Decisión y límites: [`docs/architecture/project-proof.md`](docs/architecture/project-proof.md).
 - **Cobertura e2e con Playwright** — specs en `tests/` para home, listado de proyectos y detalle de proyecto (Page Object Model), corridos en CI.
 - **Tipografías autohospedadas** — Inter y JetBrains Mono variables (subset latin) servidas desde `/fonts/`. Ninguna visita contacta a Google Fonts.
 - **Contacto directo por WhatsApp** — botón flotante en todas las páginas, CTA principal en la sección de contacto y comando en la consola ⌘K, todos enlaces `wa.me` sin widget de terceros. El número vive en `siteConfig.contact.whatsapp` (`src/lib/site.ts`).
@@ -71,6 +72,9 @@ pnpm run preview
 
 # typecheck + build (quality gate usado en CI)
 pnpm run verify
+
+# refrescar la evidencia de los proyectos desde GitHub (token opcional)
+GITHUB_TOKEN=$(gh auth token) pnpm run sync:proof
 ```
 
 ## Estructura del proyecto

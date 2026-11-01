@@ -13,6 +13,7 @@ HTML. The architecture is deliberately small because the product is public proof
 | Tailwind 4, CSS-first | Tokens live in the `@theme` block of `global.css`; there is no `tailwind.config.mjs`. |
 | JavaScript as an exception | Two vanilla scripts: the pre-paint theme bootstrap, and the nav menu/toggle. |
 | No public backend | The contact path opens a local `mailto:` draft; no public secrets and no database client. |
+| Generated project proof | CI status, test files and ADR links come from GitHub, dated and linked. See [project-proof.md](project-proof.md). |
 
 ## Runtime composition
 
