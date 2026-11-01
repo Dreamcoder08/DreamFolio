@@ -16,12 +16,13 @@ repository, demo, CI status, test files and architecture decisions, generated fr
 
 ## Tasks
 
-- T1 — S4-S6 — inline — proof model `src/lib/project-proof.ts` + unit tests + `scripts/sync-project-proof.mjs` + `sync:proof` script + deploy step — commit: pending
-- T2 — S2-S5, S7 — inline — project links data, proof section on detail page and cards, invariant unit test, e2e — commit: pending
-- T3 — S8 — inline — README + `docs/architecture/project-proof.md` — commit: pending
+- T1 — S4-S6 — inline — proof model `src/lib/project-proof.ts` + unit tests + `scripts/sync-project-proof.mjs` + `sync:proof` script + deploy step — commit: ae10bc9
+- T2 — S2-S5, S7 — inline — project links data, proof section on detail page and cards, invariant unit test, e2e — commit: d4a7849 (cards got a Demo link only; the proof list stays on the detail page to keep cards light)
+- T3 — S8 — inline — README + `docs/architecture/project-proof.md` — commit: 83946be
 
 ## Log
 
 - L1 — "Prepara mejor mi portafolio con repositorios, demostraciones, pruebas automatizadas, decisiones arquitectónicas y resultados verificables."
 - L2 — Evidence source: "Ambos" (local clones + public GitHub). Private projects: "hacerlos publicos"; confirmed "Publicar ambos ahora" after gitleaks review (estado: 5 findings, all the local `dev-` bearer token in localhost curl examples; senzar: 0). Both repos now PUBLIC.
 - L3 — Evidence found 2026-11-01: CI failing on main for estado, senzar, CleanSweep; elect-validate CI green with 0 test files; Workbench 5 ADR, estado 15 ADR; only pseint-web-interface has a live demo (GitHub Pages).
+- L4 — Gates 2026-11-01: test:unit 216/216, test:e2e 156/156, check, check:size, format:check green. Guard mutation proof: removing elect-validate githubUrl fails the coverage test.
