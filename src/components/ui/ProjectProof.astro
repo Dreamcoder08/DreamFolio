@@ -1,0 +1,92 @@
+---
+// Evidence a visitor can check on the project detail page: repository, demo,
+// latest CI run, test files and ADRs, all generated from GitHub with a date.
+// Missing evidence is said out loud ("Sin demo pública"), never hidden behind
+// a link to something else. A failing CI is shown as failing.
+import Icon from "./Icon.astro";
+import { getProjectProof, proofCheckedAt } from "../../lib/project-proof-data";
+
+interface Props {
+  projectId: string;
+  liveUrl?: string;
+}
+
+const { projectId, liveUrl } = Astro.props;
+const proof = getProjectProof(projectId);
+const ciVerdict = proof?.ci?.status === "passing" ? "pasa" : "falla";
+const ciLabel =
+  proof?.ci && `${proof.ci.workflow}: ${ciVerdict} · ${proof.ci.date}`;
+---
+
+{proof && (
+  <section class="card max-w-3xl mt-10" aria-labelledby="proof-title">
+    <h2 id="proof-title" class="section-label">
+      Evidencia verificable
+    </h2>
+    <p class="text-sm text-text-secondary mb-6">
+      Comprobado desde GitHub el {proofCheckedAt}.
+    </p>
+    <dl class="grid gap-4 sm:grid-cols-2">
+      <div>
+        <dt class="text-sm text-text-secondary">Repositorio</dt>
+        <dd>
+          <a
+            class="inline-flex items-center gap-2 underline underline-offset-4"
+            href={proof.repoUrl}
+          >
+            <Icon name="github" size={18} />
+            {proof.repo}
+          </a>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm text-text-secondary">Demostración</dt>
+        <dd>
+          {liveUrl ? (
+            <a class="underline underline-offset-4" href={liveUrl}>
+              Abrir la demo
+            </a>
+          ) : (
+            "Sin demo pública"
+          )}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm text-text-secondary">Integración continua</dt>
+        <dd>
+          {proof.ci ? (
+            <a
+              class="underline underline-offset-4"
+              class:list={[proof.ci.status === "passing" && "text-accent"]}
+              href={proof.ci.url}
+            >
+              {ciLabel}
+            </a>
+          ) : (
+            "Sin ejecuciones de CI"
+          )}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm text-text-secondary">Pruebas automatizadas</dt>
+        <dd>{proof.testFiles} archivos de prueba detectados</dd>
+      </div>
+    </dl>
+    {proof.decisions.length > 0 && (
+      <>
+        <h3 id="decisions-title" class="section-label mt-8">
+          Decisiones de arquitectura ({proof.decisions.length})
+        </h3>
+        <ul aria-label="Decisiones de arquitectura" class="space-y-2">
+          {proof.decisions.map((decision) => (
+            <li>
+              <a class="underline underline-offset-4" href={decision.url}>
+                {decision.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+)}

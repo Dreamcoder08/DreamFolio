@@ -1,0 +1,195 @@
+{
+  "checkedAt": "2026-11-01",
+  "projects": {
+    "drenyra": {
+      "repo": "arkelythex/drenyra-ai",
+      "repoUrl": "https://github.com/arkelythex/drenyra-ai",
+      "testFiles": 114,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/drenyra-ai/actions/runs/40833010260",
+        "date": "2026-10-29"
+      },
+      "decisions": []
+    },
+    "digital-public-peru": {
+      "repo": "arkelythex/estado",
+      "repoUrl": "https://github.com/arkelythex/estado",
+      "testFiles": 0,
+      "ci": {
+        "status": "failing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/estado/actions/runs/35644380079",
+        "date": "2026-09-21"
+      },
+      "decisions": [
+        {
+          "title": "ADR 0001 — Architecture style",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0001-architecture-style.md"
+        },
+        {
+          "title": "ADR 0002 — Audit log",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0002-audit-log.md"
+        },
+        {
+          "title": "ADR 0003 — Modular monolith",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0003-modular-monolith.md"
+        },
+        {
+          "title": "ADR 0004 — Stack rust next otel",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0004-stack-rust-next-otel.md"
+        },
+        {
+          "title": "ADR 0005 — No microservices cosplay",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0005-no-microservices-cosplay.md"
+        },
+        {
+          "title": "ADR 0006 — Runtime integrations v5",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0006-runtime-integrations-v5.md"
+        },
+        {
+          "title": "ADR 0007 — Supply chain automation",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0007-supply-chain-automation.md"
+        },
+        {
+          "title": "ADR 0008 — Release engineering",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0008-release-engineering.md"
+        },
+        {
+          "title": "ADR 0009 — Operations reliability baseline",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0009-operations-reliability-baseline.md"
+        },
+        {
+          "title": "ADR 0010 — Auth oidc rbac",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0010-auth-oidc-rbac.md"
+        },
+        {
+          "title": "ADR 0011 — Local keycloak integration",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0011-local-keycloak-integration.md"
+        },
+        {
+          "title": "ADR 0012 — Auth integration ci and metrics",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0012-auth-integration-ci-and-metrics.md"
+        },
+        {
+          "title": "ADR 0013 — Local prometheus grafana stack",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0013-local-prometheus-grafana-stack.md"
+        },
+        {
+          "title": "ADR 0014 — Domain slo metrics and asset validation",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0014-domain-slo-metrics-and-asset-validation.md"
+        },
+        {
+          "title": "ADR 0015 — Workflow resolution metrics and http transition tests",
+          "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0015-workflow-resolution-metrics-and-http-transition-tests.md"
+        }
+      ]
+    },
+    "elect-validate": {
+      "repo": "arkelythex/elect-validate",
+      "repoUrl": "https://github.com/arkelythex/elect-validate",
+      "testFiles": 0,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/elect-validate/actions/runs/35644362896",
+        "date": "2026-09-21"
+      },
+      "decisions": []
+    },
+    "edge-traz-agro": {
+      "repo": "arkelythex/senzar",
+      "repoUrl": "https://github.com/arkelythex/senzar",
+      "testFiles": 0,
+      "ci": {
+        "status": "failing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/senzar/actions/runs/28398411352",
+        "date": "2026-06-29"
+      },
+      "decisions": []
+    },
+    "dreamcoder-workbench": {
+      "repo": "Dreamcoder08/Dreamcoder-Workbench",
+      "repoUrl": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
+      "testFiles": 104,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/actions/runs/40474081887",
+        "date": "2026-10-27"
+      },
+      "decisions": [
+        {
+          "title": "ADR 0001 — Project structure",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0001-project-structure.md"
+        },
+        {
+          "title": "ADR 0002 — Toolchain selection",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0002-toolchain-selection.md"
+        },
+        {
+          "title": "ADR 0003 — Python quality strategy",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0003-python-quality-strategy.md"
+        },
+        {
+          "title": "ADR 0004 — Shell test strategy",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0004-shell-test-strategy.md"
+        },
+        {
+          "title": "ADR 0005 — Ci cd quality gates",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0005-ci-cd-quality-gates.md"
+        }
+      ]
+    },
+    "cleansweep": {
+      "repo": "Dreamcoder08/CleanSweep",
+      "repoUrl": "https://github.com/Dreamcoder08/CleanSweep",
+      "testFiles": 2,
+      "ci": {
+        "status": "failing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/CleanSweep/actions/runs/27907090233",
+        "date": "2026-06-21"
+      },
+      "decisions": []
+    },
+    "pactyra": {
+      "repo": "Dreamcoder08/pactyra",
+      "repoUrl": "https://github.com/Dreamcoder08/pactyra",
+      "testFiles": 7,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/pactyra/actions/runs/30220405310",
+        "date": "2026-07-26"
+      },
+      "decisions": []
+    },
+    "dreamcoder-dsh": {
+      "repo": "Dreamcoder08/dreamcoder-dsh",
+      "repoUrl": "https://github.com/Dreamcoder08/dreamcoder-dsh",
+      "testFiles": 24,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/dreamcoder-dsh/actions/runs/34575106522",
+        "date": "2026-09-11"
+      },
+      "decisions": []
+    },
+    "pseint-web": {
+      "repo": "Dreamcoder08/pseint-web-interface",
+      "repoUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
+      "testFiles": 26,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/pseint-web-interface/actions/runs/27907091426",
+        "date": "2026-06-21"
+      },
+      "decisions": []
+    }
+  }
+}
