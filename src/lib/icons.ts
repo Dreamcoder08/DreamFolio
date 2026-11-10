@@ -30,6 +30,8 @@ export const icons = {
   // WhatsApp's speech-bubble-with-handset outline, drawn on this grid.
   whatsapp:
     '<path d="M3.5 20.5 4.8 16A8.5 8.5 0 1 1 8 19.2Z"/><path d="M9 8.6c.2-.4.5-.5.8-.5h.5l1 2.2-.7.9a6 6 0 0 0 2.6 2.6l.9-.7 2.2 1v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.4.1a9 9 0 0 1-4.6-4.6c-.4-.9-.3-1.8.2-2.3Z"/>',
+  linkedin:
+    '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.5v.01M12 17v-6.5m0 3c0-1.9 1.2-3 2.7-3s2.3 1 2.3 2.8V17"/>',
   instagram:
     '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
   x: '<path d="m4 4 12 16h4L8 4H4Zm16 0-7 8m-2 2-7 6"/>',

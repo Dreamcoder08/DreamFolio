@@ -20,6 +20,7 @@ const baseInput = {
   allProjectsHref: "/projects/",
   projects: [{ slug: "drenyra", title: "Drenyra", href: "/projects/drenyra/" }],
   githubHref: "https://github.com/Dreamcoder08",
+  linkedinHref: "https://www.linkedin.com/in/albert-agurto-farf%C3%A1n-a74ba9320/",
   xHref: "https://x.com/Dreamcoder08",
   mailtoHref: "mailto:dreamcoder.dev08@gmail.com",
   email: "dreamcoder.dev08@gmail.com",

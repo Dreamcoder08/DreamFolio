@@ -43,6 +43,7 @@ export function personJsonLd(canonical: string): Record<string, unknown> {
     },
     sameAs: [
       siteConfig.social.github,
+      siteConfig.social.linkedin,
       siteConfig.social.x,
       siteConfig.social.instagram,
     ],

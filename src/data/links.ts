@@ -46,6 +46,16 @@ export const links: LinkItem[] = [
     external: true,
   },
   {
+    id: "linkedin",
+    title: "LinkedIn · Albert Agurto Farfán",
+    description: "Trayectoria profesional, experiencia y certificaciones.",
+    label: "PROFESSIONAL",
+    icon: "linkedin",
+    href: siteConfig.social.linkedin,
+    kinds: ["work", "social"],
+    external: true,
+  },
+  {
     id: "arkelythex",
     title: "ARKELYTHEX",
     description: "Laboratorio de ingeniería e inteligencia operativa.",
