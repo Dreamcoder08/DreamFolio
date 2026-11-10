@@ -5,6 +5,11 @@ on:
     branches:
       - main
       - master
+  # Daily, so a README or repo updated on GitHub reaches /projects/ without a
+  # push here: the sync steps below only run inside a deploy. GitHub pauses
+  # schedules after 60 days without repository activity.
+  schedule:
+    - cron: "17 9 * * *"
   workflow_dispatch:
 
 # Least privilege at the top, and each job raises its own scope below. A
@@ -108,8 +113,9 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-      # Refresh the /projects/ GitHub grid from the API. Never fails the
-      # deploy: on any error the committed snapshot is kept (see the script).
+      # Refresh the /projects/ GitHub grid and each repo's README cover from
+      # the API. Never fails the deploy: on any error the committed snapshot
+      # is kept (see the script).
       - name: Sync GitHub repos
         run: pnpm run sync:repos
         env:
