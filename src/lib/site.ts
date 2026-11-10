@@ -16,7 +16,8 @@ export const siteConfig = {
     x: "https://x.com/Dreamcoder08",
     twitterHandle: "@Dreamcoder08",
     github: "https://github.com/Dreamcoder08",
-    linkedin: "https://www.linkedin.com/in/albert-agurto-farf%C3%A1n-a74ba9320/",
+    linkedin:
+      "https://www.linkedin.com/in/albert-agurto-farf%C3%A1n-a74ba9320/",
     instagram: "https://www.instagram.com/dreamcoder.08/",
   },
 };
