@@ -21,7 +21,7 @@
     0 10px 30px -10px rgb(0 0 0 / 0.55),
     0 0 0 0 rgb(37 211 102 / 0.45);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;

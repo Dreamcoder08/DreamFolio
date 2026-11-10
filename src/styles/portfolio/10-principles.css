@@ -34,7 +34,7 @@
 }
 .principle-number {
   color: var(--color-text-secondary);
-  font: 0.72rem var(--font-mono);
+  font: var(--text-xs) var(--font-mono);
 }
 .principles h3 {
   margin-block: 32px 17px;
@@ -45,5 +45,5 @@
 }
 .principles p {
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
 }

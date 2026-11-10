@@ -1,5 +1,5 @@
 /**
- * Focus-ring geometry and the ink variant, under the same determinism levers as
+ * Focus-ring geometry and the neutral-section ring, under the same determinism levers as
  * `theme-state.spec.ts` (theme pinned before the first paint, reduced motion
  * emulated before navigation, focus reached with real `Tab` presses).
  */
@@ -81,8 +81,11 @@ for (const theme of THEMES) {
   });
 }
 
-/** The ink variant: an accent ring on an accent fill is 1:1, so these read `--color-on-focus`. */
-const INK_VARIANTS: readonly {
+/**
+ * The about band and the contact panel were accent fills with an ink ring. They
+ * are neutral surfaces now, so their links carry the one site ring, `--color-focus`.
+ */
+const NEUTRAL_SECTIONS: readonly {
   id: string;
   selector: string;
   surface: string;
@@ -109,9 +112,9 @@ const INK_VARIANTS: readonly {
 ];
 
 for (const theme of THEMES) {
-  test.describe(`Focus ring ink variant — ${theme}`, () => {
+  test.describe(`Focus ring on neutral sections — ${theme}`, () => {
     test(
-      "links inside the accent-filled sections resolve to --color-on-focus at or above 3:1",
+      "links inside the about and contact sections resolve to --color-focus at or above 3:1",
       {
         tag: ["@critical", "@e2e", "@theme-state", `@THEME-STATE-INK-${theme}`],
       },
@@ -119,21 +122,20 @@ for (const theme of THEMES) {
         const ui = new ThemeStatePage(page);
         await ui.pinTheme(theme);
 
-        for (const entry of INK_VARIANTS) {
+        for (const entry of NEUTRAL_SECTIONS) {
           await ui.goto(entry.path);
           await expect.poll(() => ui.currentTheme()).toBe(theme);
 
           const focus = await ui.readState(entry.selector, STATE.FOCUS);
           const section = await ui.resolveBackground(entry.surface);
-          const onFocus = await ui.tokenValue("--color-on-focus");
-          const pair = `--color-on-focus (${onFocus}) on ${entry.surface}'s fill (${section})`;
+          const ringToken = await ui.tokenValue("--color-focus");
+          const pair = `--color-focus (${ringToken}) on ${entry.surface}'s fill (${section})`;
 
           expect(
             focus.outlineColor,
-            `${entry.selector} — ${theme}: the ink variant is declared by ` +
-              `portfolio.css \`.about-section a:focus-visible, .contact-section a:focus-visible { outline-color: var(--portfolio-yellow-ink) }\`, ` +
-              `which resolves to the same value as --color-on-focus`,
-          ).toBe(toRgbString(onFocus));
+            `${entry.selector} — ${theme}: no section overrides the ring, so it ` +
+              `resolves to base.css \`:focus-visible { outline: 3px solid var(--color-focus) }\``,
+          ).toBe(toRgbString(ringToken));
 
           const ringRatio = ratio(
             composite(focus.outlineColor, section),
@@ -141,7 +143,7 @@ for (const theme of THEMES) {
           );
           expect(
             ringRatio,
-            `${entry.selector} — ${theme}: the ink ring must clear 1.4.11's 3:1 ` +
+            `${entry.selector} — ${theme}: the ring must clear 1.4.11's 3:1 ` +
               `focus clause — ${pair} measures ${formatRatio(ringRatio)}:1`,
           ).toBeGreaterThanOrEqual(NON_TEXT_FLOOR);
         }

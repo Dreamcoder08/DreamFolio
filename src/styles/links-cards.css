@@ -75,7 +75,7 @@
   color: var(--color-accent);
   border: 1px solid var(--color-border);
   padding: 4px 8px;
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
 }
 
 .links-card-title {
@@ -92,7 +92,7 @@
 .links-card-description {
   order: 3;
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
   line-height: 1.6;
 }
 
@@ -129,7 +129,7 @@
   align-items: center;
   gap: 10px;
   color: var(--color-text-secondary);
-  font-size: 0.85rem;
+  font-size: var(--text-caption);
 }
 
 .links-share-copy .icon {
@@ -152,7 +152,7 @@
   color: var(--color-text);
   border: 1px solid var(--color-border-interactive);
   border-radius: var(--radius-control);
-  font-size: 0.79rem;
+  font-size: var(--text-xs);
   cursor: pointer;
 }
 
@@ -169,7 +169,7 @@
   min-height: 22px;
   margin-top: 8px;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
+  font-size: var(--text-small);
   text-align: right;
 }
 

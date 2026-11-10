@@ -21,17 +21,10 @@ a {
 a:hover {
   opacity: 1;
 }
-/* The `a`/`button` focus ring used to live here at 3px/5px, outranking
-   global.css's layered `:focus-visible`. It now lives there alone, at the same
-   3px/5px, so the ring is identical and only one declaration exists. The ink
-   variant stays because an accent ring on an accent-filled background would be
-   1:1; it consumes `--color-on-focus`, which aliases `--color-on-accent`, so the
-   resolved colour is unchanged from the `--portfolio-yellow-ink` alias it
-   replaced. */
-.about-section a:focus-visible,
-.contact-section a:focus-visible {
-  outline-color: var(--color-on-focus);
-}
+/* The focus ring lives in global.css alone (3px/5px, `--color-focus`). The
+   about and contact sections used to need an ink variant because an accent ring
+   on an accent fill is 1:1; both are neutral surfaces now, so the one ring
+   reads on every section. */
 .wrap {
   width: min(1320px, calc(100% - 96px));
   margin-inline: auto;
@@ -39,7 +32,7 @@ a:hover {
 .mono,
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   letter-spacing: 0.105em;
 }
 .eyebrow {

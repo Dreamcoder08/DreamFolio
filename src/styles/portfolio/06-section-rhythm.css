@@ -29,5 +29,5 @@
 }
 .heading-note {
   color: var(--color-text-secondary);
-  font-size: 0.84rem;
+  font-size: var(--text-caption);
 }

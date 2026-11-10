@@ -82,7 +82,7 @@
   }
 
   .links-card-number {
-    font-size: 0.62rem;
+    font-size: var(--text-micro);
   }
 
   .links-card-body {
@@ -90,7 +90,7 @@
   }
 
   .links-card-description {
-    font-size: 0.875rem;
+    font-size: var(--text-small);
   }
 
   .links-sharebar {

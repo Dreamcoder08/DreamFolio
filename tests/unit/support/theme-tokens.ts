@@ -39,7 +39,7 @@ export const KEYS =
 --color-surface-active --color-text --color-text-secondary --color-text-tertiary
 --color-accent --color-accent-muted --color-accent-hover --color-accent-active
 --color-on-accent --color-border --color-border-strong --color-border-interactive
---color-border-interactive-hover --color-focus --color-on-focus
+--color-border-interactive-hover --color-focus
 --color-danger --color-on-danger`.split(/\s+/);
 
 export const MODES = ["dark", "light"] as const;
