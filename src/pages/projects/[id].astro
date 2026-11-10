@@ -1,4 +1,5 @@
 ---
+import { projectCover } from "../../lib/project-cover";
 import Icon from "../../components/ui/Icon.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -26,8 +27,9 @@ const hasSharedArt = SHARED_ART_PROJECT_IDS.has(project.id);
 
 const outboundUrl = project.liveUrl ?? project.githubUrl;
 const caseStudy = getProjectCaseStudy(project.id);
-const projectImage =
-  project.coverImage ?? "/images/projects/fiscal-workspace.jpg";
+// The project's own cover, or the image its repo's README leads with.
+const cover = projectCover(project);
+const projectImage = cover?.src ?? "/images/projects/fiscal-workspace.jpg";
 
 const projectJsonLd = {
   "@context": "https://schema.org",
@@ -90,12 +92,12 @@ const projectJsonLd = {
     </section>
 
     <!-- Cover Image -->
-    {project.coverImage && (
+    {cover && (
       <section class="px-6 mb-16">
         <div class="container-wide">
           <div class="aspect-video rounded-panel overflow-hidden bg-surface-elevated border border-border">
             <img
-              src={withBase(project.coverImage)}
+              src={withBase(cover.src)}
               alt={project.coverImageAlt || project.title}
               class="w-full h-full object-cover"
               class:list={[hasSharedArt && `vt-art-${project.id}`]}

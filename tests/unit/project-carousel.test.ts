@@ -15,6 +15,15 @@ test("projects with cover art lead, otherwise the JSON order holds", () => {
   assert.deepEqual(order, ["b", "d", "a", "c"]);
 });
 
+test("a cover resolved elsewhere (a README image) leads like a curated one", () => {
+  const readmeCovers = new Set(["a"]);
+  const order = carouselOrder(
+    [{ id: "a" }, { id: "b" }, { id: "c", coverImage: "/c.png" }],
+    (project) => Boolean(project.coverImage) || readmeCovers.has(project.id),
+  ).map((p) => p.id);
+  assert.deepEqual(order, ["a", "c", "b"]);
+});
+
 test("domain slugs read as Spanish labels, unknown ones degrade to words", () => {
   assert.equal(domainLabel("govtech"), "Tecnología cívica");
   assert.equal(domainLabel("space-mining"), "space mining");
