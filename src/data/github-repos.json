@@ -7,16 +7,28 @@
       "description": "Gentle-AI engineering operating layer as a DeepSeek Harness out-of-tree bundle: persona, risk-based workflows, role presets, evidence receipts, Engram memory",
       "language": "TypeScript",
       "stars": 1,
-      "pushedAt": "2026-10-16T00:00:00Z"
+      "pushedAt": "2026-11-06T15:34:58Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-dreamcoder-dsh.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "image"
+      }
     },
     {
-      "owner": "arkelythex",
-      "name": "drenyra-command-center",
-      "url": "https://github.com/arkelythex/drenyra-command-center",
-      "description": "Drenyra — command center for ARKELYTHEX: fiscal intelligence dashboard (React 19), API orchestration (Elysia), Go TUI (Bubbletea), agent orchestration (Mastra).",
+      "owner": "Dreamcoder08",
+      "name": "sipges",
+      "url": "https://github.com/Dreamcoder08/sipges",
+      "description": "SIPGES — territorial management platform: TypeScript monorepo (Hono API + React web) on Cloudflare Workers with Neon PostgreSQL.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-10-19T00:00:00Z"
+      "pushedAt": "2026-11-09T20:49:44Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-sipges.webp",
+        "width": 960,
+        "height": 1040,
+        "alt": "Arquitectura hexagonal TypeScript de SIPGES"
+      }
     },
     {
       "owner": "arkelythex",
@@ -25,7 +37,7 @@
       "description": "Verifiable Accounting Agent Ecosystem — Receipt-Driven Accounting, candidates, proportional review, gates, ledger and recovery for Drenyra. Pre-alpha.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-10-18T00:00:00Z"
+      "pushedAt": "2026-11-08T21:53:09Z"
     },
     {
       "owner": "arkelythex",
@@ -34,16 +46,7 @@
       "description": "Pi-native Accounting Operations Harness — persona, /drenyra:* commands, Pi subagents, RDA chains and pinned drenyra-ai runtime for Pi. Pre-alpha.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-10-18T00:00:00Z"
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "cominorsa-crm",
-      "url": "https://github.com/Dreamcoder08/cominorsa-crm",
-      "description": "COMINORSA AI-first CRM agent tools and Twenty operations",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-10-12T00:00:00Z"
+      "pushedAt": "2026-11-08T21:43:18Z"
     },
     {
       "owner": "arkelythex",
@@ -52,7 +55,31 @@
       "description": "Institutional Accounting Memory — scope-first search, relations, lifecycle, provenance and institutional knowledge for Drenyra. Pre-alpha.",
       "language": "Go",
       "stars": 0,
-      "pushedAt": "2026-10-11T00:00:00Z"
+      "pushedAt": "2026-11-08T02:42:52Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-engram.webp",
+        "width": 960,
+        "height": 315,
+        "alt": "Drenyra Engram hero: an institutional archive card for memory 4011 showing effectiveAt, recordedAt, confidence, approved status, three evidence objects, a vigent rule, and a reconstructible seal, beside the tagline Memory guides. Evidence demonstrates. Humans authorize."
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "cominorsa-crm-rs",
+      "url": "https://github.com/Dreamcoder08/cominorsa-crm-rs",
+      "description": "COMINORSA local desktop CRM",
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2026-11-07T23:36:53Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "chira-os",
+      "url": "https://github.com/Dreamcoder08/chira-os",
+      "description": "CHIRA OS Guardian: offline agricultural inspections, hexagonal architecture and verified security boundaries",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-07T05:15:20Z"
     },
     {
       "owner": "Dreamcoder08",
@@ -61,43 +88,37 @@
       "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
       "language": "Python",
       "stars": 0,
-      "pushedAt": "2026-10-05T00:00:00Z"
+      "pushedAt": "2026-11-06T05:28:27Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-dreamcoder-workbench.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "Dreamcoder Workbench in dark mode with Herdr, Gentle Shell and its agent workspace"
+      }
     },
     {
       "owner": "arkelythex",
-      "name": "drenyra-skills",
-      "url": "https://github.com/arkelythex/drenyra-skills",
-      "description": "Versioned accounting, tax, and operational knowledge for the Drenyra ecosystem — content separate from the runtime registry (drenyra-ai/skills). Pre-alpha.",
-      "language": "JavaScript",
-      "stars": 0,
-      "pushedAt": "2026-10-01T00:00:00Z"
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "bcrp-data-sdk",
-      "url": "https://github.com/Dreamcoder08/bcrp-data-sdk",
-      "description": "Unofficial BCRPData TypeScript SDK generated with Voxgig sdkgen; mini task 1",
+      "name": "drenyra-console",
+      "url": "https://github.com/arkelythex/drenyra-console",
+      "description": "Drenyra Console — cloud-native fiscal intelligence surface for ARKELYTHEX: React 19 web app, Elysia API, hexagonal domain/application/infrastructure packages, Drizzle + PostgreSQL.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-09-29T00:00:00Z"
+      "pushedAt": "2026-11-01T12:36:34Z"
     },
     {
-      "owner": "Dreamcoder08",
-      "name": "aurelia21",
-      "url": "https://github.com/Dreamcoder08/aurelia21",
-      "description": "AURELIA // 21·09 — self-contained cinematic experience page",
-      "language": "JavaScript",
+      "owner": "arkelythex",
+      "name": "estado",
+      "url": "https://github.com/arkelythex/estado",
+      "description": "Plataforma de tecnología cívica para servicios públicos digitales peruanos",
+      "language": "Rust",
       "stars": 0,
-      "pushedAt": "2026-09-28T00:00:00Z"
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "pactyra",
-      "url": "https://github.com/Dreamcoder08/pactyra",
-      "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
-      "language": "Go",
-      "stars": 0,
-      "pushedAt": "2026-09-27T00:00:00Z"
+      "pushedAt": "2026-11-01T07:03:38Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-estado.webp",
+        "width": 960,
+        "height": 768,
+        "alt": "CivicTech Peru desktop interface"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -106,34 +127,22 @@
       "description": "AI-assisted dotfile and development environment manager written in Rust.",
       "language": "Rust",
       "stars": 0,
-      "pushedAt": "2026-09-27T00:00:00Z"
+      "pushedAt": "2026-11-01T06:56:17Z"
     },
     {
       "owner": "arkelythex",
-      "name": "elect-validate",
-      "url": "https://github.com/arkelythex/elect-validate",
-      "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
-      "language": "JavaScript",
+      "name": "senzar",
+      "url": "https://github.com/arkelythex/senzar",
+      "description": "Trazabilidad agroindustrial para exportaciones peruanas con IA",
+      "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-09-27T00:00:00Z"
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-guardian-angel",
-      "url": "https://github.com/arkelythex/drenyra-guardian-angel",
-      "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
-      "language": null,
-      "stars": 0,
-      "pushedAt": "2026-09-27T00:00:00Z"
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "somnyx-tui",
-      "url": "https://github.com/Dreamcoder08/somnyx-tui",
-      "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
-      "language": "Makefile",
-      "stars": 0,
-      "pushedAt": "2026-06-29T00:00:00Z"
+      "pushedAt": "2026-11-01T06:52:30Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-senzar.webp",
+        "width": 960,
+        "height": 503,
+        "alt": "image"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -142,7 +151,88 @@
       "description": "SVM-based skill-gap analysis and interview simulation platform",
       "language": "HTML",
       "stars": 0,
-      "pushedAt": "2026-06-29T00:00:00Z"
+      "pushedAt": "2026-11-01T05:49:54Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "somnyx-tui",
+      "url": "https://github.com/Dreamcoder08/somnyx-tui",
+      "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2026-11-01T05:49:52Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-skills",
+      "url": "https://github.com/arkelythex/drenyra-skills",
+      "description": "Versioned accounting, tax, and operational knowledge for the Drenyra ecosystem — content separate from the runtime registry (drenyra-ai/skills). Pre-alpha.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-10-29T07:03:57Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-guardian-angel",
+      "url": "https://github.com/arkelythex/drenyra-guardian-angel",
+      "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2026-10-29T07:03:46Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "cominorsa-crm",
+      "url": "https://github.com/Dreamcoder08/cominorsa-crm",
+      "description": "COMINORSA AI-first CRM agent tools and Twenty operations",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-12T00:17:10Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "bcrp-data-sdk",
+      "url": "https://github.com/Dreamcoder08/bcrp-data-sdk",
+      "description": "Unofficial BCRPData TypeScript SDK generated with Voxgig sdkgen; mini task 1",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-09-29T21:50:40Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "aurelia21",
+      "url": "https://github.com/Dreamcoder08/aurelia21",
+      "description": "AURELIA // 21·09 — self-contained cinematic experience page",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-09-28T21:20:50Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "pactyra",
+      "url": "https://github.com/Dreamcoder08/pactyra",
+      "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
+      "language": "Go",
+      "stars": 0,
+      "pushedAt": "2026-09-27T22:25:11Z"
+    },
+    {
+      "owner": "arkelythex",
+      "name": "elect-validate",
+      "url": "https://github.com/arkelythex/elect-validate",
+      "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-09-27T22:25:04Z"
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "dreamcoder-omp",
+      "url": "https://github.com/Dreamcoder08/dreamcoder-omp",
+      "description": "Personal operating layer for omp: persona, policy, provenance and evidence extensions, inspired by gentle-pi.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-09-27T22:24:43Z"
     },
     {
       "owner": "Dreamcoder08",
@@ -151,7 +241,7 @@
       "description": "Modern web interface for PSeInt-inspired pseudocode learning.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-06-21T00:00:00Z"
+      "pushedAt": "2026-06-21T14:15:58Z"
     }
   ]
 }

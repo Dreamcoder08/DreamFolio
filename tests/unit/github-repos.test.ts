@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  coverForRepo,
+  coversFirst,
   curateRepos,
   groupByOwner,
   type RawRepo,
@@ -92,4 +94,48 @@ test("the committed snapshot already satisfies the curation rules", async () => 
     assert.ok(r.description.trim() !== "", `${r.name} has a description`);
     assert.ok(!excluded.has(`${r.owner}/${r.name}`.toLowerCase()), r.name);
   }
+});
+
+test("coverForRepo finds a repo's README cover by URL, ignoring case", () => {
+  const cover = {
+    src: "/images/repos/a.webp",
+    width: 960,
+    height: 540,
+    alt: "",
+  };
+  const repos = [
+    { ...curateRepos([repo("Dreamcoder08/App")], config)[0], cover },
+    curateRepos([repo("Dreamcoder08/Bare")], config)[0],
+  ];
+  assert.deepEqual(
+    coverForRepo(repos, "https://github.com/dreamcoder08/app"),
+    cover,
+  );
+  assert.equal(
+    coverForRepo(repos, "https://github.com/Dreamcoder08/Bare"),
+    undefined,
+  );
+  assert.equal(
+    coverForRepo(repos, "https://github.com/Dreamcoder08/None"),
+    undefined,
+  );
+  assert.equal(coverForRepo(repos, undefined), undefined);
+});
+
+test("coversFirst keeps each group's order but leads with the repos that have a cover", () => {
+  const cover = {
+    src: "/images/repos/a.webp",
+    width: 960,
+    height: 540,
+    alt: "",
+  };
+  const [a, b, c] = curateRepos(
+    [repo("Dreamcoder08/A"), repo("Dreamcoder08/B"), repo("Dreamcoder08/C")],
+    config,
+  );
+  const ordered = coversFirst([a, { ...b, cover }, { ...c, cover }]);
+  assert.deepEqual(
+    ordered.map((item) => item.name),
+    [b.name, c.name, a.name],
+  );
 });

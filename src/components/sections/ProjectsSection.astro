@@ -10,6 +10,7 @@ import {
   getProjectSlug,
   SHARED_ART_PROJECT_IDS,
 } from "../../lib/project-presentation";
+import { projectCover } from "../../lib/project-cover";
 import Icon from "../ui/Icon.astro";
 import source from "../../data/projects.json";
 
@@ -79,6 +80,7 @@ const total = pad(projects.length);
     >
       {projects.map((project, index) => {
         const href = withBase(`/projects/${getProjectSlug(project.title)}/`);
+        const cover = projectCover(project);
         return (
           <li class="project-card">
             <a
@@ -87,16 +89,16 @@ const total = pad(projects.length);
               tabindex="-1"
               aria-hidden="true"
             >
-              {project.coverImage ? (
+              {cover ? (
                 <img
                   class:list={[
                     SHARED_ART_PROJECT_IDS.has(project.id) &&
                       `vt-art-${project.id}`,
                   ]}
-                  src={withBase(project.coverImage)}
+                  src={withBase(cover.src)}
                   alt=""
-                  width="1600"
-                  height="900"
+                  width={cover.width}
+                  height={cover.height}
                   loading={index < 2 ? "eager" : "lazy"}
                 />
               ) : (
