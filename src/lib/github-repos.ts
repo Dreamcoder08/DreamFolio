@@ -16,6 +16,15 @@ export interface RawRepo {
   private?: boolean;
 }
 
+/** The README's leading image, re-encoded into public/ by the sync. */
+export interface RepoCover {
+  /** Site-relative path, e.g. `/images/repos/owner-name.webp`. */
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 export interface GitHubRepo {
   owner: string;
   name: string;
@@ -24,6 +33,7 @@ export interface GitHubRepo {
   language: string | null;
   stars: number;
   pushedAt: string;
+  cover?: RepoCover;
 }
 
 export interface RepoOwner {
@@ -85,4 +95,22 @@ export function groupByOwner(
       ),
     }))
     .filter((group) => group.repos.length > 0);
+}
+
+/** The README cover of the repo at `url`, if the sync found one. */
+export function coverForRepo(
+  repos: readonly GitHubRepo[],
+  url: string | undefined,
+): RepoCover | undefined {
+  if (!url) return undefined;
+  const wanted = url.toLowerCase();
+  return repos.find((repo) => repo.url.toLowerCase() === wanted)?.cover;
+}
+
+/** Repos with a cover first, so a grid never mixes them row by row. */
+export function coversFirst(repos: readonly GitHubRepo[]): GitHubRepo[] {
+  return [
+    ...repos.filter((repo) => repo.cover),
+    ...repos.filter((repo) => !repo.cover),
+  ];
 }

@@ -1,11 +1,16 @@
 ---
 // Every curated public repo, grouped by owner. The list itself is produced at
 // build time by scripts/sync-github-repos.mjs (src/data/github-repos.json);
-// this component only renders it. A repo that already has a case study on
-// this site links to it as well, so the two lists never compete.
+// this component only renders it. A repo whose README leads with an image
+// shows it as a cover. A repo that already has a case study on this site
+// links to it as well, so the two lists never compete.
 import Icon from "./Icon.astro";
 import { withBase } from "../../lib/site";
-import { groupByOwner, type GitHubRepo } from "../../lib/github-repos";
+import {
+  coversFirst,
+  groupByOwner,
+  type GitHubRepo,
+} from "../../lib/github-repos";
 import config from "../../data/github-repos.config.json";
 import snapshot from "../../data/github-repos.json";
 
@@ -28,7 +33,7 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
     <h2 id="repo-title">Todo el código abierto.</h2>
     <p>
       {total} repositorios públicos, sin forks ni archivados. La lista se
-      actualiza sola en cada publicación del sitio.
+      actualiza sola cada día, con la imagen del README de cada proyecto.
     </p>
   </header>
   {groups.map((group) => (
@@ -40,10 +45,21 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
         </a>
       </h3>
       <ul class="repo-grid" role="list">
-        {group.repos.map((repo) => {
+        {coversFirst(group.repos).map((repo) => {
           const caseStudy = caseStudies.get(repo.url.toLowerCase());
           return (
             <li class="repo-card">
+              {repo.cover && (
+                <img
+                  class="repo-card-cover"
+                  src={withBase(repo.cover.src)}
+                  alt=""
+                  width={repo.cover.width}
+                  height={repo.cover.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <h4>
                 <a class="repo-card-link" href={repo.url}>
                   {repo.name}
