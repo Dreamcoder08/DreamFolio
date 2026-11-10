@@ -21,6 +21,7 @@ export interface BuildCommandsInput {
   allProjectsHref: string;
   projects: ProjectInput[];
   githubHref: string;
+  linkedinHref: string;
   xHref: string;
   mailtoHref: string;
   email: string;
@@ -95,6 +96,13 @@ export function buildCommands(input: BuildCommandsInput): CommandDefinition[] {
       group: "Enlaces",
       keywords: ["github", "codigo", "repositorio"],
       action: { kind: "external", href: input.githubHref },
+    },
+    {
+      id: "open-linkedin",
+      label: "Abrir LinkedIn",
+      group: "Enlaces",
+      keywords: ["linkedin", "cv", "perfil", "experiencia"],
+      action: { kind: "external", href: input.linkedinHref },
     },
     {
       id: "open-x",
