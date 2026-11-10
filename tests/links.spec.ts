@@ -27,6 +27,16 @@ test.describe("DreamCoder Links", () => {
       "src",
       /\/images\/dreamcoder-profile\.avif$/,
     );
+    const total = String(await page.locator("[data-link-id]").count()).padStart(
+      2,
+      "0",
+    );
+    await expect(page.locator(".links-index-count")).toHaveText(
+      `${total} ENLACES`,
+    );
+    await expect(page.locator(".links-section-kicker")).toHaveText(
+      `ENLACES / 01 — ${total}`,
+    );
     await expect(page.locator("[data-link-id=mascli]")).toHaveCount(0);
     await expect(page.locator("[data-link-id=portfolio]")).toHaveAttribute(
       "href",
