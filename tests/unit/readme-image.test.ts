@@ -1,6 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pickReadmeImage } from "../../src/lib/readme-image.ts";
+import {
+  pickReadmeImage,
+  pickReadmeImages,
+} from "../../src/lib/readme-image.ts";
 
 const base = "https://raw.githubusercontent.com/acme/app/main/";
 const pick = (markdown: string) => pickReadmeImage(markdown, base);
@@ -64,4 +67,23 @@ test("ignores a title after the URL and images inside code fences", () => {
 test("returns null when the README has no usable image", () => {
   assert.equal(pick("# Just text"), null);
   assert.equal(pick(""), null);
+});
+
+test("resolves a root-relative path against the repository root, not the host", () => {
+  assert.equal(
+    pickReadmeImage(
+      "![x](/docs/shot.png)",
+      "https://raw.githubusercontent.com/acme/app/main/packages/web/",
+    )?.url,
+    "https://raw.githubusercontent.com/acme/app/main/docs/shot.png",
+  );
+});
+
+test("lists every usable image in order, so a caller can fall back past a small logo", () => {
+  assert.deepEqual(
+    pickReadmeImages("![Logo](logo.png)\n![Shot](docs/shot.png)", base).map(
+      (image) => image.url,
+    ),
+    [`${base}logo.png`, `${base}docs/shot.png`],
+  );
 });

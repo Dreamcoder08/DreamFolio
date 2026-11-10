@@ -7,13 +7,15 @@
 import { access, mkdir, readdir, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { join } from "node:path";
-import { pickReadmeImage } from "../../src/lib/readme-image.ts";
+import { pickReadmeImages } from "../../src/lib/readme-image.ts";
 
 const PUBLIC_DIR = "/images/repos";
 const MAX_BYTES = 10 * 1024 * 1024;
 const WIDTH = 960;
 // Narrower than this is an icon or a logo, not a picture of the project.
 const MIN_SOURCE_WIDTH = 400;
+// A README often opens with a small logo; look a few images further.
+const MAX_CANDIDATES = 4;
 
 /** sharp ships with Astro; resolving it from there avoids a new dependency. */
 function loadSharp() {
@@ -38,18 +40,18 @@ async function exists(path) {
   }
 }
 
-/** The README's leading image, or null when the repo has none. */
-async function findImage(repo, headers) {
+/** The README's usable images in order; empty when the repo has none. */
+async function findImages(repo, headers) {
   const response = await fetch(
     `https://api.github.com/repos/${repo.owner}/${repo.name}/readme`,
     { headers, signal: AbortSignal.timeout(15_000) },
   );
-  if (response.status === 404) return null;
+  if (response.status === 404) return [];
   if (!response.ok) throw new Error(`readme HTTP ${response.status}`);
   const readme = await response.json();
   const markdown = Buffer.from(readme.content ?? "", "base64").toString("utf8");
   const base = new URL(".", readme.download_url).href;
-  return pickReadmeImage(markdown, base);
+  return pickReadmeImages(markdown, base).slice(0, MAX_CANDIDATES);
 }
 
 async function download(url) {
@@ -87,11 +89,16 @@ export async function attachCovers(repos, previous, { token, outDir }) {
     repos.map(async (repo) => {
       const file = fileName(repo);
       try {
-        const image = await findImage(repo, headers);
-        if (!image) return { ...repo, cover: undefined };
-        const source = sharp(await download(image.url)).rotate();
-        const { width = 0 } = await source.metadata();
-        if (width < MIN_SOURCE_WIDTH) return { ...repo, cover: undefined };
+        let image;
+        let source;
+        for (const candidate of await findImages(repo, headers)) {
+          const decoded = sharp(await download(candidate.url)).rotate();
+          const { width = 0 } = await decoded.metadata();
+          if (width < MIN_SOURCE_WIDTH) continue;
+          [image, source] = [candidate, decoded];
+          break;
+        }
+        if (!source) return { ...repo, cover: undefined };
         const info = await source
           .resize({ width: WIDTH, withoutEnlargement: true })
           .webp({ quality: 74 })

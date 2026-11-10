@@ -38,9 +38,22 @@ function toRawUrl(url: URL): URL {
   );
 }
 
+/** `/docs/a.png` means the repository root, which on the raw host is
+ *  `/owner/repo/branch/`, not the host root. */
+function repoRoot(base: string): string {
+  const url = new URL(base);
+  if (url.hostname !== "raw.githubusercontent.com") return base;
+  return `${url.origin}/${url.pathname.split("/").slice(1, 4).join("/")}/`;
+}
+
 function resolve(candidate: string, base: string): URL | null {
   try {
-    const url = toRawUrl(new URL(candidate, base));
+    const rooted = /^\/(?!\/)/.test(candidate);
+    const url = toRawUrl(
+      rooted
+        ? new URL(candidate.slice(1), repoRoot(base))
+        : new URL(candidate, base),
+    );
     if (url.protocol !== "https:") return null;
     if (!ALLOWED_HOSTS.has(url.hostname)) return null;
     if (BADGE.test(url.href) || VECTOR.test(url.pathname)) return null;
@@ -58,21 +71,30 @@ function resolve(candidate: string, base: string): URL | null {
 }
 
 /**
- * The first image in `markdown` worth showing, in document order.
- * `base` is the README's own raw directory URL, used for relative paths.
+ * Every image in `markdown` worth showing, in document order. `base` is the
+ * README's own raw directory URL, used for relative paths.
  */
-export function pickReadmeImage(
+export function pickReadmeImages(
   markdown: string,
   base: string,
-): ReadmeImage | null {
+): ReadmeImage[] {
   const prose = markdown.replace(FENCE, "");
+  const images: ReadmeImage[] = [];
   for (const match of prose.matchAll(IMAGE)) {
     const isTag = match[0].startsWith("<");
     const source = isTag ? attribute(match[0], "src") : match[2];
     const url = source ? resolve(source, base) : null;
     if (!url) continue;
     const alt = isTag ? attribute(match[0], "alt") : match[1];
-    return { url: url.href, alt: alt.trim() };
+    images.push({ url: url.href, alt: alt.trim() });
   }
-  return null;
+  return images;
+}
+
+/** The first usable image, or null when the README has none. */
+export function pickReadmeImage(
+  markdown: string,
+  base: string,
+): ReadmeImage | null {
+  return pickReadmeImages(markdown, base)[0] ?? null;
 }
