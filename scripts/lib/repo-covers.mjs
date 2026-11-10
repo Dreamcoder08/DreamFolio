@@ -1,20 +1,20 @@
 // Gives each synced repo a cover: the first real image of its README,
 // downloaded and re-encoded into public/images/repos/. The site's CSP is
 // `img-src 'self'`, so a cover is always a local file, never a hotlink.
-//
-// Contract (same as the repo sync): nothing here may fail a deploy. A repo
-// whose cover cannot be refreshed keeps the one it already had.
+// Like the repo sync, nothing here may fail a deploy: a repo whose cover
+// cannot be refreshed keeps the one it already had.
 import { access, mkdir, readdir, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { pickReadmeImages } from "../../src/lib/readme-image.ts";
+import { closeRasterizer, rasterizeSvg } from "./svg-raster.mjs";
 
 const PUBLIC_DIR = "/images/repos";
 const MAX_BYTES = 10 * 1024 * 1024;
 const WIDTH = 960;
-// Narrower than this is an icon or a logo, not a picture of the project.
+// Narrower than this is an icon or a logo.
 const MIN_SOURCE_WIDTH = 400;
-// A README often opens with a small logo; look a few images further.
+// A README often opens with a small logo: look a few images further.
 const MAX_CANDIDATES = 4;
 
 /** sharp ships with Astro; resolving it from there avoids a new dependency. */
@@ -58,12 +58,26 @@ async function download(url) {
   const response = await fetch(url, { signal: AbortSignal.timeout(20_000) });
   if (!response.ok) throw new Error(`image HTTP ${response.status}`);
   const type = response.headers.get("content-type") ?? "";
-  if (!type.startsWith("image/") || type.includes("svg")) {
-    throw new Error(`not a raster image (${type || "no content-type"})`);
+  if (!type.startsWith("image/")) {
+    throw new Error(`not an image (${type || "no content-type"})`);
   }
   const bytes = Buffer.from(await response.arrayBuffer());
   if (bytes.length > MAX_BYTES) throw new Error("image over 10 MB");
   return bytes;
+}
+
+/**
+ * A sharp pipeline for `bytes`, or null when it is not a picture of the
+ * project: too narrow (an icon or a logo) or rendered as one flat colour.
+ */
+async function decode(sharp, bytes) {
+  const { width = 0, format } = await sharp(bytes).metadata();
+  if (width < MIN_SOURCE_WIDTH) return null;
+  const pixels =
+    format === "svg" ? ((await rasterizeSvg(bytes)) ?? bytes) : bytes;
+  const { channels } = await sharp(pixels).stats();
+  if (channels.every((channel) => channel.stdev < 2)) return null;
+  return sharp(pixels).rotate();
 }
 
 /**
@@ -92,9 +106,8 @@ export async function attachCovers(repos, previous, { token, outDir }) {
         let image;
         let source;
         for (const candidate of await findImages(repo, headers)) {
-          const decoded = sharp(await download(candidate.url)).rotate();
-          const { width = 0 } = await decoded.metadata();
-          if (width < MIN_SOURCE_WIDTH) continue;
+          const decoded = await decode(sharp, await download(candidate.url));
+          if (!decoded) continue;
           [image, source] = [candidate, decoded];
           break;
         }
@@ -123,6 +136,8 @@ export async function attachCovers(repos, previous, { token, outDir }) {
       }
     }),
   );
+
+  await closeRasterizer();
 
   // Drop covers of repos that left the list or no longer have an image.
   const used = new Set(

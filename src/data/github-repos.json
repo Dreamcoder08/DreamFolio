@@ -37,7 +37,13 @@
       "description": "Verifiable Accounting Agent Ecosystem — Receipt-Driven Accounting, candidates, proportional review, gates, ledger and recovery for Drenyra. Pre-alpha.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-11-08T21:53:09Z"
+      "pushedAt": "2026-11-08T21:53:09Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-ai.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra AI: proposals become scoped candidates, explicit decisions, signed receipts, and an append-only evidence chain. The professional retains authority."
+      }
     },
     {
       "owner": "arkelythex",
@@ -46,7 +52,13 @@
       "description": "Pi-native Accounting Operations Harness — persona, /drenyra:* commands, Pi subagents, RDA chains and pinned drenyra-ai runtime for Pi. Pre-alpha.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-11-08T21:43:18Z"
+      "pushedAt": "2026-11-08T21:43:18Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-shell.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra Shell — the runtime manifest: pinned runtime, source, checksum, scope and authority"
+      }
     },
     {
       "owner": "arkelythex",
@@ -103,7 +115,13 @@
       "description": "Drenyra Console — cloud-native fiscal intelligence surface for ARKELYTHEX: React 19 web app, Elysia API, hexagonal domain/application/infrastructure packages, Drizzle + PostgreSQL.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-11-01T12:36:34Z"
+      "pushedAt": "2026-11-01T12:36:34Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-console.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra flow — operator → Drenyra Console planes → dual approval → receipt"
+      }
     },
     {
       "owner": "arkelythex",
@@ -169,7 +187,13 @@
       "description": "Versioned accounting, tax, and operational knowledge for the Drenyra ecosystem — content separate from the runtime registry (drenyra-ai/skills). Pre-alpha.",
       "language": "JavaScript",
       "stars": 0,
-      "pushedAt": "2026-10-29T07:03:57Z"
+      "pushedAt": "2026-10-29T07:03:57Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-skills.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra Skills flow — fiscal knowledge source → versioned skills → agent guidance → verified application boundary"
+      }
     },
     {
       "owner": "arkelythex",
@@ -178,7 +202,13 @@
       "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
       "language": null,
       "stars": 0,
-      "pushedAt": "2026-10-29T07:03:46Z"
+      "pushedAt": "2026-10-29T07:03:46Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-guardian-angel.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra Guardian Angel flow — frozen candidate → independent review lenses → evidence → verification report"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -223,7 +253,13 @@
       "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
       "language": "JavaScript",
       "stars": 0,
-      "pushedAt": "2026-09-27T22:25:04Z"
+      "pushedAt": "2026-09-27T22:25:04Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-elect-validate.webp",
+        "width": 960,
+        "height": 303,
+        "alt": "Electo Suite Electoral architecture"
+      }
     },
     {
       "owner": "Dreamcoder08",

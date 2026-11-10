@@ -17,7 +17,6 @@ const ALLOWED_HOSTS = new Set([
 
 /** Status badges are images too, but they say nothing about the project. */
 const BADGE = /badge|shields\.io|badgen\.net|\/workflows\//i;
-const VECTOR = /\.svg$/i;
 
 const FENCE = /^(```|~~~)[\s\S]*?^\1[^\n]*$/gm;
 const IMAGE = /!\[([^\]]*)\]\(\s*<?([^\s)>]+)>?[^)]*\)|<img\b[^>]*>/gi;
@@ -56,7 +55,7 @@ function resolve(candidate: string, base: string): URL | null {
     );
     if (url.protocol !== "https:") return null;
     if (!ALLOWED_HOSTS.has(url.hostname)) return null;
-    if (BADGE.test(url.href) || VECTOR.test(url.pathname)) return null;
+    if (BADGE.test(url.href)) return null;
     // On github.com itself only uploaded attachments are image files.
     if (
       url.hostname === "github.com" &&
