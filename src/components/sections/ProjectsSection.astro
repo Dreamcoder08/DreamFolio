@@ -21,6 +21,7 @@ const projects = carouselOrder(
   (await getCollection("projects"))
     .map(({ data }) => data)
     .sort((a, b) => fileOrder.indexOf(a.id) - fileOrder.indexOf(b.id)),
+  (project) => Boolean(projectCover(project)),
 );
 const pad = (n: number) => String(n).padStart(2, "0");
 const total = pad(projects.length);

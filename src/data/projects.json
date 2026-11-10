@@ -75,7 +75,6 @@
     "featured": true,
     "stack": ["Arch Linux", "Shell", "Lua"],
     "githubUrl": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
-    "coverImage": "/images/projects/dreamcoder-workbench.webp",
     "coverImageAlt": "Dreamcoder Workbench — custom terminal environment"
   },
   {

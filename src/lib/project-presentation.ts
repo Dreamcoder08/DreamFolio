@@ -37,16 +37,18 @@ export function domainLabel(domain: string): string {
 
 /** Carousel order: projects with cover art first (they open strongest),
  *  otherwise the order of `projects.json`. Stable, so the JSON stays the
- *  single place to reorder. */
+ *  single place to reorder. `hasCover` lets a caller count a cover that is
+ *  resolved elsewhere, such as the repo's README image. */
 export function carouselOrder<T extends { coverImage?: string }>(
   projects: readonly T[],
+  hasCover: (project: T) => boolean = (project) => Boolean(project.coverImage),
 ): T[] {
   return projects
     .map((project, index) => ({ project, index }))
     .sort(
       (a, b) =>
-        Number(Boolean(b.project.coverImage)) -
-          Number(Boolean(a.project.coverImage)) || a.index - b.index,
+        Number(hasCover(b.project)) - Number(hasCover(a.project)) ||
+        a.index - b.index,
     )
     .map(({ project }) => project);
 }
