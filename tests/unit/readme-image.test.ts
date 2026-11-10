@@ -24,18 +24,20 @@ test("reads HTML img tags, whatever the attribute order", () => {
   );
 });
 
-test("skips badges and vector images, keeping document order", () => {
+test("skips badges but keeps vector images, in document order", () => {
   const markdown = [
     "[![CI](https://github.com/acme/app/actions/workflows/ci.yml/badge.svg)](x)",
     "![npm](https://img.shields.io/npm/v/app.png)",
-    "![Logo](assets/logo.svg)",
+    "![Banner](assets/banner.light.svg#gh-light-mode-only)",
     '<img src="docs/real.jpg" alt="Real">',
-    "![Later](docs/later.png)",
   ].join("\n");
-  assert.deepEqual(pick(markdown), {
-    url: `${base}docs/real.jpg`,
-    alt: "Real",
-  });
+  assert.deepEqual(
+    pickReadmeImages(markdown, base).map((image) => image.url),
+    [
+      `${base}assets/banner.light.svg#gh-light-mode-only`,
+      `${base}docs/real.jpg`,
+    ],
+  );
 });
 
 test("rewrites a github.com blob link to its raw file", () => {
