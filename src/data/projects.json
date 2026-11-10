@@ -64,6 +64,20 @@
     "coverImageAlt": "EdgeTraz Agro — traceability dashboard"
   },
   {
+    "id": "cominorsa-web",
+    "title": "COMINORSA — Sitio web",
+    "summary": "Sitio web de COMINORSA, consultora minera y ambiental de Piura: presenta sus servicios de formalización, gestión ambiental e ingeniería, con contacto directo por WhatsApp.",
+    "domain": "corporate-web",
+    "lifecycle": "active",
+    "bucket": "primary",
+    "path": "",
+    "updatedYear": 2026,
+    "featured": false,
+    "stack": ["Sitio corporativo", "Consultoría minera", "TypeScript"],
+    "coverImage": "/images/projects/cominorsa-web.webp",
+    "coverImageAlt": "Sitio web de COMINORSA: portada con el titular y la lista de servicios"
+  },
+  {
     "id": "dreamcoder-workbench",
     "title": "Dreamcoder Workbench",
     "summary": "Configuración de mi entorno Arch Linux: terminal, temas y herramientas para mi flujo de desarrollo.",

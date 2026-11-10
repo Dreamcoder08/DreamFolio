@@ -26,5 +26,6 @@ test("a cover resolved elsewhere (a README image) leads like a curated one", () 
 
 test("domain slugs read as Spanish labels, unknown ones degrade to words", () => {
   assert.equal(domainLabel("govtech"), "Tecnología cívica");
+  assert.equal(domainLabel("corporate-web"), "Sitio corporativo");
   assert.equal(domainLabel("space-mining"), "space mining");
 });

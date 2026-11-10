@@ -24,6 +24,7 @@ const DOMAIN_LABELS: Record<string, string> = {
   govtech: "Tecnología cívica",
   "civic-tech": "Tecnología cívica",
   agritech: "Agrotecnología",
+  "corporate-web": "Sitio corporativo",
   "developer-experience": "Developer experience",
   "developer-tools": "Herramientas dev",
   security: "Seguridad",
