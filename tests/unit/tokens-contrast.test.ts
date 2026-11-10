@@ -86,10 +86,17 @@ const FLOORS: readonly ContrastFloor[] = [
   },
   {
     mode: "dark",
-    foreground: "--color-on-focus",
-    background: "--color-accent",
+    foreground: "--color-focus",
+    background: "--color-surface-alt",
     floor: 3,
-    role: "ink focus ring on an accent fill",
+    role: "focus ring vs the about band fill",
+  },
+  {
+    mode: "dark",
+    foreground: "--color-focus",
+    background: "--color-surface-elevated",
+    floor: 3,
+    role: "focus ring vs the contact panel fill",
   },
   {
     mode: "dark",
@@ -163,10 +170,17 @@ const FLOORS: readonly ContrastFloor[] = [
   },
   {
     mode: "light",
-    foreground: "--color-on-focus",
-    background: "--color-accent",
+    foreground: "--color-focus",
+    background: "--color-surface-alt",
     floor: 3,
-    role: "ink focus ring on an accent fill",
+    role: "focus ring vs the about band fill",
+  },
+  {
+    mode: "light",
+    foreground: "--color-focus",
+    background: "--color-surface-elevated",
+    floor: 3,
+    role: "focus ring vs the contact panel fill",
   },
 ];
 

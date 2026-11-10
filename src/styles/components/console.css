@@ -24,7 +24,7 @@
 }
 .console-trigger-hint {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-micro);
   padding: 2px 6px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-thumb);
@@ -95,7 +95,7 @@
   outline: none;
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-size: var(--text-compact);
 }
 .ship-console-input::placeholder {
   color: var(--color-text-tertiary);
@@ -103,7 +103,7 @@
 .ship-console-esc {
   flex: 0 0 auto;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-micro);
   padding: 2px 6px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-thumb);
@@ -118,7 +118,7 @@
 .ship-console-group {
   padding: 10px 10px 4px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-micro);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-tertiary);
@@ -130,7 +130,7 @@
   padding: 0 12px;
   border-radius: var(--radius-control);
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
   cursor: pointer;
 }
 .ship-console-option mark {
@@ -147,7 +147,7 @@
 .ship-console-empty {
   padding: 20px 18px 26px;
   color: var(--color-text-secondary);
-  font-size: 0.88rem;
+  font-size: var(--text-small);
 }
 .ship-console-copy-fallback {
   padding: 12px 18px 18px;
@@ -157,7 +157,7 @@
   display: block;
   margin-bottom: 6px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-micro);
   color: var(--color-text-tertiary);
 }
 .ship-console-copy-fallback input {
@@ -169,7 +169,7 @@
   border-radius: var(--radius-control);
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: var(--text-caption);
 }
 
 /* A closed <dialog>'s content isn't in the accessibility tree, so a chunk
@@ -190,7 +190,7 @@
   border: 1px solid var(--color-border-strong);
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: var(--text-caption);
   text-align: center;
 }
 #console-load-status:empty {

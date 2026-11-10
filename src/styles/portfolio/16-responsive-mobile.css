@@ -40,16 +40,6 @@
     width: min(88%, 390px);
     margin-inline: auto;
   }
-  .hero-portrait::before {
-    inset: 6% -10% 6% 15%;
-  }
-  .hero-portrait::after {
-    right: -7%;
-  }
-
-  .profile-card {
-    transform: rotate(-1.5deg);
-  }
   .profile-portrait {
     aspect-ratio: 5 / 5.5;
   }

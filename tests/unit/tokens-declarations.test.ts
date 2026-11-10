@@ -18,10 +18,9 @@ const CATEGORIES: Record<string, string> = {
   "decorative container border": "--color-border",
   "interactive component border": "--color-border-interactive",
   "focus ring": "--color-focus",
-  "focus ink": "--color-on-focus",
 };
 
-test("A1: dark and light declare the same 21 --color-* keys", () => {
+test("A1: dark and light declare the same 20 --color-* keys", () => {
   for (const [mode, declared] of [
     ["dark", dark],
     ["light", light],
@@ -86,11 +85,6 @@ test("A9: the focus pair aliases the accent pair in both modes", () => {
       declared.get("--color-focus"),
       declared.get("--color-accent"),
       `${mode} --color-focus must equal --color-accent`,
-    );
-    assert.equal(
-      declared.get("--color-on-focus"),
-      declared.get("--color-on-accent"),
-      `${mode} --color-on-focus must equal --color-on-accent`,
     );
   }
 });
