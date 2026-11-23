@@ -7,6 +7,7 @@ import { access, mkdir, readdir, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { pickReadmeImages } from "../../src/lib/readme-image.ts";
+import { resolveFallbackCover, selectRepoCover } from "../../src/lib/repo-cover-fallbacks.ts";
 import { closeRasterizer, rasterizeSvg } from "./svg-raster.mjs";
 
 const PUBLIC_DIR = "/images/repos";
@@ -31,14 +32,7 @@ const fileName = (repo) =>
   `${repo.owner}-${repo.name}`.toLowerCase().replace(/[^a-z0-9._-]/g, "-") +
   ".webp";
 
-async function exists(path) {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
+const exists = (path) => access(path).then(() => true, () => false);
 
 /** The README's usable images in order; empty when the repo has none. */
 async function findImages(repo, headers) {
@@ -84,19 +78,21 @@ async function decode(sharp, bytes) {
  * Returns `repos` with a `cover` on each one that has a usable README image.
  * `previous` is the committed snapshot, the fallback for a failed refresh.
  */
-export async function attachCovers(repos, previous, { token, outDir }) {
+export async function attachCovers(repos, previous, { token, outDir, fallbacks = {} }) {
   const sharp = loadSharp();
   const before = new Map(previous.map((repo) => [repo.url, repo.cover]));
+  const withFallback = (repo, readmeCover) =>
+    selectRepoCover({ readmeCover, fallbackCover: resolveFallbackCover(repo, fallbacks) });
   if (!sharp) {
     console.warn("::warning::repo covers: sharp unavailable, covers kept");
-    return repos.map((repo) => ({ ...repo, cover: before.get(repo.url) }));
+    return repos.map((repo) => ({ ...repo, cover: withFallback(repo, before.get(repo.url)) }));
   }
   const headers = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": "dreamfolio-repo-sync",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
-  if (token) headers.Authorization = `Bearer ${token}`;
   await mkdir(outDir, { recursive: true });
 
   const result = await Promise.all(
@@ -111,28 +107,17 @@ export async function attachCovers(repos, previous, { token, outDir }) {
           [image, source] = [candidate, decoded];
           break;
         }
-        if (!source) return { ...repo, cover: undefined };
+        if (!source) return { ...repo, cover: withFallback(repo, undefined) };
         const info = await source
           .resize({ width: WIDTH, withoutEnlargement: true })
           .webp({ quality: 74 })
           .toFile(join(outDir, file));
-        return {
-          ...repo,
-          cover: {
-            src: `${PUBLIC_DIR}/${file}`,
-            width: info.width,
-            height: info.height,
-            alt: image.alt,
-          },
-        };
+        const readmeCover = { src: `${PUBLIC_DIR}/${file}`, width: info.width, height: info.height, alt: image.alt };
+        return { ...repo, cover: withFallback(repo, readmeCover) };
       } catch (error) {
-        console.warn(
-          `::warning::repo covers: ${repo.owner}/${repo.name}: ${error.message}`,
-        );
-        const kept = (await exists(join(outDir, file)))
-          ? before.get(repo.url)
-          : undefined;
-        return { ...repo, cover: kept };
+        console.warn(`::warning::repo covers: ${repo.owner}/${repo.name}: ${error.message}`);
+        const kept = (await exists(join(outDir, file))) ? before.get(repo.url) : undefined;
+        return { ...repo, cover: withFallback(repo, kept) };
       }
     }),
   );
