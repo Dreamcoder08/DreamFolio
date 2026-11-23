@@ -12,7 +12,7 @@ import {
 } from "./support/state-model";
 import { readComputedState } from "./support/state-snapshot";
 
-const MAX_TAB_PRESSES = 80;
+const MAX_TAB_PRESSES = 160;
 const POINTER_REST = { x: 2, y: 2 };
 
 /**
