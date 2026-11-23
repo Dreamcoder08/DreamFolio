@@ -89,4 +89,30 @@ test.describe("Projects — GitHub repos", () => {
       }
     },
   );
+
+  test(
+    "repos with an Archify diagram expose an Arquitectura link that serves standalone HTML",
+    { tag: ["@e2e", "@projects", "@REPOS-004"] },
+    async ({ page }) => {
+      const projects = new ProjectsPage(page);
+      await projects.goto();
+      const links = projects.repoSection.getByRole("link", {
+        name: /Arquitectura/,
+      });
+      const cardCount = await projects.repoSection
+        .locator(".repo-card")
+        .count();
+      expect(await links.count()).toBe(cardCount);
+
+      const hrefs = await links.evaluateAll((els) =>
+        els.map((el) => el.getAttribute("href") ?? ""),
+      );
+      for (const href of hrefs) {
+        expect(href).toMatch(/\/archify\/[a-z0-9._-]+\.html$/);
+        const response = await page.request.get(href);
+        expect(response.ok(), `${href} must be served`).toBe(true);
+        expect(response.headers()["content-type"]).toContain("text/html");
+      }
+    },
+  );
 });
