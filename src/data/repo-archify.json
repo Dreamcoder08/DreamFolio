@@ -1,7 +1,25 @@
 {
   "arkelythex/drenyra-ai": "/archify/arkelythex-drenyra-ai.html",
+  "arkelythex/drenyra-shell": "/archify/arkelythex-drenyra-shell.html",
   "arkelythex/drenyra-engram": "/archify/arkelythex-drenyra-engram.html",
   "arkelythex/drenyra-console": "/archify/arkelythex-drenyra-console.html",
   "arkelythex/estado": "/archify/arkelythex-estado.html",
-  "arkelythex/drenyra-skills": "/archify/arkelythex-drenyra-skills.html"
+  "arkelythex/senzar": "/archify/arkelythex-senzar.html",
+  "arkelythex/drenyra-skills": "/archify/arkelythex-drenyra-skills.html",
+  "arkelythex/drenyra-guardian-angel": "/archify/arkelythex-drenyra-guardian-angel.html",
+  "arkelythex/elect-validate": "/archify/arkelythex-elect-validate.html",
+  "Dreamcoder08/dreamcoder-dsh": "/archify/dreamcoder08-dreamcoder-dsh.html",
+  "Dreamcoder08/sipges": "/archify/dreamcoder08-sipges.html",
+  "Dreamcoder08/cominorsa-crm-rs": "/archify/dreamcoder08-cominorsa-crm-rs.html",
+  "Dreamcoder08/CleanSweep": "/archify/dreamcoder08-cleansweep.html",
+  "Dreamcoder08/chira-os": "/archify/dreamcoder08-chira-os.html",
+  "Dreamcoder08/Dreamcoder-Workbench": "/archify/dreamcoder08-dreamcoder-workbench.html",
+  "Dreamcoder08/somnyx-web": "/archify/dreamcoder08-somnyx-web.html",
+  "Dreamcoder08/somnyx-tui": "/archify/dreamcoder08-somnyx-tui.html",
+  "Dreamcoder08/cominorsa-crm": "/archify/dreamcoder08-cominorsa-crm.html",
+  "Dreamcoder08/bcrp-data-sdk": "/archify/dreamcoder08-bcrp-data-sdk.html",
+  "Dreamcoder08/aurelia21": "/archify/dreamcoder08-aurelia21.html",
+  "Dreamcoder08/pactyra": "/archify/dreamcoder08-pactyra.html",
+  "Dreamcoder08/dreamcoder-omp": "/archify/dreamcoder08-dreamcoder-omp.html",
+  "Dreamcoder08/pseint-web-interface": "/archify/dreamcoder08-pseint-web-interface.html"
 }

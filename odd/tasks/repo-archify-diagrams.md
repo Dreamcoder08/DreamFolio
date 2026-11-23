@@ -1,7 +1,7 @@
 # Repo Archify Diagrams for DreamFolio & Local Repos
 
 Branch: `feat/repo-archify-diagrams` (in `dreamcoder08/dreamfolio`, branched from `main`)
-Status: in_progress
+Status: done
 
 ## Specs
 
@@ -20,11 +20,11 @@ Status: in_progress
 
 ## Tasks
 
-- [ ] **T1** (S1, S3) — Add Archify map + `RepoGrid.astro` `"Arquitectura"` link + copy 5 existing diagrams into `dreamfolio/public/archify/` with unit & E2E tests | route: inline | commit: pending
-- [ ] **T2** (S1, S2) — Author & finalize Archify diagrams for Batch 1 (4 local repos) and wire into `dreamfolio` | route: worker | commit: pending
-- [ ] **T3** (S1, S2) — Author & finalize Archify diagrams for Batch 2 (5 local repos) and wire into `dreamfolio` | route: worker | commit: pending
-- [ ] **T4** (S1, S2) — Author & finalize Archify diagrams for Batch 3 (5 local repos) and wire into `dreamfolio` | route: worker | commit: pending
-- [ ] **T5** (S1-S3) — Author & finalize Archify diagrams for Batch 4 (4 remote-only repos), verify 23/23 in `dreamfolio`, run full CI gate, and open PR | route: inline | commit: pending
+- [x] **T1** (S1, S3) — Add Archify map + `RepoGrid.astro` `"Arquitectura"` link + copy 5 existing diagrams into `dreamfolio/public/archify/` with unit & E2E tests | route: inline | commit: `64ed237`
+- [x] **T2** (S1, S2) — Author & finalize Archify diagrams for Batch 1 (4 local repos) and wire into `dreamfolio` | route: inline (worker unavailable) | commit: closing slice
+- [x] **T3** (S1, S2) — Author & finalize Archify diagrams for Batch 2 (5 local repos) and wire into `dreamfolio` | route: inline (worker unavailable) | commit: closing slice
+- [x] **T4** (S1, S2) — Author & finalize Archify diagrams for Batch 3 (5 local repos) and wire into `dreamfolio` | route: inline (worker unavailable) | commit: closing slice
+- [x] **T5** (S1-S3) — Author & finalize Archify diagrams for Batch 4 (4 remote-only repos), verify 23/23 in `dreamfolio`, run full CI gate, and open PR | route: inline | commit: closing slice
 
 ## Log
 
