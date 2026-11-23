@@ -66,7 +66,9 @@ test.describe("Projects — GitHub repos", () => {
       );
       for (const src of sources) {
         // CSP is `img-src 'self'`: a cover is a file of this site, never a hotlink.
-        expect(src).toMatch(/\/images\/repos\/[a-z0-9._-]+\.webp$/);
+        expect(src).toMatch(
+          /\/images\/repos\/(?:custom\/)?[a-z0-9._-]+\.webp$/,
+        );
         const response = await page.request.get(src);
         expect(response.ok(), `${src} must be served`).toBe(true);
         expect(response.headers()["content-type"]).toContain("image/webp");

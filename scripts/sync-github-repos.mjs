@@ -12,6 +12,10 @@ import { curateRepos } from "../src/lib/github-repos.ts";
 import { attachCovers } from "./lib/repo-covers.mjs";
 
 const CONFIG = new URL("../src/data/github-repos.config.json", import.meta.url);
+const FALLBACKS = new URL(
+  "../src/data/repo-cover-fallbacks.json",
+  import.meta.url,
+);
 const OUT = new URL("../src/data/github-repos.json", import.meta.url);
 const COVERS = new URL("../public/images/repos/", import.meta.url);
 
@@ -51,9 +55,11 @@ try {
   const curated = curateRepos(raw, config);
   if (curated.length === 0) throw new Error("curation left no repos");
   const previous = JSON.parse(await readFile(OUT, "utf8")).repos;
+  const fallbacks = JSON.parse(await readFile(FALLBACKS, "utf8"));
   const repos = await attachCovers(curated, previous, {
     token,
     outDir: fileURLToPath(COVERS),
+    fallbacks,
   });
   await writeFile(OUT, `${JSON.stringify({ repos }, null, 2)}\n`);
   const covers = repos.filter((repo) => repo.cover).length;
