@@ -1,8 +1,18 @@
 import { test, expect, type Page } from "@playwright/test";
 import { HomePage } from "./home-page";
 import projects from "../../src/data/projects.json" with { type: "json" };
+import repoSnapshot from "../../src/data/github-repos.json" with { type: "json" };
 
-const TOTAL = String(projects.length).padStart(2, "0");
+const seenUrls = new Set(
+  projects
+    .map((p) => p.githubUrl?.toLowerCase())
+    .filter((u): u is string => Boolean(u)),
+);
+const extraRepos = repoSnapshot.repos.filter(
+  (r) => !seenUrls.has(r.url.toLowerCase()),
+);
+const TOTAL_COUNT = projects.length + extraRepos.length;
+const TOTAL = String(TOTAL_COUNT).padStart(2, "0");
 const track = (page: Page) => page.locator("#project-track");
 const prev = (page: Page) =>
   page.getByRole("button", { name: "Proyecto anterior" });
@@ -17,7 +27,7 @@ test.describe("Home — projects carousel", () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await new HomePage(page).goto();
       await expect(track(page).locator(".project-card")).toHaveCount(
-        projects.length,
+        TOTAL_COUNT,
       );
       await expect(page.locator(".carousel-count")).toHaveText(`01 / ${TOTAL}`);
       await expect(prev(page)).toBeVisible();
@@ -60,6 +70,10 @@ test.describe("Home — projects carousel", () => {
       await page.keyboard.press("ArrowRight");
       await expect(page.locator(".carousel-count")).toHaveText(`02 / ${TOTAL}`);
       await expect(next(page)).toBeVisible();
+      await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
+
+      // Small mobile viewport (360px) must also have zero horizontal overflow.
+      await page.setViewportSize({ width: 360, height: 740 });
       await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
     },
   );

@@ -11,18 +11,30 @@ import {
   SHARED_ART_PROJECT_IDS,
 } from "../../lib/project-presentation";
 import { projectCover } from "../../lib/project-cover";
+import { buildHomeProjects } from "../../lib/home-projects";
+import type { GitHubRepo } from "../../lib/github-repos";
 import Icon from "../ui/Icon.astro";
 import source from "../../data/projects.json";
+import repoSnapshot from "../../data/github-repos.json";
+import archifyMap from "../../data/repo-archify.json";
 
 // getCollection() does not promise the file's order, so it is restored
 // from projects.json before the carousel ordering applies.
 const fileOrder = source.map((entry) => entry.id);
-const projects = carouselOrder(
+const curated = carouselOrder(
   (await getCollection("projects"))
     .map(({ data }) => data)
     .sort((a, b) => fileOrder.indexOf(a.id) - fileOrder.indexOf(b.id)),
   (project) => Boolean(projectCover(project)),
 );
+const projects = buildHomeProjects({
+  curated,
+  repos: repoSnapshot.repos as GitHubRepo[],
+  archifyMap,
+  resolveCover: (project) => projectCover(project) ?? undefined,
+  getSlug: getProjectSlug,
+  domainLabel,
+});
 const pad = (n: number) => String(n).padStart(2, "0");
 const total = pad(projects.length);
 ---
@@ -47,7 +59,13 @@ const total = pad(projects.length);
     </a>
   </header>
 
-  <div class="project-carousel" data-carousel>
+  <div
+    class="project-carousel"
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="Proyectos y repositorios"
+    data-carousel
+  >
     <div class="carousel-controls" data-carousel-controls hidden>
       <button
         type="button"
@@ -80,8 +98,11 @@ const total = pad(projects.length);
       data-carousel-track
     >
       {projects.map((project, index) => {
-        const href = withBase(`/projects/${getProjectSlug(project.title)}/`);
-        const cover = projectCover(project);
+        const href = project.isExternal ? project.href : withBase(project.href);
+        const linkAttrs = project.isExternal
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {};
+        const cover = project.cover;
         return (
           <li class="project-card">
             <a
@@ -89,18 +110,21 @@ const total = pad(projects.length);
               href={href}
               tabindex="-1"
               aria-hidden="true"
+              {...linkAttrs}
             >
               {cover ? (
                 <img
                   class:list={[
-                    SHARED_ART_PROJECT_IDS.has(project.id) &&
-                      `vt-art-${project.id}`,
+                    project.sharedArtId &&
+                      SHARED_ART_PROJECT_IDS.has(project.sharedArtId) &&
+                      `vt-art-${project.sharedArtId}`,
                   ]}
                   src={withBase(cover.src)}
                   alt=""
                   width={cover.width}
                   height={cover.height}
-                  loading={index < 2 ? "eager" : "lazy"}
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <span class="project-cover-mark">{project.title}</span>
@@ -108,23 +132,34 @@ const total = pad(projects.length);
             </a>
             <div class="project-body">
               <div class="compact-heading">
-                <p class="eyebrow">{domainLabel(project.domain)}</p>
+                <p class="eyebrow">{project.eyebrow}</p>
                 <span class="project-number">{pad(index + 1)}</span>
               </div>
               <h3>
-                <a href={href}>{project.title}</a>
+                <a href={href} {...linkAttrs}>
+                  {project.title}
+                </a>
               </h3>
               <p>{project.summary}</p>
               <div class="tags">
-                {project.stack.slice(0, 4).map((tag) => (
+                {project.stack.map((tag) => (
                   <span>{tag}</span>
                 ))}
               </div>
               <div class="project-links">
-                <a href={href}>
-                  Ver el proyecto <Icon name="arrow" size={17} />
+                <a href={href} {...linkAttrs}>
+                  {project.ctaLabel} <Icon name="arrow" size={17} />
                 </a>
-                {project.githubUrl && (
+                {project.archifyHref && (
+                  <a
+                    href={withBase(project.archifyHref)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Arquitectura
+                  </a>
+                )}
+                {!project.isExternal && project.githubUrl && (
                   <a href={project.githubUrl}>
                     <Icon name="github" size={18} /> GitHub
                   </a>
@@ -140,60 +175,6 @@ const total = pad(projects.length);
 </section>
 
 <script>
-  // Arrows move one card at a time (wrapping at the ends); the counter follows any scroll (arrow,
-  // swipe, trackpad or keyboard). Smooth only when motion is welcome.
-  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
-    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
-    const controls = root.querySelector<HTMLElement>(
-      "[data-carousel-controls]",
-    );
-    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
-    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
-    const index = root.querySelector<HTMLElement>("[data-carousel-index]");
-    if (!track || !controls || !prev || !next || !index) return;
-    const cards = Array.from(track.children) as HTMLElement[];
-    const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const current = () => {
-      // Cards are positioned against the track (position: relative).
-      const left = track.scrollLeft + cards[0].offsetLeft;
-      let best = 0;
-      cards.forEach((card, i) => {
-        const d = Math.abs(card.offsetLeft - left);
-        if (d < Math.abs(cards[best].offsetLeft - left)) best = i;
-      });
-      return best;
-    };
-    const atEnd = () =>
-      track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
-    const atStart = () => track.scrollLeft <= 4;
-    const sync = () => {
-      const i = atEnd() ? cards.length - 1 : current();
-      index.textContent = String(i + 1).padStart(2, "0");
-    };
-    // Wraps around at both ends, so neither arrow is ever a dead button.
-    const go = (step: number) => {
-      let i = current() + step;
-      if (step > 0 && atEnd()) i = 0;
-      else if (step < 0 && atStart()) i = cards.length - 1;
-      const target = cards[Math.min(cards.length - 1, Math.max(0, i))];
-      track.scrollTo({
-        left: target.offsetLeft - cards[0].offsetLeft,
-        behavior: calm.matches ? "instant" : "smooth",
-      });
-    };
-
-    prev.addEventListener("click", () => go(-1));
-    next.addEventListener("click", () => go(1));
-    track.addEventListener("keydown", (event) => {
-      if (event.target !== track) return;
-      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-        event.preventDefault();
-        go(event.key === "ArrowRight" ? 1 : -1);
-      }
-    });
-    track.addEventListener("scroll", sync, { passive: true });
-    controls.hidden = false;
-    sync();
-  });
+  import { mountProjectCarousels } from "../../lib/project-carousel-client";
+  mountProjectCarousels();
 </script>
