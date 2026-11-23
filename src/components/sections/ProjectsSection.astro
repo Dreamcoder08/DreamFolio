@@ -104,12 +104,7 @@ const total = pad(projects.length);
           : {};
         const cover = project.cover;
         return (
-          <li
-            class="project-card"
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${index + 1} de ${projects.length}: ${project.title}`}
-          >
+          <li class="project-card">
             <a
               class="project-cover"
               href={href}
