@@ -1,6 +1,7 @@
 # Repo Fallback Covers for DreamFolio
+
 Branch: `feat/repo-fallback-covers` (in `dreamcoder08/dreamfolio`)
-Status: in_progress
+Status: done
 
 ## Specs
 
@@ -12,9 +13,9 @@ Status: in_progress
 ## Tasks
 
 - [x] **T1** (S1, S2) — Add fallback cover support to `scripts/lib/repo-covers.mjs` + `src/data/repo-cover-fallbacks.json` with RED/GREEN unit tests | route: inline | commit: `13b3ca0`
-- [x] **T2** (S3) — Capture real web screenshots with `ego-browser` for web repos missing README covers and encode to `public/images/repos/custom/*.webp` | route: inline | commit: pending (with T4 assets)
-- [x] **T3** (S4) — Create hybrid terminal and diagram/card WebP covers for non-web repos missing README covers in `public/images/repos/custom/*.webp` | route: inline | commit: pending (with T4 assets)
-- [ ] **T4** (S1-S4) — Wire `src/data/repo-cover-fallbacks.json` + `src/data/github-repos.json`, verify all repos have covers, and run unit, build/size, and E2E checks | route: inline | commit: pending
+- [x] **T2** (S3) — Capture real web screenshots with `ego-browser` for web repos missing README covers and encode to `public/images/repos/custom/*.webp` | route: inline | commit: closing slice
+- [x] **T3** (S4) — Create hybrid terminal and diagram/card WebP covers for non-web repos missing README covers in `public/images/repos/custom/*.webp` | route: inline | commit: closing slice
+- [x] **T4** (S1-S4) — Wire `src/data/repo-cover-fallbacks.json` + `src/data/github-repos.json`, verify all repos have covers, and run unit, build/size, and E2E checks | route: inline | commit: closing slice
 
 ## Log
 
