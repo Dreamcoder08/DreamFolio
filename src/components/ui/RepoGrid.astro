@@ -11,6 +11,8 @@ import {
   groupByOwner,
   type GitHubRepo,
 } from "../../lib/github-repos";
+import { archifyForRepo } from "../../lib/repo-archify";
+import archifyMap from "../../data/repo-archify.json";
 import config from "../../data/github-repos.config.json";
 import snapshot from "../../data/github-repos.json";
 
@@ -47,6 +49,7 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
       <ul class="repo-grid" role="list">
         {coversFirst(group.repos).map((repo) => {
           const caseStudy = caseStudies.get(repo.url.toLowerCase());
+          const archifyHref = archifyForRepo(repo, archifyMap);
           return (
             <li class="repo-card">
               {repo.cover && (
@@ -72,6 +75,16 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
                   <span aria-label={`${repo.stars} estrellas`}>
                     ★ {repo.stars}
                   </span>
+                )}
+                {archifyHref && (
+                  <a
+                    class="repo-card-case"
+                    href={withBase(archifyHref)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Arquitectura <Icon name="arrow" size={14} />
+                  </a>
                 )}
                 {caseStudy && (
                   <a class="repo-card-case" href={withBase(caseStudy)}>
