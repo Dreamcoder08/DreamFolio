@@ -57,3 +57,7 @@ lighthouse-report.*
 # La fuente mantenida es docs/anexo-capacidades.html, ya neutralizada.
 docs/*.pdf
 lighthouse-reports/
+
+# Archify standalone HTML diagrams are fetched at build/deploy time from each
+# source repository (`pnpm run sync:archify`); newly synced files stay untracked.
+public/archify/

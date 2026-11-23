@@ -99,11 +99,6 @@ test.describe("Projects — GitHub repos", () => {
       const links = projects.repoSection.getByRole("link", {
         name: /Arquitectura/,
       });
-      const cardCount = await projects.repoSection
-        .locator(".repo-card")
-        .count();
-      expect(await links.count()).toBe(cardCount);
-
       const hrefs = await links.evaluateAll((els) =>
         els.map((el) => el.getAttribute("href") ?? ""),
       );

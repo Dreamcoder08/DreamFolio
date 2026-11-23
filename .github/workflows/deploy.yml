@@ -128,6 +128,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+      # Fetch standalone Archify diagrams from each source repository into the
+      # gitignored public/archify/ directory so diagrams have one source of truth.
+      - name: Sync Archify diagrams
+        run: pnpm run sync:archify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Build site
         run: pnpm run build
         env:
