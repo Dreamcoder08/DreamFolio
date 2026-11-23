@@ -19,6 +19,12 @@
   .contact-bottom .solid-link {
     font-size: var(--text-xs);
   }
+  .project-track,
+  .principles {
+    margin-inline: -14px;
+    padding-inline: 14px;
+    scroll-padding-inline: 14px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

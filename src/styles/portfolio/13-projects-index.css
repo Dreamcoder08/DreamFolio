@@ -97,6 +97,8 @@
   background: var(--color-surface-alt);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
+  content-visibility: auto;
+  contain-intrinsic-size: 320px 360px;
 }
 .repo-card:hover {
   border-color: var(--color-border-strong);

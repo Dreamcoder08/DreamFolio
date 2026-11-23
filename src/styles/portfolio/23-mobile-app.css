@@ -47,6 +47,16 @@
   .project-track > * {
     scroll-snap-stop: always;
   }
+  .project-cover {
+    padding: 16px 16px 0;
+  }
+  .project-links {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .project-links a {
+    min-height: 44px;
+  }
   .principles {
     display: grid;
     grid-template-columns: none;
