@@ -1,1 +1,56 @@
-{}
+{
+  "Dreamcoder08/aurelia21": {
+    "src": "/images/repos/custom/dreamcoder08-aurelia21.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "AURELIA // 21·09 interactive cinematic experience web interface"
+  },
+  "Dreamcoder08/somnyx-web": {
+    "src": "/images/repos/custom/dreamcoder08-somnyx-web.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "SOMNYX dark OLED system monitoring web dashboard"
+  },
+  "Dreamcoder08/chira-os": {
+    "src": "/images/repos/custom/dreamcoder08-chira-os.webp",
+    "width": 960,
+    "height": 453,
+    "alt": "CHIRA OS Guardian split-screen web interface for agricultural field inspections"
+  },
+  "Dreamcoder08/pseint-web-interface": {
+    "src": "/images/repos/custom/dreamcoder08-pseint-web-interface.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "PSeInt Web Lab OLED pseudocode editor and guided learning path"
+  },
+  "Dreamcoder08/somnyx-tui": {
+    "src": "/images/repos/custom/dreamcoder08-somnyx-tui.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "SOMNYX TUI Rust and Ratatui terminal telemetry dashboard"
+  },
+  "Dreamcoder08/pactyra": {
+    "src": "/images/repos/custom/dreamcoder08-pactyra.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "PACTYRA open offensive operations kernel architecture: authorized scope, scope_hash, policy gate, and evidence pack"
+  },
+  "Dreamcoder08/dreamcoder-omp": {
+    "src": "/images/repos/custom/dreamcoder08-dreamcoder-omp.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "DreamCoder OMP controlled development harness architecture and /dc-status terminal checks"
+  },
+  "Dreamcoder08/cominorsa-crm": {
+    "src": "/images/repos/custom/dreamcoder08-cominorsa-crm.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "cominorsa-crm read-only CLI and MCP stdio architecture for bounded Twenty CRM tools"
+  },
+  "Dreamcoder08/bcrp-data-sdk": {
+    "src": "/images/repos/custom/dreamcoder08-bcrp-data-sdk.webp",
+    "width": 960,
+    "height": 540,
+    "alt": "bcrp-data-sdk entity-first TypeScript SDK example for Peru BCRPData statistical series"
+  }
+}

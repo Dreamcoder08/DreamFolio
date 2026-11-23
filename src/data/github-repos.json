@@ -22,12 +22,87 @@
       "description": "SIPGES — territorial management platform: TypeScript monorepo (Hono API + React web) on Cloudflare Workers with Neon PostgreSQL.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-11-10T02:17:10Z",
+      "pushedAt": "2026-11-22T23:36:21Z",
       "cover": {
         "src": "/images/repos/dreamcoder08-sipges.webp",
         "width": 960,
-        "height": 1040,
-        "alt": "Arquitectura hexagonal TypeScript de SIPGES"
+        "height": 501,
+        "alt": "Dashboard de SIPGES: monitoreo preventivo de riesgo socioambiental con resumen operativo, alertas por nivel y eventos por dimensión"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-ai",
+      "url": "https://github.com/arkelythex/drenyra-ai",
+      "description": "Verifiable Accounting Agent Ecosystem — Receipt-Driven Accounting, candidates, proportional review, gates, ledger and recovery for Drenyra. Pre-alpha.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-22T21:53:21Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-ai.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra AI: proposals become scoped candidates, explicit decisions, signed receipts, and an append-only evidence chain. The professional retains authority."
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-shell",
+      "url": "https://github.com/arkelythex/drenyra-shell",
+      "description": "Pi-native Accounting Operations Harness — persona, /drenyra:* commands, Pi subagents, RDA chains and pinned drenyra-ai runtime for Pi. Pre-alpha.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-22T21:43:33Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-shell.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra Shell — the runtime manifest: pinned runtime, source, checksum, scope and authority"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "chira-os",
+      "url": "https://github.com/Dreamcoder08/chira-os",
+      "description": "CHIRA OS Guardian: offline agricultural inspections, hexagonal architecture and verified security boundaries",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-21T05:16:23Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-chira-os.webp",
+        "width": 960,
+        "height": 453,
+        "alt": "CHIRA OS Guardian split-screen web interface for agricultural field inspections"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "Dreamcoder-Workbench",
+      "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
+      "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-11-16T23:32:35Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-dreamcoder-workbench.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "Dreamcoder Workbench in dark mode with Herdr, Gentle Shell and its agent workspace"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-engram",
+      "url": "https://github.com/arkelythex/drenyra-engram",
+      "description": "Institutional Accounting Memory — scope-first search, relations, lifecycle, provenance and institutional knowledge for Drenyra. Pre-alpha.",
+      "language": "Go",
+      "stars": 0,
+      "pushedAt": "2026-11-15T02:42:52Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-engram.webp",
+        "width": 960,
+        "height": 315,
+        "alt": "Drenyra Engram hero: an institutional archive card for memory 4011 showing effectiveAt, recordedAt, confidence, approved status, three evidence objects, a vigent rule, and a reconstructible seal, beside the tagline Memory guides. Evidence demonstrates. Humans authorize."
       }
     },
     {
@@ -58,75 +133,6 @@
         "width": 960,
         "height": 560,
         "alt": "Salida real de dreamcoder --version y dreamcoder --help en la terminal"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-ai",
-      "url": "https://github.com/arkelythex/drenyra-ai",
-      "description": "Verifiable Accounting Agent Ecosystem — Receipt-Driven Accounting, candidates, proportional review, gates, ledger and recovery for Drenyra. Pre-alpha.",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-08T21:53:09Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-drenyra-ai.webp",
-        "width": 960,
-        "height": 316,
-        "alt": "Drenyra AI: proposals become scoped candidates, explicit decisions, signed receipts, and an append-only evidence chain. The professional retains authority."
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-shell",
-      "url": "https://github.com/arkelythex/drenyra-shell",
-      "description": "Pi-native Accounting Operations Harness — persona, /drenyra:* commands, Pi subagents, RDA chains and pinned drenyra-ai runtime for Pi. Pre-alpha.",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-08T21:43:18Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-drenyra-shell.webp",
-        "width": 960,
-        "height": 316,
-        "alt": "Drenyra Shell — the runtime manifest: pinned runtime, source, checksum, scope and authority"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-engram",
-      "url": "https://github.com/arkelythex/drenyra-engram",
-      "description": "Institutional Accounting Memory — scope-first search, relations, lifecycle, provenance and institutional knowledge for Drenyra. Pre-alpha.",
-      "language": "Go",
-      "stars": 0,
-      "pushedAt": "2026-11-08T02:42:52Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-drenyra-engram.webp",
-        "width": 960,
-        "height": 315,
-        "alt": "Drenyra Engram hero: an institutional archive card for memory 4011 showing effectiveAt, recordedAt, confidence, approved status, three evidence objects, a vigent rule, and a reconstructible seal, beside the tagline Memory guides. Evidence demonstrates. Humans authorize."
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "chira-os",
-      "url": "https://github.com/Dreamcoder08/chira-os",
-      "description": "CHIRA OS Guardian: offline agricultural inspections, hexagonal architecture and verified security boundaries",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-07T05:15:20Z"
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "Dreamcoder-Workbench",
-      "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
-      "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
-      "language": "Python",
-      "stars": 0,
-      "pushedAt": "2026-11-06T05:28:27Z",
-      "cover": {
-        "src": "/images/repos/dreamcoder08-dreamcoder-workbench.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "Dreamcoder Workbench in dark mode with Herdr, Gentle Shell and its agent workspace"
       }
     },
     {
@@ -181,7 +187,13 @@
       "description": "SVM-based skill-gap analysis and interview simulation platform",
       "language": "HTML",
       "stars": 0,
-      "pushedAt": "2026-11-01T05:49:54Z"
+      "pushedAt": "2026-11-01T05:49:54Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-somnyx-web.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "SOMNYX dark OLED system monitoring web dashboard"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -190,7 +202,13 @@
       "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
       "language": "Rust",
       "stars": 0,
-      "pushedAt": "2026-11-01T05:49:52Z"
+      "pushedAt": "2026-11-01T05:49:52Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-somnyx-tui.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "SOMNYX TUI Rust and Ratatui terminal telemetry dashboard"
+      }
     },
     {
       "owner": "arkelythex",
@@ -229,7 +247,13 @@
       "description": "COMINORSA AI-first CRM agent tools and Twenty operations",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-10-12T00:17:10Z"
+      "pushedAt": "2026-10-12T00:17:10Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-cominorsa-crm.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "cominorsa-crm read-only CLI and MCP stdio architecture for bounded Twenty CRM tools"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -238,7 +262,13 @@
       "description": "Unofficial BCRPData TypeScript SDK generated with Voxgig sdkgen; mini task 1",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-09-29T21:50:40Z"
+      "pushedAt": "2026-09-29T21:50:40Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-bcrp-data-sdk.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "bcrp-data-sdk entity-first TypeScript SDK example for Peru BCRPData statistical series"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -247,7 +277,13 @@
       "description": "AURELIA // 21·09 — self-contained cinematic experience page",
       "language": "JavaScript",
       "stars": 0,
-      "pushedAt": "2026-09-28T21:20:50Z"
+      "pushedAt": "2026-09-28T21:20:50Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-aurelia21.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "AURELIA // 21·09 interactive cinematic experience web interface"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -256,7 +292,13 @@
       "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
       "language": "Go",
       "stars": 0,
-      "pushedAt": "2026-09-27T22:25:11Z"
+      "pushedAt": "2026-09-27T22:25:11Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-pactyra.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "PACTYRA open offensive operations kernel architecture: authorized scope, scope_hash, policy gate, and evidence pack"
+      }
     },
     {
       "owner": "arkelythex",
@@ -280,7 +322,13 @@
       "description": "Personal operating layer for omp: persona, policy, provenance and evidence extensions, inspired by gentle-pi.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-09-27T22:24:43Z"
+      "pushedAt": "2026-09-27T22:24:43Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-dreamcoder-omp.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "DreamCoder OMP controlled development harness architecture and /dc-status terminal checks"
+      }
     },
     {
       "owner": "Dreamcoder08",
@@ -289,7 +337,13 @@
       "description": "Modern web interface for PSeInt-inspired pseudocode learning.",
       "language": "TypeScript",
       "stars": 0,
-      "pushedAt": "2026-06-21T14:15:58Z"
+      "pushedAt": "2026-06-21T14:15:58Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-pseint-web-interface.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "PSeInt Web Lab OLED pseudocode editor and guided learning path"
+      }
     }
   ]
 }

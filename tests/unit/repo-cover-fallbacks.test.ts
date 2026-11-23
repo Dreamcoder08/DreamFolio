@@ -55,8 +55,8 @@ test("selectRepoCover prefers README cover over fallback and uses fallback when 
   );
 });
 
-test("repo-cover-fallbacks.json entries follow the static custom cover contract", async () => {
-  const { readFile } = await import("node:fs/promises");
+test("repo-cover-fallbacks.json entries follow the static custom cover contract and exist on disk", async () => {
+  const { access, readFile } = await import("node:fs/promises");
   const fallbacks = JSON.parse(
     await readFile(
       new URL("../../src/data/repo-cover-fallbacks.json", import.meta.url),
@@ -81,5 +81,6 @@ test("repo-cover-fallbacks.json entries follow the static custom cover contract"
       `positive height for ${key}`,
     );
     assert.ok(cover.alt.trim().length > 0, `non-empty alt for ${key}`);
+    await access(new URL(`../../public${cover.src}`, import.meta.url));
   }
 });
