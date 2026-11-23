@@ -26,6 +26,7 @@
     "check:size": "node scripts/check-file-size.mjs",
     "sync:repos": "node scripts/sync-github-repos.mjs",
     "sync:proof": "node scripts/sync-project-proof.mjs",
+    "sync:archify": "node scripts/sync-archify.mjs",
     "test:e2e": "SITE_BASE=/ pnpm run build && playwright test",
     "verify": "pnpm run build && pnpm run check && pnpm run check:size",
     "snapshots": "node scripts/visual-snapshots.mjs",

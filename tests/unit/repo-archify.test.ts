@@ -28,7 +28,12 @@ test("repo-archify.json entries use valid static HTML paths that exist on disk",
     ),
   ) as RepoArchifyMap;
 
-  assert.ok(Object.keys(diagrams).length > 0);
+  assert.ok(
+    diagrams !== null &&
+      typeof diagrams === "object" &&
+      !Array.isArray(diagrams),
+    "repo-archify.json must be a plain object",
+  );
   for (const [key, href] of Object.entries(diagrams)) {
     assert.match(key, /^[^/]+\/[^/]+$/, `valid owner/name key: ${key}`);
     assert.match(
