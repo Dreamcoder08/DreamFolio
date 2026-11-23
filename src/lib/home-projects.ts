@@ -11,6 +11,8 @@ export interface CuratedProjectLike {
   liveUrl?: string;
 }
 
+export type HomeProjectFilter = "case-study" | "arkelythex" | "personal";
+
 export interface HomeProjectCard {
   id: string;
   title: string;
@@ -25,6 +27,11 @@ export interface HomeProjectCard {
   archifyHref?: string;
   cover?: RepoCover;
   sharedArtId?: string;
+  filters: HomeProjectFilter[];
+}
+
+function ownerFilter(owner?: string): "arkelythex" | "personal" {
+  return owner?.toLowerCase() === "arkelythex" ? "arkelythex" : "personal";
 }
 
 function repoKeyFromUrl(url?: string): { owner: string; name: string } | null {
@@ -71,6 +78,7 @@ export function buildHomeProjects<T extends CuratedProjectLike>({
       archifyHref: repoKey ? archifyForRepo(repoKey, archifyMap) : undefined,
       cover: resolveCover(project),
       sharedArtId: project.id,
+      filters: ["case-study", ownerFilter(repoKey?.owner)],
     };
   });
 
@@ -94,6 +102,7 @@ export function buildHomeProjects<T extends CuratedProjectLike>({
       githubUrl: repo.url,
       archifyHref: archifyForRepo(repo, archifyMap),
       cover: repo.cover,
+      filters: [ownerFilter(repo.owner)],
     });
   }
 

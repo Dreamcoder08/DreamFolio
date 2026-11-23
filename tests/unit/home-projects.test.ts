@@ -69,10 +69,12 @@ test("buildHomeProjects keeps curated projects first, deduplicates repos by URL,
   assert.equal(items[0].isExternal, false);
   assert.equal(items[0].archifyHref, "/archify/dreamcoder08-cleansweep.html");
   assert.equal(items[0].sharedArtId, "cleansweep");
+  assert.deepEqual(items[0].filters, ["case-study", "personal"]);
 
   assert.equal(items[1].title, "sipges");
   assert.equal(items[1].href, "https://github.com/Dreamcoder08/sipges");
   assert.equal(items[1].isExternal, true);
   assert.equal(items[1].archifyHref, "/archify/dreamcoder08-sipges.html");
   assert.equal(items[1].sharedArtId, undefined);
+  assert.deepEqual(items[1].filters, ["personal"]);
 });
