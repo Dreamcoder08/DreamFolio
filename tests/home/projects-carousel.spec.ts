@@ -77,4 +77,31 @@ test.describe("Home — projects carousel", () => {
       await expect.poll(() => home.hasHorizontalOverflow()).toBe(false);
     },
   );
+
+  test(
+    "filter chips narrow visible cards and update the counter live",
+    { tag: ["@e2e", "@projects", "@CAROUSEL-004"] },
+    async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await new HomePage(page).goto();
+
+      const casesBtn = page.getByRole("button", { name: /Casos de estudio/ });
+      const allBtn = page.getByRole("button", { name: /^Todos/ });
+      await casesBtn.click();
+      await expect(casesBtn).toHaveAttribute("aria-pressed", "true");
+      await expect(
+        track(page).locator(".project-card:not([hidden])"),
+      ).toHaveCount(projects.length);
+      await expect(page.locator(".carousel-count")).toHaveText(
+        `01 / ${String(projects.length).padStart(2, "0")}`,
+      );
+
+      await allBtn.click();
+      await expect(allBtn).toHaveAttribute("aria-pressed", "true");
+      await expect(
+        track(page).locator(".project-card:not([hidden])"),
+      ).toHaveCount(TOTAL_COUNT);
+      await expect(page.locator(".carousel-count")).toHaveText(`01 / ${TOTAL}`);
+    },
+  );
 });

@@ -1,7 +1,5 @@
 ---
-// Every case study from projects.json as one row of cards you move through
-// with the arrows, a swipe or the keyboard. Without JS it is still a plain
-// horizontal scroll-snap list; the script only adds the arrows and counter.
+// Unified projects & repos carousel with filter chips, arrows, and swipe.
 import { getCollection } from "astro:content";
 import { withBase } from "../../lib/site";
 import {
@@ -37,6 +35,12 @@ const projects = buildHomeProjects({
 });
 const pad = (n: number) => String(n).padStart(2, "0");
 const total = pad(projects.length);
+const filterChips = [
+  { key: "all", label: `Todos (${projects.length})` },
+  { key: "case-study", label: `Casos de estudio (${curated.length})` },
+  { key: "arkelythex", label: "ARKELYTHEX" },
+  { key: "personal", label: "Personal" },
+];
 ---
 
 <section
@@ -66,28 +70,43 @@ const total = pad(projects.length);
     aria-label="Proyectos y repositorios"
     data-carousel
   >
-    <div class="carousel-controls" data-carousel-controls hidden>
-      <button
-        type="button"
-        class="circle-link"
-        data-carousel-prev
-        aria-label="Proyecto anterior"
-        aria-controls="project-track"
-      >
-        <Icon name="back" size={20} />
-      </button>
-      <p class="carousel-count mono" aria-live="polite">
-        <span data-carousel-index>01</span> / {total}
-      </p>
-      <button
-        type="button"
-        class="circle-link"
-        data-carousel-next
-        aria-label="Proyecto siguiente"
-        aria-controls="project-track"
-      >
-        <Icon name="next" size={20} />
-      </button>
+    <div class="carousel-toolbar">
+      <div class="carousel-filters" role="group" aria-label="Filtrar proyectos">
+        {filterChips.map((chip, i) => (
+          <button
+            type="button"
+            class="filter-chip"
+            data-carousel-filter={chip.key}
+            aria-pressed={i === 0 ? "true" : "false"}
+          >
+            {chip.label}
+          </button>
+        ))}
+      </div>
+      <div class="carousel-controls" data-carousel-controls hidden>
+        <button
+          type="button"
+          class="circle-link"
+          data-carousel-prev
+          aria-label="Proyecto anterior"
+          aria-controls="project-track"
+        >
+          <Icon name="back" size={20} />
+        </button>
+        <p class="carousel-count mono" aria-live="polite">
+          <span data-carousel-index>01</span> /{" "}
+          <span data-carousel-total>{total}</span>
+        </p>
+        <button
+          type="button"
+          class="circle-link"
+          data-carousel-next
+          aria-label="Proyecto siguiente"
+          aria-controls="project-track"
+        >
+          <Icon name="next" size={20} />
+        </button>
+      </div>
     </div>
     <ul
       id="project-track"
@@ -104,7 +123,7 @@ const total = pad(projects.length);
           : {};
         const cover = project.cover;
         return (
-          <li class="project-card">
+          <li class="project-card" data-filters={project.filters.join(" ")}>
             <a
               class="project-cover"
               href={href}
