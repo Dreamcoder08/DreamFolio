@@ -155,6 +155,8 @@ const structuredData = jsonLd ?? personJsonLd(canonical);
          src/scripts/reveal.ts. -->
     <script>
       import "../scripts/reveal.ts";
+      import { mountScrollDirector } from "../lib/scroll-director.ts";
+      mountScrollDirector();
     </script>
   </body>
 </html>
