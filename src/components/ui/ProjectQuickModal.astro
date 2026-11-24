@@ -89,10 +89,23 @@ const payload: QuickProjectPayload[] = projects.map((p) => ({
     <div class="tags" data-qm-stack></div>
 
     <div class="project-links quick-modal-actions">
-      <a href="#" target="_blank" rel="noopener noreferrer" data-qm-github hidden>
-        <Icon name="github" size={18} /> Ver repositorio <Icon name="arrow" size={16} />
+      <a
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-qm-github
+        hidden
+      >
+        <Icon name="github" size={18} /> Ver repositorio{" "}
+        <Icon name="arrow" size={16} />
       </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" data-qm-archify hidden>
+      <a
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-qm-archify
+        hidden
+      >
         Arquitectura <Icon name="arrow" size={16} />
       </a>
       <a href="#" target="_blank" rel="noopener noreferrer" data-qm-live hidden>
@@ -107,7 +120,6 @@ const payload: QuickProjectPayload[] = projects.map((p) => ({
   data-quick-projects-json
   set:html={JSON.stringify(payload).replace(/</g, "\\u003c")}
 />
-
 <script>
   import { mountProjectQuickModal } from "../../lib/project-quick-modal";
   mountProjectQuickModal();

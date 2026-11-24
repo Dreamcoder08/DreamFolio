@@ -24,7 +24,9 @@ export interface SceneRatio {
   ratio: number;
 }
 
-export function pickDominantScene(entries: readonly SceneRatio[]): string | null {
+export function pickDominantScene(
+  entries: readonly SceneRatio[],
+): string | null {
   let winner: SceneRatio | null = null;
   for (const entry of entries) {
     if (!entry.intersecting) continue;

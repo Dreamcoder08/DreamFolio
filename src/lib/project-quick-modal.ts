@@ -68,7 +68,8 @@ export function mountProjectQuickModal(): void {
   const videoCaption = dialog.querySelector<HTMLElement>(
     "[data-qm-video-caption]",
   );
-  const githubLink = dialog.querySelector<HTMLAnchorElement>("[data-qm-github]");
+  const githubLink =
+    dialog.querySelector<HTMLAnchorElement>("[data-qm-github]");
   const liveLink = dialog.querySelector<HTMLAnchorElement>("[data-qm-live]");
   const archifyLink =
     dialog.querySelector<HTMLAnchorElement>("[data-qm-archify]");

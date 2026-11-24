@@ -1,0 +1,64 @@
+---
+import Icon from "./Icon.astro";
+
+interface FilterChip {
+  key: string;
+  label: string;
+}
+
+interface Props {
+  filterChips: FilterChip[];
+  total: string;
+}
+
+const { filterChips, total } = Astro.props;
+---
+
+<div class="carousel-toolbar">
+  <div class="carousel-filters" role="group" aria-label="Filtrar proyectos">
+    {filterChips.map((chip, i) => (
+      <button
+        type="button"
+        class="filter-chip"
+        data-carousel-filter={chip.key}
+        aria-pressed={i === 0 ? "true" : "false"}
+      >
+        {chip.label}
+      </button>
+    ))}
+  </div>
+  <div class="carousel-controls" data-carousel-controls hidden>
+    <button
+      type="button"
+      class="autoplay-toggle mono"
+      data-carousel-autoplay-toggle
+      aria-pressed="true"
+      aria-label="Alternar presentación autónoma de proyectos"
+    >
+      <span class="autoplay-dot" aria-hidden="true"></span>
+      <span data-autoplay-label>Auto</span>
+    </button>
+    <button
+      type="button"
+      class="circle-link"
+      data-carousel-prev
+      aria-label="Proyecto anterior"
+      aria-controls="project-track"
+    >
+      <Icon name="back" size={20} />
+    </button>
+    <p class="carousel-count mono" aria-live="polite">
+      <span data-carousel-index>01</span> /{" "}
+      <span data-carousel-total>{total}</span>
+    </p>
+    <button
+      type="button"
+      class="circle-link"
+      data-carousel-next
+      aria-label="Proyecto siguiente"
+      aria-controls="project-track"
+    >
+      <Icon name="next" size={20} />
+    </button>
+  </div>
+</div>

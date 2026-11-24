@@ -22,7 +22,8 @@ export function mountProjectMediaStages(): void {
         stage.querySelectorAll<HTMLButtonElement>("[data-media-view-btn]"),
       );
       const video = stage.querySelector<HTMLVideoElement>("[data-stage-video]");
-      const mainImg = stage.querySelector<HTMLImageElement>("[data-stage-image]");
+      const mainImg =
+        stage.querySelector<HTMLImageElement>("[data-stage-image]");
       const thumbs = Array.from(
         stage.querySelectorAll<HTMLButtonElement>("[data-stage-thumb]"),
       );

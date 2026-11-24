@@ -40,13 +40,16 @@ export function isAbortKey(key: string): boolean {
  * any manual scroll, touch, pointer, or keyboard input.
  */
 export function mountAutoTour(): void {
-  const toggle = document.querySelector<HTMLButtonElement>("[data-tour-toggle]");
+  const toggle =
+    document.querySelector<HTMLButtonElement>("[data-tour-toggle]");
   if (!toggle) return;
 
   const stops = TOUR_STOPS.map((stop) => ({
     ...stop,
     el: document.querySelector<HTMLElement>(stop.selector),
-  })).filter((stop): stop is TourStop & { el: HTMLElement } => Boolean(stop.el));
+  })).filter((stop): stop is TourStop & { el: HTMLElement } =>
+    Boolean(stop.el),
+  );
 
   if (stops.length < 2) return;
   toggle.hidden = false;

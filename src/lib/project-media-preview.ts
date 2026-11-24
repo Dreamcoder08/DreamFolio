@@ -4,7 +4,9 @@ export interface PreviewSelectionInput {
   activeId: string | null;
 }
 
-export function pickPreviewVideoId(input: PreviewSelectionInput): string | null {
+export function pickPreviewVideoId(
+  input: PreviewSelectionInput,
+): string | null {
   if (input.reducedMotion) return null;
   return input.hoveredId ?? input.activeId;
 }
@@ -28,9 +30,13 @@ export function mountProjectMediaPreviews(root: HTMLElement): () => void {
       activeId,
     });
     for (const card of cards) {
-      const video = card.querySelector<HTMLVideoElement>("[data-preview-video]");
+      const video = card.querySelector<HTMLVideoElement>(
+        "[data-preview-video]",
+      );
       if (!video) continue;
-      const shouldPlay = Boolean(targetId && card.dataset.projectId === targetId);
+      const shouldPlay = Boolean(
+        targetId && card.dataset.projectId === targetId,
+      );
       if (shouldPlay) {
         const src = video.dataset.previewVideo;
         if (src && !video.getAttribute("src")) {
@@ -62,7 +68,7 @@ export function mountProjectMediaPreviews(root: HTMLElement): () => void {
   };
 
   const onEnter = (event: Event) => {
-    const card = (event.currentTarget as HTMLElement | null);
+    const card = event.currentTarget as HTMLElement | null;
     hoveredId = card?.dataset.projectId ?? null;
     syncVideos();
   };

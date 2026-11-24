@@ -110,10 +110,7 @@ test("buildHomeProjects propagates optional video and gallery media fields", () 
     items[0].previewVideo,
     "/videos/projects/cleansweep-preview.webm",
   );
-  assert.equal(
-    items[0].showcaseVideo,
-    "/videos/projects/cleansweep-full.mp4",
-  );
+  assert.equal(items[0].showcaseVideo, "/videos/projects/cleansweep-full.mp4");
   assert.equal(
     items[0].videoPoster,
     "/images/repos/dreamcoder08-cleansweep.webp",

@@ -8,10 +8,12 @@ test("S1: carousel autoplay pauses on touch interaction", () => {
 });
 
 test("S5: view-transitions UNSHARED_PROJECT does not overlap SHARED_ART_PROJECT_IDS", async () => {
-  const { SHARED_ART_PROJECT_IDS } = await import(
-    "../../src/lib/project-presentation.ts"
+  const { SHARED_ART_PROJECT_IDS } =
+    await import("../../src/lib/project-presentation.ts");
+  const spec = readFileSync(
+    "tests/transitions/view-transitions.spec.ts",
+    "utf8",
   );
-  const spec = readFileSync("tests/transitions/view-transitions.spec.ts", "utf8");
   const match = /UNSHARED_PROJECT\s*=\s*\{\s*id:\s*"([^"]+)"/.exec(spec);
   if (match) {
     assert.equal(
@@ -24,13 +26,22 @@ test("S5: view-transitions UNSHARED_PROJECT does not overlap SHARED_ART_PROJECT_
 
 test("S3: every curated project and synced repo resolves to an existing cover under public/", async () => {
   const { coverForRepo } = await import("../../src/lib/github-repos.ts");
-  const projects = JSON.parse(readFileSync("src/data/projects.json", "utf8")) as Array<{
+  const projects = JSON.parse(
+    readFileSync("src/data/projects.json", "utf8"),
+  ) as Array<{
     id: string;
     coverImage?: string;
     githubUrl?: string;
   }>;
-  const snapshot = JSON.parse(readFileSync("src/data/github-repos.json", "utf8")) as {
-    repos: Array<{ owner: string; name: string; url: string; cover?: { src: string } }>;
+  const snapshot = JSON.parse(
+    readFileSync("src/data/github-repos.json", "utf8"),
+  ) as {
+    repos: Array<{
+      owner: string;
+      name: string;
+      url: string;
+      cover?: { src: string };
+    }>;
   };
 
   for (const project of projects) {
@@ -43,13 +54,16 @@ test("S3: every curated project and synced repo resolves to an existing cover un
   }
 
   for (const repo of snapshot.repos) {
-    assert.ok(repo.cover?.src, `synced repo ${repo.owner}/${repo.name} must have cover.src`);
+    assert.ok(
+      repo.cover?.src,
+      `synced repo ${repo.owner}/${repo.name} must have cover.src`,
+    );
     const diskPath = `public${repo.cover.src}`;
     assert.ok(existsSync(diskPath) && statSync(diskPath).size > 0, diskPath);
   }
 });
 
-test("S3/S5: dialog media components never emit empty src=\"\" on <img> and escape JSON payload", () => {
+test('S3/S5: dialog media components never emit empty src="" on <img> and escape JSON payload', () => {
   for (const file of [
     "src/components/ui/ProjectMediaStage.astro",
     "src/components/ui/ProjectQuickModal.astro",
@@ -57,6 +71,9 @@ test("S3/S5: dialog media components never emit empty src=\"\" on <img> and esca
     const src = readFileSync(file, "utf8");
     assert.doesNotMatch(src, /<img\b[^>]*\bsrc=""/, file);
   }
-  const modal = readFileSync("src/components/ui/ProjectQuickModal.astro", "utf8");
+  const modal = readFileSync(
+    "src/components/ui/ProjectQuickModal.astro",
+    "utf8",
+  );
   assert.match(modal, /replace\(\/<\/g,\s*"\\\\u003c"\)/);
 });

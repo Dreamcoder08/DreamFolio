@@ -1,42 +1,17 @@
-export interface AutoplayConditions {
-  reducedMotion: boolean;
-  inView: boolean;
-  documentVisible: boolean;
-  hovered: boolean;
-  focused: boolean;
-  pausedByUser: boolean;
-  itemCount: number;
-}
+import {
+  shouldAutoplayRun,
+  type AutoplayConditions,
+  type AutoplayController,
+  type AutoplayHooks,
+} from "./project-autoplay-state.ts";
 
-export function shouldAutoplayRun(c: AutoplayConditions): boolean {
-  return (
-    !c.reducedMotion &&
-    c.inView &&
-    c.documentVisible &&
-    !c.hovered &&
-    !c.focused &&
-    !c.pausedByUser &&
-    c.itemCount > 1
-  );
-}
-
-export function nextActiveIndex(current: number, count: number): number {
-  if (count <= 1) return 0;
-  return (current + 1) % count;
-}
-
-export interface AutoplayHooks {
-  advance: () => void;
-  getVisibleCount: () => number;
-  intervalMs?: number;
-}
-
-export interface AutoplayController {
-  refresh: () => void;
-  reset: () => void;
-  setExternalPause: (paused: boolean) => void;
-  destroy: () => void;
-}
+export {
+  nextActiveIndex,
+  shouldAutoplayRun,
+  type AutoplayConditions,
+  type AutoplayController,
+  type AutoplayHooks,
+} from "./project-autoplay-state.ts";
 
 const DEFAULT_INTERVAL_MS = 5200;
 
@@ -85,12 +60,6 @@ export function createCarouselAutoplay(
     if (label) label.textContent = paused ? "Pausado" : "Auto";
   };
 
-  const flipTick = () => {
-    tickFlip = !tickFlip;
-    root.classList.toggle("autoplay-tick-a", tickFlip);
-    root.classList.toggle("autoplay-tick-b", !tickFlip);
-  };
-
   const schedule = () => {
     clearTimer();
     state.itemCount = hooks.getVisibleCount();
@@ -102,33 +71,84 @@ export function createCarouselAutoplay(
         : "paused";
     syncToggle(running);
     if (!running) return;
-    flipTick();
+    tickFlip = !tickFlip;
+    root.classList.toggle("autoplay-tick-a", tickFlip);
+    root.classList.toggle("autoplay-tick-b", !tickFlip);
     timerId = window.setTimeout(() => {
       hooks.advance();
       schedule();
     }, intervalMs);
   };
 
-  const onEnter = () => { state.hovered = true; schedule(); };
-  const onLeave = () => { state.hovered = false; schedule(); };
-  const onTouch = (event: Event) => {
-    if (toggleBtn && event.target instanceof Node && toggleBtn.contains(event.target)) return;
-    state.pausedByUser = true;
+  const setAndSchedule = (patch: () => void) => () => {
+    patch();
     schedule();
   };
-  const onFocusIn = () => { state.focused = true; schedule(); };
-  const onFocusOut = (event: FocusEvent) => {
-    const next = event.relatedTarget as Node | null;
-    if (!next || !root.contains(next)) {
-      state.focused = false;
-      schedule();
-    }
-  };
-  const onVisibility = () => { state.documentVisible = !document.hidden; schedule(); };
-  const onReducedChange = (event: MediaQueryListEvent) => { state.reducedMotion = event.matches; schedule(); };
-  const onToggleClick = () => { state.pausedByUser = !state.pausedByUser; schedule(); };
-  const onExternalPause = () => { externalPaused = true; schedule(); };
-  const onExternalResume = () => { externalPaused = false; schedule(); };
+
+  const listeners: Array<
+    [EventTarget, string, EventListener, AddEventListenerOptions?]
+  > = [
+    [root, "pointerenter", setAndSchedule(() => (state.hovered = true))],
+    [root, "pointerleave", setAndSchedule(() => (state.hovered = false))],
+    [
+      root,
+      "touchstart",
+      (event) => {
+        if (
+          toggleBtn &&
+          event.target instanceof Node &&
+          toggleBtn.contains(event.target)
+        ) {
+          return;
+        }
+        state.pausedByUser = true;
+        schedule();
+      },
+      { passive: true },
+    ],
+    [root, "focusin", setAndSchedule(() => (state.focused = true))],
+    [
+      root,
+      "focusout",
+      (event) => {
+        const next = (event as FocusEvent).relatedTarget as Node | null;
+        if (!next || !root.contains(next)) {
+          state.focused = false;
+          schedule();
+        }
+      },
+    ],
+    [
+      document,
+      "visibilitychange",
+      setAndSchedule(() => (state.documentVisible = !document.hidden)),
+    ],
+    [
+      reducedQuery,
+      "change",
+      (event) => {
+        state.reducedMotion = (event as MediaQueryListEvent).matches;
+        schedule();
+      },
+    ],
+    [
+      window,
+      "dreamfolio:autoplay-pause",
+      setAndSchedule(() => (externalPaused = true)),
+    ],
+    [
+      window,
+      "dreamfolio:autoplay-resume",
+      setAndSchedule(() => (externalPaused = false)),
+    ],
+  ];
+  if (toggleBtn) {
+    listeners.push([
+      toggleBtn,
+      "click",
+      setAndSchedule(() => (state.pausedByUser = !state.pausedByUser)),
+    ]);
+  }
 
   let observer: IntersectionObserver | null = null;
   if ("IntersectionObserver" in window) {
@@ -144,17 +164,9 @@ export function createCarouselAutoplay(
     observer.observe(root);
   }
 
-  root.addEventListener("pointerenter", onEnter);
-  root.addEventListener("pointerleave", onLeave);
-  root.addEventListener("touchstart", onTouch, { passive: true });
-  root.addEventListener("focusin", onFocusIn);
-  root.addEventListener("focusout", onFocusOut);
-  toggleBtn?.addEventListener("click", onToggleClick);
-  document.addEventListener("visibilitychange", onVisibility);
-  reducedQuery.addEventListener("change", onReducedChange);
-  window.addEventListener("dreamfolio:autoplay-pause", onExternalPause);
-  window.addEventListener("dreamfolio:autoplay-resume", onExternalResume);
-
+  for (const [target, type, fn, opts] of listeners) {
+    target.addEventListener(type, fn, opts);
+  }
   schedule();
 
   return {
@@ -170,16 +182,9 @@ export function createCarouselAutoplay(
     destroy: () => {
       clearTimer();
       observer?.disconnect();
-      root.removeEventListener("pointerenter", onEnter);
-      root.removeEventListener("pointerleave", onLeave);
-      root.removeEventListener("touchstart", onTouch);
-      root.removeEventListener("focusin", onFocusIn);
-      root.removeEventListener("focusout", onFocusOut);
-      toggleBtn?.removeEventListener("click", onToggleClick);
-      document.removeEventListener("visibilitychange", onVisibility);
-      reducedQuery.removeEventListener("change", onReducedChange);
-      window.removeEventListener("dreamfolio:autoplay-pause", onExternalPause);
-      window.removeEventListener("dreamfolio:autoplay-resume", onExternalResume);
+      for (const [target, type, fn] of listeners) {
+        target.removeEventListener(type, fn);
+      }
     },
   };
 }
