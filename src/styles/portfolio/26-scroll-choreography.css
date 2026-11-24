@@ -79,8 +79,8 @@
 .tour-dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  background: var(--color-text-muted);
+  border-radius: var(--radius-circle);
+  background: var(--color-text-secondary);
   transition: background-color var(--motion-hover) var(--motion-ease);
 }
 .tour-toggle[data-tour-active="true"] .tour-dot {

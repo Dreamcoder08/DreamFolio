@@ -161,7 +161,7 @@
   color: var(--color-text);
 }
 .media-lightbox::backdrop {
-  background: color-mix(in srgb, #000 78%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent);
 }
 .media-lightbox-body {
   display: flex;
@@ -207,7 +207,7 @@
   color: var(--color-text);
 }
 .quick-modal::backdrop {
-  background: color-mix(in srgb, #000 76%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent);
 }
 .quick-modal-shell {
   display: flex;
