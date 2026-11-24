@@ -13,6 +13,7 @@ import { buildHomeProjects } from "../../lib/home-projects";
 import type { GitHubRepo } from "../../lib/github-repos";
 import Icon from "../ui/Icon.astro";
 import ProjectCardMedia from "../ui/ProjectCardMedia.astro";
+import ProjectQuickModal from "../ui/ProjectQuickModal.astro";
 import source from "../../data/projects.json";
 import repoSnapshot from "../../data/github-repos.json";
 import archifyMap from "../../data/repo-archify.json";
@@ -118,6 +119,7 @@ const filterChips = [
               sharedArtClass={sharedArtClass}
               previewVideo={project.previewVideo}
               videoPoster={project.videoPoster}
+              quickViewId={project.isExternal ? project.id : undefined}
             />
             <div class="project-body">
               <div class="compact-heading">
@@ -125,7 +127,11 @@ const filterChips = [
                 <span class="project-number">{pad(index + 1)}</span>
               </div>
               <h3>
-                <a href={href} {...linkAttrs}>
+                <a
+                  href={href}
+                  data-quick-view-trigger={project.isExternal ? project.id : undefined}
+                  {...linkAttrs}
+                >
                   {project.title}
                 </a>
               </h3>
@@ -136,7 +142,11 @@ const filterChips = [
                 ))}
               </div>
               <div class="project-links">
-                <a href={href} {...linkAttrs}>
+                <a
+                  href={href}
+                  data-quick-view-trigger={project.isExternal ? project.id : undefined}
+                  {...linkAttrs}
+                >
                   {project.ctaLabel} <Icon name="arrow" size={17} />
                 </a>
                 {project.archifyHref && (
@@ -161,6 +171,7 @@ const filterChips = [
       })}
     </ul>
   </div>
+  <ProjectQuickModal projects={projects.filter((p) => p.isExternal)} />
 </section>
 
 <script>

@@ -1,0 +1,110 @@
+---
+import { withBase } from "../../lib/site";
+import type { HomeProjectCard } from "../../lib/home-projects";
+import type { QuickProjectPayload } from "../../lib/project-quick-modal";
+import Icon from "./Icon.astro";
+
+interface Props {
+  projects: HomeProjectCard[];
+}
+
+const { projects } = Astro.props;
+
+const payload: QuickProjectPayload[] = projects.map((p) => ({
+  id: p.id,
+  title: p.title,
+  summary: p.summary,
+  eyebrow: p.eyebrow,
+  stack: p.stack,
+  githubUrl: p.githubUrl,
+  liveUrl: p.liveUrl,
+  archifyHref: p.archifyHref ? withBase(p.archifyHref) : undefined,
+  coverSrc: p.cover ? withBase(p.cover.src) : undefined,
+  videoSrc: p.showcaseVideo
+    ? withBase(p.showcaseVideo)
+    : p.previewVideo
+      ? withBase(p.previewVideo)
+      : undefined,
+  videoCaption: p.videoCaption,
+}));
+---
+
+<dialog
+  id="project-quick-modal"
+  class="quick-modal"
+  data-project-quick-modal
+  aria-labelledby="quick-modal-title"
+>
+  <div class="quick-modal-shell">
+    <header class="quick-modal-head">
+      <div>
+        <p class="eyebrow mono" data-qm-eyebrow></p>
+        <h3 id="quick-modal-title" data-qm-title></h3>
+      </div>
+      <button
+        type="button"
+        class="media-lightbox-close mono"
+        data-qm-close
+        aria-label="Cerrar vista rápida"
+      >
+        Cerrar · Esc
+      </button>
+    </header>
+
+    <div class="media-stage-grid">
+      <figure class="media-slot" data-media-slot="image">
+        <div class="media-slot-head">
+          <span class="mono">01 · Imagen del proyecto</span>
+        </div>
+        <div class="media-frame">
+          <img src="" alt="" class="media-stage-img" data-qm-image hidden />
+          <div class="media-empty" data-qm-image-fallback hidden></div>
+        </div>
+      </figure>
+
+      <figure class="media-slot" data-media-slot="video">
+        <div class="media-slot-head">
+          <span class="mono">02 · Video / Demo</span>
+        </div>
+        <div class="media-frame">
+          <video
+            class="media-stage-video"
+            controls
+            playsinline
+            preload="metadata"
+            data-qm-video
+            hidden
+          />
+          <div class="media-video-placeholder" data-qm-video-placeholder>
+            <div class="media-placeholder-overlay">
+              <p class="eyebrow mono">Espacio de video</p>
+              <p class="media-placeholder-copy" data-qm-video-caption></p>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+    <p class="quick-modal-summary" data-qm-summary></p>
+    <div class="tags" data-qm-stack></div>
+
+    <div class="project-links quick-modal-actions">
+      <a href="#" target="_blank" rel="noopener noreferrer" data-qm-github hidden>
+        <Icon name="github" size={18} /> Ver repositorio <Icon name="arrow" size={16} />
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" data-qm-archify hidden>
+        Arquitectura <Icon name="arrow" size={16} />
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" data-qm-live hidden>
+        Demo en vivo <Icon name="arrow" size={16} />
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<script type="application/json" data-quick-projects-json set:html={JSON.stringify(payload)} />
+
+<script>
+  import { mountProjectQuickModal } from "../../lib/project-quick-modal";
+  mountProjectQuickModal();
+</script>
