@@ -6,6 +6,7 @@
 export type CommandActionDescriptor =
   | { kind: "navigate"; href: string }
   | { kind: "theme" }
+  | { kind: "tour" }
   | { kind: "copy"; text: string }
   | { kind: "external"; href: string };
 

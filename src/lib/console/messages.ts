@@ -16,6 +16,8 @@ export const ACTION_FAILED = "No se pudo ejecutar el comando.";
 
 export const THEME_UPDATED = "Tema actualizado.";
 
+export const TOUR_TOGGLED = "Presentación autónoma alternada.";
+
 export const NO_RESULTS = "Sin resultados.";
 
 export function resultCount(count: number): string {

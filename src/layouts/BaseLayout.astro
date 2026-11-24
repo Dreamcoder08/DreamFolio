@@ -156,7 +156,9 @@ const structuredData = jsonLd ?? personJsonLd(canonical);
     <script>
       import "../scripts/reveal.ts";
       import { mountScrollDirector } from "../lib/scroll-director.ts";
+      import { mountAutoTour } from "../lib/auto-tour.ts";
       mountScrollDirector();
+      mountAutoTour();
     </script>
   </body>
 </html>
