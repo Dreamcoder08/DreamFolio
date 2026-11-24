@@ -111,7 +111,11 @@ export function createCarouselAutoplay(
 
   const onEnter = () => { state.hovered = true; schedule(); };
   const onLeave = () => { state.hovered = false; schedule(); };
-  const onTouch = () => { state.pausedByUser = true; schedule(); };
+  const onTouch = (event: Event) => {
+    if (toggleBtn && event.target instanceof Node && toggleBtn.contains(event.target)) return;
+    state.pausedByUser = true;
+    schedule();
+  };
   const onFocusIn = () => { state.focused = true; schedule(); };
   const onFocusOut = (event: FocusEvent) => {
     const next = event.relatedTarget as Node | null;
