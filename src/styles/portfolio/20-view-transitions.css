@@ -86,9 +86,37 @@
   .vt-art-digital-public-peru {
     view-transition-name: project-art-digital-public-peru;
   }
+  .vt-art-edge-traz-agro {
+    view-transition-name: project-art-edge-traz-agro;
+  }
+  .vt-art-cominorsa-web {
+    view-transition-name: project-art-cominorsa-web;
+  }
+  .vt-art-elect-validate {
+    view-transition-name: project-art-elect-validate;
+  }
+  .vt-art-cleansweep {
+    view-transition-name: project-art-cleansweep;
+  }
+  .vt-art-pactyra {
+    view-transition-name: project-art-pactyra;
+  }
+  .vt-art-dreamcoder-dsh {
+    view-transition-name: project-art-dreamcoder-dsh;
+  }
+  .vt-art-pseint-web {
+    view-transition-name: project-art-pseint-web;
+  }
   ::view-transition-group(project-art-drenyra),
   ::view-transition-group(project-art-dreamcoder-workbench),
-  ::view-transition-group(project-art-digital-public-peru) {
+  ::view-transition-group(project-art-digital-public-peru),
+  ::view-transition-group(project-art-edge-traz-agro),
+  ::view-transition-group(project-art-cominorsa-web),
+  ::view-transition-group(project-art-elect-validate),
+  ::view-transition-group(project-art-cleansweep),
+  ::view-transition-group(project-art-pactyra),
+  ::view-transition-group(project-art-dreamcoder-dsh),
+  ::view-transition-group(project-art-pseint-web) {
     animation-duration: var(--motion-transition);
     animation-timing-function: var(--motion-ease);
   }

@@ -109,18 +109,9 @@ export function createCarouselAutoplay(
     }, intervalMs);
   };
 
-  const onEnter = () => {
-    state.hovered = true;
-    schedule();
-  };
-  const onLeave = () => {
-    state.hovered = false;
-    schedule();
-  };
-  const onFocusIn = () => {
-    state.focused = true;
-    schedule();
-  };
+  const onEnter = () => { state.hovered = true; schedule(); };
+  const onLeave = () => { state.hovered = false; schedule(); };
+  const onFocusIn = () => { state.focused = true; schedule(); };
   const onFocusOut = (event: FocusEvent) => {
     const next = event.relatedTarget as Node | null;
     if (!next || !root.contains(next)) {
@@ -128,26 +119,11 @@ export function createCarouselAutoplay(
       schedule();
     }
   };
-  const onVisibility = () => {
-    state.documentVisible = !document.hidden;
-    schedule();
-  };
-  const onReducedChange = (event: MediaQueryListEvent) => {
-    state.reducedMotion = event.matches;
-    schedule();
-  };
-  const onToggleClick = () => {
-    state.pausedByUser = !state.pausedByUser;
-    schedule();
-  };
-  const onExternalPause = () => {
-    externalPaused = true;
-    schedule();
-  };
-  const onExternalResume = () => {
-    externalPaused = false;
-    schedule();
-  };
+  const onVisibility = () => { state.documentVisible = !document.hidden; schedule(); };
+  const onReducedChange = (event: MediaQueryListEvent) => { state.reducedMotion = event.matches; schedule(); };
+  const onToggleClick = () => { state.pausedByUser = !state.pausedByUser; schedule(); };
+  const onExternalPause = () => { externalPaused = true; schedule(); };
+  const onExternalResume = () => { externalPaused = false; schedule(); };
 
   let observer: IntersectionObserver | null = null;
   if ("IntersectionObserver" in window) {

@@ -17,6 +17,13 @@ export const SHARED_ART_PROJECT_IDS: ReadonlySet<string> = new Set([
   "drenyra",
   "dreamcoder-workbench",
   "digital-public-peru",
+  "edge-traz-agro",
+  "cominorsa-web",
+  "elect-validate",
+  "cleansweep",
+  "pactyra",
+  "dreamcoder-dsh",
+  "pseint-web",
 ]);
 
 const DOMAIN_LABELS: Record<string, string> = {

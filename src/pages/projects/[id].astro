@@ -4,6 +4,7 @@ import Icon from "../../components/ui/Icon.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navbar from "../../components/ui/Navbar.astro";
+import ProjectMediaStage from "../../components/ui/ProjectMediaStage.astro";
 import ProjectProof from "../../components/ui/ProjectProof.astro";
 import { siteConfig } from "../../lib/site";
 import {
@@ -91,22 +92,19 @@ const projectJsonLd = {
       </div>
     </section>
 
-    <!-- Cover Image -->
-    {cover && (
-      <section class="px-6 mb-16">
-        <div class="container-wide">
-          <div class="aspect-video rounded-panel overflow-hidden bg-surface-elevated border border-border">
-            <img
-              src={withBase(cover.src)}
-              alt={project.coverImageAlt || project.title}
-              class="w-full h-full object-cover"
-              class:list={[hasSharedArt && `vt-art-${project.id}`]}
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
-    )}
+    <!-- Dual Media Stage: Dedicated Image + Video Spaces -->
+    <ProjectMediaStage
+      title={project.title}
+      coverSrc={cover?.src}
+      coverAlt={project.coverImageAlt || project.title}
+      sharedArtClass={hasSharedArt ? `vt-art-${project.id}` : undefined}
+      previewVideo={project.previewVideo}
+      showcaseVideo={project.showcaseVideo}
+      videoPoster={project.videoPoster}
+      videoCaption={project.videoCaption}
+      galleryImages={project.galleryImages}
+      liveUrl={project.liveUrl}
+    />
 
     <!-- Content -->
     <section class="px-6">
