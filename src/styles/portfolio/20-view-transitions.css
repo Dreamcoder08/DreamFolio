@@ -86,9 +86,6 @@
   .vt-art-digital-public-peru {
     view-transition-name: project-art-digital-public-peru;
   }
-  .vt-art-edge-traz-agro {
-    view-transition-name: project-art-edge-traz-agro;
-  }
   .vt-art-cominorsa-web {
     view-transition-name: project-art-cominorsa-web;
   }
@@ -110,7 +107,6 @@
   ::view-transition-group(project-art-drenyra),
   ::view-transition-group(project-art-dreamcoder-workbench),
   ::view-transition-group(project-art-digital-public-peru),
-  ::view-transition-group(project-art-edge-traz-agro),
   ::view-transition-group(project-art-cominorsa-web),
   ::view-transition-group(project-art-elect-validate),
   ::view-transition-group(project-art-cleansweep),

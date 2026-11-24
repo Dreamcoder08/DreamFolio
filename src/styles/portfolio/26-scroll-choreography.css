@@ -88,12 +88,11 @@
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 26%, transparent);
 }
 
-/* Scene-aware reactive mood on ambient WebGL canvas and section accents */
-html[data-active-scene="projects"] .convergence-field {
-  opacity: 0.65;
-}
-html[data-active-scene="connect"] .convergence-field {
-  opacity: 0.45;
+/* Scene-aware reactive mood on chapter HUD and header border */
+html[data-active-scene="projects"] .nav-chapter,
+html[data-active-scene="connect"] .nav-chapter {
+  border-color: var(--color-accent);
+  color: var(--color-text);
 }
 
 @media (max-width: 960px) {

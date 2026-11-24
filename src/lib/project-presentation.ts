@@ -17,7 +17,6 @@ export const SHARED_ART_PROJECT_IDS: ReadonlySet<string> = new Set([
   "drenyra",
   "dreamcoder-workbench",
   "digital-public-peru",
-  "edge-traz-agro",
   "cominorsa-web",
   "elect-validate",
   "cleansweep",

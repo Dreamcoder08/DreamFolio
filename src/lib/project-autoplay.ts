@@ -111,6 +111,7 @@ export function createCarouselAutoplay(
 
   const onEnter = () => { state.hovered = true; schedule(); };
   const onLeave = () => { state.hovered = false; schedule(); };
+  const onTouch = () => { state.pausedByUser = true; schedule(); };
   const onFocusIn = () => { state.focused = true; schedule(); };
   const onFocusOut = (event: FocusEvent) => {
     const next = event.relatedTarget as Node | null;
@@ -141,6 +142,7 @@ export function createCarouselAutoplay(
 
   root.addEventListener("pointerenter", onEnter);
   root.addEventListener("pointerleave", onLeave);
+  root.addEventListener("touchstart", onTouch, { passive: true });
   root.addEventListener("focusin", onFocusIn);
   root.addEventListener("focusout", onFocusOut);
   toggleBtn?.addEventListener("click", onToggleClick);
@@ -166,6 +168,7 @@ export function createCarouselAutoplay(
       observer?.disconnect();
       root.removeEventListener("pointerenter", onEnter);
       root.removeEventListener("pointerleave", onLeave);
+      root.removeEventListener("touchstart", onTouch);
       root.removeEventListener("focusin", onFocusIn);
       root.removeEventListener("focusout", onFocusOut);
       toggleBtn?.removeEventListener("click", onToggleClick);
