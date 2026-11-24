@@ -102,7 +102,11 @@ const payload: QuickProjectPayload[] = projects.map((p) => ({
   </div>
 </dialog>
 
-<script type="application/json" data-quick-projects-json set:html={JSON.stringify(payload)} />
+<script
+  type="application/json"
+  data-quick-projects-json
+  set:html={JSON.stringify(payload).replace(/</g, "\\u003c")}
+/>
 
 <script>
   import { mountProjectQuickModal } from "../../lib/project-quick-modal";
