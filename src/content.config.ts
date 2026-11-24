@@ -19,6 +19,19 @@ const projects = defineCollection({
     coverImage: z.string().optional(),
     coverImageAlt: z.string().optional(),
     coverImageMobile: z.string().optional(),
+    previewVideo: z.string().optional(),
+    showcaseVideo: z.string().optional(),
+    videoPoster: z.string().optional(),
+    videoCaption: z.string().optional(),
+    galleryImages: z
+      .array(
+        z.object({
+          src: z.string(),
+          alt: z.string(),
+          aspect: z.enum(["wide", "mobile"]).optional(),
+        }),
+      )
+      .optional(),
   }),
 });
 

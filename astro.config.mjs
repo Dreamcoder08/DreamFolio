@@ -71,6 +71,7 @@ export default defineConfig({
         "object-src 'none'",
         "form-action 'none'",
         "img-src 'self' data:",
+        "media-src 'self'",
         "font-src 'self'",
         `connect-src 'self'${analytics.connectOrigins
           .map((origin) => ` ${origin}`)

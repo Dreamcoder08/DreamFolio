@@ -1,6 +1,12 @@
 import type { GitHubRepo, RepoCover } from "./github-repos.ts";
 import { archifyForRepo, type RepoArchifyMap } from "./repo-archify.ts";
 
+export interface ProjectGalleryImage {
+  src: string;
+  alt: string;
+  aspect?: "wide" | "mobile";
+}
+
 export interface CuratedProjectLike {
   id: string;
   title: string;
@@ -9,6 +15,11 @@ export interface CuratedProjectLike {
   stack: string[];
   githubUrl?: string;
   liveUrl?: string;
+  previewVideo?: string;
+  showcaseVideo?: string;
+  videoPoster?: string;
+  videoCaption?: string;
+  galleryImages?: ProjectGalleryImage[];
 }
 
 export type HomeProjectFilter = "case-study" | "arkelythex" | "personal";
@@ -26,6 +37,11 @@ export interface HomeProjectCard {
   liveUrl?: string;
   archifyHref?: string;
   cover?: RepoCover;
+  previewVideo?: string;
+  showcaseVideo?: string;
+  videoPoster?: string;
+  videoCaption?: string;
+  galleryImages?: ProjectGalleryImage[];
   sharedArtId?: string;
   filters: HomeProjectFilter[];
 }
@@ -77,6 +93,11 @@ export function buildHomeProjects<T extends CuratedProjectLike>({
       liveUrl: project.liveUrl,
       archifyHref: repoKey ? archifyForRepo(repoKey, archifyMap) : undefined,
       cover: resolveCover(project),
+      previewVideo: project.previewVideo,
+      showcaseVideo: project.showcaseVideo,
+      videoPoster: project.videoPoster,
+      videoCaption: project.videoCaption,
+      galleryImages: project.galleryImages,
       sharedArtId: project.id,
       filters: ["case-study", ownerFilter(repoKey?.owner)],
     };
