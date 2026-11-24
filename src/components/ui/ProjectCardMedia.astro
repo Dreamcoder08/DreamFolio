@@ -1,0 +1,74 @@
+---
+import { withBase } from "../../lib/site";
+import type { RepoCover } from "../../lib/github-repos";
+
+interface Props {
+  title: string;
+  href: string;
+  isExternal: boolean;
+  cover?: RepoCover;
+  sharedArtClass?: string;
+  previewVideo?: string;
+  videoPoster?: string;
+  quickViewId?: string;
+}
+
+const {
+  title,
+  href,
+  isExternal,
+  cover,
+  sharedArtClass,
+  previewVideo,
+  videoPoster,
+  quickViewId,
+} = Astro.props;
+
+const linkAttrs = isExternal
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+const poster = videoPoster
+  ? withBase(videoPoster)
+  : cover
+    ? withBase(cover.src)
+    : undefined;
+---
+
+<a
+  class="project-cover"
+  href={href}
+  tabindex="-1"
+  aria-hidden="true"
+  data-quick-view-trigger={quickViewId}
+  {...linkAttrs}
+>
+  {cover ? (
+    <img
+      class:list={[sharedArtClass]}
+      src={withBase(cover.src)}
+      alt=""
+      width={cover.width}
+      height={cover.height}
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <span class="project-cover-mark">{title}</span>
+  )}
+  {previewVideo && (
+    <>
+      <video
+        class="project-cover-video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster={poster}
+        data-preview-video={withBase(previewVideo)}
+        data-playing="false"
+        aria-hidden="true"
+      />
+      <span class="project-media-badge" aria-hidden="true">Reel</span>
+    </>
+  )}
+</a>

@@ -12,6 +12,7 @@ import { projectCover } from "../../lib/project-cover";
 import { buildHomeProjects } from "../../lib/home-projects";
 import type { GitHubRepo } from "../../lib/github-repos";
 import Icon from "../ui/Icon.astro";
+import ProjectCardMedia from "../ui/ProjectCardMedia.astro";
 import source from "../../data/projects.json";
 import repoSnapshot from "../../data/github-repos.json";
 import archifyMap from "../../data/repo-archify.json";
@@ -43,19 +44,12 @@ const filterChips = [
 ];
 ---
 
-<section
-  id="projects"
-  class="work-section wrap"
-  aria-labelledby="work-title"
-  data-reveal
->
+<section id="projects" class="work-section wrap" aria-labelledby="work-title" data-reveal>
   <header class="section-heading">
     <div>
       <p class="eyebrow scene-kicker">Proyectos</p>
       <h2 id="work-title" class="scene-heading">
-        Lo que he construido.
-        <br />
-        <span>Una práctica en evolución.</span>
+        Lo que he construido.<br /><span>Una práctica en evolución.</span>
       </h2>
     </div>
     <a class="quiet-link" href={withBase("/projects/")}>
@@ -63,47 +57,27 @@ const filterChips = [
     </a>
   </header>
 
-  <div
-    class="project-carousel"
-    role="region"
-    aria-roledescription="carousel"
-    aria-label="Proyectos y repositorios"
-    data-carousel
-  >
+  <div class="project-carousel" role="region" aria-roledescription="carousel" aria-label="Proyectos y repositorios" data-carousel>
     <div class="carousel-toolbar">
       <div class="carousel-filters" role="group" aria-label="Filtrar proyectos">
         {filterChips.map((chip, i) => (
-          <button
-            type="button"
-            class="filter-chip"
-            data-carousel-filter={chip.key}
-            aria-pressed={i === 0 ? "true" : "false"}
-          >
+          <button type="button" class="filter-chip" data-carousel-filter={chip.key} aria-pressed={i === 0 ? "true" : "false"}>
             {chip.label}
           </button>
         ))}
       </div>
       <div class="carousel-controls" data-carousel-controls hidden>
-        <button
-          type="button"
-          class="circle-link"
-          data-carousel-prev
-          aria-label="Proyecto anterior"
-          aria-controls="project-track"
-        >
+        <button type="button" class="autoplay-toggle mono" data-carousel-autoplay-toggle aria-pressed="true" aria-label="Alternar presentación autónoma de proyectos">
+          <span class="autoplay-dot" aria-hidden="true"></span>
+          <span data-autoplay-label>Auto</span>
+        </button>
+        <button type="button" class="circle-link" data-carousel-prev aria-label="Proyecto anterior" aria-controls="project-track">
           <Icon name="back" size={20} />
         </button>
         <p class="carousel-count mono" aria-live="polite">
-          <span data-carousel-index>01</span> /{" "}
-          <span data-carousel-total>{total}</span>
+          <span data-carousel-index>01</span> / <span data-carousel-total>{total}</span>
         </p>
-        <button
-          type="button"
-          class="circle-link"
-          data-carousel-next
-          aria-label="Proyecto siguiente"
-          aria-controls="project-track"
-        >
+        <button type="button" class="circle-link" data-carousel-next aria-label="Proyecto siguiente" aria-controls="project-track">
           <Icon name="next" size={20} />
         </button>
       </div>
@@ -122,33 +96,29 @@ const filterChips = [
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {};
         const cover = project.cover;
+        const sharedArtClass =
+          project.sharedArtId && SHARED_ART_PROJECT_IDS.has(project.sharedArtId)
+            ? `vt-art-${project.sharedArtId}`
+            : undefined;
         return (
-          <li class="project-card" data-filters={project.filters.join(" ")}>
-            <a
-              class="project-cover"
+          <li
+            class="project-card"
+            data-project-id={project.id}
+            data-filters={project.filters.join(" ")}
+            data-active={index === 0 ? "true" : "false"}
+          >
+            <div class="project-progress" aria-hidden="true">
+              <span class="project-progress-fill"></span>
+            </div>
+            <ProjectCardMedia
+              title={project.title}
               href={href}
-              tabindex="-1"
-              aria-hidden="true"
-              {...linkAttrs}
-            >
-              {cover ? (
-                <img
-                  class:list={[
-                    project.sharedArtId &&
-                      SHARED_ART_PROJECT_IDS.has(project.sharedArtId) &&
-                      `vt-art-${project.sharedArtId}`,
-                  ]}
-                  src={withBase(cover.src)}
-                  alt=""
-                  width={cover.width}
-                  height={cover.height}
-                  loading="lazy"
-                  decoding="async"
-                />
-              ) : (
-                <span class="project-cover-mark">{project.title}</span>
-              )}
-            </a>
+              isExternal={project.isExternal}
+              cover={cover}
+              sharedArtClass={sharedArtClass}
+              previewVideo={project.previewVideo}
+              videoPoster={project.videoPoster}
+            />
             <div class="project-body">
               <div class="compact-heading">
                 <p class="eyebrow">{project.eyebrow}</p>

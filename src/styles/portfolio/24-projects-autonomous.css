@@ -1,0 +1,141 @@
+/* Autonomous project showcase & living card motion (T2 + T3). */
+.autoplay-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition:
+    border-color var(--motion-hover) var(--motion-ease),
+    color var(--motion-hover) var(--motion-ease);
+}
+.autoplay-toggle:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+.autoplay-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  transition: background-color var(--motion-hover) var(--motion-ease);
+}
+.autoplay-toggle[data-state="running"] .autoplay-dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+.project-card {
+  position: relative;
+  transition:
+    border-color var(--motion-hover) var(--motion-ease),
+    transform var(--motion-hover) var(--motion-ease);
+}
+.project-card[data-active="true"] {
+  border-color: var(--color-border-strong);
+}
+.project-progress {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  height: 2px;
+  background: color-mix(in srgb, var(--color-border) 55%, transparent);
+  overflow: hidden;
+  pointer-events: none;
+}
+.project-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+[data-carousel][data-autoplay-state="running"].autoplay-tick-a
+  .project-card[data-active="true"]
+  .project-progress-fill {
+  animation: autoplay-fill-a 5.2s linear forwards;
+}
+[data-carousel][data-autoplay-state="running"].autoplay-tick-b
+  .project-card[data-active="true"]
+  .project-progress-fill {
+  animation: autoplay-fill-b 5.2s linear forwards;
+}
+[data-carousel][data-autoplay-state="paused"]
+  .project-card[data-active="true"]
+  .project-progress-fill {
+  animation-play-state: paused;
+}
+
+@keyframes autoplay-fill-a {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes autoplay-fill-b {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Living card video preview + subtle active image motion */
+.project-cover-video {
+  position: absolute;
+  inset: 26px 26px 0;
+  z-index: 2;
+  width: calc(100% - 52px);
+  height: calc(100% - 26px);
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid var(--color-border);
+  border-bottom: 0;
+  transition: opacity var(--motion-image) var(--motion-ease);
+}
+.project-cover-video[data-playing="true"] {
+  opacity: 1;
+}
+.project-media-badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 3;
+  padding: 3px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  color: var(--color-text-secondary);
+  font: 600 10px/1.2 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.project-card[data-active="true"] .project-cover img {
+  animation: living-card-drift 5.2s ease-out both;
+}
+
+@keyframes living-card-drift {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.03) translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card[data-active="true"] .project-cover img,
+  .project-progress-fill {
+    animation: none;
+  }
+}
