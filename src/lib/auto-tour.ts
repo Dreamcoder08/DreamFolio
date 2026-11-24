@@ -119,7 +119,7 @@ export function mountAutoTour(): void {
 
   const onManualInput = (event: Event) => {
     if (!active) return;
-    if (event.type === "pointerdown") {
+    if (event.type === "pointerdown" || event.type === "touchstart") {
       const target = event.target as Node | null;
       if (target && toggle.contains(target)) return;
     }
