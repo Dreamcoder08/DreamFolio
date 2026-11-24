@@ -7,12 +7,222 @@
       "description": "Gentle-AI engineering operating layer as a DeepSeek Harness out-of-tree bundle: persona, risk-based workflows, role presets, evidence receipts, Engram memory",
       "language": "TypeScript",
       "stars": 1,
-      "pushedAt": "2026-11-06T15:34:58Z",
+      "pushedAt": "2026-11-23T03:55:01Z",
       "cover": {
         "src": "/images/repos/dreamcoder08-dreamcoder-dsh.webp",
         "width": 960,
         "height": 540,
         "alt": "image"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "estado",
+      "url": "https://github.com/arkelythex/estado",
+      "description": "Plataforma de tecnología cívica para servicios públicos digitales peruanos",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-24T20:06:14Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-estado.webp",
+        "width": 960,
+        "height": 488,
+        "alt": "CivicTech Peru — Dark Obsidian Citizen Transparency Dashboard (1884x957)"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "elect-validate",
+      "url": "https://github.com/arkelythex/elect-validate",
+      "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T17:21:25Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-elect-validate.webp",
+        "width": 960,
+        "height": 303,
+        "alt": "Electo Suite Electoral architecture"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-guardian-angel",
+      "url": "https://github.com/arkelythex/drenyra-guardian-angel",
+      "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2026-11-23T17:20:40Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-guardian-angel.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra Guardian Angel flow — frozen candidate → independent review lenses → evidence → verification report"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "drenyra-gpui",
+      "url": "https://github.com/arkelythex/drenyra-gpui",
+      "description": "Drenyra Console — cloud-native fiscal intelligence surface for ARKELYTHEX: React 19 web app, Elysia API, hexagonal domain/application/infrastructure packages, Drizzle + PostgreSQL.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T04:22:07Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-drenyra-gpui.webp",
+        "width": 960,
+        "height": 316,
+        "alt": "Drenyra flow — operator → Drenyra Console planes → dual approval → receipt"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "pseint-web-interface",
+      "url": "https://github.com/Dreamcoder08/pseint-web-interface",
+      "description": "Modern web interface for PSeInt-inspired pseudocode learning.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:48Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-pseint-web-interface.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "PSeInt Web Lab OLED pseudocode editor and guided learning path"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "pactyra",
+      "url": "https://github.com/Dreamcoder08/pactyra",
+      "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
+      "language": "Go",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:46Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-pactyra.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "PACTYRA open offensive operations kernel architecture: authorized scope, scope_hash, policy gate, and evidence pack"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "aurelia21",
+      "url": "https://github.com/Dreamcoder08/aurelia21",
+      "description": "AURELIA // 21·09 — self-contained cinematic experience page",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:44Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-aurelia21.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "AURELIA // 21·09 interactive cinematic experience web interface"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "somnyx-tui",
+      "url": "https://github.com/Dreamcoder08/somnyx-tui",
+      "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:42Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-somnyx-tui.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "SOMNYX TUI Rust and Ratatui terminal telemetry dashboard"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "somnyx-web",
+      "url": "https://github.com/Dreamcoder08/somnyx-web",
+      "description": "SVM-based skill-gap analysis and interview simulation platform",
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:40Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-somnyx-web.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "SOMNYX dark OLED system monitoring web dashboard"
+      }
+    },
+    {
+      "owner": "arkelythex",
+      "name": "senzar",
+      "url": "https://github.com/arkelythex/senzar",
+      "description": "Trazabilidad agroindustrial para exportaciones peruanas con IA",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:36Z",
+      "cover": {
+        "src": "/images/repos/arkelythex-senzar.webp",
+        "width": 960,
+        "height": 503,
+        "alt": "image"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "chira-os",
+      "url": "https://github.com/Dreamcoder08/chira-os",
+      "description": "CHIRA OS Guardian: offline agricultural inspections, hexagonal architecture and verified security boundaries",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:35Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-chira-os.webp",
+        "width": 960,
+        "height": 453,
+        "alt": "CHIRA OS Guardian split-screen web interface for agricultural field inspections"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "dreamcoder-omp",
+      "url": "https://github.com/Dreamcoder08/dreamcoder-omp",
+      "description": "Personal operating layer for omp: persona, policy, provenance and evidence extensions, inspired by gentle-pi.",
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:33Z",
+      "cover": {
+        "src": "/images/repos/custom/dreamcoder08-dreamcoder-omp.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "DreamCoder OMP controlled development harness architecture and /dc-status terminal checks"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "CleanSweep",
+      "url": "https://github.com/Dreamcoder08/CleanSweep",
+      "description": "AI-assisted dotfile and development environment manager written in Rust.",
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:06Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-cleansweep.webp",
+        "width": 960,
+        "height": 560,
+        "alt": "Salida real de dreamcoder --version y dreamcoder --help en la terminal"
+      }
+    },
+    {
+      "owner": "Dreamcoder08",
+      "name": "Dreamcoder-Workbench",
+      "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
+      "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-11-23T03:55:03Z",
+      "cover": {
+        "src": "/images/repos/dreamcoder08-dreamcoder-workbench.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "Dreamcoder Workbench in dark mode with Herdr, Gentle Shell and its agent workspace"
       }
     },
     {
@@ -61,36 +271,6 @@
       }
     },
     {
-      "owner": "Dreamcoder08",
-      "name": "chira-os",
-      "url": "https://github.com/Dreamcoder08/chira-os",
-      "description": "CHIRA OS Guardian: offline agricultural inspections, hexagonal architecture and verified security boundaries",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-21T05:16:23Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-chira-os.webp",
-        "width": 960,
-        "height": 453,
-        "alt": "CHIRA OS Guardian split-screen web interface for agricultural field inspections"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "Dreamcoder-Workbench",
-      "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
-      "description": "Dreamcoder Workbench: terminal-native profiles, themes, and verification for Arch Linux engineering environments.",
-      "language": "JavaScript",
-      "stars": 0,
-      "pushedAt": "2026-11-16T23:32:35Z",
-      "cover": {
-        "src": "/images/repos/dreamcoder08-dreamcoder-workbench.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "Dreamcoder Workbench in dark mode with Herdr, Gentle Shell and its agent workspace"
-      }
-    },
-    {
       "owner": "arkelythex",
       "name": "drenyra-engram",
       "url": "https://github.com/arkelythex/drenyra-engram",
@@ -121,96 +301,6 @@
       }
     },
     {
-      "owner": "Dreamcoder08",
-      "name": "CleanSweep",
-      "url": "https://github.com/Dreamcoder08/CleanSweep",
-      "description": "AI-assisted dotfile and development environment manager written in Rust.",
-      "language": "Rust",
-      "stars": 0,
-      "pushedAt": "2026-11-10T01:39:20Z",
-      "cover": {
-        "src": "/images/repos/dreamcoder08-cleansweep.webp",
-        "width": 960,
-        "height": 560,
-        "alt": "Salida real de dreamcoder --version y dreamcoder --help en la terminal"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-console",
-      "url": "https://github.com/arkelythex/drenyra-console",
-      "description": "Drenyra Console — cloud-native fiscal intelligence surface for ARKELYTHEX: React 19 web app, Elysia API, hexagonal domain/application/infrastructure packages, Drizzle + PostgreSQL.",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-01T12:36:34Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-drenyra-console.webp",
-        "width": 960,
-        "height": 316,
-        "alt": "Drenyra flow — operator → Drenyra Console planes → dual approval → receipt"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "estado",
-      "url": "https://github.com/arkelythex/estado",
-      "description": "Plataforma de tecnología cívica para servicios públicos digitales peruanos",
-      "language": "Rust",
-      "stars": 0,
-      "pushedAt": "2026-11-01T07:03:38Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-estado.webp",
-        "width": 960,
-        "height": 768,
-        "alt": "CivicTech Peru desktop interface"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "senzar",
-      "url": "https://github.com/arkelythex/senzar",
-      "description": "Trazabilidad agroindustrial para exportaciones peruanas con IA",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-11-01T06:52:30Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-senzar.webp",
-        "width": 960,
-        "height": 503,
-        "alt": "image"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "somnyx-web",
-      "url": "https://github.com/Dreamcoder08/somnyx-web",
-      "description": "SVM-based skill-gap analysis and interview simulation platform",
-      "language": "HTML",
-      "stars": 0,
-      "pushedAt": "2026-11-01T05:49:54Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-somnyx-web.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "SOMNYX dark OLED system monitoring web dashboard"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "somnyx-tui",
-      "url": "https://github.com/Dreamcoder08/somnyx-tui",
-      "description": "Terminal UI for the Somnyx AI-assisted skill analysis platform",
-      "language": "Rust",
-      "stars": 0,
-      "pushedAt": "2026-11-01T05:49:52Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-somnyx-tui.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "SOMNYX TUI Rust and Ratatui terminal telemetry dashboard"
-      }
-    },
-    {
       "owner": "arkelythex",
       "name": "drenyra-skills",
       "url": "https://github.com/arkelythex/drenyra-skills",
@@ -223,21 +313,6 @@
         "width": 960,
         "height": 316,
         "alt": "Drenyra Skills flow — fiscal knowledge source → versioned skills → agent guidance → verified application boundary"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "drenyra-guardian-angel",
-      "url": "https://github.com/arkelythex/drenyra-guardian-angel",
-      "description": "Independent adversarial verification for fiscal work — consumes drenyra-ai contracts (candidate, receipt, gate) as its public surface. Pre-alpha.",
-      "language": null,
-      "stars": 0,
-      "pushedAt": "2026-10-29T07:03:46Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-drenyra-guardian-angel.webp",
-        "width": 960,
-        "height": 316,
-        "alt": "Drenyra Guardian Angel flow — frozen candidate → independent review lenses → evidence → verification report"
       }
     },
     {
@@ -268,81 +343,6 @@
         "width": 960,
         "height": 540,
         "alt": "bcrp-data-sdk entity-first TypeScript SDK example for Peru BCRPData statistical series"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "aurelia21",
-      "url": "https://github.com/Dreamcoder08/aurelia21",
-      "description": "AURELIA // 21·09 — self-contained cinematic experience page",
-      "language": "JavaScript",
-      "stars": 0,
-      "pushedAt": "2026-09-28T21:20:50Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-aurelia21.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "AURELIA // 21·09 interactive cinematic experience web interface"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "pactyra",
-      "url": "https://github.com/Dreamcoder08/pactyra",
-      "description": "Specification and architecture preview for authorized, evidence-backed offensive operations.",
-      "language": "Go",
-      "stars": 0,
-      "pushedAt": "2026-09-27T22:25:11Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-pactyra.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "PACTYRA open offensive operations kernel architecture: authorized scope, scope_hash, policy gate, and evidence pack"
-      }
-    },
-    {
-      "owner": "arkelythex",
-      "name": "elect-validate",
-      "url": "https://github.com/arkelythex/elect-validate",
-      "description": "Electoral act validation suite for Peru's ONPE with Go concurrency, CLI and web UI.",
-      "language": "JavaScript",
-      "stars": 0,
-      "pushedAt": "2026-09-27T22:25:04Z",
-      "cover": {
-        "src": "/images/repos/arkelythex-elect-validate.webp",
-        "width": 960,
-        "height": 303,
-        "alt": "Electo Suite Electoral architecture"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "dreamcoder-omp",
-      "url": "https://github.com/Dreamcoder08/dreamcoder-omp",
-      "description": "Personal operating layer for omp: persona, policy, provenance and evidence extensions, inspired by gentle-pi.",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-09-27T22:24:43Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-dreamcoder-omp.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "DreamCoder OMP controlled development harness architecture and /dc-status terminal checks"
-      }
-    },
-    {
-      "owner": "Dreamcoder08",
-      "name": "pseint-web-interface",
-      "url": "https://github.com/Dreamcoder08/pseint-web-interface",
-      "description": "Modern web interface for PSeInt-inspired pseudocode learning.",
-      "language": "TypeScript",
-      "stars": 0,
-      "pushedAt": "2026-06-21T14:15:58Z",
-      "cover": {
-        "src": "/images/repos/custom/dreamcoder08-pseint-web-interface.webp",
-        "width": 960,
-        "height": 540,
-        "alt": "PSeInt Web Lab OLED pseudocode editor and guided learning path"
       }
     }
   ]
