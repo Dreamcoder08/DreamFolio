@@ -21,18 +21,39 @@
   },
   {
     "id": "digital-public-peru",
-    "title": "Digital Public Peru",
-    "summary": "Proyecto de tecnología cívica para explorar información pública y transparencia en Perú.",
+    "title": "CivicTech Peru",
+    "summary": "Plataforma cívica de código abierto para Perú: gasto público consultable, alertas fiscales, exportación OCDS 1.1 y reportes ciudadanos anónimos con trazabilidad SHA-256.",
     "domain": "govtech",
     "lifecycle": "active",
     "bucket": "primary",
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": ["Información pública", "Transparencia", "Datos abiertos"],
+    "stack": ["Rust", "Go", "TanStack Start", "OCDS 1.1"],
     "githubUrl": "https://github.com/arkelythex/estado",
-    "coverImage": "/images/projects/digital-public-peru-desktop.png",
-    "coverImageAlt": "Digital Public Peru — civic transparency interface"
+    "coverImage": "/images/projects/civictech-peru-dashboard.webp",
+    "coverImageAlt": "CivicTech Peru — portal de transparencia municipal de Lima",
+    "previewVideo": "/videos/projects/civictech-peru-preview.webm",
+    "showcaseVideo": "/videos/projects/civictech-peru-full.mp4",
+    "videoPoster": "/images/projects/civictech-peru-dashboard.webp",
+    "videoCaption": "Recorrido completo: portal de transparencia, explorador de gastos, reporte ciudadano anónimo, moderación con motivo auditable y seguimiento por código de recibo.",
+    "galleryImages": [
+      {
+        "src": "/images/projects/civictech-peru-moderation.webp",
+        "alt": "Consola de moderación con la cola de reportes ciudadanos",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/civictech-peru-expenses.webp",
+        "alt": "Explorador de gastos públicos con montos exactos en soles",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/civictech-peru-receipt.webp",
+        "alt": "Seguimiento anónimo de un reporte por código de recibo",
+        "aspect": "wide"
+      }
+    ]
   },
   {
     "id": "elect-validate",

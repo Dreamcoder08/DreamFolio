@@ -9,7 +9,7 @@ test.describe("Project detail — verifiable proof", () => {
     { tag: ["@e2e", "@project-detail", "@PROJECT-PROOF-E2E-001"] },
     async ({ page }) => {
       const detail = new ProjectDetailPage(page);
-      await detail.goto("digital-public-peru");
+      await detail.goto("civictech-peru");
 
       const proof = detail.proof;
       await expect(

@@ -36,7 +36,7 @@ const HOME = "/";
 const SHARED_ART_PROJECTS = [
   { id: "drenyra", slug: "drenyra-fiscal-command-center" },
   { id: "dreamcoder-workbench", slug: "dreamcoder-workbench" },
-  { id: "digital-public-peru", slug: "digital-public-peru" },
+  { id: "digital-public-peru", slug: "civictech-peru" },
 ] as const;
 /** A project with no cover image on either end — the negative case: it must
  * carry no view-transition-name, proving the gating in `[id].astro` is
@@ -96,7 +96,7 @@ test.describe("Cross-document view transitions — opt-in", () => {
     HOME,
     "/projects/drenyra-fiscal-command-center/",
     "/projects/dreamcoder-workbench/",
-    "/projects/digital-public-peru/",
+    "/projects/civictech-peru/",
   ]) {
     test(
       `${path}: declares the @view-transition opt-in under prefers-reduced-motion: no-preference`,
@@ -162,11 +162,7 @@ test.describe("Cross-document view transitions — shared-element names", () => 
     { tag: ["@critical", "@e2e", "@transitions", "@VT-HEADER"] },
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "no-preference" });
-      for (const path of [
-        HOME,
-        "/projects/",
-        "/projects/digital-public-peru/",
-      ]) {
+      for (const path of [HOME, "/projects/", "/projects/civictech-peru/"]) {
         await page.goto(path);
         await expect
           .poll(() => viewTransitionName(page, ".site-header"))

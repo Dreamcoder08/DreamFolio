@@ -10,7 +10,7 @@ test.describe("Projects — list page", () => {
       await projects.goto();
 
       await expect(projects.heading).toBeVisible();
-      await expect(projects.projectLink("Digital Public Peru")).toBeVisible();
+      await expect(projects.projectLink("CivicTech Peru")).toBeVisible();
       await expect(projects.projectLink("elect-validate")).toBeVisible();
     },
   );
@@ -22,10 +22,10 @@ test.describe("Projects — list page", () => {
       const projects = new ProjectsPage(page);
       await projects.goto();
 
-      await projects.projectLink("Digital Public Peru").click();
-      await expect(page).toHaveURL(/\/projects\/digital-public-peru\/?$/);
+      await projects.projectLink("CivicTech Peru").click();
+      await expect(page).toHaveURL(/\/projects\/civictech-peru\/?$/);
       await expect(
-        page.getByRole("heading", { level: 1, name: "Digital Public Peru" }),
+        page.getByRole("heading", { level: 1, name: "CivicTech Peru" }),
       ).toBeVisible();
     },
   );
