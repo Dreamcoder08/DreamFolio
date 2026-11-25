@@ -42,6 +42,13 @@ export function buildCommands(input: BuildCommandsInput): CommandDefinition[] {
       action: { kind: "theme" },
     },
     {
+      id: "toggle-tour",
+      label: "Presentación autónoma (Modo Reel)",
+      group: "Acciones",
+      keywords: ["reel", "tour", "auto", "autonomo", "presentacion", "play"],
+      action: { kind: "tour" },
+    },
+    {
       id: "copy-email",
       label: "Copiar correo",
       group: "Acciones",

@@ -1,0 +1,196 @@
+---
+import { withBase } from "../../lib/site";
+import { resolveStageVideo } from "../../lib/project-media-stage";
+import type { ProjectGalleryImage } from "../../lib/home-projects";
+import Icon from "./Icon.astro";
+import MediaLightbox from "./MediaLightbox.astro";
+
+interface Props {
+  title: string;
+  coverSrc?: string;
+  coverAlt?: string;
+  sharedArtClass?: string;
+  previewVideo?: string;
+  showcaseVideo?: string;
+  videoPoster?: string;
+  videoCaption?: string;
+  galleryImages?: ProjectGalleryImage[];
+  liveUrl?: string;
+}
+
+const {
+  title,
+  coverSrc,
+  coverAlt,
+  sharedArtClass,
+  previewVideo,
+  showcaseVideo,
+  videoPoster,
+  videoCaption,
+  galleryImages = [],
+  liveUrl,
+} = Astro.props;
+
+const videoSrc = resolveStageVideo({ showcaseVideo, previewVideo });
+const posterSrc = videoPoster
+  ? withBase(videoPoster)
+  : coverSrc
+    ? withBase(coverSrc)
+    : undefined;
+const resolvedCover = coverSrc ? withBase(coverSrc) : undefined;
+const altText = coverAlt || title;
+const allImages = [
+  ...(resolvedCover ? [{ src: resolvedCover, alt: altText }] : []),
+  ...galleryImages.map((img) => ({ src: withBase(img.src), alt: img.alt })),
+];
+const viewTabs = [
+  { key: "split", label: "Vista dual" },
+  { key: "image", label: "Imagen" },
+  { key: "video", label: "Video" },
+] as const;
+---
+
+<section
+  class="media-stage-wrap px-6 mb-16"
+  aria-label="Galería visual y video del proyecto"
+>
+  <div
+    class="container-wide media-stage"
+    data-media-stage
+    data-media-view="split"
+  >
+    <div class="media-stage-bar">
+      <p class="eyebrow mono">Media Stage · Imagen + Video</p>
+      <div
+        class="media-stage-tabs"
+        role="group"
+        aria-label="Modo de visualización multimedia"
+      >
+        {viewTabs.map((tab) => (
+          <button
+            type="button"
+            class="filter-chip"
+            data-media-view-btn={tab.key}
+            aria-pressed={tab.key === "split" ? "true" : "false"}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="media-stage-grid">
+      <figure class="media-slot media-slot-image" data-media-slot="image">
+        <div class="media-slot-head">
+          <span class="mono">01 · Imagen del proyecto</span>
+          {resolvedCover && (
+            <button
+              type="button"
+              class="media-zoom-btn mono"
+              data-lightbox-open
+            >
+              Ampliar
+            </button>
+          )}
+        </div>
+        <div class="media-frame">
+          {resolvedCover ? (
+            <img
+              src={resolvedCover}
+              alt={altText}
+              class:list={["media-stage-img", sharedArtClass]}
+              data-stage-image
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <div class="media-empty">
+              <span class="project-cover-mark">{title}</span>
+              <p class="mono">Captura pendiente de publicar</p>
+            </div>
+          )}
+        </div>
+        {allImages.length > 1 && (
+          <div
+            class="media-thumbs"
+            role="group"
+            aria-label="Capturas adicionales"
+          >
+            {allImages.map((img, i) => (
+              <button
+                type="button"
+                class="media-thumb"
+                data-stage-thumb
+                data-thumb-src={img.src}
+                data-thumb-alt={img.alt}
+                aria-pressed={i === 0 ? "true" : "false"}
+              >
+                <img src={img.src} alt={img.alt} loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
+      </figure>
+
+      <figure class="media-slot media-slot-video" data-media-slot="video">
+        <div class="media-slot-head">
+          <span class="mono">02 · Video / Demo</span>
+          <span class="media-slot-tag mono">
+            {videoSrc ? "Video disponible" : "Slot listo"}
+          </span>
+        </div>
+        <div class="media-frame">
+          {videoSrc ? (
+            <video
+              class="media-stage-video"
+              src={withBase(videoSrc)}
+              poster={posterSrc}
+              controls
+              playsinline
+              preload="metadata"
+              data-stage-video
+            />
+          ) : (
+            <div class="media-video-placeholder" data-video-placeholder>
+              {posterSrc && (
+                <img
+                  src={posterSrc}
+                  alt=""
+                  class="media-placeholder-bg"
+                  aria-hidden="true"
+                />
+              )}
+              <div class="media-placeholder-overlay">
+                <p class="eyebrow mono">Espacio de video</p>
+                <p class="media-placeholder-copy">
+                  {videoCaption ||
+                    "Reel interactivo y recorrido en video preparado para este proyecto."}
+                </p>
+                {liveUrl && (
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="quiet-link"
+                  >
+                    Abrir demo en vivo <Icon name="arrow" size={16} />
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        {videoSrc && videoCaption && (
+          <figcaption class="media-caption">{videoCaption}</figcaption>
+        )}
+      </figure>
+    </div>
+
+    <MediaLightbox />
+  </div>
+</section>
+
+<script>
+  import { mountProjectMediaStages } from "../../lib/project-media-stage";
+  mountProjectMediaStages();
+</script>

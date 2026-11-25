@@ -78,3 +78,51 @@ test("buildHomeProjects keeps curated projects first, deduplicates repos by URL,
   assert.equal(items[1].sharedArtId, undefined);
   assert.deepEqual(items[1].filters, ["personal"]);
 });
+
+test("buildHomeProjects propagates optional video and gallery media fields", () => {
+  const withMedia = [
+    {
+      ...curated[0],
+      previewVideo: "/videos/projects/cleansweep-preview.webm",
+      showcaseVideo: "/videos/projects/cleansweep-full.mp4",
+      videoPoster: "/images/repos/dreamcoder08-cleansweep.webp",
+      videoCaption: "Demo interactiva de CleanSweep",
+      galleryImages: [
+        {
+          src: "/images/repos/dreamcoder08-cleansweep.webp",
+          alt: "Vista TUI",
+          aspect: "wide" as const,
+        },
+      ],
+    },
+  ];
+
+  const items = buildHomeProjects({
+    curated: withMedia,
+    repos,
+    archifyMap,
+    resolveCover: () => repos[0].cover,
+    getSlug: (title) => title.toLowerCase(),
+    domainLabel: () => "Herramientas CLI",
+  });
+
+  assert.equal(
+    items[0].previewVideo,
+    "/videos/projects/cleansweep-preview.webm",
+  );
+  assert.equal(items[0].showcaseVideo, "/videos/projects/cleansweep-full.mp4");
+  assert.equal(
+    items[0].videoPoster,
+    "/images/repos/dreamcoder08-cleansweep.webp",
+  );
+  assert.equal(items[0].videoCaption, "Demo interactiva de CleanSweep");
+  assert.deepEqual(items[0].galleryImages, [
+    {
+      src: "/images/repos/dreamcoder08-cleansweep.webp",
+      alt: "Vista TUI",
+      aspect: "wide",
+    },
+  ]);
+  assert.equal(items[1].previewVideo, undefined);
+  assert.equal(items[1].showcaseVideo, undefined);
+});

@@ -1,7 +1,12 @@
+import { createCarouselAutoplay } from "./project-autoplay";
+import { mountProjectMediaPreviews } from "./project-media-preview";
+
 /**
  * Progressive-enhancement carousel controller for `#project-track`.
  * Arrows move one visible card at a time (wrapping at both ends); filter chips
  * narrow visible cards and update the live `01 / NN` counter dynamically.
+ * Autonomous autoplay advances visible cards when in view and pauses on hover,
+ * focus, reduced motion, or explicit user pause.
  */
 export function mountProjectCarousels(): void {
   document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
@@ -37,15 +42,28 @@ export function mountProjectCarousels(): void {
     const atEnd = () =>
       track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
     const atStart = () => track.scrollLeft <= 4;
+    const markActive = (cards: HTMLElement[], activeIdx: number) => {
+      const activeCard = cards[activeIdx] ?? null;
+      allCards.forEach((card) => {
+        card.dataset.active = String(card === activeCard);
+      });
+      root.dispatchEvent(
+        new CustomEvent("carousel:active-change", {
+          detail: { card: activeCard, index: activeIdx },
+        }),
+      );
+    };
     const sync = () => {
       const cards = visibleCards();
       if (total) total.textContent = pad(cards.length);
       if (cards.length === 0) {
         index.textContent = "00";
+        markActive([], -1);
         return;
       }
       const i = atEnd() ? cards.length - 1 : current();
       index.textContent = pad(i + 1);
+      markActive(cards, i);
     };
     const go = (step: number) => {
       const cards = visibleCards();
@@ -53,12 +71,21 @@ export function mountProjectCarousels(): void {
       let i = current() + step;
       if (step > 0 && atEnd()) i = 0;
       else if (step < 0 && atStart()) i = cards.length - 1;
-      const target = cards[Math.min(cards.length - 1, Math.max(0, i))];
+      const clamped = Math.min(cards.length - 1, Math.max(0, i));
+      const target = cards[clamped];
+      markActive(cards, clamped);
+      index.textContent = pad(clamped + 1);
       track.scrollTo({
         left: target.offsetLeft - cards[0].offsetLeft,
         behavior: calm.matches ? "instant" : "smooth",
       });
     };
+
+    const autoplay = createCarouselAutoplay(root, {
+      advance: () => go(1),
+      getVisibleCount: () => visibleCards().length,
+    });
+    mountProjectMediaPreviews(root);
 
     filterButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -72,16 +99,24 @@ export function mountProjectCarousels(): void {
         });
         track.scrollTo({ left: 0, behavior: "instant" });
         sync();
+        autoplay.reset();
       });
     });
 
-    prev.addEventListener("click", () => go(-1));
-    next.addEventListener("click", () => go(1));
+    prev.addEventListener("click", () => {
+      go(-1);
+      autoplay.reset();
+    });
+    next.addEventListener("click", () => {
+      go(1);
+      autoplay.reset();
+    });
     track.addEventListener("keydown", (event) => {
       if (event.target !== track) return;
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
         event.preventDefault();
         go(event.key === "ArrowRight" ? 1 : -1);
+        autoplay.reset();
       }
     });
     track.addEventListener("scroll", sync, { passive: true });

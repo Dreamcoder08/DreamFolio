@@ -4,6 +4,8 @@ import type { CommandDefinition } from "./types.ts";
 import {
   ACTION_FAILED,
   THEME_UPDATED,
+  TOUR_TOGGLED,
+  TOUR_UNAVAILABLE,
   copyFallback,
   emailCopied,
 } from "./messages.ts";
@@ -60,6 +62,17 @@ async function perform(
       // Announce first: the live region lives inside the dialog, and a
       // closed <dialog>'s content leaves the accessibility tree.
       ctx.announce(THEME_UPDATED);
+      ctx.close();
+      break;
+    }
+    case "tour": {
+      const toggle = document.getElementById("tour-toggle");
+      if (toggle instanceof HTMLElement && !toggle.hidden) {
+        window.dispatchEvent(new CustomEvent("dreamfolio:tour-toggle"));
+        ctx.announce(TOUR_TOGGLED);
+      } else {
+        ctx.announce(TOUR_UNAVAILABLE);
+      }
       ctx.close();
       break;
     }

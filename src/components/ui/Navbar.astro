@@ -28,6 +28,27 @@ const items: [string, string][] = [
       </a>
     </div>
     <div class="nav-controls">
+      <span
+        class="nav-chapter mono"
+        data-chapter-indicator
+        hidden
+        aria-hidden="true"
+      >
+        01 · Intro
+      </span>
+      <button
+        id="tour-toggle"
+        class="tour-toggle mono"
+        type="button"
+        hidden
+        aria-pressed="false"
+        aria-label="Iniciar presentación autónoma del portafolio"
+        data-tour-toggle
+        data-tour-active="false"
+      >
+        <span class="tour-dot" aria-hidden="true"></span>
+        <span data-tour-label>Modo Reel</span>
+      </button>
       <button
         id="console-trigger"
         class="console-trigger"
@@ -53,6 +74,7 @@ const items: [string, string][] = [
       </button>
     </div>
   </nav>
+  <div class="header-scroll-meter" aria-hidden="true"></div>
 </header>
 
 <script>
