@@ -74,6 +74,14 @@ export function mountProjectQuickModal(): void {
   const archifyLink =
     dialog.querySelector<HTMLAnchorElement>("[data-qm-archify]");
   const closeBtn = dialog.querySelector<HTMLButtonElement>("[data-qm-close]");
+  const zoomBtn = dialog.querySelector<HTMLButtonElement>("[data-qm-zoom]");
+  const zoom = dialog.querySelector<HTMLDialogElement>("[data-media-lightbox]");
+  const zoomImg = zoom?.querySelector<HTMLImageElement>(
+    "[data-lightbox-image]",
+  );
+  const zoomCaption = zoom?.querySelector<HTMLElement>(
+    "[data-lightbox-caption]",
+  );
 
   const openProject = (item: QuickProjectPayload) => {
     if (eyebrow) eyebrow.textContent = item.eyebrow;
@@ -118,6 +126,7 @@ export function mountProjectQuickModal(): void {
         item.videoCaption ||
         "Espacio dedicado para el video demo de este repositorio.";
     }
+    if (zoomBtn) zoomBtn.hidden = !item.coverSrc;
     setLink(githubLink, item.githubUrl);
     setLink(liveLink, item.liveUrl);
     setLink(archifyLink, item.archifyHref);
@@ -140,7 +149,23 @@ export function mountProjectQuickModal(): void {
     openProject(item);
   });
 
+  zoomBtn?.addEventListener("click", () => {
+    if (!zoom || !zoomImg || !img?.src) return;
+    zoomImg.src = img.src;
+    zoomImg.alt = img.alt;
+    if (zoomCaption) zoomCaption.textContent = img.alt;
+    if (video && !video.paused) video.pause();
+    zoom.showModal();
+  });
+  zoom
+    ?.querySelector<HTMLButtonElement>("[data-lightbox-close]")
+    ?.addEventListener("click", () => zoom.close());
+  zoom?.addEventListener("click", (event) => {
+    if (event.target === zoom) zoom.close();
+  });
+
   const handleClose = () => {
+    if (zoom?.open) zoom.close();
     if (video && !video.paused) video.pause();
     window.dispatchEvent(new CustomEvent("dreamfolio:autoplay-resume"));
   };

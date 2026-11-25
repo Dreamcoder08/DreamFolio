@@ -2,7 +2,9 @@
 import { withBase } from "../../lib/site";
 import type { HomeProjectCard } from "../../lib/home-projects";
 import type { QuickProjectPayload } from "../../lib/project-quick-modal";
+import { resolveStageVideo } from "../../lib/project-media-stage";
 import Icon from "./Icon.astro";
+import MediaLightbox from "./MediaLightbox.astro";
 
 interface Props {
   projects: HomeProjectCard[];
@@ -10,23 +12,22 @@ interface Props {
 
 const { projects } = Astro.props;
 
-const payload: QuickProjectPayload[] = projects.map((p) => ({
-  id: p.id,
-  title: p.title,
-  summary: p.summary,
-  eyebrow: p.eyebrow,
-  stack: p.stack,
-  githubUrl: p.githubUrl,
-  liveUrl: p.liveUrl,
-  archifyHref: p.archifyHref ? withBase(p.archifyHref) : undefined,
-  coverSrc: p.cover ? withBase(p.cover.src) : undefined,
-  videoSrc: p.showcaseVideo
-    ? withBase(p.showcaseVideo)
-    : p.previewVideo
-      ? withBase(p.previewVideo)
-      : undefined,
-  videoCaption: p.videoCaption,
-}));
+const payload: QuickProjectPayload[] = projects.map((p) => {
+  const video = resolveStageVideo(p);
+  return {
+    id: p.id,
+    title: p.title,
+    summary: p.summary,
+    eyebrow: p.eyebrow,
+    stack: p.stack,
+    githubUrl: p.githubUrl,
+    liveUrl: p.liveUrl,
+    archifyHref: p.archifyHref ? withBase(p.archifyHref) : undefined,
+    coverSrc: p.cover ? withBase(p.cover.src) : undefined,
+    videoSrc: video ? withBase(video) : undefined,
+    videoCaption: p.videoCaption,
+  };
+});
 ---
 
 <dialog
@@ -55,6 +56,9 @@ const payload: QuickProjectPayload[] = projects.map((p) => ({
       <figure class="media-slot" data-media-slot="image">
         <div class="media-slot-head">
           <span class="mono">01 · Imagen del proyecto</span>
+          <button type="button" class="media-zoom-btn mono" data-qm-zoom hidden>
+            Ampliar
+          </button>
         </div>
         <div class="media-frame">
           <img alt="" class="media-stage-img" data-qm-image hidden />
@@ -113,6 +117,7 @@ const payload: QuickProjectPayload[] = projects.map((p) => ({
       </a>
     </div>
   </div>
+  <MediaLightbox />
 </dialog>
 
 <script

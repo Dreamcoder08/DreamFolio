@@ -12,6 +12,8 @@ import {
   type GitHubRepo,
 } from "../../lib/github-repos";
 import { archifyForRepo } from "../../lib/repo-archify";
+import { repoQuickCard } from "../../lib/project-quick-repo";
+import ProjectQuickModal from "./ProjectQuickModal.astro";
 import archifyMap from "../../data/repo-archify.json";
 import config from "../../data/github-repos.config.json";
 import snapshot from "../../data/github-repos.json";
@@ -27,6 +29,11 @@ const owners = config.owners.map((owner) => ({
 }));
 const groups = groupByOwner(snapshot.repos as GitHubRepo[], owners);
 const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
+const quickCards = groups.flatMap((group) =>
+  group.repos.map((repo) =>
+    repoQuickCard(repo, archifyForRepo(repo, archifyMap)),
+  ),
+);
 ---
 
 <section id="github" class="repo-index" aria-labelledby="repo-title">
@@ -64,7 +71,11 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
                 />
               )}
               <h4>
-                <a class="repo-card-link" href={repo.url}>
+                <a
+                  class="repo-card-link"
+                  href={repo.url}
+                  data-quick-view-trigger={repoQuickCard(repo).id}
+                >
                   {repo.name}
                 </a>
               </h4>
@@ -98,4 +109,5 @@ const total = groups.reduce((sum, group) => sum + group.repos.length, 0);
       </ul>
     </div>
   ))}
+  <ProjectQuickModal projects={quickCards} />
 </section>
