@@ -2,7 +2,7 @@
 import { THEME, type Theme } from "./state-model";
 
 export const HOME = "/";
-export const PROJECT_DETAIL = "/projects/digital-public-peru/";
+export const PROJECT_DETAIL = "/projects/civictech-peru/";
 export const PROJECTS_INDEX = "/projects/";
 
 export const THEMES: readonly Theme[] = [THEME.DARK, THEME.LIGHT];

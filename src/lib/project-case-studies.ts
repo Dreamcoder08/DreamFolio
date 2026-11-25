@@ -35,26 +35,28 @@ const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     highlightRank: 1,
   },
   "digital-public-peru": {
-    eyebrow: "Infraestructura de servicios públicos",
+    eyebrow: "Transparencia fiscal y participación ciudadana",
     challenge:
-      "La información pública suele estar dispersa y ser difícil de auditar. El objetivo es explorarla con criterios explícitos de alcance, uso de datos y trazabilidad.",
+      "El gasto municipal es difícil de auditar y denunciar una irregularidad expone a quien la reporta. Hacía falta un portal donde el dato público sea consultable y el reporte ciudadano sea anónimo y trazable.",
     approach:
-      "Diseño herramientas cívicas alrededor de flujos administrativos públicos, manteniendo explícitos el alcance, el uso de datos y el comportamiento del sistema.",
+      "Arquitectura hexagonal políglota: un motor en Rust (Axum) con la máquina de estados de reportes y la detección determinista de alertas fiscales, una API en Go 1.24 y portales en Bun con TanStack Start, sobre PostgreSQL 16 y almacenamiento S3 cifrado con AES256.",
     outcome:
-      "Una herramienta de transparencia cívica que hace la información pública más fácil de explorar y auditar.",
+      "Portal ciudadano y consola de moderación funcionando de punta a punta: del reporte anónimo a su publicación verificada, con cada transición registrada en la cadena de auditoría.",
     evidence: [
-      "Exploración de información pública enfocada en transparencia.",
-      "Alcance documentado y criterios de uso explícitos.",
-      "Enfoque en accesibilidad y utilidad pública.",
+      "Cadena de auditoría SHA-256 verificable desde el portal público.",
+      "Exportación de contrataciones en OCDS 1.1 y contrato de API en OpenAPI 3.1.",
+      "Montos en soles con aritmética exacta en céntimos, sin decimales flotantes.",
+      "Moderación Triaje → Verificar → Publicar con motivo auditable y texto público redactado.",
+      "Recibo anónimo de un solo uso para seguir el estado del reporte.",
     ],
-    signals: [
-      "Tecnología cívica",
-      "Integridad de servicios",
-      "Operación confiable",
+    signals: ["Tecnología cívica", "Auditoría SHA-256", "OCDS 1.1"],
+    metrics: [
+      { label: "Motor", value: "Rust" },
+      { label: "API", value: "Go" },
+      { label: "Herramientas MCP", value: "13" },
     ],
-    metrics: [{ label: "Dominio", value: "Infraestructura pública" }],
     cardImpact:
-      "Infraestructura digital cívica enfocada en integridad de servicios y operación confiable.",
+      "Transparencia fiscal municipal con reportes ciudadanos anónimos y auditables.",
     highlightRank: 3,
   },
   "edge-traz-agro": {

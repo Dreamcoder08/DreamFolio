@@ -9,19 +9,19 @@ test.describe("Project detail — dynamic route", () => {
     },
     async ({ page }) => {
       const detail = new ProjectDetailPage(page);
-      await detail.goto("digital-public-peru");
+      await detail.goto("civictech-peru");
 
       await expect(
-        page.getByRole("heading", { level: 1, name: "Digital Public Peru" }),
+        page.getByRole("heading", { level: 1, name: "CivicTech Peru" }),
       ).toBeVisible();
       await expect(
         page.getByText(
-          "Proyecto de tecnología cívica para explorar información pública y transparencia en Perú.",
+          "Plataforma cívica de código abierto para Perú: gasto público consultable, alertas fiscales, exportación OCDS 1.1 y reportes ciudadanos anónimos con trazabilidad SHA-256.",
         ),
       ).toBeVisible();
       await expect(
         page.getByRole("img", {
-          name: "Digital Public Peru — civic transparency interface",
+          name: "CivicTech Peru — portal de transparencia municipal de Lima",
         }),
       ).toBeVisible();
     },
@@ -34,7 +34,7 @@ test.describe("Project detail — dynamic route", () => {
     },
     async ({ page }) => {
       const detail = new ProjectDetailPage(page);
-      await detail.goto("digital-public-peru");
+      await detail.goto("civictech-peru");
 
       await expect(detail.backLink).toBeVisible();
       await expect(detail.backLink).toHaveAttribute("href", /\/#projects$/);
