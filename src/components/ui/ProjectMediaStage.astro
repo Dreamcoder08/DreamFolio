@@ -124,8 +124,9 @@ const viewTabs = [
                 data-thumb-src={img.src}
                 data-thumb-alt={img.alt}
                 aria-pressed={i === 0 ? "true" : "false"}
+                aria-label={`Ver captura: ${img.alt}`}
               >
-                <img src={img.src} alt={img.alt} loading="lazy" />
+                <img src={img.src} alt="" loading="lazy" />
               </button>
             ))}
           </div>
