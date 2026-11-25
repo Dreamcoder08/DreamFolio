@@ -20,8 +20,13 @@ Repo: `dreamcoder08/dreamfolio`
 - [x] T5 | S3, S5 | inline | commit: 9e25c26 — Unified click experience for synced GitHub projects (`ProjectQuickModal.astro`, `project-quick-modal.ts`) showing dedicated Image + Video stage before outbound links, unit tests.
 - [x] T6 | S4, S5 | inline | commit: 19c5031 — Global scroll choreography (`scroll-director.ts`), reactive scene states, navbar chapter HUD, scroll progress meter, unit tests.
 - [x] T7 | S4, S5 | inline | commit: 22ba217 — Global autonomous presentation mode (`auto-tour.ts`) triggered via navbar button and `⌘K` CommandConsole with instant manual-input abort, unit tests.
+- [x] T8 | S3, S5 | inline | commit: 5deb060 — `/projects/` RepoGrid cards open `ProjectQuickModal` (image + video) before GitHub, and the quick modal gains an "Ampliar" fullscreen image zoom (verifier gap: S3 PARTIAL).
 
 ## Log
 
 - L1 (2026-11-24): "hey bro crea taks detalladas lluvias de ideas para mejorar mi portfolio web , en la seccion Proyectos quiero que se muestre cada proyecto de forma autonoma aunque tambien seria genial que el propio porfolio web todo se presente de forma autonoma mientras deslizas y mas como lo hacen los mejores del mundo , creativos o que han ganado premios... ademas al hacer click en cada proyecto debe haber espacio para su imagen y su video correspondiente"
 - L2 (2026-11-24): "perfecto confirmo autorizo e implementa todo de forma autonoma + filosofia de gentleman si es necesario crea skills si algo se hace mas 2 de veces igual scripts si algo de hace mas de 2 veces"
+- L3 (2026-11-24): "avanza debes ver que cada repo este con su imagen actualizada ve paso a paso" — synced 23/23 repo covers (294081c).
+- L4 (2026-11-24): "te autorizo todo y avanza todo de forma autonoma + filosofia de gentleman" — pushed branch, opened PR #138.
+- L5 (2026-11-24): "avanza" — CI format:check failed; fixed with Prettier + file-budget extractions (0b1e636), touchstart toggle fix (e0ddb52). PR #138 checks + lighthouse green.
+- L6 (2026-11-25): "continue" — verifier gap from earlier run: `/projects/` RepoGrid still links straight to GitHub and quick modal lacks image zoom; opened T8.
