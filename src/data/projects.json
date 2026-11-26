@@ -87,16 +87,43 @@
   {
     "id": "cominorsa-web",
     "title": "COMINORSA — Sitio web",
-    "summary": "Sitio web de COMINORSA, consultora minera y ambiental de Piura: presenta sus servicios de formalización, gestión ambiental e ingeniería, con contacto directo por WhatsApp.",
+    "summary": "Sitio web de COMINORSA, consultora minera y ambiental de Piura: seis servicios de formalización, gestión ambiental e ingeniería, una ruta de formalización en seis pasos y consultas que llegan directo por WhatsApp.",
     "domain": "corporate-web",
     "lifecycle": "active",
     "bucket": "primary",
     "path": "",
     "updatedYear": 2026,
     "featured": false,
-    "stack": ["Sitio corporativo", "Consultoría minera", "TypeScript"],
-    "coverImage": "/images/projects/cominorsa-web.webp",
-    "coverImageAlt": "Sitio web de COMINORSA: portada con el titular y la lista de servicios"
+    "stack": ["Cloudflare Workers", "TypeScript", "SEO local", "WhatsApp"],
+    "liveUrl": "https://cominorsa.com",
+    "coverImage": "/images/projects/cominorsa-web-cover.webp",
+    "coverImageAlt": "Sitio web de COMINORSA: portada con el titular y la lista de servicios",
+    "previewVideo": "/videos/projects/cominorsa-web-preview.webm",
+    "showcaseVideo": "/videos/projects/cominorsa-web-full.mp4",
+    "videoPoster": "/images/projects/cominorsa-web-cover.webp",
+    "videoCaption": "Recorrido por cominorsa.com: portada, quiénes somos, los seis servicios, la ruta de formalización, la consulta profesional y dos páginas de servicio.",
+    "galleryImages": [
+      {
+        "src": "/images/projects/cominorsa-web-services.webp",
+        "alt": "Sección de servicios: gestión minera y ambiental, de principio a fin",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/cominorsa-web-route.webp",
+        "alt": "Ruta de formalización en seis pasos, del REINFO al inicio de actividades",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/cominorsa-web-consultation.webp",
+        "alt": "Formulario de consulta profesional que continúa por WhatsApp",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/cominorsa-web-mobile.webp",
+        "alt": "Portada de COMINORSA en un teléfono",
+        "aspect": "mobile"
+      }
+    ]
   },
   {
     "id": "dreamcoder-workbench",

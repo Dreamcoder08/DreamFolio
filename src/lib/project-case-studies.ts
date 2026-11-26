@@ -59,6 +59,30 @@ const projectCaseStudies: Record<string, ProjectCaseStudy> = {
       "Transparencia fiscal municipal con reportes ciudadanos anónimos y auditables.",
     highlightRank: 3,
   },
+  "cominorsa-web": {
+    eyebrow: "Sitio corporativo para consultoría minera",
+    challenge:
+      "COMINORSA acompaña a la pequeña minería y la minería artesanal de Piura y el norte del Perú. Su sitio tenía que explicar trámites técnicos como el REINFO, el IGAFOM, la DIA o las declaraciones DAC en lenguaje claro y convertir cada visita en una conversación.",
+    approach:
+      "Un sitio servido desde Cloudflare Workers con una página por servicio, una ruta de formalización en seis pasos y un formulario de consulta que arma el mensaje y continúa por WhatsApp con la línea elegida.",
+    outcome:
+      "En producción en cominorsa.com, con seis páginas de servicio, preguntas frecuentes y datos estructurados para búsquedas locales.",
+    evidence: [
+      "Seis servicios con página propia: qué incluye, preguntas frecuentes y contacto directo.",
+      "Ruta de formalización en seis pasos, del REINFO al inicio de actividades.",
+      "Consulta profesional que abre WhatsApp con el servicio y la línea elegidos.",
+      "Datos estructurados JSON-LD (ProfessionalService, Service, BreadcrumbList) y sitemap con hreflang es-PE.",
+    ],
+    signals: ["Sitio corporativo", "SEO local", "WhatsApp"],
+    metrics: [
+      { label: "Servicios", value: "6" },
+      { label: "Pasos de formalización", value: "6" },
+      { label: "Líneas de WhatsApp", value: "2" },
+    ],
+    cardImpact:
+      "Consultoría minera de Piura con servicios claros y consultas directas por WhatsApp.",
+    highlightRank: 5,
+  },
   "edge-traz-agro": {
     eyebrow: "Trazabilidad en campo",
     challenge:
