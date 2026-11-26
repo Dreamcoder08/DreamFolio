@@ -39,11 +39,11 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@lhci/cli": "0.15.1",
-    "@playwright/test": "1.63.0",
-    "prettier": "3.9.9",
-    "prettier-plugin-astro": "1.1.0",
-    "serve": "14.2.6",
+    "@lhci/cli": "0.16.1",
+    "@playwright/test": "1.65.1",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "serve": "14.2.8",
     "typescript": "^7.0.2"
   }
 }
