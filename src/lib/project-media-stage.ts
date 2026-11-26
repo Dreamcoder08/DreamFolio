@@ -7,6 +7,10 @@ export function normalizeMediaView(value?: string): MediaStageView {
   return "split";
 }
 
+export function isPortrait(width: number, height: number): boolean {
+  return width > 0 && height > width;
+}
+
 export function resolveStageVideo(input: {
   showcaseVideo?: string;
   previewVideo?: string;
@@ -24,6 +28,12 @@ export function mountProjectMediaStages(): void {
       const video = stage.querySelector<HTMLVideoElement>("[data-stage-video]");
       const mainImg =
         stage.querySelector<HTMLImageElement>("[data-stage-image]");
+      // Phone screenshots are letterboxed instead of cropped to 16:10.
+      mainImg?.addEventListener("load", () => {
+        mainImg.dataset.portrait = String(
+          isPortrait(mainImg.naturalWidth, mainImg.naturalHeight),
+        );
+      });
       const thumbs = Array.from(
         stage.querySelectorAll<HTMLButtonElement>("[data-stage-thumb]"),
       );
@@ -77,7 +87,7 @@ export function mountProjectMediaStages(): void {
 
       openBtn?.addEventListener("click", () => {
         if (!lightbox || !lightboxImg || !mainImg) return;
-        lightboxImg.src = mainImg.currentSrc || mainImg.src;
+        lightboxImg.src = mainImg.src;
         lightboxImg.alt = mainImg.alt;
         if (lightboxCaption) lightboxCaption.textContent = mainImg.alt;
         if (video && !video.paused) video.pause();
