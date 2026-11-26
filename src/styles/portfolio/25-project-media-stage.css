@@ -86,6 +86,9 @@
   background: #000;
   object-fit: contain;
 }
+.media-stage-img[data-portrait="true"] {
+  object-fit: contain;
+}
 .media-empty,
 .media-video-placeholder {
   position: relative;
