@@ -23,6 +23,7 @@ export const SHARED_ART_PROJECT_IDS: ReadonlySet<string> = new Set([
   "pactyra",
   "dreamcoder-dsh",
   "pseint-web",
+  "sipges",
 ]);
 
 const DOMAIN_LABELS: Record<string, string> = {
@@ -35,6 +36,7 @@ const DOMAIN_LABELS: Record<string, string> = {
   "developer-tools": "Herramientas dev",
   security: "Seguridad",
   education: "Educación",
+  "socio-environmental": "Gestión socioambiental",
 };
 
 /** A readable Spanish label for a `projects.json` domain slug. */

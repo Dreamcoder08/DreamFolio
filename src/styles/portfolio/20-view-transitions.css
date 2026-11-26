@@ -104,6 +104,9 @@
   .vt-art-pseint-web {
     view-transition-name: project-art-pseint-web;
   }
+  .vt-art-sipges {
+    view-transition-name: project-art-sipges;
+  }
   ::view-transition-group(project-art-drenyra),
   ::view-transition-group(project-art-dreamcoder-workbench),
   ::view-transition-group(project-art-digital-public-peru),
@@ -112,7 +115,8 @@
   ::view-transition-group(project-art-cleansweep),
   ::view-transition-group(project-art-pactyra),
   ::view-transition-group(project-art-dreamcoder-dsh),
-  ::view-transition-group(project-art-pseint-web) {
+  ::view-transition-group(project-art-pseint-web),
+  ::view-transition-group(project-art-sipges) {
     animation-duration: var(--motion-transition);
     animation-timing-function: var(--motion-ease);
   }
