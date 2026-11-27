@@ -16,7 +16,7 @@ Branch: `feat/sipges-showcase` · Repo: `dreamcoder08/dreamfolio` · Media sourc
 
 - [x] T1 | S2, S4, S6 | worker | commit: 47e18d8 (media) — Scratch clone of `design/vanguard`, run with embedded PGlite and throwaway secrets, load a fictional demo project, record screenshots and a walkthrough video into `public/`.
 - [x] T2 | S1, S3, S5, S7 | inline | commit: 47e18d8 — Add the curated `sipges` project (media, summary, stack, case study, domain label, proof entry); tests for visible text.
-- [ ] T3 | S1-S7 | inline | commit: pending — Verify, PR, merge, confirm deploy and live page.
+- [x] T3 | S1-S7 | inline | commit: 128a90f (merge #141) — Verify, PR, merge, confirm deploy and live page.
 
 ## Log
 
@@ -25,3 +25,4 @@ Branch: `feat/sipges-showcase` · Repo: `dreamcoder08/dreamfolio` · Media sourc
 - L2 (2026-11-26): Exploration found SIPGES handles real client data (a mining project, Ley 29733 constraint in its own docs) and has no synthetic demo. User answers: "Datos ficticios en local (recomendado)", "No nombrar (recomendado)", "El rediseño design/vanguard", "Dejarla fuera (recomendado)".
 - L4 (2026-11-26): T1 worker moved the clone's `data/` out of the tree unopened (startup reads `data/project_coordinates.json` for the real tenant), confirmed an empty database via the API, then seeded "Proyecto Demo · Quebrada Alta" (59 fictional records) through the API; the scratch directory with the quarantined data and throwaway secrets was deleted afterwards. T2 was done inline because the writer could not start twice ("Writer repository preparation was unavailable", then "Writer bootstrap requires the original safe project root"). The synced proof adds 36 ADR titles to the page, so the privacy unit test scans the proof entry too.
 - L5 (2026-11-26): T3 verification on `feat/sipges-showcase`: `format:check` clean for tracked files (only two unrelated untracked ODD docs flagged), `test:unit` 255/255, `verify` (build + check + file-size budget 298 files) green, `secret:scan` no leaks, `test:e2e` 161/161. Branch pushed and PR opened; merge and live-page confirmation pending.
+- L6 (2026-11-27): PR #141 CI green (checks, lighthouse), merged as 128a90f; Pages deploy run 45943395930 succeeded. Live /projects/sipges/ returns 200 with the case study, cover, full video and preview loop served; the page contains no "Sechura" or hydrocarbons mention; /projects/ lists sipges. Feature closed.
