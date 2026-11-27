@@ -3,8 +3,8 @@ import { HomePage } from "../home/home-page";
 import { ConsolePage } from "./console-page";
 import { ProjectDetailPage } from "../project-detail/project-detail-page";
 
-const PROJECT_SLUG = "drenyra-fiscal-command-center";
-const PROJECT_TITLE = "Drenyra — Fiscal Command Center";
+const PROJECT_SLUG = "drenyra-gpui";
+const PROJECT_TITLE = "Drenyra GPUI";
 
 test.describe("Ship console — opening and focus", () => {
   test(

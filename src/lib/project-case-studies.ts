@@ -17,21 +17,22 @@ export interface ProjectCaseStudy {
 
 const projectCaseStudies: Record<string, ProjectCaseStudy> = {
   drenyra: {
-    eyebrow: "Espacio de trabajo con IA para contabilidad",
+    eyebrow: "Escritorio nativo para contabilidad verificable",
     challenge:
-      "El trabajo contable reúne documentos, reglas y decisiones que necesitan contexto. Mi objetivo es asistir ese trabajo sin perder la revisión profesional.",
+      "Los agentes contables no deberían vivir en un historial de terminal ni atrapados en una pestaña del navegador. El profesional necesita ver cada asiento propuesto, su evidencia y su estado de aprobación en un mismo lugar.",
     approach:
-      "Construyo un espacio de trabajo modular donde la asistencia de IA se apoya en reglas verificables, contexto explícito y revisión profesional antes de cualquier cambio de estado.",
+      "Adapto la filosofía de gentle-shell-gpui a la contabilidad: la app nativa en Rust con GPUI solo aloja; cada pestaña levanta un Drenyra Shell por JSON-RPC sobre stdio y el kernel fiscal de Drenyra AI valida libros, recibos e invariantes de partida doble. Los importes viajan como céntimos enteros, nunca como flotantes.",
     outcome:
-      "Foco actual: integrar asistencia de IA con validación y revisión humana.",
+      "Foco actual: migrar la consola web a un host nativo en Rust. La base del workspace (protocolo, espacios fiscales y binario de escritorio) está en revisión por fases.",
     evidence: [
-      "Separación entre asistencia de IA, validación del sistema y revisión profesional.",
-      "Prácticas de trazabilidad aplicadas al trabajo contable.",
-      "Captura de una etapa anterior de la interfaz, conservada como archivo del prototipo.",
+      "Separación estricta: la app aloja, el Shell y el kernel fiscal hacen el trabajo.",
+      "Revisión de asientos línea por línea con verificación de debe = haber antes de registrar.",
+      "Aprobación humana obligatoria para decisiones materiales y recibo verificable sin conexión.",
     ],
-    signals: ["IA", "Contabilidad", "Revisión humana"],
+    signals: ["Rust", "GPUI", "Contabilidad"],
     metrics: [],
-    cardImpact: "Asistencia contable con contexto y revisión profesional.",
+    cardImpact:
+      "Agentes contables en un escritorio nativo, con revisión profesional.",
     highlightRank: 1,
   },
   "digital-public-peru": {

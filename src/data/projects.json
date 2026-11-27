@@ -1,23 +1,16 @@
 [
   {
     "id": "drenyra",
-    "title": "Drenyra — Fiscal Command Center",
-    "summary": "Espacio de trabajo con IA para asistir tareas contables, con reglas verificables, revisión profesional y trazabilidad.",
+    "title": "Drenyra GPUI",
+    "summary": "Escritorio nativo en Rust con GPUI para agentes contables: cada pestaña aloja un Drenyra Shell, el kernel fiscal valida cada asiento y el profesional aprueba antes de registrar.",
     "domain": "fiscal-infrastructure",
     "lifecycle": "active",
     "bucket": "primary",
     "path": "",
     "updatedYear": 2026,
     "featured": true,
-    "stack": [
-      "Contabilidad",
-      "IA supervisada",
-      "Revisión humana",
-      "Trazabilidad"
-    ],
-    "githubUrl": "https://github.com/arkelythex/drenyra-ai",
-    "coverImage": "/images/projects/fiscal-workspace.jpg",
-    "coverImageAlt": "Interfaz de trabajo asistida por IA"
+    "stack": ["Rust", "GPUI", "JSON-RPC", "Contabilidad verificable"],
+    "githubUrl": "https://github.com/arkelythex/drenyra-gpui"
   },
   {
     "id": "digital-public-peru",

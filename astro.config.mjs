@@ -41,6 +41,7 @@ const analytics = resolveAnalytics(process.env);
 // while GitHub Pages serves it under /DreamFolio, so the base path must
 // differ per platform rather than assume GitHub Pages by default.
 const isVercel = process.env.VERCEL === "1";
+const base = process.env.SITE_BASE ?? (isDev || isVercel ? "/" : "/DreamFolio");
 
 // https://astro.build/config
 export default defineConfig({
@@ -49,13 +50,19 @@ export default defineConfig({
     (isVercel && process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : "https://dreamcoder08.github.io"),
-  base: process.env.SITE_BASE ?? (isDev || isVercel ? "/" : "/DreamFolio"),
+  base,
   integrations: [sitemap()],
   server: {
     host: true,
     port: 4321,
   },
   output: "static",
+  // Project slugs derive from titles, so a renamed project keeps its old URL
+  // alive here instead of breaking links already shared. Astro does not
+  // prefix the base onto a redirect destination, so it is joined here.
+  redirects: {
+    "/projects/drenyra-fiscal-command-center": `${base.replace(/\/$/, "")}/projects/drenyra-gpui/`,
+  },
   build: {
     inlineStylesheets: "auto",
   },

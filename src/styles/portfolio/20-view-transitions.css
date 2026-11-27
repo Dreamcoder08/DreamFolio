@@ -70,7 +70,7 @@
      Title is deliberately NOT part of this group. The homepage card title
      and the detail page's `<h1>` are different strings for every one of
      these projects (e.g. drenyra's card reads "Drenyra", its detail `<h1>`
-     reads "Drenyra — Fiscal Command Center") — a group `view-transition-name`
+     reads "Drenyra GPUI") — a group `view-transition-name`
      morphs the old text box into the new one over the transition duration,
      so pairing two different strings stretches/scales the text and leaves a
      faint ghost of the old string showing through mid-transition. The art
