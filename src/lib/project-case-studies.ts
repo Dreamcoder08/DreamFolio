@@ -83,6 +83,30 @@ const projectCaseStudies: Record<string, ProjectCaseStudy> = {
       "Consultoría minera de Piura con servicios claros y consultas directas por WhatsApp.",
     highlightRank: 5,
   },
+  sipges: {
+    eyebrow: "Alerta temprana de riesgo socioambiental",
+    challenge:
+      "En los proyectos mineros, las señales de conflicto llegan dispersas: eventos, demandas, actores, narrativas y compromisos anotados en lugares distintos y sin una evidencia común. Hacía falta una base única para priorizar y actuar antes de que una situación escale.",
+    approach:
+      "Monorepo en TypeScript con una API en Hono, una aplicación en React y contratos compartidos, sobre PostgreSQL con aislamiento por proyecto. Cada registro se clasifica en seis dimensiones (G · A · D · N · E · I) y alimenta el mapa territorial, la bandeja de pendientes y el índice de riesgo.",
+    outcome:
+      "En uso con los datos de un proyecto real, que no se publican aquí. Las capturas y el video usan un proyecto de demostración con datos ficticios.",
+    evidence: [
+      "Registros de eventos, actores, demandas, narrativas, alertas y compromisos, cada uno con su evidencia enlazada.",
+      "Mapa territorial con capa satelital, filtros por dimensión y estado de la información: observado, estimado o escenario hipotético.",
+      "Bandeja de pendientes priorizados en urgente, prioritario y rutina, con validación de cuatro ojos.",
+      "Índice IRSA-SIPGES con puntuación, peso y disponibilidad por dimensión; su metodología está pendiente de validación.",
+      "Capturas y video hechos con un proyecto de demostración y datos ficticios.",
+    ],
+    signals: ["Gestión socioambiental", "Alerta temprana", "Evidencia"],
+    metrics: [
+      { label: "Dimensiones de riesgo", value: "6" },
+      { label: "Módulos de registro", value: "14" },
+    ],
+    cardImpact:
+      "Alerta temprana de riesgo socioambiental con evidencia y trazabilidad.",
+    highlightRank: 6,
+  },
   "edge-traz-agro": {
     eyebrow: "Trazabilidad en campo",
     challenge:

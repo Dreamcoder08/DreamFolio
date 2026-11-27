@@ -56,6 +56,47 @@
     ]
   },
   {
+    "id": "sipges",
+    "title": "SIPGES",
+    "summary": "Plataforma de alerta temprana de riesgo socioambiental para proyectos mineros en Perú: registros territoriales con evidencia, mapa satelital, bandeja de pendientes con validación de cuatro ojos e índice de riesgo por dimensión.",
+    "domain": "socio-environmental",
+    "lifecycle": "active",
+    "bucket": "primary",
+    "path": "",
+    "updatedYear": 2026,
+    "featured": true,
+    "stack": ["TypeScript", "Hono", "React", "PostgreSQL"],
+    "githubUrl": "https://github.com/Dreamcoder08/sipges",
+    "coverImage": "/images/projects/sipges-cover.webp",
+    "coverImageAlt": "SIPGES: panel de riesgo socioambiental de un proyecto de demostración",
+    "previewVideo": "/videos/projects/sipges-preview.webm",
+    "showcaseVideo": "/videos/projects/sipges-full.mp4",
+    "videoPoster": "/images/projects/sipges-cover.webp",
+    "videoCaption": "Recorrido con datos ficticios de demostración (Proyecto Demo · Quebrada Alta): panel de riesgo, registros, mapa territorial satelital, bandeja de pendientes y alertas, e índice IRSA.",
+    "galleryImages": [
+      {
+        "src": "/images/projects/sipges-map.webp",
+        "alt": "Mapa territorial satelital con registros georreferenciados ficticios",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/sipges-inbox.webp",
+        "alt": "Bandeja de pendientes priorizados con evidencia enlazada",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/sipges-irsa.webp",
+        "alt": "Índice IRSA-SIPGES con puntuación por dimensión",
+        "aspect": "wide"
+      },
+      {
+        "src": "/images/projects/sipges-mobile.webp",
+        "alt": "Inicio de SIPGES en un teléfono",
+        "aspect": "mobile"
+      }
+    ]
+  },
+  {
     "id": "elect-validate",
     "title": "elect-validate",
     "summary": "Exploración de herramientas para validar actas electorales peruanas, con procesamiento concurrente en Go e interfaces CLI y web.",

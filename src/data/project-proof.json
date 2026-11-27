@@ -190,6 +190,163 @@
         "date": "2026-06-21"
       },
       "decisions": []
+    },
+    "sipges": {
+      "repo": "Dreamcoder08/sipges",
+      "repoUrl": "https://github.com/Dreamcoder08/sipges",
+      "testFiles": 867,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/sipges/actions/runs/45084154086",
+        "date": "2026-11-22"
+      },
+      "decisions": [
+        {
+          "title": "ADR 0001 — Monorepo and toolchain",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0001-monorepo-and-toolchain.md"
+        },
+        {
+          "title": "ADR 0002 — Hexagonal architecture and bounded contexts",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0002-hexagonal-architecture-and-bounded-contexts.md"
+        },
+        {
+          "title": "ADR 0003 — Persistence and tenant isolation",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0003-persistence-and-tenant-isolation.md"
+        },
+        {
+          "title": "ADR 0004 — Identity and session security",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0004-identity-and-session-security.md"
+        },
+        {
+          "title": "ADR 0005 — Processing ports and native adapters",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0005-processing-ports-and-native-adapters.md"
+        },
+        {
+          "title": "ADR 0006 — Frontend architecture",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0006-frontend-architecture.md"
+        },
+        {
+          "title": "ADR 0007 — Http contract and errors",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0007-http-contract-and-errors.md"
+        },
+        {
+          "title": "ADR 0008 — Behavior contract corrections",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0008-behavior-contract-corrections.md"
+        },
+        {
+          "title": "ADR 0009 — Internet exposure hardening",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0009-internet-exposure-hardening.md"
+        },
+        {
+          "title": "ADR 0010 — Google sign in",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0010-google-sign-in.md"
+        },
+        {
+          "title": "ADR 0011 — Ontology links and provenance",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0011-ontology-links-and-provenance.md"
+        },
+        {
+          "title": "ADR 0012 — Observability and classification",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0012-observability-and-classification.md"
+        },
+        {
+          "title": "ADR 0013 — Cited analyst briefings",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0013-cited-analyst-briefings.md"
+        },
+        {
+          "title": "ADR 0014 — Automation and integration",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0014-automation-and-integration.md"
+        },
+        {
+          "title": "ADR 0015 — Mobile first shell",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0015-mobile-first-shell.md"
+        },
+        {
+          "title": "ADR 0016 — Territorial intelligence runtime",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0016-territorial-intelligence-runtime.md"
+        },
+        {
+          "title": "ADR 0017 — Maplibre deckgl territorial engine",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0017-maplibre-deckgl-territorial-engine.md"
+        },
+        {
+          "title": "ADR 0018 — Design system tokens and themes",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0018-design-system-tokens-and-themes.md"
+        },
+        {
+          "title": "ADR 0019 — Oled dark and conversational ui",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0019-oled-dark-and-conversational-ui.md"
+        },
+        {
+          "title": "ADR 0020 — Sipges 4 situations",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0020-sipges-4-situations.md"
+        },
+        {
+          "title": "ADR 0021 — Media monitoring and project phase",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0021-media-monitoring-and-project-phase.md"
+        },
+        {
+          "title": "ADR 0022 — Territorial operations dossier",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0022-territorial-operations-dossier.md"
+        },
+        {
+          "title": "ADR 0023 — Decision receipts",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0023-decision-receipts.md"
+        },
+        {
+          "title": "ADR 0024 — Proportional territorial practices",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0024-proportional-territorial-practices.md"
+        },
+        {
+          "title": "ADR 0025 — Postgis areas of influence",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0025-postgis-areas-of-influence.md"
+        },
+        {
+          "title": "ADR 0026 — Territorial 3d view",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0026-territorial-3d-view.md"
+        },
+        {
+          "title": "ADR 0027 — Sipges 4 only",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0027-sipges-4-only.md"
+        },
+        {
+          "title": "ADR 0028 — Cloudflare workers hosting",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0028-cloudflare-workers-hosting.md"
+        },
+        {
+          "title": "ADR 0029 — Retire vercel host",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0029-retire-vercel-host.md"
+        },
+        {
+          "title": "ADR 0030 — External ai egress guard",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0030-external-ai-egress-guard.md"
+        },
+        {
+          "title": "ADR 0031 — Conflict risk prediction",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0031-conflict-risk-prediction.md"
+        },
+        {
+          "title": "ADR 0032 — Go backend rust engines",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0032-go-backend-rust-engines.md"
+        },
+        {
+          "title": "ADR 0033 — Pdf text in wasm",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0033-pdf-text-in-wasm.md"
+        },
+        {
+          "title": "ADR 0034 — Rust placement criterion",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0034-rust-placement-criterion.md"
+        },
+        {
+          "title": "ADR 0035 — Local install two api replicas",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0035-local-install-two-api-replicas.md"
+        },
+        {
+          "title": "ADR 0036 — Desktop go with bundled postgresql",
+          "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0036-desktop-go-with-bundled-postgresql.md"
+        }
+      ]
     }
   }
 }
