@@ -71,7 +71,7 @@ export const links: LinkItem[] = [
     description: "Sistemas financieros con IA, validación y control humano.",
     label: "FLAGSHIP PRODUCT",
     icon: "agents",
-    href: "https://github.com/arkelythex/drenyra-command-center",
+    href: "https://github.com/arkelythex/drenyra-gpui",
     kinds: ["build"],
     external: true,
   },

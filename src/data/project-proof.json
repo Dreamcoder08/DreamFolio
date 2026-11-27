@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-01",
+  "checkedAt": "2026-11-27",
   "projects": {
     "drenyra": {
-      "repo": "arkelythex/drenyra-ai",
-      "repoUrl": "https://github.com/arkelythex/drenyra-ai",
-      "testFiles": 114,
+      "repo": "arkelythex/drenyra-gpui",
+      "repoUrl": "https://github.com/arkelythex/drenyra-gpui",
+      "testFiles": 1054,
       "ci": {
         "status": "passing",
         "workflow": "CI",
-        "url": "https://github.com/arkelythex/drenyra-ai/actions/runs/40833010260",
+        "url": "https://github.com/arkelythex/drenyra-gpui/actions/runs/40838310260",
         "date": "2026-10-29"
       },
       "decisions": []
@@ -16,12 +16,12 @@
     "digital-public-peru": {
       "repo": "arkelythex/estado",
       "repoUrl": "https://github.com/arkelythex/estado",
-      "testFiles": 0,
+      "testFiles": 16,
       "ci": {
-        "status": "failing",
+        "status": "passing",
         "workflow": "CI",
-        "url": "https://github.com/arkelythex/estado/actions/runs/35644380079",
-        "date": "2026-09-21"
+        "url": "https://github.com/arkelythex/estado/actions/runs/45477139766",
+        "date": "2026-11-24"
       },
       "decisions": [
         {
@@ -85,111 +85,6 @@
           "url": "https://github.com/arkelythex/estado/blob/main/docs/DECISIONS/ADR-0015-workflow-resolution-metrics-and-http-transition-tests.md"
         }
       ]
-    },
-    "elect-validate": {
-      "repo": "arkelythex/elect-validate",
-      "repoUrl": "https://github.com/arkelythex/elect-validate",
-      "testFiles": 0,
-      "ci": {
-        "status": "passing",
-        "workflow": "CI",
-        "url": "https://github.com/arkelythex/elect-validate/actions/runs/35644362896",
-        "date": "2026-09-21"
-      },
-      "decisions": []
-    },
-    "edge-traz-agro": {
-      "repo": "arkelythex/senzar",
-      "repoUrl": "https://github.com/arkelythex/senzar",
-      "testFiles": 0,
-      "ci": {
-        "status": "failing",
-        "workflow": "CI",
-        "url": "https://github.com/arkelythex/senzar/actions/runs/28398411352",
-        "date": "2026-06-29"
-      },
-      "decisions": []
-    },
-    "dreamcoder-workbench": {
-      "repo": "Dreamcoder08/Dreamcoder-Workbench",
-      "repoUrl": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
-      "testFiles": 104,
-      "ci": {
-        "status": "passing",
-        "workflow": "CI",
-        "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/actions/runs/40474081887",
-        "date": "2026-10-27"
-      },
-      "decisions": [
-        {
-          "title": "ADR 0001 — Project structure",
-          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0001-project-structure.md"
-        },
-        {
-          "title": "ADR 0002 — Toolchain selection",
-          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0002-toolchain-selection.md"
-        },
-        {
-          "title": "ADR 0003 — Python quality strategy",
-          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0003-python-quality-strategy.md"
-        },
-        {
-          "title": "ADR 0004 — Shell test strategy",
-          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0004-shell-test-strategy.md"
-        },
-        {
-          "title": "ADR 0005 — Ci cd quality gates",
-          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0005-ci-cd-quality-gates.md"
-        }
-      ]
-    },
-    "cleansweep": {
-      "repo": "Dreamcoder08/CleanSweep",
-      "repoUrl": "https://github.com/Dreamcoder08/CleanSweep",
-      "testFiles": 2,
-      "ci": {
-        "status": "failing",
-        "workflow": "CI",
-        "url": "https://github.com/Dreamcoder08/CleanSweep/actions/runs/27907090233",
-        "date": "2026-06-21"
-      },
-      "decisions": []
-    },
-    "pactyra": {
-      "repo": "Dreamcoder08/pactyra",
-      "repoUrl": "https://github.com/Dreamcoder08/pactyra",
-      "testFiles": 7,
-      "ci": {
-        "status": "passing",
-        "workflow": "CI",
-        "url": "https://github.com/Dreamcoder08/pactyra/actions/runs/30220405310",
-        "date": "2026-07-26"
-      },
-      "decisions": []
-    },
-    "dreamcoder-dsh": {
-      "repo": "Dreamcoder08/dreamcoder-dsh",
-      "repoUrl": "https://github.com/Dreamcoder08/dreamcoder-dsh",
-      "testFiles": 24,
-      "ci": {
-        "status": "passing",
-        "workflow": "CI",
-        "url": "https://github.com/Dreamcoder08/dreamcoder-dsh/actions/runs/34575106522",
-        "date": "2026-09-11"
-      },
-      "decisions": []
-    },
-    "pseint-web": {
-      "repo": "Dreamcoder08/pseint-web-interface",
-      "repoUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
-      "testFiles": 26,
-      "ci": {
-        "status": "passing",
-        "workflow": "CI",
-        "url": "https://github.com/Dreamcoder08/pseint-web-interface/actions/runs/27907091426",
-        "date": "2026-06-21"
-      },
-      "decisions": []
     },
     "sipges": {
       "repo": "Dreamcoder08/sipges",
@@ -347,6 +242,111 @@
           "url": "https://github.com/Dreamcoder08/sipges/blob/main/docs/adr/0036-desktop-go-with-bundled-postgresql.md"
         }
       ]
+    },
+    "elect-validate": {
+      "repo": "arkelythex/elect-validate",
+      "repoUrl": "https://github.com/arkelythex/elect-validate",
+      "testFiles": 0,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/elect-validate/actions/runs/35644362896",
+        "date": "2026-09-21"
+      },
+      "decisions": []
+    },
+    "edge-traz-agro": {
+      "repo": "arkelythex/senzar",
+      "repoUrl": "https://github.com/arkelythex/senzar",
+      "testFiles": 0,
+      "ci": {
+        "status": "failing",
+        "workflow": "CI",
+        "url": "https://github.com/arkelythex/senzar/actions/runs/28398411352",
+        "date": "2026-06-29"
+      },
+      "decisions": []
+    },
+    "dreamcoder-workbench": {
+      "repo": "Dreamcoder08/Dreamcoder-Workbench",
+      "repoUrl": "https://github.com/Dreamcoder08/Dreamcoder-Workbench",
+      "testFiles": 120,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/actions/runs/43980171096",
+        "date": "2026-11-16"
+      },
+      "decisions": [
+        {
+          "title": "ADR 0001 — Project structure",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0001-project-structure.md"
+        },
+        {
+          "title": "ADR 0002 — Toolchain selection",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0002-toolchain-selection.md"
+        },
+        {
+          "title": "ADR 0003 — Python quality strategy",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0003-python-quality-strategy.md"
+        },
+        {
+          "title": "ADR 0004 — Shell test strategy",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0004-shell-test-strategy.md"
+        },
+        {
+          "title": "ADR 0005 — Ci cd quality gates",
+          "url": "https://github.com/Dreamcoder08/Dreamcoder-Workbench/blob/main/docs/adr/0005-ci-cd-quality-gates.md"
+        }
+      ]
+    },
+    "cleansweep": {
+      "repo": "Dreamcoder08/CleanSweep",
+      "repoUrl": "https://github.com/Dreamcoder08/CleanSweep",
+      "testFiles": 2,
+      "ci": {
+        "status": "failing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/CleanSweep/actions/runs/42737316082",
+        "date": "2026-11-10"
+      },
+      "decisions": []
+    },
+    "pactyra": {
+      "repo": "Dreamcoder08/pactyra",
+      "repoUrl": "https://github.com/Dreamcoder08/pactyra",
+      "testFiles": 7,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/pactyra/actions/runs/45108808686",
+        "date": "2026-11-23"
+      },
+      "decisions": []
+    },
+    "dreamcoder-dsh": {
+      "repo": "Dreamcoder08/dreamcoder-dsh",
+      "repoUrl": "https://github.com/Dreamcoder08/dreamcoder-dsh",
+      "testFiles": 24,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/dreamcoder-dsh/actions/runs/45108737451",
+        "date": "2026-11-23"
+      },
+      "decisions": []
+    },
+    "pseint-web": {
+      "repo": "Dreamcoder08/pseint-web-interface",
+      "repoUrl": "https://github.com/Dreamcoder08/pseint-web-interface",
+      "testFiles": 26,
+      "ci": {
+        "status": "passing",
+        "workflow": "CI",
+        "url": "https://github.com/Dreamcoder08/pseint-web-interface/actions/runs/45108811696",
+        "date": "2026-11-23"
+      },
+      "decisions": []
     }
   }
 }

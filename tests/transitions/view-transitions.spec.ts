@@ -31,10 +31,10 @@ const HOME = "/";
  * `view-transition-name`s are built from; `slug` is the route
  * (`getProjectSlug` of the title) and only ever appears in a URL — the two
  * differ for drenyra (`id: "drenyra"`, slug
- * `drenyra-fiscal-command-center`), which is exactly the case this
+ * `drenyra-gpui`), which is exactly the case this
  * distinction exists to keep straight. */
 const SHARED_ART_PROJECTS = [
-  { id: "drenyra", slug: "drenyra-fiscal-command-center" },
+  { id: "drenyra", slug: "drenyra-gpui" },
   { id: "dreamcoder-workbench", slug: "dreamcoder-workbench" },
   { id: "digital-public-peru", slug: "civictech-peru" },
 ] as const;
@@ -94,7 +94,7 @@ async function viewTransitionName(
 test.describe("Cross-document view transitions — opt-in", () => {
   for (const path of [
     HOME,
-    "/projects/drenyra-fiscal-command-center/",
+    "/projects/drenyra-gpui/",
     "/projects/dreamcoder-workbench/",
     "/projects/civictech-peru/",
   ]) {
